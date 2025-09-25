@@ -1,0 +1,64 @@
+<ion-view class="module-migareference migareference migareference-list l1"
+          sb-page-background>
+    <ion-nav-title>{{"Prize Detail" | translate}}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button  ng-click="goToHomePage()"
+                class="button button-clear header-item migarefrence-secondary-button">
+            <i class="icon ion-home"
+               ng-class=""></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="scroll-content ionic-scroll  has-header"><div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+      <div class="item item-body home-sub-header-body" style="margin-top:48px;background-color:{{home_icos.top_prize_header_bg}} !important;">
+        <h2 class="home-sub-header-text" style="color:{{home_icos.top_prize_header_text }}!important">{{ "Your Credits are:" | translate}}{{credit_balance}}</h2>
+      </div>
+      <div class="card">
+        <div class="list" ng-class="{'card' : card_design}">
+            <div class="item item-divider item-divider-custom" ng-if="prize_item.prize_name" style="">
+                <h2 class="ng-binding text" style="text-align:center;">{{ prize_item.prize_name | translate }}</h2>
+            </div>
+            <div class="item item-image item-custom" ng-if="!!prize_item.image_path.length" style="">
+                <img ng-src="{{ prize_item.image_path }}">
+            </div>
+            <div class="item "  >
+                <h2 style="text-align:center;">
+                   {{prize_item.credits_number}} {{"Credits" | translate}}
+                </h2>
+            </div>
+            <div class="item "  style="">
+                <p class="center">
+                  <h2 style="text-align:center;">
+                     {{"Redeemed At:" | translate}} {{prize_item.redeemed_at}}
+
+                  </h2>
+                </p>
+            </div>
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="prize_item.prize_description" style="">
+                <i class="icon ion-ios-information-outline"></i>
+                <p ng-bind-html="prize_item.prize_description | trusted_html" class="ng-binding"></p>
+            </div>
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="prize_item.prize_expire_date">
+                <i class="icon ion-ios-calendar-outline"></i>
+                <p class="ng-binding">{{ "Valid Until" | translate }} {{ prize_item.prize_expire_date }}</p>
+            </div>
+            <div class="item item-text-wrap item-icon-left item-custom">
+                <i class="icon ion-ios-calendar-outline"></i>
+                <p class="ng-binding">{{ "Status" | translate }} {{ prize_item.prize_manage_status }}</p>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-bar scroll-bar-v">
+      <div class="scroll-bar-indicator scroll-bar-fade-out" style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 169px;">
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
+<style media="screen">
+  .item-custom{
+    border-top:1px solid black !important;
+  }
+  .center{
+    text-align: center !important;
+  }
+</style>

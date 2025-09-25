@@ -1,0 +1,227 @@
+{
+  "name": "Migareference",
+  "code": "migareference",
+  "version": "0.0.2",
+  "category": "integration",
+  "model": "Migareference_Model_Migareference",
+  "desktop_uri": "migareference/application/",
+  "routes": [
+    {
+      "root": true,
+      "state": "migareference-view",
+      "controller": "MigareferenceViewController",
+      "url": "migareference/mobile_view/index/value_id/:value_id",
+      "template": "l1/view.html",
+      "cache": false
+    },
+    {
+      "state": "how-it-worksv3",
+      "controller": "MigareferencehowitworksController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/howitworks.html",
+      "cache": false
+    },
+    {
+      "state": "property-settingsv2",
+      "controller": "MigareferencesettingsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/propertysettings.html",
+      "cache": false
+    },
+
+    {
+      "state": "migareference-viewqlf",
+      "controller": "QlfReservedContentController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/viewqlf.html",
+      "cache": false      
+    },
+
+    {
+      "state": "migareference-qlfleveltwo",
+      "controller": "QlfLevelTwoController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/qlfleveltwo.html",
+      "cache": false      
+    },
+    {
+      "state": "migareference-qlfmedia",
+      "controller": "QlfMediaController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/qlfmedia.html",
+      "cache": false      
+    },
+    {
+      "state": "submit-prospectsv2",
+      "controller": "MigareferencesubmitprospectsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/submitprospects.html",
+      "cache": false
+    },
+
+    {
+      "state": "invite-prospectsv2",
+      "controller": "MigareferenceinviteprospectsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/inviteprospects.html",
+      "cache": false
+    },
+    {
+      "state": "submit-reportsv2",
+      "controller": "MigareferencesubmitreportsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/submitreports.html",
+      "cache": false
+    },
+    {
+      "state": "invite-reportsv2",
+      "controller": "MigareferenceinvitereportsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/invitereports.html",
+      "cache": false
+    },
+    {
+      "state": "show-reportsv2",
+      "controller": "MigareferenceshowreportsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/showreports.html",
+      "cache": false
+    },
+    {
+      "state": "report-detailv2",
+      "controller": "MigareferencereportdetailController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id/report_id/:report_id",
+      "template": "l1/reportdetail.html",
+      "cache": false
+    },
+    {
+      "state": "prize-shopv2",
+      "controller": "MigareferenceprizeshopController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/prizeshop.html",
+      "cache": false
+    },
+    {
+      "state": "reminder-listv2",
+      "controller": "MigareferencereminderlistController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/reminderlist.html",
+      "cache": false
+    },
+    {
+      "state": "phonedetail-listv2",
+      "controller": "MigareferencephonedetaillistController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id/id/:id",
+      "template": "l1/phonedetail.html",
+      "cache": false
+    },
+    {
+      "state": "general-stats",
+      "controller": "MigareferencegeneralstatsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "stats/generalstats.html",
+      "cache": false
+    },
+    {
+      "state": "admin-stats",
+      "controller": "MigareferenceadminstatsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/adminstats.html",
+      "cache": false
+    },
+    {
+      "state": "referrer-stats",
+      "controller": "MigareferencereferrerstatsController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/referrerstats.html",
+      "cache": false
+    },
+    {
+      "state": "addphone",
+      "controller": "MigareferenceaddphoneController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id/type/:type",
+      "template": "l1/addphone.html",
+      "cache": false
+    },
+    {
+      "state": "phonebook-listv2",
+      "controller": "MigareferencephonebooklistController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/phonebook.html",
+      "cache": false
+    },
+    {
+      "state": "prize-detailv2",
+      "controller": "MigareferenceprizedetailController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id/app_id/:app_id/prize_id/:prize_id",
+      "template": "l1/prizedetail.html",
+      "cache": false
+    },
+    {
+      "state": "prize-ledgerv2",
+      "controller": "MigareferenceprizeledgerController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/prizeledger.html",
+      "cache": false
+    },
+    {
+      "state": "redeem-prizesv2",
+      "controller": "MigareferenceredeemprizesController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id",
+      "template": "l1/redeemprizes.html",
+      "cache": false
+    },
+    {
+      "state": "redeemprize-detailv2",
+      "controller": "MigareferenceredeemprizedetailController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id/app_id/:app_id/prize_id/:prize_id",
+      "template": "l1/redeemeprizedetail.html",
+      "cache": false
+    },
+    {
+      "state": "referrer-report",
+      "controller": "MigareferencereferrerreportController",
+      "url": "migareference/mobile_iframe/index/value_id/:value_id/isagent/:isagent/isadmin/:isadmin",
+      "template": "l1/refererreport.html",
+      "cache": false
+    }
+  ],
+  "icons": [
+    "icons/migareference1.png",
+    "icons/migareference2.png",
+    "icons/migareference3.png"
+  ],
+  "files": [
+    "js/controllers/qlfmedia.js",
+    "js/controllers/qlfleveltwo.js",
+    "js/controllers/qlfreservedcontent.js",
+    "js/controllers/migareference.js",
+    "js/controllers/addphone.js",
+    "js/controllers/phonedetail.js",
+    "js/controllers/prizedetail.js",
+    "js/controllers/prizeledger.js",
+    "js/controllers/redeemprizes.js",
+    "js/controllers/reportdetail.js",
+    "js/controllers/showreports.js",
+    "js/controllers/howitworks.js",
+    "js/controllers/inviteprospects.js",
+    "js/controllers/referrerreports.js",
+    "js/controllers/addreports.js",
+    "js/controllers/phonebooklist.js",
+    "js/controllers/generalstats.js",
+    "js/controllers/reminderlist.js",
+    "js/controllers/redeemprizedetail.js",
+    "js/controllers/invoicesettings.js",
+    "js/controllers/prizeshop.js",
+    "js/factory/migareference.js",
+    "js/directives/miga-video.js",
+    "js/directives/compileTemplate.js",
+    "js/directives/stringToNumber.js",
+    "js/directives/jquery.js",
+    "scss/migareference.scss"
+  ],
+  "is_ajax": true,
+  "compile": true,
+  "use_account": false,
+  "only_once": true
+}

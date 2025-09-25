@@ -1,0 +1,155 @@
+<ion-view
+  class="migareference-view module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <!--START:Header-->
+  <ion-nav-title>{{home_icos.how_it_works_label | translate}}</ion-nav-title>
+  <!-- <ion-nav-buttons side="secondary">
+        <button  ng-click="goToHomePage()"
+                class="button button-clear header-item migareference-secondary-button">
+            <i class="icon ion-home"></i>
+        </button>
+    </ion-nav-buttons> -->
+  <!--END:Header-->
+  <!--START:Page COntent-->
+  <ion-content>
+    <div class="list card">
+      <div class="" ng-if="is_video_souce">
+        <div
+          style="height:{{fm_height}}"
+          ng-bind-html="how_to_video_source"
+        ></div>
+      </div>
+      <div class="item item-text-wrap item-custom" ng-if="is_how_to_text">
+        <h2 class="property-heading" style="color: #666; font-size: 20px">
+          {{"Company Info" | translate}} 
+        </h2>
+      </div>
+      <div
+        class="item item-text-wrap item-icon-left item-custom"
+        ng-if="is_site_link"
+      >
+        <i class="icon ion-ios-world-outline"></i>
+        <p class="ng-binding">
+          <a href="" ng-click="goToSiteUrl()" class="how-to-link"
+            >{{"Site Link" | translate}}</a
+          >
+        </p>
+      </div>
+      <div
+        class="item item-text-wrap item-icon-left item-custom"
+        ng-if="is_email"
+      >
+        <i class="icon ion-ios-email-outline"></i>
+        <p class="ng-binding">
+          <a ng-click="email()" class="how-to-link"
+            >{{"Contact Us Email" | translate}}</a
+          >
+        </p>
+      </div>
+      <div
+        class="item item-text-wrap item-icon-left item-custom"
+        ng-if="is_phone"
+      >
+        <i class="icon ion-ios-telephone-outline"></i>
+        <p class="ng-binding">
+          <a ng-click="call()" class="how-to-link"
+            >{{"Phone Call" | translate}}</a
+          >
+        </p>
+      </div>
+      <div
+        ng-if="!is_admin"
+        class="item item-text-wrap item-icon-left item-custom"        
+      >
+        <i class="icon ion-ios-person-outline"></i>
+        <p class="ng-binding">
+          <a ng-click="copyReferralLink()" class="how-to-link"
+            >{{"Referral Link" | translate}}</a
+          >
+          <span style="float: right;" class="tooltip" ng-show="tooltipVisible">{{"Link Copied" | translate}}!</span>
+        </p>
+      </div>
+      <div class="item item-text-wrap item-custom" ng-if="is_how_to_text">
+        <h2 class="property-heading" style="color: #666; font-size: 20px">
+          {{"Director Contact" | translate}} 
+        </h2>
+      </div>
+      <div
+        class="item item-text-wrap item-icon-left item-custom"        
+        ng-if="gethowto.director_name"
+        >
+        <i class="icon ion-ios-person-outline"></i>
+        <p class="ng-binding">
+          <a class="how-to-link"
+            >{{gethowto.director_name}}</a
+          >
+        </p>
+      </div>
+      <div
+        class="item item-text-wrap item-icon-left item-custom"        
+        ng-if="gethowto.director_email"
+        >
+        <i class="icon ion-ios-email-outline"></i>
+        <p class="ng-binding">
+          <a ng-click="directorEmail()" class="how-to-link"
+            >{{"Email" | translate}}</a
+          >
+        </p>
+      </div>
+      <div
+        class="item item-text-wrap item-icon-left item-custom"        
+        ng-if="gethowto.director_phone"
+        >
+        <i class="icon ion-ios-telephone-outline"></i>
+        <p class="ng-binding">
+          <a ng-click="directorPhone()" class="how-to-link"
+            >{{"Phone" | translate}}</a
+          >
+        </p>
+      </div>
+      <div
+        class="item item-text-wrap item-icon-left item-custom"        
+        ng-if="gethowto.director_calendar_url"
+        >
+        <i class="icon ion-ios-calendar-outline"></i>
+        <p class="ng-binding">
+          <a ng-click="directorCalendarUrl()" class="how-to-link"
+            >{{"Calendar URL" | translate}}</a
+          >
+        </p>
+      </div>
+      <div class="item item-text-wrap item-custom" ng-if="is_how_to_text">
+        <h2 class="property-heading" style="color: #666; font-size: 20px">
+          {{"How it Works" | translate}} ?
+        </h2>
+      </div>
+      <div
+        class="item item-text-wrap item-custom"
+        style="overflow: auto; overflow-y: scroll"
+        ng-if="is_how_to_text"
+      >
+        <p ng-bind-html="how_to_text"></p>
+      </div>
+    </div>
+  </ion-content>
+  <!--END:Page COntent-->
+</ion-view>
+<style>
+  ol {
+    list-style: block;
+    padding-left: 35px;
+  }
+  ul {
+    list-style: disc;
+    padding-left: 35px;
+  }
+</style>
+<script>var inAppLinks = document.querySelectorAll("a[data-state]");
+  [].forEach.call(inAppLinks, function(el) {
+      el.href = "javascript:void(0);";
+      el.addEventListener("click", function() {
+          parent.postMessage("state-go=state:"+el.attributes["data-state"].value+",offline:"+el.attributes["data-offline"].value+","+el.attributes["data-params"].value+"", "*");
+      });
+  });</script>

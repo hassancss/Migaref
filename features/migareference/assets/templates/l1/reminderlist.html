@@ -1,0 +1,1109 @@
+<ion-view
+  class="migareference-view module module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <ion-nav-title>{{ "Reminders" | translate }}</ion-nav-title>
+  <ion-content>
+    <div class="tabs_container" ng-if="agent_can_manage==1 || is_admin">
+      <div
+        class="{{tab1_css}}"
+        style="width: 33%; text-align: center; float: left; background: #faf9f9"
+        ng-click="tabs_shift(1)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-clipboard"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Automations" | translate}}
+        </p>
+      </div>
+      <div
+        class="{{tab3_css}}"
+        style="
+          width: 34%;
+          text-align: center;
+          float: right;
+          background: #faf9f9;
+        "
+        ng-click="tabs_shift(3)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-clipboard"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Daily Report" | translate}}
+        </p>
+      </div>      
+      <div
+        class="{{tab2_css}}"
+        style="
+          width: 33%;
+          text-align: center;
+          float: right;
+          background: #faf9f9;
+        "
+        ng-click="tabs_shift(2)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-clipboard"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Appointments" | translate}}
+        </p>
+      </div>      
+    </div>
+    <div class="tabs_container" ng-if="agent_can_manage==2 && !is_admin">
+      <div
+        class="{{tab2_css}}"
+        style="
+          width: 100%;
+          text-align: center;
+          float: right;
+          background: #faf9f9;
+        "
+        ng-click="tabs_shift(2)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-clipboard"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Appointments" | translate}}
+        </p>
+      </div>
+    </div>
+    <!-- Tab 3 Content -->
+    <div class="tab3_content" ng-if="show_tab3_content">
+      <div style="background-color: white; height: 100%">
+        <!-- Show message when no entries -->
+        <div ng-if="daybook_by_date.length==0" class="card" style="width: 97%; margin-left: 1.5%;">          
+          <ion-item>
+            <div class="text-center" style="padding: 15px;white-space: normal; word-wrap: break-word;">
+              {{ "All tasks are done, nothing left to do here." | translate }}
+            </div>
+          </ion-item>
+        </div>
+        <div class="card" style="width: 97%; margin-left: 1.5%" ng-repeat="(date, entries) in daybook_by_date">
+          <div class="item item-divider">
+            {{ date }}
+          </div>
+          <ion-list>
+            <ion-item ng-repeat="entry in entries">
+              <strong>{{ entry.title_info }}</strong>
+              <div ng-bind-html="trustAsHtml(entry.description)"></div>
+            </ion-item>
+            <!-- Buttons -->
+            <div class="buttons" style="margin-top: 8px;">  
+              <div class="row">
+                <div class="col">
+                  <button ng-click="markAsDone(entries)" class="button button-full button-balanced">
+                    {{"Done" | translate }}
+                  </button> 
+                </div>
+                <div class="col">
+                  <button
+                    ng-click="openDayBookModal(entries)"
+                    class="button button-full button-positive"
+                  >
+                  {{"View Details" | translate }}
+                  </button>
+                </div>
+              </div>                                     
+            </div>
+          </ion-list>
+          <!-- Add a button here to mark it Done -->
+        </div>
+      </div>
+    </div>
+    <!-- Tabs 1: Referrer automation reminders -->
+    <div class="tab1_content" ng-if="show_tab1_content">
+      <div style="background-color: white; height: 100%">               
+        <!-- Tab 1: Filters -->
+        <div class="card" style="width: 97%; margin-left: 1.5%">
+          <div
+            style="
+              text-align: center;
+              font-weight: bold;
+              border-bottom: 2px solid;
+            "
+          >
+            <!-- Top Button Filters -->
+            <div class="row">
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{auto_reminder_filter_1}}"
+                  ng-click="autoStatusFilter('','allactivestatus')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_all}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{auto_reminder_filter_2}}"
+                  ng-click="autoStatusFilter('done','')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_done}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{auto_reminder_filter_3}}"
+                  ng-click="autoStatusFilter('pending','')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_pending}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{auto_reminder_filter_4}}"
+                  ng-click="autoStatusFilter('postpone','')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_postpone}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{auto_reminder_filter_5}}"
+                  ng-click="autoStatusFilter('cancele','')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_cancele}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+            </div>
+            <!-- Referrer Filter -->
+            <div class="row" ng-if="!is_admin">
+              <div class="col">
+                <select
+                  style="border: 1px solid rgb(169, 169, 169)"
+                  class="input-text"
+                  ng-model="automationreminderfilter.referrer_name"
+                  name="automationreminderfilter"
+                  style="height: 41px"
+                >
+                  <option
+                    ng:repeat="referrer in referrercollection"
+                    value="{{ referrer.referrer_title_copy | translate }}"
+                  >
+                    {{ referrer.referrer_title | translate}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Admin Agent Group Filter -->
+            <div class="row">
+              <div class="col">
+                <select
+                  class="input-text"
+                  ng-if="is_admin"
+                  ng-model="filters.automation_agent_group_id"
+                  ng-options="agent.id as agent.name for agent in agent_group_collection"
+                  ng-change="AgentAutoReminderFilter()"
+                  style="height: 41px"
+                ></select>
+              </div>
+            </div>
+            <!-- Search Filter -->
+            <div class="row">
+              <div class="col">
+                <input
+                  style="
+                    width: 100%;
+                    padding: 20px;
+                    font-size: medium;
+                    border-radius: 3px;
+                    border: 1px solid rgb(169, 169, 169);
+                  "
+                  type="text"
+                  ng-model="reffersearch"
+                  placeholder="{{'Search' | translate}}"
+                />
+              </div>
+            </div>         
+          </div>
+        </div>
+        <!-- Tab 1: Reminder automation List -->        
+        <div class="referrer_reminder_list_wrapper">          
+          <div ng-if="!is_loading_ref_rem && (filteredReferrerReminderList | filter:reffersearch | filter:automationreminderfilter.referrer_name | filter:automationreminderfilter.activefilter | filter:automationreminderfilter.status_filter | filter:autoagentreminderfilter.agent_name).length==0">
+            <p style="text-align: center">{{"No data found" | translate}}</p>
+          </div>
+          <div
+            class="card"
+            style="padding: 8px;"
+            ng-if="!is_loading_ref_rem"
+            ng-repeat="item in filteredReferrerReminderList | filter:reffersearch | filter:automationreminderfilter.referrer_name | filter:automationreminderfilter.activefilter |filter:automationreminderfilter.status_filter |filter:autoagentreminderfilter.agent_name  track by $index"
+          >
+            <div style="display: none">
+              {{item.reminder_current_status}} {{item.adminassiccation}}{{item.allactivestatus}}
+            </div>
+            <div class="row">
+              <div class="col-15" style="text-align: center;">                  
+                <img
+                style="height: 40px"
+                ng-src="{{item.event_img}}"
+                alt=""
+              />
+              </div>
+              <div class="col-85">
+                <h4 style="font-weight: 600;">
+                {{item.rep_rem_title}}
+              </h4>
+              </div>
+
+            </div>  
+            <div class="row p-6">
+              <div class="col-30">
+                <p>{{"UID" | translate}}</p>
+              </div>
+              <div class="col-70">
+                <strong>: #{{item.reminder_id}}</strong>
+              </div>
+            </div>            
+            <div class="row">
+              <div class="col-30">
+                <div>
+                  <p>{{"Due Date" | translate}}</p>
+                </div>
+              </div>
+              <div class="col-70">
+                <div ng-if="item.reminder_current_status=='done'">
+                  <strong style="float: left" class="balanced">
+                    : {{item.event_date_time}}
+                  </strong>
+                  <img
+                    style="height: 20px"
+                    ng-src="{{filter_icon_done}}"
+                    alt=""
+                  />
+                </div>
+                <div ng-if="item.reminder_current_status=='pending'">
+                  <strong style="float: left" class="calm">
+                    : {{item.event_date_time}}
+                  </strong>
+                  <img
+                    style="height: 20px"
+                    ng-src="{{filter_icon_pending}}"
+                    alt=""
+                  />
+                </div>
+                <div
+                  ng-click=""
+                  ng-if="item.reminder_current_status=='postpone'"
+                >
+                  <strong style="float: left" class="energized">
+                    : {{item.event_date_time}}
+                  </strong>
+                  <img
+                    style="height: 20px"
+                    ng-src="{{filter_icon_postpone}}"
+                    alt=""
+                  />
+                </div>
+                <div ng-if="item.reminder_current_status=='cancele'">
+                  <strong style="float: left" class="assertive">
+                    : {{item.event_date_time}}
+                  </strong>
+                  <img
+                    style="height: 20px"
+                    ng-src="{{filter_icon_cancele}}"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row p-6">
+              <div class="col-30">
+                <p>{{"Created At " | translate}}</p>
+              </div>
+              <div class="col-70">
+                <strong>: {{item.reminder_created_at}}</strong>
+              </div>
+            </div>
+            <div class="row p-6">
+              <div class="col-30">
+                <p>{{"Referrer " | translate}}</p>
+              </div>
+              <div class="col-70">
+                <strong>: {{item.referrer_name}}</strong>
+              </div>
+            </div>
+            <div
+              ng-if="item.automation_trigger_report_id>0"
+              class="row p-6"                
+            >
+              <div class="col-30">
+                <p>{{"Report No" | translate}}</p>
+              </div>
+              <div class="col-70">
+                <strong>: {{item.report_no}}</strong>
+              </div>
+            </div>
+            <div
+              ng-if="item.sponsor_id != 0 && item.sponsor_id != null && is_admin"
+              class="row p-6"                
+            >
+              <div class="col-30">
+                <p>{{"Agent" | translate}}</p>
+              </div>
+              <div class="col-70">
+                <strong>: {{item.sponsor_name}}</strong>
+              </div>
+            </div>
+            <div class="row p-6">
+              <div class="col-30">
+                <p>{{"Phone" | translate}}</p>
+              </div>
+              <div class="col-75">
+                <strong>
+                  : {{item.referrer_mobile}}                        
+                </strong>
+              </div>
+            </div>
+            <!-- Referrer Action Buttons -->
+            <div
+              class="row p-6"                    
+            >
+              <div class="col-30">                      
+              </div>
+              <div class="col-70">
+                <div class="row">
+                  <div class="col">
+                    <button
+                    style="line-height: 0px"
+                    class="button ng-binding button-small"  
+                    ng-click="whatsapp({{item.referrer_mobile}})"                        
+                  >
+                      <img
+                      style="height: 25px"
+                      ng-src="{{app_content.whatsapp_icon}}"                            
+                    />                          
+                  </button>
+                  </div>
+                  <div class="col">                          
+                    <button
+                    style="line-height: 0px"
+                    class="button ng-binding button-small"  
+                    ng-click="call({{item}})"
+                  >
+                      <img
+                      style="height: 25px"
+                      ng-src="{{app_content.call_icon}}"                            
+                    />                          
+                  </button>
+                  </div>
+                  <div class="col">
+                    <button
+                    style="line-height: 0px"
+                    class="button ng-binding button-small"  
+                    ng-click="openPhonebook({{item.phonebook_id}})"                        
+                    >                          
+                        <img
+                        style="height: 25px"
+                        ng-src="{{app_content.phonebook_icon}}"                              
+                      />                          
+                    </button>
+                  </div>
+                  <div class="col" >
+                    <button
+                    ng-if="is_call_script_enabled"
+                    style="line-height: 0px"
+                    class="button ng-binding button-small"  
+                    ng-click="openPromptModal({{item.phonebook_id}})"                        
+                    >                          
+                        <img
+                        style="height: 25px"
+                        ng-src="{{app_content.chatbot_icon}}"                              
+                      />                         
+                    </button>                    
+                  </div>
+                </div>                                                                 
+              </div>
+            </div>                
+            <!-- Bottom Controls -->
+            <div class="row">
+              <div class="col">
+                <textarea
+                  style="
+                    padding: 5px;
+                    width: 100%;
+                    font-size: medium;
+                    border: 1px solid rgb(169, 169, 169);
+                    border-radius: 3px;
+                  "
+                  name=""
+                  ng-change="editAutoNote($index)"
+                  ng-model="item.reminder_content"
+                  rows="4"
+                  cols="80"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="row" ng-show="selectedAutoIndex == $index">
+              <div class="col"></div>
+              <div class="col">
+                <button
+                  ng-click="saveAutoNote(item)"
+                  class="button button-full"
+                >
+                  {{"Save" | translate }}
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  ng-click="canceleEditAutoNote()"
+                  class="button button-full"
+                >
+                  {{"Cancel" | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row" ng-show="selectedAutoPotposneIndex == $index">
+              <div class="col">
+                <input
+                  style="
+                    width: 100%;
+                    margin-top: 12px;
+                    padding: 21px;
+                    font-size: medium;
+                    border-radius: 3px;
+                    border: 1px solid rgb(169, 169, 169);
+                  "
+                  name="potpone_reminder"
+                  type="text"
+                  ng-change="portponeAutoReminder($index)"
+                  ng-model="item.postpone_days"
+                />
+              </div>
+              <div class="col">
+                <button
+                  ng-click="saveAutoPostpone(item)"
+                  class="button button-full"
+                >
+                  {{"Save" | translate }}
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  ng-click="canceleAutoPostpone()"
+                  class="button button-full"
+                >
+                  {{"Cancel" | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div ng-if="item.status==0">
+                  <button
+                    ng-click="updateAutoReminder('Done',item.reminder_id,item.phonebook_id)"
+                    class="button button-full button-balanced"
+                  >
+                    {{"Done" | translate }}
+                  </button>
+                </div>
+                <div ng-if="item.status==1">
+                  <button disabled class="button button-full button-balanced">
+                    {{"Done" | translate }}
+                  </button>
+                </div>
+              </div>
+              <div class="col">
+                <div ng-if="item.status==0">
+                  <button
+                    ng-click="portponeAutoReminder($index)"
+                    class="button button-full button-energized"
+                  >
+                    {{"Postpone" | translate }}
+                  </button>
+                </div>
+                <div ng-if="item.status==1">
+                  <button
+                    disabled
+                    class="button button-full button-energized"
+                  >
+                    {{"Postpone" | translate }}
+                  </button>
+                </div>
+              </div>
+              <div class="col">
+                <!-- Cancele button for reminders that are not connected to Report -->
+                <div ng-if="item.status==0 && item.automation_trigger_report_id==0">
+                  <button
+                    ng-click="updateAutoReminder('cancele',item.reminder_id,item.phonebook_id)"
+                    class="button button-full button-assertive"
+                  >
+                    {{"Cancel" | translate }}
+                  </button>
+                </div>
+                <div ng-if="item.status==1 && item.automation_trigger_report_id==0">
+                  <button
+                    class="button button-full button-assertive"
+                    disabled
+                  >
+                    {{"Cancel" | translate }}
+                  </button>
+                </div>
+                <!-- View Report button for reminders that are connected to report -->
+                <div ng-if="item.automation_trigger_report_id>0">
+                  <button
+                    ng-click="showdetail(item.automation_trigger_report_id)"
+                    class="button button-full button-positive"
+                  >
+                    {{"View Report" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>          
+          <div ng-if="is_loading_ref_rem">
+            <p style="text-align: center">{{loading_placeholder}}</p>
+          </div>        
+      </div>
+    </div>
+    <!-- Tabs 2 -->
+    <div class="tab2_content" ng-if="show_tab2_content">
+      <div style="background-color: white; height: 100%">
+        <div class="card" style="width: 97%; margin-left: 1.5%">
+          <div
+            style="
+              text-align: center;
+              font-weight: bold;
+              border-bottom: 2px solid;
+            "
+          >
+            <!-- Top Button Filters -->
+            <div class="row">
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{reminder_filter_1}}"
+                  ng-click="statusFilter('','allactivestatus')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_all}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{reminder_filter_2}}"
+                  ng-click="statusFilter('done','')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_done}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{reminder_filter_3}}"
+                  ng-click="statusFilter('pending','')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_pending}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{reminder_filter_4}}"
+                  ng-click="statusFilter('postpone','')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_postpone}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  style="width: 100%; line-height: 0px"
+                  class="button ng-binding {{reminder_filter_5}}"
+                  ng-click="statusFilter('cancele','')"
+                >
+                  <img
+                    style="height: 25px"
+                    ng-src="{{filter_icon_cancele}}"
+                    alt=""
+                  />
+                </button>
+              </div>
+            </div>
+            <!-- Prospect Filter -->
+            <div class="row" ng-if="!is_admin">
+              <div class="col">
+                <select
+                  style="border: 1px solid rgb(169, 169, 169)"
+                  class="input-text"
+                  ng-model="prospectreminderfilter.owner_name"
+                  name="prospectreminderfilter"
+                  style="height: 41px"
+                >
+                  <option
+                    ng:repeat="owner in ownercollection"
+                    value="{{ owner.owner_title_copy | translate }}"
+                  >
+                    {{ owner.owner_title | translate}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Admin Agent Group Filter -->
+            <div class="row">
+              <div class="col">
+                <select
+                  class="input-text"
+                  ng-if="is_admin"
+                  ng-model="filters.apointment_agent_group_id"
+                  ng-options="agent.id as agent.name for agent in agent_group_collection"
+                  ng-change="AgentApointReminderFilter()"
+                  style="height: 41px"
+                ></select>
+              </div>
+            </div>
+            <!-- Agent Filter (old deprecated at 4/26/2023) -->
+            <!-- <div class="row" ng-if="is_admin">
+              <div class="col">
+                <select
+                  style="border: 1px solid rgb(169, 169, 169)"
+                  class="input-text"
+                  ng-model="agentreminderfilter.agent_name"
+                  name="agentreminderfilter"
+                  style="height: 41px"
+                >
+                  <option
+                    ng:repeat="agent in agentcollection"
+                    value="{{ agent.agent_title_copy | translate }}"
+                  >
+                    {{ agent.agent_title | translate}}
+                  </option>
+                </select>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div class="card" style="width: 97%; margin-left: 1.5%">
+          <div class="list">
+            <div
+              class="item"
+              ng-repeat="item in filteredreminderlist | filter:prospectreminderfilter.owner_name |filter:prospectreminderfilter.activefilter  | filter:agentreminderfilter.agent_name | filter:prospectreminderfilter.status_filter track by $index"
+            >
+              <!-- Hidden Fillter Items -->
+              <div>
+                <div style="display: none">
+                  {{item.reminder_current_status}} {{item.adminassiccation}}
+                  {{item.allactivestatus}}
+                </div>
+                <div class="row" style="padding-left: 0px; padding-right: 0px">
+                  <div class="col-33">
+                    <div
+                      class="row"
+                      style="padding-left: 0px; padding-right: 0px"
+                    >
+                      <div class="col-100">
+                        <div>
+                          <h4 style="text-align: center">
+                            {{item.rep_rem_title}}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-67">
+                    <div
+                      class="row"
+                      style="padding-left: 0px; padding-right: 0px"
+                    >
+                      <div class="col-33">
+                        <div>
+                          <h4>{{"Due Date" | translate}}</h4>
+                        </div>
+                      </div>
+                      <div class="col-67">
+                        <div ng-if="item.reminder_current_status=='done'">
+                          <h4 style="float: left" class="balanced">
+                            {{item.event_date_time}}
+                          </h4>
+                          <img
+                            style="height: 20px"
+                            ng-src="{{filter_icon_done}}"
+                            alt=""
+                          />
+                        </div>
+                        <div ng-if="item.reminder_current_status=='pending'">
+                          <h4 style="float: left" class="calm">
+                            {{item.event_date_time}}
+                          </h4>
+                          <img
+                            style="height: 20px"
+                            ng-src="{{filter_icon_pending}}"
+                            alt=""
+                          />
+                        </div>
+                        <div
+                          ng-click=""
+                          ng-if="item.reminder_current_status=='postpone'"
+                        >
+                          <h4 style="float: left" class="energized">
+                            {{item.event_date_time}}
+                          </h4>
+                          <img
+                            style="height: 20px"
+                            ng-src="{{filter_icon_postpone}}"
+                            alt=""
+                          />
+                        </div>
+                        <div ng-if="item.reminder_current_status=='cancele'">
+                          <h4 style="float: left" class="assertive">
+                            {{item.event_date_time}}
+                          </h4>
+                          <img
+                            style="height: 20px"
+                            ng-src="{{filter_icon_cancele}}"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="padding-left: 0px; padding-right: 0px">
+                  <div class="col-33">
+                    <div
+                      class="row"
+                      style="padding-left: 0px; padding-right: 0px"
+                    >
+                      <div class="col-100">
+                        <h4 style="text-align: center">
+                          <img
+                            style="height: 40px"
+                            ng-src="{{item.event_img}}"
+                            alt=""
+                          />
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-67">
+                    <div
+                      class="row"
+                      style="padding-left: 0px; padding-right: 0px"
+                    >
+                      <div class="col-33">
+                        <h4>{{"Prospect " | translate}}</h4>
+                      </div>
+                      <div class="col-67">
+                        <h4>{{item.owner_name}}</h4>
+                      </div>
+                    </div>
+                    <div
+                      ng-if="item.sponsor_id!=0 && is_admin"
+                      class="row"
+                      style="padding-left: 0px; padding-right: 0px"
+                    >
+                      <div class="col-33" style="padding-top: 7px">
+                        <h4>{{"Agent" | translate}}</h4>
+                      </div>
+                      <div class="col-67" style="padding-top: 7px">
+                        <h4>{{item.sponsor_name}}</h4>
+                      </div>
+                    </div>
+                    <div
+                      class="row"
+                      style="padding-left: 0px; padding-right: 0px"
+                    >
+                      <div class="col-33" style="padding-top: 7px">
+                        <h4>{{"Phone" | translate}}</h4>
+                      </div>
+                      <div class="col-67">
+                        <h4>
+                          {{item.owner_mobile}}
+                          <a ng-click="whatsapp({{item.owner_mobile}})">
+                            <img
+                              style="height: 20px; padding-left: 5px"
+                              ng-src="https://beta.migastone.com/app/local/modules/Migareference/resources/appicons/logo-whatsapp.png"
+                              alt=""
+                            />
+                          </a>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <textarea
+                      style="
+                        padding: 5px;
+                        width: 100%;
+                        font-size: medium;
+                        border: 1px solid rgb(169, 169, 169);
+                        border-radius: 3px;
+                      "
+                      name=""
+                      ng-change="editNote($index)"
+                      ng-model="item.reminder_content"
+                      rows="4"
+                      cols="80"
+                    >
+                    </textarea>
+                  </div>
+                </div>
+                <div class="row" ng-show="selectedIndex == $index">
+                  <div class="col"></div>
+                  <div class="col">
+                    <button ng-click="saveNote()" class="button button-full">
+                      {{"Save" | translate }}
+                    </button>
+                  </div>
+                  <div class="col">
+                    <button
+                      ng-click="canceleEditNote()"
+                      class="button button-full"
+                    >
+                      {{"Cancel" | translate }}
+                    </button>
+                  </div>
+                </div>
+                <div class="row" ng-show="selectedPotposneIndex == $index">
+                  <div class="col">
+                    <input
+                      style="
+                        width: 100%;
+                        margin-top: 12px;
+                        padding: 21px;
+                        font-size: medium;
+                        border-radius: 3px;
+                        border: 1px solid rgb(169, 169, 169);
+                      "
+                      name="potpone_reminder"
+                      type="text"
+                      ng-change="portponeReminder($index)"
+                      ng-model="item.postpone_days"
+                    />
+                  </div>
+                  <div class="col">
+                    <button
+                      ng-click="savePostpone($index)"
+                      class="button button-full"
+                    >
+                      {{"Save" | translate }}
+                    </button>
+                  </div>
+                  <div class="col">
+                    <button
+                      ng-click="cancelePostpone()"
+                      class="button button-full"
+                    >
+                      {{"Cancel" | translate }}
+                    </button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div ng-if="item.status==0">
+                      <button
+                        ng-click="updateReminder('Done',item.reminder_id,item.report_id)"
+                        class="button button-full button-balanced"
+                      >
+                        {{"Done" | translate }}
+                      </button>
+                    </div>
+                    <div ng-if="item.status==1">
+                      <button
+                        disabled
+                        class="button button-full button-balanced"
+                      >
+                        {{"Done" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div ng-if="item.status==0">
+                      <button
+                        ng-click="portponeReminder($index)"
+                        class="button button-full button-energized"
+                      >
+                        {{"Postpone" | translate }}
+                      </button>
+                    </div>
+                    <div ng-if="item.status==1">
+                      <button
+                        disabled
+                        class="button button-full button-energized"
+                      >
+                        {{"Postpone" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div ng-if="item.status==0">
+                      <button
+                        ng-click="updateReminder('cancele',item.reminder_id,item.report_id)"
+                        class="button button-full button-assertive"
+                      >
+                        {{"Cancel" | translate }}
+                      </button>
+                    </div>
+                    <div ng-if="item.status==1">
+                      <button
+                        class="button button-full button-assertive"
+                        disabled
+                      >
+                        {{"Cancel" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="filteredreminderlist.length==0">
+            <p style="text-align: center">{{"No data found" | translate}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script id="postponereminder.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">{{"Postpone Reminder" | translate}}</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">{{"Close" | translate }}</button>
+        </ion-header-bar>
+        <ion-content>
+        <form name="reportdetailform" ng-submit="saveReminder()" style="border: 2px solid #387ef5;">
+          <div class="list">
+            <label style="padding-right:16px;" class="item item-input item-stacked-label">
+                <span class="input-label" style="color:black;" >{{"Event Type" | translate}}*</span>
+                <br>
+                <select class="input-text"   ng-model="reminderfields.event_type" name=""  style="height:41px;border-radius:3px;width:100%;" >
+                  <option ng:repeat="stat in remindertypecollection" value="{{ stat.migarefrence_report_reminder_types_id }}" >{{ stat.rep_rem_title }}</option>
+                </select>
+            </label>
+            <label style="padding-right:0px;" class="item item-input item-stacked-label">
+              <span class="input-label" style="color:black;" >{{ "Select Event Date:" | translate}}*</span>
+              <div class="row" style="padding:0px">
+                <div class="col" style="padding:0px">
+                      <select id="day" name="day" ng-change="eventChnage()" ng-model="reminderfields.event_day" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                          <option ng:repeat="day in daysdateday" value="{{ day.id }}" >{{ day.name }}</option>
+                      </select>
+                </div>
+                <div class="col" style="padding-top:0px">
+                      <select id="month" name="month" ng-change="eventChnage()" ng-model="reminderfields.event_month" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                          <option ng:repeat="month in months" value="{{ month.id }}" >{{ month.name }}</option>
+                      </select>
+                </div>
+                <div class="col" style="padding:0px;padding-right: 15px;">
+                      <select id="year" name="year" ng-change="eventChnage()" ng-model="reminderfields.event_year" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                          <option ng:repeat="year in reminder_years" value="{{ year.id }}" >{{ year.name }}</option>
+                      </select>
+                </div>
+              </div>
+            </label>
+            <label style="padding-right:0px;" class="item item-input item-stacked-label">
+              <span class="input-label" style="color:black;" >{{ "Select Event Time:" | translate}}*</span>
+              <div class="row" style="padding:0px">
+                <div class="col" style="padding:0px">
+                      <select id="hour" name="hour" ng-change="eventChnage()" ng-model="reminderfields.event_hour" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                          <option ng:repeat="hour in hours" value="{{ hour.id }}" >{{ hour.name }}</option>
+                      </select>
+                </div>
+                <div class="col" style="padding-top:0px;padding-right: 15px;">
+                      <select style="width:100%;padding:8px;border-radius:3px;font-size:medium"  id="minute" name="" ng-change="eventChnage()" ng-model="reminderfields.event_min" >
+                          <option ng:repeat="minute in minutes" value="{{ minute.id }}" >{{ minute.name }}</option>
+                      </select>
+                </div>
+              </div>
+            </label>
+            <label style="padding-right:15px;" class="item item-input item-stacked-label">
+              <span class="input-label" style="color:black;" >{{ "Remind at" | translate}}*</span>
+              <div class="row" style="padding:0px">
+                <div class="col" style="padding:0px">
+                    <select id="day" name="" ng-model="reminderfields.reminder_before_type"  style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                        <option ng:repeat="reminder_before in reminder_before_types" value="{{ reminder_before.id }}" >{{ reminder_before.name }}</option>
+                    </select>
+                </div>
+              </div>
+            </label>
+            <label class="item item-input item-stacked-label" style="padding: 0px;">
+              <textarea style="padding:20px;font-size:medium;border:1px solid rgb(169,169,169);border-radius:3px;"  name="" ng-model="reminderfields.reminder_content" rows="4" cols="80"></textarea>
+            </label>
+            <button class="button button-full button-positive">{{"Save" | translate }}</button>
+          </div>
+        </form>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+  </ion-content>
+  <style media="screen">
+    .active_tab {
+      border-bottom: 2px solid black !important;
+    }
+    .inactive_tab {
+      border-bottom: 0px solid black !important;
+    }
+    .active_tab > p {
+      opacity: 1;
+    }
+    .inactive_tab > p {
+      opacity: 0.4;
+    }
+    .p-6{
+      padding: 6px;
+    }
+    .active-rating {
+      color: {{app_content.phonebooks_start_color}};
+    }
+    .inactive-rating {
+      color: #a9a9a9;
+    }
+  </style>
+</ion-view>

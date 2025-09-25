@@ -1,0 +1,750 @@
+<ion-view
+  class="migareference-view module module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <ion-nav-title>{{ "Contact Detail" | translate }}</ion-nav-title>
+  <ion-content>
+    <form name="reminderform" ng-submit="openModel('confirmdob.html')">
+      <div class="list">
+        <div class="row">
+          <div
+            class="col-25"
+            style="text-align: center; background: #e0e0e0; height: 36px"
+          >
+            <p class="" style="padding-top: 6px">
+              <a ng-click="call()" class="">
+                <i
+                  class="icon ion-ios-telephone"
+                  style="color: black; font-size: 25px"
+                ></i>
+              </a>
+            </p>
+          </div>
+          <div
+            class="col-25"
+            style="text-align: center; background: #b8b8b8; height: 36px"
+          >
+            <p class="" style="padding-top: 6px">
+              <a ng-click="email()" class="">
+                <i
+                  class="icon ion-ios-email"
+                  style="color: black; font-size: 25px"
+                ></i>
+              </a>
+            </p>
+          </div>
+          <div
+            class="col-25"
+            style="text-align: center; background: #989898; height: 36px"
+          >
+            <a ng-click="whatsapp()">
+              <img
+                style="height: 28px; padding-top: 9px"
+                ng-src="{{icon_list.logo_whatsapp}}"
+                alt=""
+              />
+            </a>
+          </div>
+          <div
+            class="col-25"
+            style="text-align: center; background: #e0e0e0; height: 36px"
+          >
+            <p class="" style="padding-top: 6px">
+              <a ng-click="addhistory()" class="">
+                <i
+                  class="icon ion-ios-timer"
+                  style="color: black; font-size: 25px"
+                ></i>
+              </a>
+            </p>
+          </div>
+        </div>
+        <!-- <div star rating-value="ratingVal" max="max" on-hover="onHover" on-leave="onLeave" readonly="{{readonly}}"></div> -->
+        <div
+          class=""
+          style="text-align: center; padding-left: 16px; padding-right: 16px"
+        >
+          <span
+            ng-if="is_referrer"
+            class=""
+            style="float: left"
+            ng-click="deleteReferrer({{phondetailform.migarefrence_phonebook_id}},{{phondetailform.invoice_id}},{{phondetailform.customer_id}})"
+          >
+            <i
+              class="icon ion-ios-trash"
+              style="color: red; font-size: 30px"
+            ></i>
+          </span>
+          <i
+            ng-click="ratingstar_filter(1)"
+            class="icon ion-ios-star {{rating_class1}}"
+            style="margin-left: 12px; font-size: 30px"
+          ></i>
+          <i
+            ng-click="ratingstar_filter(2)"
+            class="icon ion-ios-star {{rating_class2}}"
+            style="margin-left: 12px; font-size: 30px"
+          ></i>
+          <i
+            ng-click="ratingstar_filter(3)"
+            class="icon ion-ios-star {{rating_class3}}"
+            style="margin-left: 12px; font-size: 30px"
+          ></i>
+          <i
+            ng-click="ratingstar_filter(4)"
+            class="icon ion-ios-star {{rating_class4}}"
+            style="margin-left: 12px; font-size: 30px"
+          ></i>
+          <i
+            ng-click="ratingstar_filter(5)"
+            class="icon ion-ios-star {{rating_class5}}"
+            style="margin-left: 12px; font-size: 30px"
+          ></i>
+          <span
+            class="badge badge-assertive"
+            style="float: right; margin-top: 7px"
+            >{{phondetailform.lastcontact}}</span
+          >
+        </div>
+        <div style="padding: 16px" ng-if="is_referrer">
+          <div
+            style="background-color: black; border-radius: 13px; padding: 3px"
+          >
+            <div
+              id="engagement_progross"
+              style="                
+                width: {{phondetailform.engagement_bar_level}};
+                height: 20px;
+                border-radius: 10px;
+                text-align: center;
+                background-color: {{home_icos.phonebooks_start_color}};
+              "
+            >
+              <sapn
+                id="progross_title"
+                style="font-weight: 800; font-size: x-large"
+                >{{phondetailform.engagement_level}}</sapn
+              >
+            </div>
+          </div>
+          <!-- Show Warring while referrer did not accept terms and condidtion -->
+          <div
+            class="row"
+            style="padding: 0px; padding-top: 9px"            
+          >
+            <div class="col-60">
+              <div ng-if="!is_terms_accepted">
+                <span class="">
+                  <img
+                    style="height: 32px; padding-top: 9px"
+                    ng-src="{{icon_list.terms_warrning}}"
+                    alt=""
+                  />
+                </span>
+                <span class="" style="padding-left: 10px;">
+                  {{"Referrer did not accept T&C" | translate}}
+                </span>
+              </div>              
+            </div>
+            <div class="col-40">
+              <button
+              type="button"
+              style="float:right;"
+              ng-click="openAiMatchingModel(phondetailform.customer_id)"
+              ng-if="phondetailform.rating>0 && phondetailform.job_id>0"
+              class="button button-positive"            
+              >
+               {{"AI Matching" | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="is_referrer && enable_multi==2"
+        >
+          <span
+            class="input-label"
+            style="padding-right:16px;color:{{home_icos.page_text_color }}!important;"
+            >{{"Sponsor" | translate}}</span
+          ><br />
+          <select
+            class="input-text"
+            ng-model="phondetailform.sponsor_id"
+            name="sponsor_id"
+            style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+          >
+            <option ng:repeat="agent in customer_agent_collection" value="{{ agent.id }}">
+              {{ agent.name | translate }}
+            </option>
+          </select>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="is_referrer && enable_multi==1"
+        >
+          <span
+            class="input-label"
+            style="padding-right:16px;color:{{home_icos.page_text_color }}!important;"
+            >{{pre_report_data.agent_type_label_one | translate}}</span
+          ><br />
+          <select
+            class="input-text"
+            ng-model="phondetailform.sponsor_id"
+            name="sponsor_id"
+            style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+          >
+            <option ng:repeat="agent in customer_agent_collection" value="{{ agent.id }}">
+              {{ agent.name | translate }}
+            </option>
+          </select>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="is_referrer && enable_multi==1"
+        >
+          <span
+            class="input-label"
+            style="padding-right:16px;color:{{home_icos.page_text_color }}!important;"
+            >{{pre_report_data.agent_type_label_two | translate}}</span
+          ><br />
+          <select
+            class="input-text"
+            ng-model="phondetailform.partner_sponsor_id"
+            name="partner_sponsor_id"
+            style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+          >
+            <option ng:repeat="agent in partner_agent_collection" value="{{ agent.id }}">
+              {{ agent.name | translate }}
+            </option>
+          </select>
+        </label>
+        <label
+          ng-if="is_referrer && pre_report_data.enable_birthdate==1"
+          style="padding-right: 0px; border: 1px solid rgb(169, 169, 169)"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Birth Date" | translate}}</span
+          >
+          <div class="row" style="padding: 0px">
+            <div class="col" style="padding: 0px">
+              <select
+                id="day"
+                name="day"
+                ng-model="phondetailform.birth_day"
+                class="input-text"
+                style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+              >
+                <option ng:repeat="day in daysdateday" value="{{ day.id }}">
+                  {{ day.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col" style="padding-top: 0px">
+              <select
+                id="month"
+                name="month"
+                ng-model="phondetailform.birth_month"
+                class="input-text"
+                style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+              >
+                <option ng:repeat="month in months" value="{{ month.id }}">
+                  {{ month.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col" style="padding: 0px; padding-right: 15px">
+              <select
+                id="year"
+                name="year"
+                ng-model="phondetailform.birth_year"
+                class="input-text"
+                style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+              >
+                <option ng:repeat="year in years" value="{{ year.id }}">
+                  {{ year.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="padding-right:16px;color:{{home_icos.page_text_color }}!important;"
+            >{{"Job Title" | translate}}</span
+          ><br />
+          <select
+            class="input-text"
+            ng-model="phondetailform.job_id"
+            name="job_id"
+            ng-change="openModel('newjobmodel.html')"
+            style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+          >
+            <option ng:repeat="job in jobs_list" value="{{ job.job_id }}">
+              {{ job.job_title | translate }}
+            </option>
+          </select>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="padding-right:16px;color:{{home_icos.page_text_color }}!important;"
+            >{{"Select Sector" | translate}}</span
+          ><br />
+          <select
+            class="input-text"
+            ng-model="phondetailform.profession_id"
+            name="profession_id"
+            ng-change="openModel('newjobmodel.html')"
+            style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+          >
+            <option ng:repeat="profession in profession_list" value="{{ profession.profession_id }}">
+              {{ profession.profession_title | translate }}
+            </option>
+          </select>
+        </label>
+        <label
+          ng-if="show_exclude_fields"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="padding-right:16px;color:{{home_icos.page_text_color }}!important;"
+            >{{"Is Blacklist" | translate}}?</span
+          ><br />
+          <select
+            class="input-text"
+            ng-model="phondetailform.is_blacklist"
+            name="is_blacklist"
+            style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+          >
+            <option value="2">{{ "Yes" | translate }}</option>
+            <option value="1">{{ "No" | translate }}</option>
+          </select>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Name" | translate}} *</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="phondetailform.name"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Surname" | translate}} *</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="phondetailform.surname"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Phone" | translate}} *</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="phondetailform.mobile"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Email" | translate}}</span
+          >
+          <span
+            ng-if="is_referrer==1"
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >*
+          </span>
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="phondetailform.email"
+            placeholder=""
+          />
+        </label>
+        <!-- START: Main and Sub Address -->
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="pre_report_data.enable_main_address==1 && countries_count>1 && is_referrer"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Select Country" | translate}}</span
+          >
+          <br />
+          <select
+            class="input-text"
+            ng-model="phondetailform.address_country_id"
+            style="height: 41px"
+            ng-change="getprovince()"
+          >
+            <option
+              ng:repeat="country_item in address_country_list"
+              value="{{ country_item.country_id }}"
+            >
+              {{ country_item.country }}
+            </option>
+          </select>
+        </label>
+        <label
+          ng-if="pre_report_data.enable_sub_address==1 && is_referrer"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Street" | translate}}</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="phondetailform.address_street"
+          />
+        </label>
+        <label
+          ng-if="pre_report_data.enable_sub_address==1 && is_referrer"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"ZIP Code" | translate}}</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="phondetailform.address_zipcode"
+          />
+        </label>
+        <label
+          ng-if="pre_report_data.enable_sub_address==1 && is_referrer"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"City" | translate}}</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="phondetailform.address_city"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="pre_report_data.enable_main_address==1 && is_referrer"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Select Province" | translate}}
+          </span>
+          <br />
+          <select
+            class="input-text"
+            ng-model="phondetailform.address_province_id"
+            style="height: 41px"
+          >
+            <option
+              ng:repeat="stat in address_province_list"
+              value="{{ stat.province_id }}"
+            >
+              {{ stat.province }}
+            </option>
+          </select>
+        </label>
+        <!-- END: Main and Sub Address -->
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Relational Notes" | translate}}</span
+          >
+          <textarea
+            style="
+              padding: 20px;
+              font-size: medium;
+              border: 1px solid rgb(169, 169, 169);
+              border-radius: 3px;
+            "
+            name="name"
+            ng-model="phondetailform.note"
+            rows="4"
+            cols="80"
+          ></textarea>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Reciprocity Notes" | translate}}</span
+          >
+          <textarea
+            style="
+              padding: 20px;
+              font-size: medium;
+              border: 1px solid rgb(169, 169, 169);
+              border-radius: 3px;
+            "
+            name="name"
+            ng-model="phondetailform.reciprocity_notes"
+            rows="4"
+            cols="80"
+          ></textarea>
+        </label>
+        <label
+          ng-if="consent_collection"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <div
+            class=""
+            style="text-align: center"
+            ng-bind-html="gdpr_consent"
+          ></div>
+        </label>
+        <button
+          class="button button-full button-positive"
+          type="submit"
+          name="button"
+        >
+          {{"Submit" | translate}}
+        </button>
+      </div>
+    </form>
+    <!-- Show Logs Model -->
+    <script id="phonelog.html" type="text/ng-template">
+      <ion-modal-view style="min-height: 100% !important;">
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 style="text-align:center;" class="title">{{"Communication Logs" | translate}}</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()"><i
+                  class="icon ion-ios-close-outline"
+                  style="color: red; font-size: 25px"
+                ></i></button>
+        </ion-header-bar>
+        <ion-content>
+            <div class="list">
+            <div
+            style="padding-bottom:0px;"
+              class="item"
+              ng-repeat="item in phonelog"
+            >
+              <div class="">
+                <div class="row">
+                  <div ng-if="item.type=='Enrollment'" class="col-10" style="text-align:center;padding-top:13px" >
+                    <i class="icon ion-ios-trash"
+                        style="color: red; font-size: 25px; opacity: 0.3;"
+                    ></i>
+                  </div>
+                  <div ng-if="item.type!='Enrollment'" class="col-10" style="text-align:center;padding-top:13px" ng-click="deleteCommunicationLog({{item.migareference_communication_logs_id}})">
+                    <i class="icon ion-ios-trash"
+                        style="color: red; font-size: 25px;"
+                    ></i>
+                  </div>
+                  <div class="col-90">
+                      <div class="row">
+                        <div class="col-75">
+                          <h2 style="font-weight: 500">{{item.logdate}}</h2>
+                        </div>
+                        <div class="col-25">
+                          <small style="float: right; color: gray"
+                            >{{item.type | translate}}</small
+                          >
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-100">
+                          <small style=" color: gray; white-space: initial "
+                            >{{item.note}}</small
+                          >
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+    <script id="phonelognote.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h3 class="title">{{"Add Note" | translate}}</h3>
+          <button class="button button-clear button-primary" ng-click="modal.hide()"><i
+                  class="icon ion-ios-close-outline"
+                  style="color: red; font-size: 25px"
+                ></i></button>
+        </ion-header-bar>
+        <ion-content>
+        <form name="reportdetailform" ng-submit="saveNote()" >
+          <div class="list">
+            <label class="item item-input item-stacked-label" style="padding: 0px;">
+              <textarea maxlength="200" style="padding:20px;font-size:medium;border:1px solid rgb(169,169,169);border-radius:3px;"  name="" ng-model="notefield.notes_content" rows="4" cols="80"></textarea>
+            </label>
+            <button class="button button-full button-positive">{{"Save" | translate }}</button>
+          </div>
+        </form>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+    <!--  Add Job Model-->
+    <script id="newjobmodel.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h3 class="title">{{"Add New Job" | translate}}</h3>
+          <button class="button button-clear button-primary" ng-click="modal.hide()"><i
+                  class="icon ion-ios-close-outline"
+                  style="color: red; font-size: 25px"
+                ></i></button>
+        </ion-header-bar>
+        <ion-content>
+        <form name="reportdetailform" ng-submit="saveJob()" >
+          <div class="list">
+            <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Job Title" | translate}} *</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="jobform.job_title"
+            placeholder=""
+          />
+        </label>
+            <button class="button button-full button-positive">{{"Save" | translate }}</button>
+          </div>
+        </form>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+    <!--  Birth date Confirmation Model-->
+    <script id="confirmdob.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-content>
+                <div class="">
+                  <p>{{home_icos.admin_dob_confirm_warning}}</p>
+                </div>
+                <div class="" style=" float:left;width:49%;">
+                  <button style="{{home_icos.admin_dob_confirm_understoodbtn_style}}" ng-click="savePhoneDetail()" class="button button-full button-positive">{{home_icos.admin_dob_confirm_understoodbtn_text}}</button>
+                </div>
+                <div class="" style="float:right;width:49%;">
+                  <button style="{{home_icos.admin_dob_confirm_getdob_text}};padding:0px;" ng-click="dobmodal.hide()" class="button button-full button-positive">{{home_icos.admin_dob_confirm_getdob_text}}</button>
+                </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+  </ion-content>
+  <style media="screen">
+    .active-rating {
+      color: {{home_icos.phonebooks_start_color}};
+    }
+    .inactive-rating {
+      color: #a9a9a9;
+    }
+  </style>
+</ion-view>

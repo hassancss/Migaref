@@ -1,0 +1,175 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="migareference-view module module-migareference">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeDayBookModal()">
+                    <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{"Todo" | translate }}</h1>
+    </ion-header-bar>
+   
+   <ion-content class="has-header">
+       
+        <div class="loader" ng-show="isLoading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+        <div class="" ng-show="!isLoading">         
+            <div  class="card list" style="background-color: white;padding: 10px !important;" ng-repeat="entry in daybook_item">                
+                <div class="row">
+                    <div class="col-100">
+                        <h4 style="font-weight: 600;">
+                            {{entry.title_info}}
+                          </h4>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-100" ng-bind-html="trustAsHtml(entry.description)"></div>
+                </div>
+
+                <div class="" style="border-bottom: 1px solid #e1e1e1;" ng-repeat="subitem in entry.data">
+                    <!-- Data items for Log type=Referrer -->
+                    <div ng-if="subitem.type=='referrer'">
+                        <div class="row" style="padding-bottom: 20px !important;">
+                            <div class="col-30">
+                                <p>{{"Referrer " | translate}}</p>
+                            </div>
+                            <div class="col-50">
+                                <strong>: {{subitem.raw_data.invoice_name}} {{subitem.raw_data.invoice_surname}}</strong>
+                            </div>
+                            <div class="col-20" style="text-align: right;">
+                                <button
+                                style="line-height: 0px"
+                                class="button ng-binding button-small"  
+                                ng-click="openPhonebook(subitem.raw_data.migarefrence_phonebook_id)"
+                              >
+                                  <img
+                                  style="height: 25px"
+                                  ng-src="{{app_content.phonebook_icon}}"                            
+                                />                          
+                              </button>
+                            </div>
+                        </div>                    
+                        <div class="row" style="padding-bottom: 20px !important;">
+                            <div class="col-30">
+                                <p>{{"Phone " | translate}}</p>
+                            </div>
+                            <div class="col-50">
+                                <strong>: {{subitem.raw_data.invoice_mobile}}</strong>
+                            </div>
+                            <div class="col-20" style="text-align: right;">                                
+                              <button
+                                style="line-height: 0px"
+                                class="button ng-binding button-small"  
+                                ng-click="whatsapp(subitem.raw_data.invoice_mobile)"
+                              >
+                                  <img
+                                  style="height: 25px"
+                                  ng-src="{{app_content.whatsapp_icon}}"                            
+                                />                          
+                              </button>
+                            </div>
+                        </div>                                      
+                        <div class="row" style="padding-bottom: 20px !important;">
+                            <div class="col-30">
+                                <p>{{"Email " | translate}}</p>
+                            </div>
+                            <div class="col-50">
+                                <strong>: {{subitem.raw_data.email}}</strong>
+                            </div>
+                            <div class="col-20" style="text-align: right;">
+                                <button
+                                style="line-height: 0px"
+                                class="button ng-binding button-small"  
+                                ng-click="mail(subitem.raw_data.email)"
+                              >
+                                  <img
+                                  style="height: 25px"
+                                  ng-src="{{app_content.email}}"                            
+                                />                          
+                              </button>
+                            </div>
+                        </div> 
+                    </div>                                                         
+                    <!-- Data items for Log type=report -->
+                    <div ng-if="subitem.type=='report'">
+                        <div class="row" style="padding-bottom: 20px !important;">
+                            <div class="col-30">
+                                <p>{{"Report NO " | translate}}</p>
+                            </div>
+                            <div class="col-50">
+                                <strong>: {{subitem.raw_data.report_no}}</strong>
+                            </div>
+                            <div class="col-20" style="text-align: right;">
+                                <button
+                                style="line-height: 0px"
+                                class="button ng-binding button-small"  
+                                ng-click="showdetail(subitem.raw_data.migareference_report_id)"
+                              >
+                                  <img
+                                  style="height: 25px"
+                                  ng-src="{{app_content.notepad}}"                            
+                                />                          
+                              </button>
+                            </div>
+                        </div>                    
+                        <div class="row" style="padding-bottom: 20px !important;">
+                            <div class="col-30">
+                                <p>{{"Report Status " | translate}}</p>
+                            </div>
+                            <div class="col-50">
+                                <strong>: {{subitem.raw_data.status_title}}</strong>
+                            </div>
+                            <div class="col-20" style="text-align: right;">                                
+                          
+                            </div>
+                        </div>                                      
+                        <div class="row" style="padding-bottom: 20px !important;">
+                            <div class="col-30">
+                                <p>{{"Report Owner " | translate}}</p>
+                            </div>
+                            <div class="col-50">
+                                <strong>: {{subitem.raw_data.owner_name}} {{subitem.raw_data.owner_surname}}</strong>
+                            </div>
+                            <div class="col-20" style="text-align: right;">
+                                <button
+                                style="line-height: 0px"
+                                class="button ng-binding button-small"  
+                                ng-click="openPhonebook(subitem.raw_data.migarefrence_phonebook_id)"
+                              >
+                                  <img
+                                  style="height: 25px"
+                                  ng-src="{{app_content.phonebook_icon}}"                            
+                                />                          
+                              </button>
+                            </div>
+                        </div> 
+                        <div class="row" style="padding-bottom: 20px !important;">
+                            <div class="col-30">
+                                <p>{{"Referrer " | translate}}</p>
+                            </div>
+                            <div class="col-50">
+                                <strong>: {{subitem.raw_data.invoice_name}} {{subitem.raw_data.invoice_surname}}</strong>
+                            </div>
+                            <div class="col-20" style="text-align: right;">
+                                <button
+                                style="line-height: 0px"
+                                class="button ng-binding button-small"  
+                                ng-click="openPhonebook(subitem.raw_data.migarefrence_phonebook_id)"
+                              >
+                                  <img
+                                  style="height: 25px"
+                                  ng-src="{{app_content.phonebook_icon}}"                            
+                                />                          
+                              </button>
+                            </div>
+                        </div> 
+                    </div>                                                         
+                </div>         
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

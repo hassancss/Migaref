@@ -1,0 +1,496 @@
+<ion-view class="migareference-view module-migareference" sb-page-background cache-view="false">
+
+
+
+    <!--START:Header-->
+
+
+
+    <ion-nav-title>{{ "Invite Prospectus" | translate }}</ion-nav-title>
+
+
+
+   <ion-content>
+
+
+
+     <div class="" >         <form name="reminderform" ng-submit="savePropertyreport()" >
+
+
+
+             <div class="list">
+
+
+
+               <label class="item item-input item-stacked-label property-heading-container"  ng-if="property_detail_header">
+
+
+
+                 <h2 class="input-label property-heading" style="color:{{home_icos.page_text_color }}!important;" >{{"Property Details" | translate}}</h2>
+
+
+
+               </label>
+
+
+
+               <label style="padding-right:16px;" ng-if="enable_property_type_view" class="item item-input item-stacked-label">
+
+
+
+                   <span class="input-label" style="color:{{home_icos.page_text_color }}!important;" >{{"Report Type" | translate}}*</span>
+
+
+
+                   <br>
+
+
+
+                   <select style="width:100%;padding:8px;border-radius:3px;font-size:medium"   ng-model="migareferenceformchange.property_type">
+
+
+
+                     <option value="1">{{"Villa" | translate}}</option>
+
+
+
+                     <option value="2">{{"Flat" | translate}}</option>
+
+
+
+                   </select>
+
+
+
+               </label>
+
+
+
+               <label style="padding-right:16px;" ng-if="enable_property_sales_expectaion_view" class="item item-input item-stacked-label">
+
+
+
+                 <span class="input-label" style="color:{{home_icos.page_text_color }}!important;" >{{"Sales Expectation" | translate}}</span>
+
+
+
+                 <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);" name="sales_expectations" id="sales_expectations" type="number" ng-model="migareferenceformchange.sales_expectations">
+
+
+
+               </label>
+
+
+
+               <label style="padding-right:16px;width:100%;" ng-if="enable_property_sales_expectaion_view" class="item item-input item-stacked-label tooltip">
+
+
+
+                 <span class="input-label" style="color:{{home_icos.page_text_color }}!important;" >{{"Address" | translate}}*</span>
+
+
+
+                 <!-- <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);" id="your_location"
+
+
+
+                        ng-model="migareferenceformchange.address"
+
+
+
+                        type="text" placeholder="{{ 'Location' | translate }}"> -->
+
+
+
+                          <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169)" id="searchPlaceFrom"
+
+
+
+                                ng-focus="disableTap('searchPlaceFrom')"
+
+
+
+                                type="text"
+
+
+
+                                class=""
+
+
+
+                                placeholder="{{ 'Location' | translate }}"
+
+
+
+                                ng-model="migareferenceformchange.address"
+
+
+
+                                sb-google-autocomplete
+
+
+
+                                location="origin"
+
+
+
+                                on-address-change="changeItinerary()" />
+
+
+
+                        <input type="hidden" ng-model="migareferenceformchange.longitude" value="">
+
+
+
+                        <input type="hidden" ng-model="migareferenceformchange.latitude" value="">
+
+
+
+               </label>
+
+
+
+               <label  class="item item-input item-stacked-label property-heading-container">
+
+
+
+                 <h2 class=" property-heading" style="padding: 4px 0 0 0;vertical-align: middle;color:{{home_icos.page_text_color }}!important;" >{{"Report Owner Details" | translate}}</h2>
+
+
+
+               </label>
+
+
+
+               <label style="padding-right:16px;" class="item item-input item-stacked-label" ng-click="showWarrning()">
+
+
+
+                 <span class="input-label" style="color:{{home_icos.page_text_color }}!important;" >{{"Name" | translate}}*</span>
+
+
+
+                 <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);"  type="text" ng-model="migareferenceformchange.owner_name" placeholder="">
+
+
+
+               </label>
+
+
+
+               <label style="padding-right:16px;" class="item item-input item-stacked-label" ng-click="showWarrning()" >
+
+
+
+                 <span class="input-label" style="color:{{home_icos.page_text_color }}!important;" >{{"Surname" | translate}}*</span>
+
+
+
+                 <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);"  type="text" ng-model="migareferenceformchange.owner_surname" placeholder="">
+
+
+
+               </label>
+
+
+
+               <label style="padding-right:16px;" class="item item-input item-stacked-label" ng-click="showWarrning()" >
+
+
+
+                 <span class="input-label" style="color:{{home_icos.page_text_color }}!important;" >{{"Mobile" | translate}}*</span>
+
+
+
+                 <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);"  type="number" ng-model="migareferenceformchange.owner_mobile" placeholder="">
+
+
+
+               </label>
+
+
+
+                <p class="hot-text" style="color:{{home_icos.page_text_color }}!important;">{{"How hot is the Contact ?"| translate}}</p>
+
+
+
+                <div class="row" style="padding:12px;padding-top:10px;">
+
+
+
+                  <div class="col-20">
+
+
+
+                      <div class="" style="height:100px;padding-top:79px">
+
+
+
+                        <div class="" style="height:20px;background-color:#fbd33e;" >
+
+
+
+                        </div>
+
+
+
+                      </div>
+
+
+
+                      <div class="" style="width:100%" >
+
+
+
+                        <button ng-click="owneractiverNumber(1)" style="width:100%;height:25px;" class="btn pile_1 {{active_class_1}}" type="button" name="button">1</button>
+
+
+
+                      </div>
+
+
+
+                  </div>
+
+
+
+                  <div class="col-20" >
+
+
+
+                    <div class="" style="height:100px;padding-top:59px">
+
+
+
+                      <div class="" style="height:40px;background-color:#f7b13f;" >                      </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="" style="width:100%" >
+
+
+
+                      <button ng-click="owneractiverNumber(2)" style="width:100%;height:25px;" class="btn pile_2 {{active_class_2}}" type="button" name="button">2</button>
+
+
+
+                    </div>
+
+
+
+                  </div>
+
+
+
+                  <div class="col-20" >
+
+
+
+                    <div class="" style="height:100px;padding-top:39px">
+
+
+
+                      <div class="" style="height:60px;background-color:#f78d43" >                      </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="" style="width:100%" >
+
+
+
+                      <button ng-click="owneractiverNumber(3)" style="width:100%;height:25px;" class="btn pile_3 {{active_class_3}} " type="button" name="button">3</button>
+
+
+
+                    </div>
+
+
+
+                  </div>
+
+
+
+                  <div class="col-20" >
+
+
+
+                    <div class="" style="height:100px;padding-top:19px">
+
+
+
+                      <div class="" style="height:80px;background-color:#f36a48" >                      </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="" style="width:100%">
+
+
+
+                      <button ng-click="owneractiverNumber(4)" style="width:100%;height:25px;" class="btn pile_4 {{active_class_4}}" type="button" name="button">4</button>
+
+
+
+                    </div>
+
+
+
+                  </div>
+
+
+
+                  <div class="col-20" >
+
+
+
+                    <div class="" style="height:100px;">
+
+
+
+                      <div class="" style="height:99px;background-color:#ee494d" ></div>
+
+
+
+                    </div>
+
+
+
+                    <div class="" style="width:100%" >
+
+
+
+                      <button ng-click="owneractiverNumber(5)" style="width:100%;height:25px;" class="btn pile_5 {{active_class_5}} active" type="button" name="button">5</button>
+
+
+
+                    </div>
+
+
+
+                  </div>
+
+
+
+                </div>
+
+
+
+                <button
+
+
+
+                 ng-click="shareSocial()"
+
+
+
+                 class="button button-block button-positive button-positive-custom icon ion-share">
+
+
+
+                 {{ "Invite friends" | translate }}
+
+
+
+               </button>
+
+
+
+             </div>
+
+
+
+         </form>
+
+
+
+     </div>
+
+
+
+  </ion-content>
+
+
+
+  <!--END:Home page Content-->
+
+
+
+  <script id="maps-info.html" type="text/ng-template">
+
+
+
+    </ion-modal-view>    <div ng-if="alrt_container" style="width:100%;height:100%;background-color:black;height:1000px;opacity:0.6"></div>
+
+
+
+    <ion-modal-view class="bg-white" style="width:80%;margin-left:10%;margin-top:30%;min-height:195px !important;border-radius:3px;">
+
+
+
+          <ion-header-bar class="bar-custom" style="background-color:white;">
+
+
+
+              <div class="buttons">
+
+
+
+                  <h2 class="" style="color:red;align:center;font-size:18px;padding-left:15px;padding-top:7px;" >{{"Warning" | translate }}</h2>
+
+
+
+              </div>
+
+
+
+          </ion-header-bar>
+
+
+
+          <ion-content>
+
+
+
+              <p style="font-size:16px;padding-left:15px;">
+
+
+
+                {{"Before sending a contact, it is mandatory that you have spoken to him personally and that he is informed that he will receive a call from the real estate Agent." | translate}}
+
+
+
+              </p>
+
+
+
+              <button ng-click="closePanel()" class="alert-button" style="float: right;margin-right: 20px;background-color: white;border: none;color: #2196F3;font-weight: 700;margin-bottom:10px;" type="button" name="button">{{"I CONFIRM" | translate}}</button>
+
+
+
+          </ion-content>
+
+
+
+      </ion-modal-view>
+
+
+
+  </script>
+
+
+
+</ion-view>
+
+
+

@@ -1,0 +1,48 @@
+<ion-view class="module-migareference migareference migareference-list l1"
+          sb-page-background>
+    <ion-nav-title>{{"Credits Ledger" | translate}}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-if="listview" ng-click="nextFormat(true)"
+                class="button button-clear header-item migareference-secondary-button">
+                <i class="icon" ng-class="currentFormatBtn"></i>
+        </button>
+        <button  ng-click="goToHomePage()"
+                class="button button-clear header-item migareference-secondary-button">
+                <i class="icon ion-home" ng-class=""></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content>
+      <div class="item item-body home-sub-header-body" style="margin-top:48px;background-color:{{home_icos.top_prize_header_bg}} !important;">
+        <h2 class="home-sub-header-text" style="color:{{home_icos.top_prize_header_text }}!important">{{ "Your Credits are:" | translate}}{{credit_balance}}</h2>
+      </div>
+      <div class="card" style="margin-top:0px;background-color:white;">
+        <div style="    text-align: center;font-weight: bold;border-bottom: 2px solid;">
+          <div class="row">
+            <div class="col">{{"Date" | translate}}</div>
+            <div class="col">{{"Description" | translate}}</div>
+            <div class="col">{{"Credits" | translate}}</div>
+            <div class="col">{{"Balance" | translate}}</div>
+          </div>
+        </div>
+        <div ng-repeat="item in collection">
+             <div class="row" style="text-align:center;">
+               <div class="col">{{item.entry_at}}</div>
+               <div class="col">{{item.description}}</div>
+               <div class="col">{{item.credits}}</div>
+               <div class="col">{{item.balance}}</div>
+             </div>
+        </div>
+      </div>
+    </ion-content>
+    <ion-tabs   delegate-handle="my-handle-ledger" class="tabs-stable tabs-icon-top  tabs-bottom tabs-stripped">
+      <ion-tab ng-click="gotoshop()"  title="{{'Prizes Shop' | translate}}" icon="ion-ios-briefcase">
+        <!-- Tab 1 content -->
+      </ion-tab>
+      <ion-tab   title="{{'Credits Ledger' | translate}}" icon="icon ion-clipboard">
+        <!-- Tab 2 content -->
+      </ion-tab>
+      <ion-tab ng-click="gotoredeemprizes()" title="{{'Your Prizes' | translate}}" ng-click="selectTabWithIndex(2)" icon="ion-bookmark">
+        <!-- Tab 3 content -->
+      </ion-tab>
+    </ion-tabs>
+</ion-view>

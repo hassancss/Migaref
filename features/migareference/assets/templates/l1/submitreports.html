@@ -1,0 +1,469 @@
+<ion-view
+  class="migareference-view module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <!--START:Header-->
+  <ion-nav-title
+    >{{ home_icos.add_property_box_label | translate }}</ion-nav-title
+  >
+  <ion-content>
+    <div class="">
+      <!-- Card 1 -->
+      <div class="card" ng-if="is_visible_invite_prospectus">
+        <div class="item item-divider" style="text-align: center">
+          {{home_icos.add_property_invite_card_title}}
+        </div>
+        <div class="item item-text-wrap item-custom item-body">
+          <div>
+            <img
+              ng-if="is_external_report_alert"              
+              style="width: 100%"
+              src="{{home_icos.add_property_cover_file}}"
+            />
+          </div>
+          <!-- <div
+            ng-if="is_external_report_alert"
+            ng-bind-html="external_report_note"
+          ></div> -->
+          <div><p>{{"To invite your contact, choose the channel you prefer or copy the invitation message" | translate}}</p></div>
+          <!-- <button
+            style="background-color:{{home_icos.add_property_invite_btn_color }}!important;
+            color:{{home_icos.add_property_invite_btn_text_color }}!important;
+            height: 75px !important;
+            font-size: larger;
+            font-weight: 700;"            
+            ng-click="shareSocial()"
+            class="button button-block button-positive icon ion-share"
+          >
+            {{home_icos.add_property_invite_btn_text}}
+          </button> -->
+          <div class="row" style="text-align: center;padding-bottom: 15px;">
+            <div class="col-50">
+              <a ng-click="buildmessage('whatsapp')">
+                <img
+                  style="height: 50px; padding-top: 9px"
+                  ng-src="{{home_icos.logo_whatsapp}}"
+                  alt=""
+                />
+                <p style="margin: 0px;font-weight:bold;">{{"Whatsapp" | translate}}</p>
+              </a>
+            </div>
+            <div class="col-50">
+              <a ng-click="buildmessage('email')">
+                <img
+                  style="height: 50px; padding-top: 9px"
+                  ng-src="{{home_icos.email}}"
+                  alt=""
+                />
+                <p style="margin: 0px;font-weight:bold;">{{"Email" | translate}}</p>
+              </a>
+            </div>           
+          </div>
+          <div class="row" style="text-align: center;">
+            <div class="col-50">
+              <a ng-click="buildmessage('sms')">
+                <img
+                  style="height: 50px; padding-top: 9px"
+                  ng-src="{{home_icos.sms}}"
+                  alt=""
+                />
+                <p style="margin: 0px;font-weight:bold;">{{"SMS" | translate}}</p>
+              </a>
+            </div>
+            <div class="col-50">
+              <a ng-click="buildmessage('copy')">
+                <img
+                  style="height: 50px; padding-top: 9px"
+                  ng-src="{{home_icos.copy}}"
+                  alt=""
+                />
+                <p style="margin: 0px;font-weight:bold;">{{"Copy" | translate}}</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="card list" ng-if="is_visible_submit_report">
+        <div class="item item-divider" style="text-align: center">
+          {{home_icos.add_property_save_card_title}}
+        </div>
+        <form          
+          name="reminderform"
+          ng-submit="savePropertyreport()"
+        >
+          <div
+            class="item item-text-wrap item-custom item-body"
+            ng-if="is_internal_report_alert"
+            ng-bind-html="internal_report_note"
+          ></div>
+          <div class="" compile-template ng-bind-html="form_builder"></div>
+          <div ng-show="pre_setting.refrence_level==1" class="item item-custom">
+            <span> {{pre_settings.owner_hot_label| translate}} </span>
+            <div class="row">
+              <div class="col-20">
+                <div class="" style="height: 100px; padding-top: 79px">
+                  <div
+                    class=""
+                    style="height: 20px; background-color: #fbd33e"
+                  ></div>
+                </div>
+                <div class="" style="width: 100%">
+                  <button
+                    ng-click="owneractiverNumber(1)"
+                    style="width: 100%; height: 25px"
+                    class="btn pile_1 {{active_class_1}}"
+                    type="button"
+                    name="button"
+                  >
+                    1
+                  </button>
+                </div>
+              </div>
+              <div class="col-20">
+                <div class="" style="height: 100px; padding-top: 59px">
+                  <div
+                    class=""
+                    style="height: 40px; background-color: #f7b13f"
+                  ></div>
+                </div>
+                <div class="" style="width: 100%">
+                  <button
+                    ng-click="owneractiverNumber(2)"
+                    style="width: 100%; height: 25px"
+                    class="btn pile_2 {{active_class_2}}"
+                    type="button"
+                    name="button"
+                  >
+                    2
+                  </button>
+                </div>
+              </div>
+              <div class="col-20">
+                <div class="" style="height: 100px; padding-top: 39px">
+                  <div
+                    class=""
+                    style="height: 60px; background-color: #f78d43"
+                  ></div>
+                </div>
+                <div class="" style="width: 100%">
+                  <button
+                    ng-click="owneractiverNumber(3)"
+                    style="width: 100%; height: 25px"
+                    class="btn pile_3 {{active_class_3}} "
+                    type="button"
+                    name="button"
+                  >
+                    3
+                  </button>
+                </div>
+              </div>
+              <div class="col-20">
+                <div class="" style="height: 100px; padding-top: 19px">
+                  <div
+                    class=""
+                    style="height: 80px; background-color: #f36a48"
+                  ></div>
+                </div>
+                <div class="" style="width: 100%">
+                  <button
+                    ng-click="owneractiverNumber(4)"
+                    style="width: 100%; height: 25px"
+                    class="btn pile_4 {{active_class_4}}"
+                    type="button"
+                    name="button"
+                  >
+                    4
+                  </button>
+                </div>
+              </div>
+              <div class="col-20">
+                <div class="" style="height: 100px">
+                  <div
+                    class=""
+                    style="height: 99px; background-color: #ee494d"
+                  ></div>
+                </div>
+                <div class="" style="width: 100%">
+                  <button
+                    ng-click="owneractiverNumber(5)"
+                    style="width: 100%; height: 25px"
+                    class="btn pile_5 {{active_class_5}} active"
+                    type="button"
+                    name="button"
+                  >
+                    5
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item item-custom item-body">
+            <button
+              style="border-radius:3px;background-color:{{home_icos.add_property_save_btn_color }}!important;color:{{home_icos.add_property_save_btn_text_color }}!important;
+            height: 75px !important;
+            font-size: larger;
+            font-weight: 700;"
+              ng-if="is_visible_submit_report"
+              class="button button-full button-positive"
+              ng-disabled="disablereportSubmit"
+              type="submit"
+              name="button"
+            >
+              {{home_icos.add_property_save_btn_text}}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ion-content>
+  <!--END:Home page Content-->
+  <!-- Allow to copy url or social share message for webview or non native devices -->
+  <!-- <script id="socialsharemessage.html" type="text/ng-template">
+    <ion-modal-view style='top:20% !important;background:none !important'>
+      <ion-content style='height: fit-content !important;border-radius: 5px;background-color:#f7f7f7 !important'>
+        <div class="card" style="padding:10px;" >              
+                           
+              <div class="" ng-if='is_native'>
+                <div class="">
+                  <p style='font-weight: 500;color:gray;text-align:center'>{{socialsharemessage}}</p>
+                </div> 
+                <button
+                style="font-weight: 600;color:{{gdpr_settings.consent_popup_doyou_font }}!important;background-color:{{gdpr_settings.consent_popup_doyou_background }}!important;"
+                ng-click="shareSocialMessage(1,'')" class="button button-full button-positive">{{'Share Message' | translate}}</button>
+              </div>
+              <div class="" ng-if='!is_native'>                
+                <div class="">
+                  <p style='font-weight: 500;color:gray;text-align:center'>{{socialsharemessage}}</p>
+                </div> 
+                <div>
+                  <button
+                  style="font-weight: 600;color:{{gdpr_settings.invite_consent_btn_under_font }}!important;background-color:{{gdpr_settings.invite_consent_btn_under_bg }}!important;"
+                  ng-click="shareSocialMessage(2,'whatsapp')" class="button button-full button-positive"><i style="float:left;" class="icon ion-sb-whatsapp-outline"></i>{{'Whatsapp' | translate}}
+                  </button>
+                  <button
+                  style="font-weight: 600;color:{{gdpr_settings.invite_consent_btn_under_font }}!important;background-color:{{gdpr_settings.invite_consent_btn_under_bg }}!important;"
+                  ng-click="shareSocialMessage(2,'email')" class="button button-full button-positive"> <i style="float:left;" class="icon ion-ios-email-outline"></i>{{'Email' | translate}}
+                  </button>
+                  <button
+                  style="font-weight: 600;color:{{gdpr_settings.invite_consent_btn_under_font }}!important;background-color:{{gdpr_settings.invite_consent_btn_under_bg }}!important;"
+                  ng-click="shareSocialMessage(2,'sms')" class="button button-full button-positive"> <i style="float:left;" class="icon ion-ios-chatboxes-outline"></i> {{'SMS' | translate}}
+                  </button>
+                  <button
+                  style="font-weight: 600;color:{{gdpr_settings.invite_consent_btn_under_font }}!important;background-color:{{gdpr_settings.invite_consent_btn_under_bg }}!important;"
+                  ng-click="shareSocialMessage(2,'copy')" class="button button-full button-positive"><i style="float:left;" class="icon ion-ios-copy-outline"></i>{{'Copy Message' | translate}}
+                  </button>
+                  <button
+                  style="margin-top:40px;font-weight: 600;color:{{gdpr_settings.invite_consent_btn_discard_font }}!important;background-color:{{gdpr_settings.invite_consent_btn_discard_bg }}!important;"
+                  ng-click="shareSocialMessage(2,'cancel')" class="button button-full button-positive">{{'Cancel' | translate}}
+                  </button>
+              </div>
+              </div>
+              <!-- <div class="" ng-if='!is_native'>
+                <p style="color:black;">{{gdpr_settings.prospect_socail_share_copy_note}}</p>
+              </div> -->
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script> -->
+  <!-- Allow to copy url or social share message for webview or non native devices -->
+  <script id="consentsocialshare.html" type="text/ng-template">
+    <ion-modal-view style='top:20% !important;background:none !important'>
+      <ion-content style='height: fit-content !important;border-radius: 5px;background-color:#f7f7f7 !important'>
+        <div class="card" style="padding:10px;" >              
+                                      
+              <div class="" ng-if='!is_native'>                
+                <div class="">
+                  <p style='font-weight: 500;color:gray;text-align:center'>{{consent_invit_msg_body}}</p>
+                </div> 
+                <div>
+                  <button
+                  style="font-weight: 600;color:{{gdpr_settings.consent_popup_proceed_font }}!important;background-color:{{gdpr_settings.consent_popup_proceed_background }}!important;"
+                  ng-click="shareConsentSocial('whatsapp')" class="button button-full button-positive"><i style="float:left;" class="icon ion-sb-whatsapp-outline"></i>{{'Whatsapp' | translate}}
+                  </button>
+                  <button
+                  style="font-weight: 600;color:{{gdpr_settings.consent_popup_proceed_font }}!important;background-color:{{gdpr_settings.consent_popup_proceed_background }}!important;"
+                  ng-click="shareConsentSocial('email')" class="button button-full button-positive"> <i style="float:left;" class="icon ion-ios-email-outline"></i>{{'Email' | translate}}
+                  </button>
+                  <button
+                  style="font-weight: 600;color:{{gdpr_settings.consent_popup_proceed_font }}!important;background-color:{{gdpr_settings.consent_popup_proceed_background }}!important;"
+                  ng-click="shareConsentSocial('sms')" class="button button-full button-positive"> <i style="float:left;" class="icon ion-ios-chatboxes-outline"></i> {{'SMS' | translate}}
+                  </button>
+                  <button
+                  style="font-weight: 600;color:{{gdpr_settings.consent_popup_proceed_font }}!important;background-color:{{gdpr_settings.consent_popup_proceed_background }}!important;"
+                  ng-click="shareConsentSocial('copy')" class="button button-full button-positive"><i style="float:left;" class="icon ion-ios-copy-outline"></i>{{'Copy Message' | translate}}
+                  </button>
+                  <button
+                  style="margin-top:40px;font-weight: 600;color:{{gdpr_settings.consent_popup_doyou_font }}!important;background-color:{{gdpr_settings.consent_popup_doyou_background }}!important;"
+                  ng-click="shareConsentSocial('cancel')" class="button button-full button-positive">{{'Cancel' | translate}}
+                  </button>
+              </div>
+              </div>
+              <!-- <div class="" ng-if='!is_native'>
+                <p style="color:black;">{{gdpr_settings.prospect_socail_share_copy_note}}</p>
+              </div> -->
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+  <!-- Social Share Report Type Report Type Modal -->
+  <!-- <script id="socialsharereporttype.html" type="text/ng-template">
+    <ion-modal-view style='top:20% !important;background:none !important'>
+      <ion-content style='height: fit-content !important;border-radius: 5px;background-color:#f7f7f7 !important'>
+        <div class="" style="padding:10px;" >
+              <div class="" style="text-align:center;">
+                <img style="height:125px;" ng-src="{{home_icos.report_type_pop_cover}}" alt="">
+              </div>
+              <div class="" style="text-align:center;">
+                <h3 style='font-weight: 700;color:black;'>{{home_icos.report_type_pop_title}}</h3>
+              </div>
+              <div class="">
+                <p style='font-weight: 500;color:gray;text-align:center'>{{home_icos.report_type_pop_text}}</p>
+              </div>
+              <div class="" style=" float:left;width:100%;">
+                <button style="font-weight: 600; color: {{home_icos.report_type_pop_btn_one_color}}; background-color: {{home_icos.report_type_pop_btn_one_bg_color}}"
+                        ng-click="setSocialReportType(1)" class="button button-full button-large button-positive">
+                  <img style="height: 30px; vertical-align: middle;" ng-src="{{home_icos.report_type_pop_btn_one_icon}}" alt="">
+                  <span style="vertical-align: middle; display: inline-block; margin-left: 10px;">
+                    {{home_icos.report_type_pop_btn_one_text | translate}}
+                  </span>
+                </button>
+              </div>
+              <div class="" style=" float:left;width:100%;">
+                <button style="font-weight: 600; color: {{home_icos.report_type_pop_btn_two_color}}; background-color: {{home_icos.report_type_pop_btn_two_bg_color}}"
+                        ng-click="setSocialReportType(2)" class="button button-full button-large button-positive">
+                  <img style="height: 30px; vertical-align: middle;" ng-src="{{home_icos.report_type_pop_btn_two_icon}}" alt="">
+                  <span style="vertical-align: middle; display: inline-block; margin-left: 10px;">
+                    {{home_icos.report_type_pop_btn_two_text | translate}}
+                  </span>
+                </button>
+              </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script> -->
+  <!-- Report Type Modal -->
+  <script id="reporttype.html" type="text/ng-template">
+    <ion-modal-view style='top:20% !important;background:none !important'>
+      <ion-content style='height: fit-content !important;border-radius: 5px;background-color:#f7f7f7 !important'>
+        <div class="" style="padding:10px;" >
+              <div class="" style="text-align:center;">
+                <img style="height:125px;" ng-src="{{home_icos.report_type_pop_cover}}" alt="">
+              </div>
+              <div class="" style="text-align:center;">
+                <h3 style='font-weight: 700;color:black;'>{{home_icos.report_type_pop_title}}</h3>
+              </div>
+              <div class="">
+                <p style='font-weight: 500;color:gray;text-align:center'>{{home_icos.report_type_pop_text}}</p>
+              </div>
+              <div class="" style=" float:left;width:100%;">
+                <button style="font-weight: 600; color: {{home_icos.report_type_pop_btn_one_color}}; background-color: {{home_icos.report_type_pop_btn_one_bg_color}}"
+                        ng-click="setReportType(1)" class="button button-full button-large button-positive">
+                  <img style="height: 30px; vertical-align: middle;" ng-src="{{home_icos.report_type_pop_btn_one_icon}}" alt="">
+                  <span style="vertical-align: middle; display: inline-block; margin-left: 10px;">
+                    {{home_icos.report_type_pop_btn_one_text | translate}}
+                  </span>
+                </button>
+              </div>
+              <div class="" style=" float:left;width:100%;">
+                <button style="font-weight: 600; color: {{home_icos.report_type_pop_btn_two_color}}; background-color: {{home_icos.report_type_pop_btn_two_bg_color}}"
+                        ng-click="setReportType(2)" class="button button-full button-large button-positive">
+                  <img style="height: 30px; vertical-align: middle;" ng-src="{{home_icos.report_type_pop_btn_two_icon}}" alt="">
+                  <span style="vertical-align: middle; display: inline-block; margin-left: 10px;">
+                    {{home_icos.report_type_pop_btn_two_text | translate}}
+                  </span>
+                </button>
+              </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+  <script id="consentcollection.html" type="text/ng-template">
+    <ion-modal-view style='top:20% !important;background:none !important'>
+      <ion-content style='height: fit-content !important;border-radius: 5px;background-color:#f7f7f7 !important'>
+        <div class="" style="padding:10px;">
+              <div class="" style="text-align:center;">
+                <img style="height:125px;" ng-src="{{pre_settings.gdpr_icon}}" alt="">
+              </div>
+              <div class="" style="text-align:center;">
+                <h3 style='font-weight: 700;color:black;'>{{gdpr_settings.consent_info_popup_title}}</h3>
+              </div>
+              <div class="">
+                <p style='font-weight: 500;color:gray;text-align:center;'>{{pre_settings.consent_info_popup_body}}</p>
+              </div>
+
+              <div class="" style=" float:left;width:40%;">
+                <button
+                style="font-weight: 600;color:{{gdpr_settings.consent_popup_doyou_font }}!important;background-color:{{gdpr_settings.consent_popup_doyou_background }}!important;"
+                ng-click="delayConsent()" class="button button-full button-positive">{{gdpr_settings.consent_popup_doyou_text}}</button>
+              </div>
+              <div class="" style="float:right;width:40%;">
+                <button
+                style="font-weight: 600;color:{{gdpr_settings.consent_popup_proceed_font }}!important;background-color:{{gdpr_settings.consent_popup_proceed_background }}!important;"
+                 ng-click="shareConsent()" class="button button-full button-positive">{{gdpr_settings.consent_popup_proceed_text}}</button>
+              </div>
+
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+  <!-- <script id="invitegdprwarning.html" type="text/ng-template">
+    <ion-modal-view style='top:20% !important;background:none !important'>
+      <ion-content style='height: fit-content !important;border-radius: 5px;background-color:#f7f7f7 !important'>
+        <div class="" style="padding:10px;">
+              <div class="" style="text-align:center;">
+                <img style="height:100px;" ng-src="{{gdpr_settings.invite_report_popup_file}}" alt="">
+              </div>
+              <div class="" style="text-align:center;">
+                <h3 style='font-weight: 700;color:black;'>{{gdpr_settings.invite_consent_warning_title}}</h3>                
+              </div>
+              <div class="">
+                <p style='font-weight: 500;color:gray;text-align:center;'>{{gdpr_settings.invite_consent_warning_body}}</p>
+              </div>
+              <div class="" style=" float:left;width:40%;">
+                <button
+                style="font-weight: 600;color:{{gdpr_settings.invite_consent_btn_discard_font }}!important;background-color:{{gdpr_settings.invite_consent_btn_discard_bg }}!important;"
+                ng-click="invitegdprwarrning(0)" class="button button-full button-positive">{{gdpr_settings.invite_consent_btn_discard_text}}</button>
+              </div>
+              <div class="" style="float:right;width:40%;">
+                <button
+                style="font-weight: 600;color:{{gdpr_settings.invite_consent_btn_under_font }}!important;background-color:{{gdpr_settings.invite_consent_btn_under_bg }}!important;"
+                ng-click="invitegdprwarrning(1)" class="button button-full button-positive">{{gdpr_settings.invite_consent_btn_under_text}}</button>
+              </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script> -->
+  <script id="newuserformmodal.html" type="text/ng-template">
+    <ion-modal-view style="top: 10%;width: 80%;left: 10%;min-height: 71% !important;">
+      <ion-header-bar class="bar bar-header bar-positive">
+        <h1 class="title">{{"Add New User" | translate}}</h1>
+        <button class="button button-clear button-primary" ng-click="modal.hide()">{{"Close" | translate }}</button>
+      </ion-header-bar>
+      <ion-content>
+      <form name="reportdetailform" ng-submit="saveNewUser()" style="border: 2px solid #387ef5;">
+        <div class="list">
+          <label style="padding-right:16px;" class="item item-input item-stacked-label">
+            <span class="input-label"  >{{"Name" | translate}}</span>
+            <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);" name="" type="text" ng-model="migareferencenewuser.firstname">
+          </label>
+          <label style="padding-right:16px;" class="item item-input item-stacked-label">
+            <span class="input-label"  >{{"Sur Name" | translate}}</span>
+            <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);" name="" type="text" ng-model="migareferencenewuser.lastname">
+          </label>
+          <label style="padding-right:16px;" class="item item-input item-stacked-label">
+            <span class="input-label"  >{{"Email" | translate}}</span>
+            <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);" name="" type="text" ng-model="migareferencenewuser.email">
+          </label>
+          <label style="padding-right:16px;" class="item item-input item-stacked-label">
+            <span class="input-label"  >{{"Mobile" | translate}}</span>
+            <input style="padding:20px;font-size:medium;border-radius:3px;border:1px solid rgb(169, 169, 169);" name="" type="text" ng-model="migareferencenewuser.mobile">
+          </label>
+          <button class="button button-full button-positive">{{"Save" | translate }}</button>
+        </div>
+      </form>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+</ion-view>

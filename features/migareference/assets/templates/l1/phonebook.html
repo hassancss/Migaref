@@ -1,0 +1,646 @@
+<ion-view
+  class="migareference-view module module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <ion-nav-title>{{ "PhoneBook" | translate }}</ion-nav-title>
+  <ion-content>
+    <div
+      class="tabs_container card"
+      style="border-radius: 0px; margin-bottom: 0px"
+    >
+      <div
+        class="{{tab1_css}}"
+        style="width: 33%; text-align: center; float: left; background: #faf9f9"
+        ng-click="tabs_shift(1)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-clipboard"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Referrers" | translate}}
+        </p>
+      </div>
+      <div
+        class="{{tab2_css}}"
+        style="width: 33%; text-align: center; float: left; background: #faf9f9"
+        ng-click="tabs_shift(2)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-clipboard"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Prospect" | translate}}
+        </p>
+      </div>
+      <div
+        class="{{tab3_css}}"
+        style="
+          width: 34%;
+          text-align: center;
+          float: right;
+          background: #faf9f9;
+        "
+        ng-click="tabs_shift(3)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-clipboard"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Contacts" | translate}}
+        </p>
+      </div>
+    </div>
+    <!-- Tabs 1 -->
+    <div class="tab1_content" ng-if="show_tab1_content">
+      <div style="height: 100%">
+        <div class="card" style="margin-top: 0px">
+          <div class="list" style="text-align: center">
+            <!-- Search filter -->
+            <div class="item item-custom">
+              <div class="col col-66" style="float: left">
+                <input
+                  type="text"
+                  class="input-text"
+                  ng-model="reffersearch"
+                  placeholder="{{'Search' | translate}}"
+                />
+              </div>
+              <div class="col col-33" style="float: left">
+                <button
+                  style="
+                    background-color: {{home_icos.phonebook_add_btn_bg_color}};
+                    color: {{home_icos.phonebook_add_btn_text_color}};
+                  "
+                  class="button-add"
+                  ng-click="addNewPhoneNumber(1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <!-- Filters in two rows -->
+            <div class="item item-custom">
+              <div class="col col-33" style="float: left">
+                <select
+                class="input-text"
+                ng-if="is_admin"
+                ng-model="filters.referrer_agent_group_id"
+                ng-options="agent.id as agent.name for agent in agent_group_collection"
+                ng-change="applyFilter()"
+              >
+              </select>
+              <select
+                class="input-text"
+                ng-if="is_agent"
+                ng-disabled="!is_allowed_full_phonebook"
+                ng-model="filters.referrer_full_phonebook_id"
+                ng-options="agent.id as agent.name for agent in agent_fullphonebook_collection"
+                ng-change="applyFilter()"
+              >
+              </select>
+              </div>
+              <div class="col col-33" style="float: left">
+                <select
+                  class="input-text"
+                  ng-change="applyFilter()"
+                  ng-model="referrerfilter.job_title"
+                  name="referrerfilter"
+                >
+                  <option
+                    ng-repeat="job in jobs_list"
+                    value="{{ job.job_title_copy | translate }}"
+                  >
+                    {{ job.job_title | translate }}
+                  </option>
+                </select>
+              </div>
+              <div class="col col-33" style="float: left">
+                <select
+                  class="input-text"
+                  ng-change="applyFilter()"
+                  ng-model="referrerfilter.profession_title"
+                  name="referrerfilter"
+                >
+                  <!-- <option value="">{{ "Profession" | translate }}</option> -->
+                  <option
+                    ng-repeat="profession in profession_list"
+                    value="{{ profession.profession_title_copy | translate }}"
+                  >
+                    {{ profession.profession_title | translate }}
+                  </option>
+                </select>
+              </div>              
+            </div>
+
+            <div class="item item-custom">
+              <div class="col col-33" style="float: left">
+                <select
+                  ng-change="applyFilter()"
+                  class="input-text"
+                  ng-model="referrerfilter.report_lifetime"
+                >
+                  <option value="">
+                    {{ "Life Time Reports" | translate }}
+                  </option>
+                  <option
+                    ng-repeat="rep_filter in reports_filter_list"
+                    value="{{ rep_filter.filter_id}}"
+                  >
+                    {{ rep_filter.report_limit | translate }}
+                  </option>
+                </select>
+              </div>
+              <div class="col col-33" style="float: left">
+                <select
+                  class="input-text"
+                  ng-change="applyFilter()"
+                  ng-model="referrerfilter.days_since_last_contact"
+                >
+                  <option value="">
+                    {{ "Days since last contact" | translate }}
+                  </option>
+                  <option
+                    ng-repeat="rep_filter in ref_filter_lastcontact"
+                    value="{{ rep_filter.filter_id}}"
+                  >
+                    {{ rep_filter.last_contact | translate }}
+                  </option>
+                </select>
+              </div>
+              <div class="col col-33" style="float: left">
+                <select
+                class="input-text"
+                ng-change="applyFilter()"
+                ng-model="referrerfilter.province_title"
+                name="referrerfilter"
+              >
+                <option
+                  ng-repeat="province in province_list"
+                  value="{{ province.province_title_copy | translate }}"
+                >
+                  {{ province.province_title | translate }}
+                </option>
+              </select>
+              </div>
+            </div>
+            <div class="item item-custom">
+              <div class="col col-33" style="float: left">
+                <select
+                  class="input-text"
+                  ng-change="applyFilter()"
+                  ng-model="referrerfilter.days_range_filter"
+                >
+                  <option value="">
+                    {{ "Range" | translate }}
+                  </option>
+                  <option
+                    ng-repeat="rep_filter in ref_filter_date_range"
+                    value="{{ rep_filter.filter_id}}"
+                  >
+                    {{ rep_filter.date_range | translate }}
+                  </option>
+                </select>
+              </div>
+              <div class="col col-33" style="float: left">
+                <select
+                  class="input-text"
+                  ng-change="ReferrerSortBy()"
+                  ng-model="referrerorderby.orderkey"
+                >                  
+                  <option
+                    ng-repeat="ref_filter in ref_sort_by_filter"
+                    value="{{ ref_filter.filter_id}}"
+                  >
+                    {{ ref_filter.sort_by | translate }}
+                  </option>
+                </select>                
+              </div>
+              <div class="col col-33" style="float: left">
+                <button
+                style="               
+                  background-color: {{home_icos.phonebook_reference_btn_bg_color}} !important;
+                  color: {{home_icos.phonebook_reference_btn_text_color}} !important;
+                "
+                class="button button-small button-all-ref"
+                ng-click="resetReferrerFilters()"
+              >
+                {{"Reset Filter" | translate}}
+              </button>
+              </div>
+            </div>
+            
+            <div class="row item item-custom">
+              <div class="col">
+                <p style="font-weight: 400;float: left;color: black;padding-top: 5px;">
+                  {{"Reference Level" | translate}}
+                </p>
+                <i
+                  ng-click="referrer_rating_filter(1)"
+                  class="icon ion-ios-star {{referrer_rating_class1}}"
+                  style="font-size: 30px"
+                ></i>
+                <i
+                  ng-click="referrer_rating_filter(2)"
+                  class="icon ion-ios-star {{referrer_rating_class2}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+                <i
+                  ng-click="referrer_rating_filter(3)"
+                  class="icon ion-ios-star {{referrer_rating_class3}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+                <i
+                  ng-click="referrer_rating_filter(4)"
+                  class="icon ion-ios-star {{referrer_rating_class4}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+                <i
+                  ng-click="referrer_rating_filter(5)"
+                  class="icon ion-ios-star {{referrer_rating_class5}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+                <i
+                  ng-click="referrer_rating_filter(0)"
+                  class="icon ion-ios-star {{referrer_rating_class0}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+              </div>              
+            </div>
+            <div class="row item item-custom" style="margin-top:0px;">
+              <div class="col">
+                <div style="float: right ;padding: 5px;border: 1px solid;border-radius: 5px;">
+                  <strong>{{"Showing" | translate}} {{filteredReferrerUsers.length}} {{"of" | translate}} {{totalReferrers.length}}</strong>
+                </div>
+              </div>
+              <!-- <div class="col">
+                <div style="float: right ;padding: 5px;border: 1px solid;border-radius: 5px;">
+                  <strong>{{"Load " | translate}}{{totalReferrers.length}} of {{grandtotalReferrers}}</strong>
+                </div>
+              </div>
+              <div class="col">
+                <button
+                style="               
+                  background-color: {{home_icos.phonebook_reference_btn_bg_color}} !important;
+                  color: {{home_icos.phonebook_reference_btn_text_color}} !important;
+                "
+                class="button button-small button-all-ref"
+                ng-click="loadReferrerPage()"
+              >
+                {{"Load More" | translate}}
+              </button>
+              </div> -->
+            </div>
+          </div>
+          <div class="list">
+            <div
+              class="item item-custom"
+              ng-repeat="item in filteredReferrerUsers | filter:reffersearch | orderBy:refPhoOrder"
+            >
+              <div class="" ng-click="phoneDetail({{item.id}})">
+                <h2 style="font-weight: 500; display: none">
+                  {{item.ratingfilter}}
+                </h2>
+                <div class="row">
+                  <div class="col-75">
+                    <span style="float:left;" ng-if="item.is_profiled">
+                      <img
+                        style="height: 20px;"
+                        ng-src="{{icon_list.profiled}}"
+                        alt=""
+                      />
+                    </span>
+                    <span style="float:left;" ng-if="!item.is_profiled">
+                      <img
+                        style="height: 20px;"
+                        ng-src="{{icon_list.not_profiled}}"
+                        alt=""
+                      />
+                    </span>
+                    <h2 style="font-weight: 500">{{item.name}}</h2>
+                  </div>
+                  <div class="col-25">
+                    <span style="right: 15px" class="badge badge-assertive"
+                      >{{item.lastcontact}}</span
+                    >
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-60">
+                    <p style="font-size: medium; padding-top: 12px">
+                      {{item.phone}}
+                    </p>
+                  </div>
+                  <div class="col-40" style="text-align: right">
+                    <span class="" ng-if="!item.is_terms_accepted">
+                      <img
+                        style="height: 28px; padding-top: 9px"
+                        ng-src="{{icon_list.terms_warrning}}"
+                        alt=""
+                      />
+                    </span>
+                    <span class=""> </span>
+                    <span class="">{{item.rating}}</span>
+                    <span class="">
+                      <img
+                        style="height: 28px; padding-top: 9px"
+                        ng-src="{{icon_list.star}}"
+                        alt=""
+                      />
+                    </span>
+                    <span class=""> </span>
+                    <span class="">{{item.total_reports}}</span>
+                    <span class="">
+                      <img
+                        style="height: 28px; padding-top: 9px"
+                        ng-src="{{icon_list.notepad}}"
+                        alt=""
+                      />
+                    </span>
+                    <span class=""> </span>
+                    <span class="">{{item.active_reports}}</span>
+                    <span class="">
+                      <img
+                        style="height: 28px; padding-top: 9px"
+                        ng-src="{{icon_list.fire}}"
+                        alt=""
+                      />
+                    </span>
+                  </div>
+                </div>
+                <div class="row" style="padding-right: 0px">
+                  <div class="col-100">
+                    <!-- <small style="float: right;padding-left: 10px;">{{item.created_at | translate}}</small> -->
+                    <small style="float: right; color: gray">{{item.job_title | translate}}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="filteredReferrerUsers.length==0">
+            <p style="text-align: center">{{"No data found" | translate}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Tabs 2 -->
+    <div class="tab2_content" ng-if="show_tab2_content">
+      <div style="height: 100%">
+        <div class="card" style="margin-top: 0px">
+          <div class="list" style="text-align: center">
+            <div class="item item-custom">
+              <div class="col col-66" style="float: left">
+                <input
+                  class="input-text"
+                  type="text"
+                  ng-model="prospectsearch"
+                  placeholder="{{'Search' | translate}}"
+                />
+              </div>
+              <div class="col col-33" style="float: left">
+                <button
+                  style="
+                    background-color: {{home_icos.phonebook_add_btn_bg_color}};
+                    color: {{home_icos.phonebook_add_btn_text_color}};
+                  "
+                  class="button-add"
+                  ng-click="addNewPhoneNumber(2)"
+                >
+                  {{"+" | translate}}
+                </button>
+              </div>
+            </div>
+            <div class="item item-custom">
+              <div class="col col-50" style="float: left">
+                <select
+                  class="input-text"
+                  ng-model="filters.prospect_agent_group_id"
+                  ng-options="agent.id as agent.name for agent in agent_group_collection"
+                  ng-change="AgentProspectFilter()"
+                  style="height: 41px"
+                ></select>
+              </div>
+              <div class="col col-50" style="float: left">
+                <select
+                  class="input-text"
+                  ng-model="prospectfilter.job_title"
+                  ng-change="addrefferalphone()"
+                  name="prospectfilter"
+                  style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+                >
+                  <option
+                    ng:repeat="job in jobs_list"
+                    value="{{ job.job_title_copy | translate }}"
+                  >
+                    {{ job.job_title | translate}}
+                  </option>
+                </select>
+              </div>
+            </div>           
+            <div class="row item item-custom">
+              <div class="col">
+                <p style="font-weight: 400;float: left;color: black;padding-top: 5px;">
+                  {{"Reference Level" | translate}}
+                </p>
+                <i
+                  ng-click="prospect_ratingstar_filter(1)"
+                  class="icon ion-ios-star {{prospect_rating_class1}}"
+                  style="font-size: 30px"
+                ></i>
+                <i
+                  ng-click="prospect_ratingstar_filter(2)"
+                  class="icon ion-ios-star {{prospect_rating_class2}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+                <i
+                  ng-click="prospect_ratingstar_filter(3)"
+                  class="icon ion-ios-star {{prospect_rating_class3}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+                <i
+                  ng-click="prospect_ratingstar_filter(4)"
+                  class="icon ion-ios-star {{prospect_rating_class4}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+                <i
+                  ng-click="prospect_ratingstar_filter(5)"
+                  class="icon ion-ios-star {{prospect_rating_class5}}"
+                  style="margin-left: 12px; font-size: 30px"
+                ></i>
+                <i
+                ng-click="prospect_ratingstar_filter(0)"
+                class="icon ion-ios-star {{prospect_rating_class0}}"
+                style="margin-left: 12px; font-size: 30px"
+              ></i>
+              </div>
+            </div>
+          </div>
+          <div class="list">
+            <div
+              class="item item-custom"
+              ng-repeat="item in filteredProspectUsers | filter:prospectsearch | filter:prospectfilter.job_title | filter:prospectfilter.ratingfilter"
+            >
+              <div class="" ng-click="phoneDetail({{item.id}})">
+                <div class="row">
+                  <div class="col-75">
+                    <h2 style="font-weight: 500; display: none">
+                      {{item.ratingfilter}}
+                    </h2>
+                    <h2 style="font-weight: 500">{{item.name}}</h2>
+                  </div>
+                  <div class="col-25">
+                    <span class="badge badge-assertive"
+                      >{{item.lastcontact}}</span
+                    >
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-75">
+                    <p style="font-size: medium">{{item.phone}}</p>
+                  </div>
+                  <div class="col-25">
+                    <small style="float: right; color: gray"
+                      >{{item.job_title | translate}}</small
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="filteredProspectUsers.length==0">
+            <p style="text-align: center">{{"No data found" | translate}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Tabs 3 -->
+    <div class="tab3_content" ng-if="show_tab3_content">
+      <div style="height: 100%">
+        <div class="card" style="margin-top: 0px">
+          <div class="list" style="text-align: center">
+            <div class="row item item-custom">
+              <div class="col">
+                <input
+                  class="input-text"
+                  type="text"
+                  ng-model="contactsearch"
+                  placeholder="{{'Search' | translate}}"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="list">
+            <div
+              class="item item-custom"
+              ng-repeat="item in contactphonebookcolleaction | filter:contactsearch"
+            >
+              <div class="">
+                <div class="row">
+                  <div class="col-75">
+                    <h2 style="font-weight: 500">{{item.name}}</h2>
+                  </div>
+                  <div class="col-25">
+                    <button
+                      class="button button-small button-dark"
+                      ng-click="transferReferrer(item.customer_id)"
+                      style="float: right"
+                    >
+                      {{"Transfer" | translate}}
+                    </button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-75">
+                    <p style="font-size: medium">{{item.phone}}</p>
+                  </div>
+                  <div class="col-25"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="contactphonebookcolleaction.length==0">
+            <p style="text-align: center">{{"No data found" | translate}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <style media="screen">
+    .active_tab {
+      border-bottom: 2px solid black;
+    }
+    .inactive_tab {
+      border-bottom: 0px solid black;
+    }
+    .active_tab > p {
+      opacity: 1;
+    }
+    .inactive_tab > p {
+      opacity: 0.4;
+    }
+    .active-rating {
+      color: {{home_icos.phonebooks_start_color}};
+    }
+    .inactive-rating {
+      color: #a9a9a9;
+    }
+    .active-rating-red {
+      color: #e80909;
+    }
+    .inactive-rating-red {
+      color: #a9a9a9;
+    }
+              /* Custom CSS for styling */
+              .input-text {
+                border: 1px solid #a9a9a9;
+                height: 35px !important;
+                width: 100%;
+                padding: 5px;
+                font-size: 11px !important;
+                border-radius: 3px;
+                background-color: white;
+              }
+
+              .button-reset {
+                background-color: #f8d578;
+                color:black;
+                border: none;
+                border-radius: 3px;
+                padding: 9px 20px;
+                font-size: 11px;
+                cursor: pointer;
+                width: 100%;
+                font-weight: 700;
+              }
+              .button-add {
+                background-color: #f8d578;
+                color:black;
+                border: none;
+                border-radius: 3px;
+                padding: 3px 20px;
+                font-size: 21px;
+                cursor: pointer;
+                width: 100%;
+                font-weight: 900;
+                }
+              .button-all-ref{
+                font-weight: 700;
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+                padding-top: 3px !important;
+                padding-bottom: 3px !important;
+                background-color: #f8d578 !important;
+                color:black !important;
+              }
+  </style>
+</ion-view>

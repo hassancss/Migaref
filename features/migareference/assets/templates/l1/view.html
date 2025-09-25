@@ -1,0 +1,514 @@
+<ion-view
+  class="migareference-view module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <!--START:Header-->
+  <ion-nav-title>{{ migareference.page_title | translate}}</ion-nav-title>
+  <!-- <ion-nav-buttons side="secondary">
+        <button  ng-click="goToHomePage()"
+                class="button button-clear header-item migareference-secondary-button">
+            <i class="icon ion-home"></i>
+        </button>
+    </ion-nav-buttons> -->
+  <!--END:Header-->
+  <!--START:Page COntent-->
+  <ion-content>
+    <!--START:Home page Content-->
+    <div ng-show="is_logged_in">
+      <div ng-if="!isadmin && !isagent" class="list card">
+        <!-- Balance Bar  -->
+        <div
+          class="item item-body home-sub-header-body"
+          style="background:{{home_icos.top_home_header_bg }} !important"
+        >
+          <h2
+            class="home-sub-header-text"
+            style="color:{{home_icos.top_home_header_text }} !important"
+          >
+            {{ home_data.top_content | translate}}
+          </h2>
+          <h2
+            ng-if="if_genrale_user"
+            class="home-sub-header-text"
+            style="color:{{home_icos.top_home_header_text }} !important"
+            ng-bind-html="home_data.commission_title"
+          ></h2>
+        </div>
+        <!-- How it works -->
+        <div
+          class="item item-body home-card-body how-it-bg-color"
+          ng-click="goToHowitworks()"
+          style="height:23%;background:{{home_icos.how_it_works_bg_color }} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.how_it_works_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.how_it_works_text_color }} !important"
+          >
+            {{home_icos.how_it_works_label | translate}}
+          </h2>
+        </div>
+        <!-- Qualification Reserved content section -->
+        <div
+          class="item item-body home-card-body how-it-bg-color"
+          ng-click="goToQlfReservedContent()"
+          style="height:23%;background:{{home_icos.qlf_box_bg_color}} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.qlf_cover_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.qlf_box_text_color }} !important"
+          >
+            {{home_icos.qlf_box_label | translate}}
+          </h2>
+        </div>
+        <!-- Add Report -->
+        <div
+          class="item item-body home-card-body add-report-bg-color"
+          ng-click="getPropertysettings(2)"
+          style="background:{{home_icos.add_property_bg_color }} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.add_property_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.add_property_text_color }} !important"
+          >
+            {{home_icos.add_property_box_label | translate}}
+          </h2>
+        </div>
+        <!-- Reffre Report -->
+        <div
+          ng-if="isagent || isadmin"
+          class="item item-body home-card-body referrer-report-bg-color"
+          ng-click="addReferrelreport()"
+          style="background: {{home_icos.referre_report_bg_color}} !important; position: relative;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{home_icos.referre_report_file}}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color: {{home_icos.referre_report_text_color}} !important"
+          >
+            {{home_icos.referre_report_box_label | translate}}
+          </h2>
+          <!-- Red Badge -->
+          <div
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              background-color: red;
+              color: white;
+              padding: 4px 8px;
+              border-radius: 50%;
+              font-size: 12px;
+              text-align: center;
+            "
+          >
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{home_icos.disable_file}}"
+            />
+          </div>
+        </div>
+
+        <!-- Report Status -->
+        <div
+          class="item item-body home-card-body status-report-bg-color"
+          ng-click="showreports()"
+          style="background:{{home_icos.report_status_bg_color }} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.report_status_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.report_status_text_color }} !important"
+          >
+            {{home_icos.report_status_box_label | translate}}
+            <span
+              ng-if="home_data.on_notification"
+              class="badge badge-assertive"
+              >{{home_data.total_notification}}</span
+            >
+          </h2>
+        </div>
+        <!-- Prize -->
+        <div
+          class="item item-body home-card-body prize-report-bg-color"
+          ng-click="showprizes()"
+          ng-if="showprizesmenu"
+          style="background:{{home_icos.prizes_box_bg_color }} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.prizes_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.prizes_box_text_color }} !important"
+          >
+            {{home_icos.prizes_box_label | translate}}
+          </h2>
+        </div>
+        <!-- Reminders -->
+        <div
+          class="item item-body home-card-body reminder-report-bg-color"
+          ng-click="showreminders()"
+          ng-if="isadmin"
+          style="background:{{home_icos.reminders_box_bg_color }} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.reminders_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.reminders_box_text_color }} !important"
+          >
+            {{home_icos.reminders_box_label | translate}}
+          </h2>
+        </div>
+        <!--PhoneBook-->
+        <div
+          class="item item-body home-card-body phonebook-report-bg-color"
+          ng-click="showphonebooks()"
+          ng-if="isadmin"
+          style="background:{{home_icos.phonebooks_box_bg_color }} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.phonebooks_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.phonebooks_box_text_color }} !important"
+          >
+            {{home_icos.phonebooks_box_label | translate}}
+          </h2>
+        </div>
+        <!--Statistics-->
+        <div
+          class="item item-body home-card-body statistic-report-bg-color"
+          ng-click="showstatistics()"
+          ng-if="isadmin"
+          style="background:{{home_icos.statistics_box_bg_color }} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.statistics_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.statistics_box_text_color }} !important"
+          >
+            {{home_icos.statistics_box_label | translate}}
+          </h2>
+        </div>
+        <!-- Settings -->
+        <div
+          class="item item-body home-card-body settings-bg-color"
+          ng-click="gotoSettings()"
+          style="background:{{home_icos.settings_bg_color }} !important;"
+        >
+          <img
+            style="background: none"
+            class="full-image home-image-background home-card-body-icon"
+            ng-src="{{ home_icos.settings_file }}"
+          />
+          <h2
+            class="home-list-padding home-card-body-text"
+            style="color:{{home_icos.settings_text_color }} !important"
+          >
+            {{home_icos.settings_box_label | translate}}
+          </h2>
+        </div>
+      </div>
+      <div ng-if="isadmin || isagent" class="list card">
+        <!-- Balance Bar  -->
+        <div
+          class="item item-body home-sub-header-body"
+          style="background:{{home_icos.top_home_header_bg }} !important"
+        >
+          <h2
+            class="home-sub-header-text"
+            style="color:{{home_icos.top_home_header_text }} !important"
+          >
+            {{ home_data.top_content | translate}}
+          </h2>
+          <h2
+            ng-if="if_genrale_user"
+            class="home-sub-header-text"
+            style="color:{{home_icos.top_home_header_text }} !important"
+            ng-bind-html="home_data.commission_title"
+          ></h2>
+        </div>
+        <!-- How it works -->
+        <div
+          ng-if="isagent || isadmin"
+          class="item item-body home-card-body referrer-report-bg-color"
+          ng-click="goToHowitworks()"
+          style="float:left;margin-bottom:2px;height:148px;overflow: hidden;margin-top:0px;width:49.5%;background:{{home_icos.how_it_works_bg_color  }} !important;"
+        >
+          <div style="position: relative">
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.how_it_works_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.how_it_works_text_color }} !important"
+            >
+              {{home_icos.how_it_works_label | translate}}
+            </h2>
+          </div>
+        </div>
+        <!-- Enroll URL  -->
+        <div
+          class="item item-body home-card-body status-report-bg-color"
+          ng-click="getPropertysettings(2)"
+          style="float:right;margin-bottom:2px;height:148px;margin-top:0px;width:49.5%;background:{{home_icos.enroll_url_box_bg_color}} !important;"
+        >
+          <div>
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{home_icos.enroll_url_cover_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.enroll_url_box_text_color  }} !important"
+            >
+              {{home_icos.enroll_url_box_label | translate}}
+            </h2>
+          </div>
+        </div>
+        <!-- Add Report -->
+        <!-- <div
+          class="item item-body home-card-body add-report-bg-color"
+        
+          style="float:right;margin-bottom:2px;height:148px;width:49.5%;background:{{home_icos.add_property_bg_color }} !important;"
+        >
+          <div>
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.add_property_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.add_property_text_color }} !important"
+            >
+              {{home_icos.add_property_box_label | translate}}
+            </h2>
+          </div>
+        </div> -->
+        <!-- Reffre Report -->
+        <div
+          ng-if="isagent || isadmin"
+          class="item item-body home-card-body referrer-report-bg-color"
+          ng-click="addReferrelreport()"
+          style="float:left;margin-bottom:2px;height:148px;overflow: hidden;margin-top:0px;width:49.5%;background:{{home_icos.referre_report_bg_color }} !important;"
+        >
+          <div style="position: relative">
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.referre_report_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.referre_report_text_color }} !important"
+            >
+              {{home_icos.referre_report_box_label | translate}}
+            </h2>
+            <!-- Disable Badge -->
+            <div
+              ng-if="enable_report_referrer_behalf"
+              style="
+                position: absolute;
+                top: -11px;
+                right: -15px;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 50%;
+                font-size: 12px;
+                text-align: center;
+              "
+            >
+              <img
+                style="background: none; width: 25px; height: 25px"
+                class="full-image home-image-background home-card-body-icon"
+                ng-src="{{home_icos.disable_file}}"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- Report Status -->
+        <div
+          class="item item-body home-card-body status-report-bg-color"
+          ng-click="showreports()"
+          style="float:right;margin-bottom:2px;height:148px;margin-top:0px;width:49.5%;background:{{home_icos.report_status_bg_color }} !important;"
+        >
+          <div>
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.report_status_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.report_status_text_color }} !important"
+            >
+              {{home_icos.report_status_box_label | translate}}
+              <span
+                ng-if="home_data.on_notification"
+                class="badge badge-assertive"
+                >{{home_data.total_notification}}</span
+              >
+            </h2>
+          </div>
+        </div>
+        <!-- Prize -->
+        <div
+          class="item item-body home-card-body prize-report-bg-color"
+          ng-click="showprizes()"
+          ng-if="showprizesmenu"
+          style="float:left;margin-bottom:2px;height:148px;margin-top:0px;width:49.5%;background:{{home_icos.prizes_box_bg_color }} !important;"
+        >
+          <div>
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.prizes_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.prizes_box_text_color }} !important"
+            >
+              {{home_icos.prizes_box_label | translate}}
+            </h2>
+          </div>
+        </div>
+        <!-- Reminders -->
+        <div
+          class="item item-body home-card-body reminder-report-bg-color"
+          ng-click="showreminders()"
+          style="float:right;margin-bottom:2px;height:148px;margin-top:0px;width:49.5%;background:{{home_icos.reminders_box_bg_color }} !important;"
+        >
+          <div>
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.reminders_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.reminders_box_text_color }} !important"
+            >
+              {{home_icos.reminders_box_label | translate}}
+            </h2>
+          </div>
+        </div>
+        <!--PhoneBook-->
+        <div
+          class="item item-body home-card-body phonebook-report-bg-color"
+          ng-click="showphonebooks()"
+          style="float:left;margin-bottom:2px;height:148px;margin-top:0px;width:49.5%;background:{{home_icos.phonebooks_box_bg_color }} !important;"
+        >
+          <div>
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.phonebooks_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.phonebooks_box_text_color }} !important"
+            >
+              {{home_icos.phonebooks_box_label | translate}}
+            </h2>
+          </div>
+        </div>
+        <!--Statistics-->
+        <div
+          class="item item-body home-card-body statistic-report-bg-color"
+          ng-click="showstatistics()"
+          style="float:right;margin-bottom:2px;height:148px;margin-top:0px;width:49.5%;background:{{home_icos.statistics_box_bg_color }} !important;"
+        >
+          <div>
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.statistics_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.statistics_box_text_color }} !important"
+            >
+              {{home_icos.statistics_box_label | translate}}
+            </h2>
+          </div>
+        </div>
+        <!-- Settings -->
+        <div
+          class="item item-body home-card-body settings-bg-color"
+          ng-click="gotoSettings()"
+          style="float:left;margin-bottom:2px;height:148px;margin-top:0px;width:49.5%;background:{{home_icos.settings_bg_color }} !important;"
+        >
+          <div>
+            <img
+              style="background: none"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ home_icos.settings_file }}"
+            />
+            <h2
+              class="home-list-padding home-card-body-text"
+              style="color:{{home_icos.settings_text_color }} !important"
+            >
+              {{home_icos.settings_box_label | translate}}
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--END:Home page Content-->
+    <!--START:Must login Panlae-->
+    <div class="card" ng-show="!is_logged_in">
+      <div class="item item-text-wrap item-custom">
+        <p>{{"You must be logged in to use this feature" | translate }}.</p>
+        <div class="button-bar bar-stable mtop">
+          <a class="button" ng-click="login();"
+            >{{"Click here to login" | translate }}</a
+          >
+        </div>
+      </div>
+    </div>
+    <!--END:Must login Panlae-->
+  </ion-content>
+  <!--END:Page COntent-->
+</ion-view>

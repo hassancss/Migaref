@@ -1,0 +1,48 @@
+<ion-view
+  class="migareference-view module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <ion-nav-title>
+    {{ (migareference.page_title || 'Level Two') | translate }}
+  </ion-nav-title>
+  <ion-content class="has-header">
+    <!-- Single Card -->
+    <div class="card" style="background: {{home_icos.qlf_box_bg_color}}">
+      <!-- Header -->
+
+      <div
+        class="item item-divider card-header"
+        style="color: {{home_icos.qlf_box_text_color}}; font-size:22px; text-align:center; font-weight:600; padding: 12px 0;"
+      >
+        {{home_icos.qlf_level_two_title}}
+      </div>
+
+      <!-- Image -->
+      <div
+        class="item item-image"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 200px;
+        "
+      >
+        <img
+          ng-src="{{home_icos.qlf_level_two_cover}}"
+          alt="Level Two Cover"
+          style="max-height: 100%; max-width: 100%"
+        />
+      </div>
+
+      <!-- Subtitle -->
+      <div class="item item-text-wrap" style="text-align: center; color: #444">
+        <p>{{home_icos.qlf_level_two_subtitle}}</p>
+      </div>
+    </div>
+    <!-- No Data -->
+    <div ng-if="!home_icos">
+      <p>No content available.</p>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,781 @@
+<ion-view
+  class="migareference-view module module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <ion-nav-title>{{ "Status" | translate }}</ion-nav-title>
+  <ion-content>
+    <div class="tabs_container">
+      <div
+        class="{{tab1_css}}"
+        style="width: 33.33%; text-align: center; float: left"
+        ng-click="tabs_shift(1)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-ios-briefcase"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Details" | translate}}
+        </p>
+      </div>
+      <div
+        class="{{tab2_css}}"
+        style="
+          width: 33.33%;
+          text-align: center;
+          float: right;
+          background: #faf9f9;
+        "
+        ng-click="tabs_shift(2)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-clipboard"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Notes" | translate}}
+        </p>
+      </div>
+      <div
+        class="{{tab3_css}}"
+        style="
+          width: 33.33%;
+          text-align: center;
+          float: right;
+          background: #faf9f9;
+        "
+        ng-click="tabs_shift(3)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="icon ion-bookmark"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Reminder" | translate}}
+        </p>
+      </div>
+    </div>
+    <div class="" ng-if="show_tab1_content">
+      <!--START: Details Tab Content -->
+      <div class="tab-content-container">
+        <form name="reportdetailform" ng-submit="updatePropertyreport()">
+          <div
+            class=""
+            ng-repeat="x in reports.all_reports"
+            ng-if="reports.all_reports.length"
+          >
+            <div
+              style="
+                padding-right: 20px;
+                padding-top: 60px;
+                width: 100% !important;
+              "
+            >
+              <div class="card" style="width: 100%">
+                <div class="item item-divider" style="text-align: center">
+                  {{home_icos.report_detail_status_card_title}}
+                </div>
+                <div
+                  class="item item-custom"
+                  style="padding-left: 0px; padding-right: 0px"
+                >
+                  <div class="row" style="padding: 0; text-align: center">
+                    <div ng-if="x.is_notarized"  ng-click="downloadCertificate(x.migareference_report_id)" class="col" style="cursor: pointer;text-align: center">
+                      <img
+                        style="height: 28px"
+                        ng-src="{{block_icon}}"
+                        alt=""
+                      />
+                      <p
+                        style="
+                          font-size: 9px;
+                          font-style: italic;
+                          margin-top: -6px;
+                        "
+                      >
+                        {{"Blockchain " | translate}} {{"Certified" |
+                        translate}}
+                      </p>
+                    </div>
+                    <div class="col" style="text-align: center">
+                      <div ng-if="enable_gdpr">
+                        <img
+                          style="height: 28px"
+                          ng-src="{{x.gdpr_icon}}"
+                          alt=""
+                        />
+                        <p
+                          style="
+                            font-size: 9px;
+                            font-style: italic;
+                            margin-top: -6px;
+                          "
+                        >
+                          {{x.gdpr_text}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="padding: 0; text-align: center">
+                    <div class="col card" style="margin: 6px 3px">
+                      <div class="row">
+                        <div class="col">
+                          <h3 class="">{{"Report NO" | translate}}</h3>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col" style="padding: 0">
+                          <h2 class="card-report-number">{{x.report_no}}</h2>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col card" style="margin: 6px 3px">
+                      <div class="row">
+                        <div class="col">
+                          <h3 class="">{{"Report Status" | translate}}</h3>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col" style="padding: 0">
+                          <h2 class="card-report-number">
+                            {{x.report_status}}
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="padding: 0; text-align: center">
+                    <div class="col card" style="margin: 6px 3px">
+                      <div class="row">
+                        <div class="col">
+                          <h3>{{"Created At" | translate}}</h3>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col" style="padding: 0">
+                          <h2 class="card-report-number">{{x.created_at}}</h2>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col card" style="margin: 6px 3px">
+                      <div class="row">
+                        <div class="col">
+                          <h3>{{"Updated At" | translate}}</h3>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col" style="padding: 0">
+                          <h2 class="card-report-number">
+                            {{x.last_modification_at}}
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Updated -->
+                </div>
+              </div>
+            </div>
+            <!-- Agent Detail -->
+            <div class="card list" ng-if="x.sponsorid">
+              <div class="item item-divider" style="text-align: center">
+                {{home_icos.report_detail_agent_card_title}}
+              </div>
+              <label style="" class="item item-stacked-label item-custom">
+                <span class="input-label">{{"Name" | translate}}*</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  name=""
+                  disabled
+                  value="{{x.sponsor_firstname}}"
+                />
+              </label>
+              <label style="" class="item item-stacked-label item-custom">
+                <span class="input-label">{{"Surname" | translate}}*</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  name=""
+                  disabled
+                  value="{{x.sponsor_lastname}}"
+                />
+              </label>
+              <label class="item item-stacked-label item-custom">
+                <span class="input-label">{{"Email" | translate}}*</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  name=""
+                  disabled
+                  value="{{x.sponsor_email}}"
+                />
+              </label>
+            </div>
+            <!-- Referrer Detail -->
+            <div class="card list">
+              <div class="item item-divider" style="text-align: center">
+                {{home_icos.report_detail_referrer_card_title}}
+              </div>              
+              <label class="item item-stacked-label item-custom">
+                <span class="input-label"
+                  >{{"Referral Name" | translate}}*</span
+                >
+                <input
+                  class="input-text"
+                  type="text"
+                  name=""
+                  disabled
+                  value="{{x.invoice_name}}"
+                />
+              </label>
+              <label class="item item-stacked-label item-custom">
+                <span class="input-label"
+                  >{{"Referral Surname" | translate}}*</span
+                >
+                <input
+                  class="input-text"
+                  type="text"
+                  name=""
+                  disabled
+                  value="{{x.invoice_surname}}"
+                />
+              </label>              
+              <div class="item item-stacked-label item-custom" style="position: unset;">                          
+                <span class="input-label">{{"Referral Mobile" | translate}}*</span><br>             
+                <div class="row" style="padding: 0;">
+                  <div class="col-60">
+                    <input
+                    class="input-text"
+                    type="text"
+                    name=""
+                    disabled
+                    value="{{x.refferal_mobile}}"
+                  />
+                  </div>
+                  <div class="col-20" style="text-align: center;">
+                    <button type="button" class="button" ng-click="phoneCall({{x.refferal_mobile}})" style="border: 1px solid #b6b6b6;min-height: 42px;">                      
+                        <i class="icon ion-ios-telephone" style="color: black;margin: 0;padding: 0;"></i>                                            
+                    </button>                    
+                  </div>
+                  <div class="col-20" style="text-align: center;">
+                    <button type="button"  ng-click="whatsappCall(x.refferal_mobile)" class="button" style="padding: 0;border: 1px solid #b6b6b6;min-height: 44px;padding-top: 8px;width: 44px;height: 44px;">                                            
+                        <img style="height: 25px;" alt="" ng-src="https://beta.migastone.com/app/local/modules/Migareference/resources/appicons/whatsapp-green.png" >                                            
+                    </button>
+                  </div>
+                </div> 
+              </div>
+            </div>
+            <div class="card list">
+              <div class="item item-divider" style="text-align: center">
+                {{home_icos.report_detail_form_card_title}}
+              </div>
+              <label class="item item-stacked-label item-custom">
+                <span class="input-label"
+                  >{{"Report Status" | translate}}*</span
+                >
+                <br />
+                <select
+                  class="input-text"
+                  ng-model="migareferenceformchange.currunt_report_status"
+                  name=""
+                  ng-change="status_change()"
+                  style="height: 41px"
+                >
+                  <option
+                    ng:repeat="stat in stasuses"
+                    value="{{ stat.migareference_report_status_id }}"
+                  >
+                    {{ stat.status_title }}
+                  </option>
+                </select>
+              </label>
+              <label
+                ng-show="is_comment"
+                class="item item-stacked-label item-custom"
+              >
+                <span class="input-label">{{"Comment" | translate}}*</span>
+                <textarea
+                  style="
+                    padding: 20px;
+                    font-size: medium;
+                    border: 1px solid rgb(169, 169, 169);
+                    border-radius: 3px;
+                  "
+                  name=""
+                  rows="4"
+                  cols="80"
+                  ng-model="migareferenceformchange.comment"
+                >
+                </textarea>
+              </label>
+              <label                
+                class="item item-stacked-label item-custom"
+                ng-show="set_commission_fee"
+              >
+                <span class="input-label">{{commission_title}}*</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  name=""
+                  ng-disabled="commission_fee_disabled"
+                  ng-model="migareferenceformchange.commission_fee"
+                  value=""
+                />
+                <input
+                  class="input-text"
+                  type="hidden"
+                  name=""
+                  ng-model="migareferenceformchange.owner_name"
+                  value=""
+                />
+                <input
+                  class="input-text"
+                  type="hidden"
+                  name=""
+                  ng-model="migareferenceformchange.reward_type"
+                  value=""
+                />
+                <input
+                  class="input-text"
+                  type="hidden"
+                  name=""
+                  ng-model="migareferenceformchange.owner_surname"
+                  value=""
+                />
+                <!-- This is previous acquired Status -->
+                <input
+                  class="input-text"
+                  type="hidden"
+                  name=""
+                  ng-model="migareferenceformchange.acquired"
+                  value=""
+                />
+                <!-- This is flag for Validation -->
+                <input
+                  class="input-text"
+                  type="hidden"
+                  name=""
+                  ng-model="migareferenceformchange.is_acquired"
+                  value=""
+                />
+                <input
+                  class="input-text"
+                  type="hidden"
+                  name=""
+                  ng-model="migareferenceformchange.standard_type"
+                  value=""
+                />
+                <input
+                  class="input-text"
+                  type="hidden"
+                  name=""
+                  ng-model="migareferenceformchange.comment_required"
+                  value=""
+                />
+              </label>
+              <!-- Owner mobile action buttons -->
+              <div class="row" style="padding: 0;position: absolute;z-index: 11;margin-left: 60%;margin-top:{{margin_setting}};" bis_skin_checked="1">                
+                <div class="col-20" style="text-align: center;" bis_skin_checked="1">
+                  <button type="button" class="button" ng-click="phoneCall(migareferenceformchange.owner_mobile)" style="border: 1px solid #b6b6b6;min-height: 42px;">
+                    <i class="icon ion-ios-telephone" style="color: black;margin: 0;padding: 0;"></i>
+                  </button>
+                </div>
+                <div class="col-20" style="text-align: center;" bis_skin_checked="1">
+                  <button type="button" ng-click="whatsappCall(migareferenceformchange.owner_mobile)" class="button" style="padding: 0;border: 1px solid #b6b6b6;min-height: 44px;padding-top: 8px;width: 44px;height: 44px;">
+                    <img style="height: 25px;" alt="" ng-src="{{whatsapp_icon}}" src="">
+                  </button>
+                </div>
+              </div>
+              <!-- Owner mobile action buttons -->
+              <div class="" compile-template ng-bind-html="form_builder"></div>
+              <div class="item item-custom">
+                <span class="">{{"How hot is the Contact?"| translate}}</span>
+                <div class="row" style="padding: 0px">
+                  <div class="col-20">
+                    <div class="" style="height: 100px; padding-top: 79px">
+                      <div
+                        class=""
+                        style="height: 20px; background-color: #fbd33e"
+                      ></div>
+                    </div>
+                    <div class="" style="width: 100%">
+                      <button
+                        ng-click="owneractiverNumber(1)"
+                        style="width: 100%; height: 25px"
+                        class="btn pile_1 {{active_class_1}}"
+                        type="button"
+                        name="button"
+                      >
+                        1
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-20">
+                    <div class="" style="height: 100px; padding-top: 59px">
+                      <div
+                        class=""
+                        style="height: 40px; background-color: #f7b13f"
+                      ></div>
+                    </div>
+                    <div class="" style="width: 100%">
+                      <button
+                        ng-click="owneractiverNumber(2)"
+                        style="width: 100%; height: 25px"
+                        class="btn pile_2 {{active_class_2}}"
+                        type="button"
+                        name="button"
+                      >
+                        2
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-20">
+                    <div class="" style="height: 100px; padding-top: 39px">
+                      <div
+                        class=""
+                        style="height: 60px; background-color: #f78d43"
+                      ></div>
+                    </div>
+                    <div class="" style="width: 100%">
+                      <button
+                        ng-click="owneractiverNumber(3)"
+                        style="width: 100%; height: 25px"
+                        class="btn pile_3 {{active_class_3}} "
+                        type="button"
+                        name="button"
+                      >
+                        3
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-20">
+                    <div class="" style="height: 100px; padding-top: 19px">
+                      <div
+                        class=""
+                        style="height: 80px; background-color: #f36a48"
+                      ></div>
+                    </div>
+                    <div class="" style="width: 100%">
+                      <button
+                        ng-click="owneractiverNumber(4)"
+                        style="width: 100%; height: 25px"
+                        class="btn pile_4 {{active_class_4}}"
+                        type="button"
+                        name="button"
+                      >
+                        4
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-20">
+                    <div class="" style="height: 100px">
+                      <div
+                        class=""
+                        style="height: 99px; background-color: #ee494d"
+                      ></div>
+                    </div>
+                    <div class="" style="width: 100%">
+                      <button
+                        ng-click="owneractiverNumber(5)"
+                        style="width: 100%; height: 25px"
+                        class="btn pile_5 {{active_class_5}} active"
+                        type="button"
+                        name="button"
+                      >
+                        5
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="map-view-container"
+                ng-if="enable_property_address_view"
+              >
+                <div
+                  style="height: 170px"
+                  id="appmetropolisv2-maps"
+                  class="map-canvas"
+                  data-tap-disabled="true"
+                ></div>
+              </div>
+              <div class="row item item-custom" style="padding: 12px">
+                <div class="col">
+                  <button
+                    class="button button-full button-positive"
+                    type="button"
+                    ng-click="discard()"
+                    name="button"
+                  >
+                    {{"Cancele" | translate}}
+                  </button>
+                </div>
+                <div class="col">
+                  <button
+                    class="button button-full button-positive"
+                    type="submit"
+                    name="button"
+                  >
+                    {{"Save" | translate}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--END: Details Tab Content -->
+    </div>
+    <div class="" ng-if="show_tab2_content">
+      <div style="background-color: white; height: 100%">
+        <div class="card" style="width: 97%; margin-left: 1.5%">
+          <div class="" style="width: 100%">
+            <button
+              style="float: right; margin-right: 13px; margin-top: 25px"
+              class="button button-small button-positive"
+              ng-click="createnote()"
+              name="button"
+            >
+              {{"Create Note" | translate}}
+            </button>
+          </div>
+          <div
+            style="
+              text-align: center;
+              font-weight: bold;
+              border-bottom: 2px solid;
+            "
+          >
+            <div class="row">
+              <div class="col">{{"Date" | translate}}</div>
+              <div class="col">{{"Note" | translate}}</div>
+              <div class="col">{{"Action" | translate}}</div>
+            </div>
+          </div>
+          <div class="list">
+            <div class="item" ng-repeat="item in notescollection">
+              <div class="row" style="text-align: center">
+                <div class="col col-33">{{item.date}}</div>
+                <div
+                  class="col col-42"
+                  style="
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  "
+                >
+                  {{item.note}}
+                </div>
+                <div class="col col-25">
+                  <button
+                    class="button button-small button-assertive"
+                    ng-click="deleteNote({{item.public_key}})"
+                    style="float: right"
+                  >
+                    <i class="icon ion-trash-a"></i>
+                  </button>
+                  <button
+                    class="button button-small button-positive"
+                    ng-click="editNote({{item.public_key}})"
+                    style="float: right; margin-right: 5px"
+                  >
+                    <i class="icon ion-edit"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="notescollection.length==0">
+            <p style="text-align: center">{{"No data found" | translate}}</p>
+          </div>
+        </div>
+      </div>
+      <!-- Notes Model -->
+      <script id="notesformmodal.html" type="text/ng-template">
+        <ion-modal-view>
+          <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">{{"Add Note" | translate}}</h1>
+            <button class="button button-clear button-primary" ng-click="modal.hide()">{{"Close" | translate }}</button>
+          </ion-header-bar>
+          <ion-content>
+          <form name="reportdetailform" ng-submit="saveNote()" >
+            <div class="list">
+              <label class="item  item-stacked-label item-custom" style="padding: 0px;">
+                <textarea style="padding:20px;font-size:medium;border:1px solid rgb(169,169,169);border-radius:3px;"  name="" ng-model="notefield.notes_content" rows="4" cols="80"></textarea>
+              </label>
+              <button class="button button-full button-positive">{{"Save" | translate }}</button>
+            </div>
+          </form>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+    </div>
+    <div class="" ng-if="show_tab3_content">
+      <div style="background-color: white; height: 100%">
+        <div class="card" style="width: 97%; margin-left: 1.5%">
+          <div class="" style="width: 100%">
+            <button
+              style="float: right; margin-right: 13px; margin-top: 25px"
+              class="button button-small button-positive"
+              ng-click="createreminder()"
+              name="button"
+            >
+              {{"Create Reminder" | translate}}
+            </button>
+          </div>
+          <div
+            style="
+              text-align: center;
+              font-weight: bold;
+              border-bottom: 2px solid;
+            "
+          >
+            <div class="row">
+              <div class="col col-33">{{"Event Date" | translate}}</div>
+              <div class="col col-42">{{"Type" | translate}}</div>
+              <div class="col col-25">{{"Action" | translate}}</div>
+            </div>
+          </div>
+          <div class="list">
+            <div class="item" ng-repeat="item in remindercollection">
+              <div class="row" style="text-align: center">
+                <div class="col col-33">{{item.date}}</div>
+                <div
+                  class="col col-42"
+                  style="
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  "
+                >
+                  <h3>{{item.type}}</h3>
+                  <p>{{item.reminder_}}</p>
+                </div>
+                <div class="col col-25">
+                  <button
+                    class="button button-small button-assertive"
+                    ng-click="deleteReminder({{item.public_key}})"
+                    style="float: right"
+                  >
+                    <i class="icon ion-trash-a"></i>
+                  </button>
+                  <button
+                    class="button button-small button-positive"
+                    ng-click="editReminder({{item.public_key}})"
+                    style="float: right; margin-right: 5px"
+                  >
+                    <i class="icon ion-edit"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="remindercollection.length==0">
+            <p style="text-align: center">{{"No data found" | translate}}</p>
+          </div>
+        </div>
+      </div>
+      <!-- Notes Model -->
+      <script id="reminderformmodal.html" type="text/ng-template">
+        <ion-modal-view style="top: 10%;width: 80%;left: 10%;min-height: 80% !important;">
+          <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">{{"Add Reminder" | translate}}</h1>
+            <button class="button button-clear button-primary" ng-click="modal.hide()">{{"Close" | translate }}</button>
+          </ion-header-bar>
+          <ion-content>
+          <form name="reportdetailform" ng-submit="saveReminder()" style="border: 2px solid #387ef5;">
+            <div class="list">
+              <label style="padding-right:16px;" class="item  item-stacked-label item-custom">
+                  <span class="input-label" style="color:black;" >{{"Event Type" | translate}}*</span>
+                  <br>
+                  <select class="input-text"   ng-model="reminderfields.event_type" name=""  style="height:41px;border-radius:3px;width:100%;" >
+                    <option ng:repeat="stat in remindertypecollection" value="{{ stat.migarefrence_report_reminder_types_id }}" >{{ stat.rep_rem_title }}</option>
+                  </select>
+              </label>
+              <label style="padding-right:0px;" class="item  item-stacked-label item-custom">
+                <span class="input-label" style="color:black;" >{{ "Select Event Date:" | translate}}*</span>
+                <div class="row" style="padding:0px">
+                  <div class="col" style="padding:0px">
+                        <select id="day" name="day" ng-change="eventChnage()" ng-model="reminderfields.event_day" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                            <option ng:repeat="day in daysdateday" value="{{ day.id }}" >{{ day.name }}</option>
+                        </select>
+                  </div>
+                  <div class="col" style="padding-top:0px">
+                        <select id="month" name="month" ng-change="eventChnage()" ng-model="reminderfields.event_month" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                            <option ng:repeat="month in months" value="{{ month.id }}" >{{ month.name }}</option>
+                        </select>
+                  </div>
+                  <div class="col" style="padding:0px;padding-right: 15px;">
+                        <select id="year" name="year" ng-change="eventChnage()" ng-model="reminderfields.event_year" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                            <option ng:repeat="year in reminder_years" value="{{ year.id }}" >{{ year.name }}</option>
+                        </select>
+                  </div>
+                </div>
+              </label>
+              <label style="padding-right:0px;" class="item  item-stacked-label item-custom">
+                <span class="input-label" style="color:black;" >{{ "Select Event Time:" | translate}}*</span>
+                <div class="row" style="padding:0px">
+                  <div class="col" style="padding:0px">
+                        <select id="hour" name="hour" ng-change="eventChnage()" ng-model="reminderfields.event_hour" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                            <option ng:repeat="hour in hours" value="{{ hour.id }}" >{{ hour.name }}</option>
+                        </select>
+                  </div>
+                  <div class="col" style="padding-top:0px;padding-right: 15px;">
+                        <select style="width:100%;padding:8px;border-radius:3px;font-size:medium"  id="minute" name="" ng-change="eventChnage()" ng-model="reminderfields.event_min" >
+                            <option ng:repeat="minute in minutes" value="{{ minute.id }}" >{{ minute.name }}</option>
+                        </select>
+                  </div>
+                </div>
+              </label>
+              <label style="padding-right:15px;" class="item  item-stacked-label item-custom">
+                <span class="input-label" style="color:black;" >{{ "Remind at" | translate}}*</span>
+                <div class="row" style="padding:0px">
+                  <div class="col" style="padding:0px">
+                      <select id="day" name="" ng-model="reminderfields.reminder_before_type"  style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                          <option ng:repeat="reminder_before in reminder_before_types" value="{{ reminder_before.id }}" >{{ reminder_before.name }}</option>
+                      </select>
+                  </div>
+                </div>
+              </label>
+              <label class="item  item-stacked-label item-custom" style="padding: 0px;">
+                <textarea style="padding:20px;font-size:medium;border:1px solid rgb(169,169,169);border-radius:3px;"  name="" ng-model="reminderfields.reminder_content" rows="4" cols="80"></textarea>
+              </label>
+              <button class="button button-full button-positive">{{"Save" | translate }}</button>
+            </div>
+          </form>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+    </div>
+  </ion-content>
+  <style media="screen">
+    .active_tab {
+      border-bottom: 2px solid black;
+      background: white;
+    }
+    .inactive_tab {
+      border-bottom: 0px solid black;
+    }
+    .active_tab > p {
+      opacity: 1;
+    }
+    .inactive_tab > p {
+      opacity: 0.4;
+    }
+
+    .active-rating {
+      color: {{home_icos.phonebooks_start_color}};
+    }
+    .inactive-rating {
+      color: #a9a9a9;
+    }
+  </style>
+</ion-view>

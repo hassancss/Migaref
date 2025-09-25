@@ -1,0 +1,1436 @@
+<?php
+
+
+
+
+
+
+
+class Migareference_Public_LicenseController extends Migareference_Controller_Default {
+
+
+
+
+
+
+
+    public $module = 'Migareference';
+
+
+
+
+
+
+
+    public function validateAction() {
+
+
+
+        $this->_sendHtml($this->_validatePlatformLicense());
+
+
+
+    }
+
+
+
+
+
+
+
+    private function _validatePlatformLicense() {
+
+
+
+        $base_url = "";
+
+
+
+        $activated = "";
+
+
+
+        $expiry = "";
+
+
+
+        $days = 0;
+
+
+
+        $info_message = "";
+
+
+
+        $success_message = "";
+
+
+
+        $is_platform = false;
+
+
+
+        $base = Core_Model_Directory::getBasePathTo("app/local/modules/" . $this->module);
+
+
+
+        if(file_exists($base ."/license.json")) {
+
+
+
+            $is_platform = true;
+
+
+
+            $license = $this->_readLicense();
+
+
+
+            $base_url = $license['base_url'];
+
+
+
+            $activated = $license['activated'];
+
+
+
+            $expiry = $license['expiry'];
+
+
+
+            if($this->_isExpired($expiry)) {
+
+
+
+                $info_message = "Your license has been expired on " . $expiry . "(READ ONLY ACTIVATED).";
+
+
+
+            } else {
+
+
+
+                $days = $this->_dateDays($activated, $expiry);
+
+
+
+                $success_message = 'Your license is active on the domain ' . $base_url . ' for ' . $days . ' days from ' . $activated . ' to ' . $expiry . '.';
+
+
+
+            }
+
+
+
+        } else {
+
+
+
+            $info_message = "No license found for this module.";
+
+
+
+        }
+
+
+
+
+
+
+
+        return [
+
+
+
+            "title" => __("Migareference"),
+
+
+
+            "icon" => "fa fa-home",
+
+
+
+            "base_url" => $base_url,
+
+
+
+            "activated" => $activated,
+
+
+
+            "expiry" => $expiry,
+
+
+
+            "days" => $days,
+
+
+
+            "is_platform" => $is_platform,
+
+
+
+            "info_message" => __($info_message),
+
+
+
+            "success_message" => __($success_message),
+
+
+
+        ];
+
+
+
+    }
+
+
+
+
+
+
+
+    private function _readLicense() {
+
+
+
+        $base = Core_Model_Directory::getBasePathTo("app/local/modules/" . $this->module);
+
+
+
+        $license_file = file_get_contents($base . "/license.json");
+
+
+
+        $license = json_decode($license_file, true);
+
+
+
+
+
+
+
+        return [
+
+
+
+            'base_url' => base64_decode(base64_decode($license['base_url'])),
+
+
+
+            'activated' => base64_decode(base64_decode($license['activated'])),
+
+
+
+            'expiry' => base64_decode(base64_decode($license['expiry'])),
+
+
+
+            'key' => base64_decode(base64_decode($license['license']))
+
+
+
+        ];
+
+
+
+    }
+
+
+
+
+
+
+
+    private function _isExpired($expiry) {
+
+
+
+        $today = date('Y-m-d');
+
+
+
+        $expiry = date('Y-m-d', strtotime($expiry));
+
+
+
+        $today_time = strtotime($today);
+
+
+
+        $expiry_time = strtotime($expiry);
+
+
+
+        return ($today_time > $expiry_time) ? true : false;
+
+
+
+    }
+
+
+
+
+
+
+
+    private function _dateDays($start, $end) {
+
+
+
+        $start = date_create($start);
+
+
+
+        $end = date_create($end);
+
+
+
+        $diff = date_diff($start, $end);
+
+
+
+        return $diff->format("%a");
+
+
+
+    }
+
+
+
+
+
+
+
+    public function saveAction() {
+
+
+
+        if($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
+
+
+
+            try {
+
+
+
+                if(empty($data["key"])) {
+
+
+
+                    throw new Exception("License key cannot be empty.");
+
+
+
+                }
+
+
+
+                if(strlen($data["key"]) < 36 || substr_count ($data["key"], '-') < 1) {
+
+
+
+                    throw new Exception("License key is invalid.");
+
+
+
+                }
+
+
+
+                $message = "";
+
+
+
+                $base = Core_Model_Directory::getBasePathTo("app/local/modules/" . $this->module);
+
+
+
+                if(file_exists($base . "/package.json")) {
+
+
+
+                    $package_file = file_get_contents($base . "/package.json");
+
+
+
+                    $package = json_decode($package_file, true);
+
+
+
+                    $options = array(
+
+
+
+                        'http' => array(
+
+
+
+                            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+
+
+
+                            'method'  => 'POST',
+
+
+
+                            'content' => http_build_query([
+
+
+
+                                'license' => $data["key"],
+
+
+
+                                'base_url' => Zend_Controller_Front::getInstance()->getBaseUrl(),
+
+
+
+                                'module' => $package['name'],
+
+
+
+                                'version' => $package['version'],
+
+
+
+                                'license_type' => 'platform'
+
+
+
+                            ])
+
+
+
+                        )
+
+
+
+                    );
+
+
+
+                    $context = stream_context_create($options);
+
+
+
+                    $response = file_get_contents('https://licenses.migastone.com/validate-license', false, $context);
+
+
+
+                    if ($response === FALSE) {
+
+
+
+                        throw new Exception("Unable to connect to the license server.");
+
+
+
+                    } else {
+
+
+
+                        $response = json_decode($response, true);
+
+
+
+                        switch($response['success']) {
+
+
+
+                            case 1:
+
+
+
+                            case 2:
+
+
+
+                                    $message = $response['message'];
+
+
+
+                                    unset($response['success']);
+
+
+
+                                    unset($response['message']);
+
+
+
+                                    $fp = fopen($base . "/license.json", 'w+');
+
+
+
+                                    fwrite($fp, json_encode($response, JSON_PRETTY_PRINT));
+
+
+
+                                    fclose($fp);
+
+
+
+                                    if(file_exists($base . "/app_licenses.json")) {
+
+
+
+                                        unlink($base ."/app_licenses.json");
+
+
+
+                                    }
+
+
+
+                                break;
+
+
+
+                            default:
+
+
+
+                                throw new Exception($response['message']);
+
+
+
+                        }
+
+
+
+                    }
+
+
+
+                }
+
+
+
+                $data = [
+
+
+
+                    "success" => 1,
+
+
+
+                    "message" => __($message)
+
+
+
+                ];
+
+
+
+            } catch(Exception $e) {
+
+
+
+                $data = [
+
+
+
+                    "error" => 1,
+
+
+
+                    "message" => $e->getMessage()
+
+
+
+                ];
+
+
+
+            }
+
+
+
+            $this->_sendHtml($data);
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+    public function disableAction() {
+
+
+
+        $message = "";
+
+
+
+        $success = 0;
+
+
+
+        if($token = $this->getRequest()->getParam('token')) {
+
+
+
+            $license_type = $this->getRequest()->getParam('license_type');
+
+
+
+            $base = Core_Model_Directory::getBasePathTo("app/local/modules/" . $this->module);
+
+
+
+            if($license_type == 'platform') {
+
+
+
+                if(file_exists($base ."/license.json")) {
+
+
+
+                    $license = $this->_readLicense();
+
+
+
+                    $base_url = base64_encode(base64_encode($license['base_url']));
+
+
+
+                    $expiry = $license['expiry'];
+
+
+
+                    if($base_url == $token) {
+
+
+
+                        if($this->_isExpired($expiry)) {
+
+
+
+                            unlink($base ."/license.json");
+
+
+
+                            $message = "Module is expired and license is deleted.";
+
+
+
+                            $success = 1;
+
+
+
+                        } else {
+
+
+
+                            $message = "Module is active.";
+
+
+
+                        }
+
+
+
+                    } else {
+
+
+
+                        $message = "Invalid token.";
+
+
+
+                    }
+
+
+
+                } else {
+
+
+
+                    $message = "No license found for this module.";
+
+
+
+                }
+
+
+
+            } else {
+
+
+
+                if(file_exists($base . "/app_licenses.json")) {
+
+
+
+                    $app_licenses = json_decode(file_get_contents($base . "/app_licenses.json"), true);
+
+
+
+                    if(count($app_licenses)) {
+
+
+
+                        $app_id = $this->getRequest()->getParam('app_id');
+
+
+
+                        foreach($app_licenses as $app_license_key => $app_license) {
+
+
+
+                            if($app_id == base64_decode(base64_decode($app_license['app_id']))) {
+
+
+
+                                $base_url = base64_decode(base64_decode($app_license['base_url']));
+
+
+
+                                $expiry = base64_decode(base64_decode($app_license['expiry']));
+
+
+
+                                if($base_url == $token) {
+
+
+
+                                    if($this->_isExpired($expiry)) {
+
+
+
+                                        unset($app_licenses[$app_license_key]);
+
+
+
+                                        $message = "Module is expired and license is deleted for the app.";
+
+
+
+                                        $success = 1;
+
+
+
+                                    } else {
+
+
+
+                                        $message = "Module is active for the app.";
+
+
+
+                                    }
+
+
+
+                                } else {
+
+
+
+                                    $message = "Invalid app token.";
+
+
+
+                                }
+
+
+
+                            }
+
+
+
+                        }
+
+
+
+                        if($success) {
+
+
+
+                            $json_data = json_encode($app_licenses, JSON_PRETTY_PRINT);
+
+
+
+                            file_put_contents($base . "/app_licenses.json", $json_data);
+
+
+
+                        }
+
+
+
+                    }
+
+
+
+                } else {
+
+
+
+                    $message = "No app license found for this module.";
+
+
+
+                }
+
+
+
+            }
+
+
+
+        } else {
+
+
+
+            $message = "No token sent.";
+
+
+
+        }
+
+
+
+
+
+
+
+        $this->_sendHtml([
+
+
+
+            "success" => $success,
+
+
+
+            "message" => __($message),
+
+
+
+        ]);
+
+
+
+    }
+
+
+
+
+
+
+
+    public function validateapplicenseAction() {
+
+
+
+        if ($app_id = $this->getRequest()->getParam('app_id')) {
+
+
+
+            $license = $this->_validatePlatformLicense();
+
+
+
+            if(!$license['is_platform']) {
+
+
+
+                $info_message = 'No license found for this module.';
+
+
+
+                $success_message = '';
+
+
+
+                $base = Core_Model_Directory::getBasePathTo("app/local/modules/" . $this->module);
+
+
+
+                if(file_exists($base . "/app_licenses.json")) {
+
+
+
+                    $app_licenses = json_decode(file_get_contents($base . "/app_licenses.json"), true);
+
+
+
+                    if(count($app_licenses)) {
+
+
+
+                        foreach($app_licenses as $app_license_key => $app_license) {
+
+
+
+                            $license_app_id = base64_decode(base64_decode($app_license['app_id']));
+
+
+
+                            if($app_id == $license_app_id) {
+
+
+
+                                $expiry = base64_decode(base64_decode($app_license['expiry']));
+
+
+
+                                $base_url = base64_decode(base64_decode($app_license['base_url']));
+
+
+
+                                $activated = base64_decode(base64_decode($app_license['activated']));
+
+
+
+                                if($this->_isExpired($expiry)) {
+
+
+
+                                    $info_message = "Your license has been expired on " . $expiry . "(READ ONLY ACTIVATED).";
+
+
+
+                                } else {
+
+
+
+                                    $days = $this->_dateDays($activated, $expiry);
+
+
+
+                                    $success_message = 'Your license is active on the domain ' . $base_url . ' for ' . $days . ' days from ' . $activated . ' to ' . $expiry . '.';
+
+
+
+                                    $info_message = '';
+
+
+
+                                }
+
+
+
+                                break;
+
+
+
+                            }
+
+
+
+                        }
+
+
+
+                    }
+
+
+
+                }
+
+
+
+                $license = [
+
+
+
+                    "is_platform" => false,
+
+
+
+                    "info_message" => __($info_message),
+
+
+
+                    "success_message" => __($success_message),
+
+
+
+                ];
+
+
+
+            }
+
+
+
+        }
+
+
+
+        $this->_sendHtml($license);
+
+
+
+    }
+
+
+
+
+
+
+
+    public function saveapplicenseAction() {
+
+
+
+        if ($data = $this->getRequest()->getPost()) {
+
+
+
+            try {
+
+
+
+                if(empty($data["key"])) {
+
+
+
+                    throw new Exception("License key cannot be empty.");
+
+
+
+                }
+
+
+
+                if(strlen($data["key"]) < 36 || substr_count ($data["key"], '-') < 1) {
+
+
+
+                    throw new Exception("License key is invalid.");
+
+
+
+                }
+
+
+
+                $message = "";
+
+
+
+                $base = Core_Model_Directory::getBasePathTo("app/local/modules/" . $this->module);
+
+
+
+                if(file_exists($base . "/package.json")) {
+
+
+
+                    $package_file = file_get_contents($base . "/package.json");
+
+
+
+                    $package = json_decode($package_file, true);
+
+
+
+                    $options = array(
+
+
+
+                        'http' => array(
+
+
+
+                            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+
+
+
+                            'method'  => 'POST',
+
+
+
+                            'content' => http_build_query([
+
+
+
+                                'license' => $data["key"],
+
+
+
+                                'base_url' => Zend_Controller_Front::getInstance()->getBaseUrl(),
+
+
+
+                                'module' => $package['name'],
+
+
+
+                                'version' => $package['version'],
+
+
+
+                                'license_type' => 'per-app',
+
+
+
+                                'app_id' => $data['app_id']
+
+
+
+                            ])
+
+
+
+                        )
+
+
+
+                    );
+
+
+
+                    $context = stream_context_create($options);
+
+
+
+                    $response = file_get_contents('https://licenses.migastone.com/validate-license', false, $context);
+
+
+
+                    if ($response === FALSE) {
+
+
+
+                        throw new Exception("Unable to connect to the license server.");
+
+
+
+                    } else {
+
+
+
+                        $response = json_decode($response, true);
+
+
+
+                        switch($response['success']) {
+
+
+
+                            case 1:
+
+
+
+                            case 2:
+
+
+
+                                    $message = $response['message'];
+
+
+
+                                    unset($response['success']);
+
+
+
+                                    unset($response['message']);
+
+
+
+                                    if(file_exists($base . "/app_licenses.json")) {
+
+
+
+                                        $app_licenses = json_decode(file_get_contents($base . "/app_licenses.json"));
+
+
+
+                                        if(count($app_licenses)) {
+
+
+
+                                            foreach($app_licenses as $app_license_key => $app_license) {
+
+
+
+                                                if($data['app_id'] == base64_decode(base64_decode($app_license['app_id']))) {
+
+
+
+                                                    unset($app_licenses[$app_license_key]);
+
+
+
+                                                }
+
+
+
+                                            }
+
+
+
+                                        }
+
+
+
+                                        array_push($app_licenses, $response);
+
+
+
+                                        $json_data = json_encode($app_licenses, JSON_PRETTY_PRINT);
+
+
+
+                                        file_put_contents($base . "/app_licenses.json", $json_data);
+
+
+
+                                    } else {
+
+
+
+                                        $data_array[] = $response;
+
+
+
+                                        $fp = fopen($base . "/app_licenses.json", 'w+');
+
+
+
+                                        fwrite($fp, json_encode($data_array, JSON_PRETTY_PRINT));
+
+
+
+                                        fclose($fp);
+
+
+
+                                    }
+
+
+
+                                break;
+
+
+
+                            default:
+
+
+
+                                throw new Exception($response['message']);
+
+
+
+                        }
+
+
+
+                    }
+
+
+
+                }
+
+
+
+                $data = [
+
+
+
+                    'success' => true,
+
+
+
+                    "message" => __($message),
+
+
+
+                    'message_timeout' => 0,
+
+
+
+                    'message_button' => 0,
+
+
+
+                    'message_loader' => 0
+
+
+
+                ];
+
+
+
+            } catch(Exception $e) {
+
+
+
+                $data = [
+
+
+
+                    'error' => true,
+
+
+
+                    'message' => $e->getMessage(),
+
+
+
+                    'message_button' => 1,
+
+
+
+                    'message_loader' => 1
+
+
+
+                ];
+
+
+
+            }
+
+
+
+
+
+
+
+            $this->_sendJson($data);
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+    public function applicensesAction() {
+
+
+
+        $info_message = '';
+
+
+
+        $success_message = '';
+
+
+
+        $base = Core_Model_Directory::getBasePathTo("app/local/modules/" . $this->module);
+
+
+
+        if(file_exists($base . "/app_licenses.json")) {
+
+
+
+            $app_licenses = json_decode(file_get_contents($base . "/app_licenses.json"), true);
+
+
+
+            $data = [];
+
+
+
+            if(count($app_licenses)) {
+
+
+
+                foreach($app_licenses as $app_license_key => $app_license) {
+
+
+
+                    $application = new Application_Model_Application();
+
+
+
+                    $application->find(base64_decode(base64_decode($app_license['app_id'])));
+
+
+
+                    $data[] = [
+
+
+
+                        'app_id' => base64_decode(base64_decode($app_license['app_id'])),
+
+
+
+                        'app_name' => $application->getName(),
+
+
+
+                        'activated' => str_replace('-', '/', date('d-m-Y', strtotime(base64_decode(base64_decode($app_license['activated']))))),
+
+
+
+                        'expiry' => str_replace('-', '/', date('d-m-Y', strtotime(base64_decode(base64_decode($app_license['expiry']))))),
+
+
+
+                        'status' => $this->_isExpired(base64_decode(base64_decode($app_license['expiry']))) ? __('Expired') : __('Active'),
+
+
+
+                    ];
+
+
+
+                }
+
+
+
+            }
+
+
+
+        }
+
+
+
+        $licenses = [
+
+
+
+            "info_message" => __($info_message),
+
+
+
+            "success_message" => __($success_message),
+
+
+
+            "app_licenses" => $data,
+
+
+
+        ];
+
+
+
+        $this->_sendHtml($licenses);
+
+
+
+    }
+
+
+
+
+
+
+
+}
+
+
+

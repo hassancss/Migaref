@@ -1,0 +1,99 @@
+<ion-view class="module-migareference migareference migareference-list l1"
+          sb-page-background>
+    <ion-nav-title>{{"Redeem Prizes" | translate}}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-if="listview" ng-click="nextFormat(true)"
+                class="button button-clear header-item migareference-secondary-button">
+                <i class="icon" ng-class="currentFormatBtn"></i>
+        </button>
+        <button ng-if="listview"  ng-click="goToHomePage()"
+                class="button button-clear header-item migareference-secondary-button">
+                <i class="icon ion-home" ng-class=""></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content>
+      <div class="item item-body home-sub-header-body" style="margin-top:48px;background:{{home_icos.top_prize_header_bg}} !important;">
+        <h2 class="home-sub-header-text" style="color:{{home_icos.top_prize_header_text }}!important">{{ "Your Credits are:" | translate}}{{credit_balance}}</h2>
+      </div>
+      <div>
+          <div class="places">
+              <div ng-repeat="item in collection"
+                   ng-click="showItem(item)"
+                   ng-class="currentFormat"
+                   class="place">
+                  <div ng-if="currentFormat == 'place-33'">
+                      <div class="card">
+                          <div class="image"
+                               ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
+                          </div>
+                          <div class="text">
+                              <p class="title">{{ item.prize_name }}</p>
+                              <p class="subtitle">{{ item.redeemed_at }}</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div ng-if="currentFormat == 'place-50'">
+                      <div class="card">
+                          <div class="image"
+                               ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
+                          </div>
+                          <div class="text">
+                              <p class="title">{{ item.prize_name}}</p>
+                              <p ng-if="item.prize_description"
+                                 ng-bind-html="item.prize_description"
+                                 class="subtitle"></p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div ng-if="currentFormat == 'place-100'">
+                      <div class="card">
+                          <div class="sb-row">
+                              <div class="sb-col-20">
+                                  <div class="image"
+                                       ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
+                                  </div>
+                              </div>
+                              <div class="sb-col-60">
+                                  <div class="text">
+                                      <p class="title">{{ item.prize_name }}</p>
+                                      <p ng-if="item.prize_description"
+                                         ng-bind-html="item.prize_description"
+                                         class="subtitle"></p>
+                                  </div>
+                              </div>
+                              <div class="sb-col-20 distance-flex">
+                                  <span class="distance">
+                                      {{ item.credits_number }}
+                                      <br />
+                                      <span class="unit">{{ "Credits" | translate }}</span>
+                                  </span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+          <div class="card"
+               ng-if="!collection.length && !is_loading">
+              <div class="item item-custom">
+                  {{ "No results!" | translate }}
+              </div>
+          </div>
+      </div>
+    </ion-content>
+    <ion-tabs delegate-handle="my-handle" class="tabs-stable tabs-icon-top  tabs-bottom tabs-stripped">
+      <ion-tab ng-click="gotoshop()"  title="{{'Prizes Shop' | translate}}" icon="ion-ios-briefcase">
+        <!-- Tab 1 content -->
+      </ion-tab>
+      <ion-tab  ng-click="gotoLedger()" title="{{'Credits Ledger' | translate}}" icon="icon ion-clipboard">
+        <!-- Tab 2 content -->
+      </ion-tab>
+      <ion-tab  title="{{'Your Prizes' | translate}}"  icon="ion-bookmark">
+        <!-- Tab 3 content -->
+      </ion-tab>
+    </ion-tabs>
+</ion-view>

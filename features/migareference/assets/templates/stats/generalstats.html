@@ -1,0 +1,671 @@
+<ion-view
+  class="migareference-view module module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <ion-nav-title>{{ "Migareference Stats" | translate }}</ion-nav-title>
+  <ion-content>
+    <div class="tabs_container">
+      <div
+        class="{{tab1_css}}"
+        style="width: 33%; text-align: center; float: left; background: #faf9f9"
+        ng-click="tabs_shift(1)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="ion-arrow-graph-up-right"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"General" | translate}}
+        </p>
+      </div>
+      <div
+        class="{{tab2_css}}"
+        style="width: 33%; text-align: center; float: left; background: #faf9f9"
+        ng-click="tabs_shift(2)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="ion-arrow-graph-up-right"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Agent" | translate}}
+        </p>
+      </div>
+      <div
+        class="{{tab3_css}}"
+        style="
+          width: 34%;
+          text-align: center;
+          float: right;
+          background: #faf9f9;
+        "
+        ng-click="tabs_shift(3)"
+      >
+        <p class="" style="padding-top: 4px; margin-bottom: 0px">
+          <i
+            class="ion-arrow-graph-up-right"
+            style="color: black; font-size: 30px"
+          ></i>
+        </p>
+        <p style="margin-bottom: 2px; font-size: small">
+          {{"Referrers" | translate}}
+        </p>
+      </div>
+    </div>
+    <!-- Tabs 1 -->
+    <div class="tab1_content" ng-if="show_tab1_content">
+      <div style="background-color: white; height: 100%"></div>
+      <!-- Filters -->
+      <div class="" style="padding-right: 20px">
+        <div class="card" style="width: 100%">
+          <div class="list">
+            <div class="item item-custom">
+              <div class="" style="float: left; width: 33%">
+                <select
+                  class="input-text"
+                  ng-change="AgentProspectFilter()"
+                  style="height: 41px"
+                >
+                  <option value="">Referrer</option>
+                </select>
+              </div>              
+              <div class="" style="float: left; width: 33%">
+                
+                <select
+                  class="input-text"
+                  ng-model="general_stat_filter.custom_range"
+                  ng-change="generalFilterChnage()"
+                  style="height: 41px; border: 1px solid rgb(169, 169, 169)"
+                >
+                    <option value="1">Last 30 Days</option>
+                    <option value="2">Last 3 Months</option>
+                    <option value="3">Last 6 Months</option>
+                    <option value="4">Current Year</option>
+                    <option value="5">Last Year</option>
+                    <option value="6">All</option>
+                    <option style="font-weight:600" value="100">Custom Range</option>
+                </select>
+              </div>
+              <div class="" style="float: left; width: 33%">
+                <button                  
+                  class="button-reset"
+                  ng-click="resetReferrerFilters()"
+                >
+                  Apply Filter
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- Stat Categoris -->
+        <div class="card">
+          <div class="lsit">
+            <div class="item item-custom">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <div class="widget" ng-click="resetReferrerFilters()">
+                      <div class="widget-content text-center">
+                        <div class="media">
+                          <img
+                            src="https://beta.migastone.com/app/local/modules/Migareference/resources/appicons/ref_user.png"
+                            class="mr-2 cat-widget-icon"
+                            alt="User Icon"
+                          />
+                          <div class="media-body">
+                            <h4 class="cat-widget-label">Referrer</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="widget" ng-click="changeBorderColor(this)">
+                      <div class="widget-content text-center">
+                        <div class="media">
+                          <img
+                            src="https://beta.migastone.com/app/local/modules/Migareference/resources/appicons/reminder_cat.png"
+                            class="mr-2 cat-widget-icon"
+                            alt="User Icon"
+                          />
+                          <div class="media-body">
+                            <h4 class="cat-widget-label">Reminder</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="widget" ng-click="changeBorderColor(this)">
+                      <div class="widget-content text-center">
+                        <div class="media">
+                          <img
+                            src="https://beta.migastone.com/app/local/modules/Migareference/resources/appicons/report.png"
+                            class="mr-2 cat-widget-icon"
+                            alt="User Icon"
+                          />
+                          <div class="media-body">
+                            <h4 class="cat-widget-label">Reports</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="widget" ng-click="changeBorderColor(this)">
+                      <div class="widget-content text-center">
+                        <div class="media">
+                          <img
+                            src="https://beta.migastone.com/app/local/modules/Migareference/resources/appicons/agent.png"
+                            class="mr-2 cat-widget-icon"
+                            alt="User Icon"
+                          />
+                          <div class="media-body">
+                            <h4 class="cat-widget-label">Agent</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- COUNT widgets -->
+        <div class="card">
+          <div class="list">
+            <div class="item item-divider card-title">
+              Referrers (From: 2023-06-10 To: 2023-07-11)
+            </div>
+            <div class="item item-custom">
+              <div class="row">
+                <div
+                  class="col"
+                  style="
+                    background-color: #f7f7f7;
+                    border-radius: 5px;
+                    margin: 5px 5px;
+                    width: 125px;
+                    padding: 5px;
+                  "
+                >
+                  <div class="widget-header" style="text-align: center">
+                    <h4 class="widget-title" style="font-size: 14px; margin: 0">
+                      No. Referrers
+                    </h4>
+                  </div>
+                  <div class="widget-content" style="text-align: center">
+                    <h2
+                      class="widget-count"
+                      style="font-size: 36px; margin-bottom: 0"
+                    >
+                      60
+                    </h2>
+                    <div
+                      class=""
+                      style="align-items: center; justify-content: center"
+                    >
+                      <span
+                        class="percentage-arrow up"
+                        style="color: green; margin-right: 5px"
+                      ></span>
+                      <span class="percentage-value" style="color: green"
+                        >60%</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="widget col"
+                  style="
+                    background-color: #f7f7f7;
+                    border-radius: 5px;
+                    margin: 5px 5px;
+                    width: 125px;
+                    padding: 5px;
+                  "
+                >
+                  <div class="widget-header" style="text-align: center">
+                    <h4 class="widget-title" style="font-size: 14px; margin: 0">
+                      5 Star Referrers
+                    </h4>
+                  </div>
+                  <div class="widget-content" style="text-align: center">
+                    <h2
+                      class="widget-count"
+                      style="font-size: 36px; margin-bottom: 0"
+                    >
+                      60
+                    </h2>
+                    <div
+                      class=""
+                      style="align-items: center; justify-content: center"
+                    >
+                      <span
+                        class="percentage-arrow up"
+                        style="color: green; margin-right: 5px"
+                      ></span>
+                      <span class="percentage-value" style="color: green"
+                        >60%</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div
+                  class="widget col"
+                  style="
+                    background-color: #f7f7f7;
+                    border-radius: 5px;
+                    margin: 5px 5px;
+                    width: 125px;
+                    padding: 5px;
+                  "
+                >
+                  <div class="widget-header" style="text-align: center">
+                    <h4 class="widget-title" style="font-size: 14px; margin: 0">
+                      4 Star Referrers
+                    </h4>
+                  </div>
+                  <div class="widget-content" style="text-align: center">
+                    <h2
+                      class="widget-count"
+                      style="font-size: 36px; margin-bottom: 0"
+                    >
+                      60
+                    </h2>
+                    <div
+                      class=""
+                      style="align-items: center; justify-content: center"
+                    >
+                      <span
+                        class="percentage-arrow up"
+                        style="color: green; margin-right: 5px"
+                      ></span>
+                      <span class="percentage-value" style="color: green"
+                        >60%</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="widget col"
+                  style="
+                    background-color: #f7f7f7;
+                    border-radius: 5px;
+                    margin: 5px 5px;
+                    width: 125px;
+                    padding: 5px;
+                  "
+                >
+                  <div class="widget-header" style="text-align: center">
+                    <h4 class="widget-title" style="font-size: 14px; margin: 0">
+                      3 Star Referrers
+                    </h4>
+                  </div>
+                  <div class="widget-content" style="text-align: center">
+                    <h2
+                      class="widget-count"
+                      style="font-size: 36px; margin-bottom: 0"
+                    >
+                      60
+                    </h2>
+                    <div
+                      class=""
+                      style="align-items: center; justify-content: center"
+                    >
+                      <span
+                        class="percentage-arrow up"
+                        style="color: green; margin-right: 5px"
+                      ></span>
+                      <span class="percentage-value" style="color: green"
+                        >60%</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div
+                  class="widget col"
+                  style="
+                    background-color: #f7f7f7;
+                    border-radius: 5px;
+                    margin: 5px 5px;
+                    width: 125px;
+                    padding: 5px;
+                  "
+                >
+                  <div class="widget-header" style="text-align: center">
+                    <h4 class="widget-title" style="font-size: 14px; margin: 0">
+                      4/5 Star KPI
+                    </h4>
+                  </div>
+                  <div class="widget-content" style="text-align: center">
+                    <h2
+                      class="widget-count"
+                      style="font-size: 36px; margin-bottom: 0"
+                    >
+                      60
+                    </h2>
+                    <div
+                      class=""
+                      style="align-items: center; justify-content: center"
+                    >
+                      <span
+                        class="percentage-arrow up"
+                        style="color: green; margin-right: 5px"
+                      ></span>
+                      <span class="percentage-value" style="color: green"
+                        >60%</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="widget col"
+                  style="                    
+                    border-radius: 5px;
+                    margin: 5px 5px;
+                    width: 125px;
+                    padding: 5px;
+                  "
+                >                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Charts -->        
+          <div class="card-container">
+            <div class="card">
+              <div class="chart-widget item item-divider card-title">Best 10 Jobs</div>
+              <div class="chart-widget item item-custom">
+                <canvas id="chart1" class="chart-canvas"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <div class="chart-widget item item-divider card-title">Age Group</div>
+              <div class="chart-widget item item-custom">
+                <canvas id="chart2" class="chart-canvas"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <div class="chart-widget item item-divider card-title">Best 10 Regions</div>
+              <div class="chart-widget item item-custom">
+                <canvas id="chart3" class="chart-canvas"></canvas>
+              </div>
+            </div>
+          </div>
+        
+
+      </div>
+    </div>
+    <!-- Tabs 2 -->
+    <div class="tab2_content" ng-if="show_tab2_content">
+      <div style="background-color: white; height: 100%">
+        <div class="card" style="width: 97%; margin-left: 1.5%">
+          <div
+            style="
+              text-align: center;
+              font-weight: bold;
+              border-bottom: 2px solid;
+            "
+          >
+            <div class="row">
+              <div class="col">
+                <!-- <button
+                  style="
+                    float: left;
+                    width: 75%;
+                    border-radius: 0px;
+                    background-color: #8bc34a;
+                    color: black;
+                  "
+                  class="button button-balanced ng-binding"
+                >
+                  {{"Filter PhoneBook" | translate}}
+                </button> -->
+                <button
+                  style="
+                    float: right;
+                    /* width: 25%; */
+                    border-radius: 0px;
+                    color: black;
+                    font-weight: bolder;
+                    font-size: 25px;
+                    background-color: {{home_icos.phonebooks_start_color}};
+                  "
+                  class="button button-balanced ng-binding"
+                  ng-click="addNewPhoneNumber(2)"
+                >
+                  {{"+" | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="list">
+            <div
+              class="item"
+              ng-repeat="item in prospectphonebookcollection | filter:prospectsearch | filter:prospectfilter.job_title | filter:prospectfilter.ratingfilter"
+            >
+              <div class="" ng-click="phoneDetail({{item.id}})">
+                <div class="row">
+                  <div class="col-75">
+                    <h2 style="font-weight: 500; display: none">
+                      {{item.ratingfilter}}
+                    </h2>
+                    <h2 style="font-weight: 500">{{item.name}}</h2>
+                  </div>
+                  <div class="col-25">
+                    <span class="badge badge-assertive"
+                      >{{item.lastcontact}}</span
+                    >
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-75">
+                    <p style="font-size: medium">{{item.phone}}</p>
+                  </div>
+                  <div class="col-25">
+                    <small style="float: right; color: gray"
+                      >{{item.job_title | translate}}</small
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="prospectphonebookcollection.length==0">
+            <p style="text-align: center">{{"No data found" | translate}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Tabs 3 -->
+    <div class="tab3_content" ng-if="show_tab3_content">
+      <div style="background-color: white; height: 100%">
+        <div class="card" style="width: 97%; margin-left: 1.5%">
+          <div
+            style="
+              text-align: center;
+              font-weight: bold;
+              border-bottom: 2px solid;
+            "
+          >
+            <div class="row">
+              <div class="col">
+                <input
+                  style="
+                    width: 100%;
+                    padding: 20px;
+                    font-size: medium;
+                    border-radius: 3px;
+                    border: 1px solid rgb(169, 169, 169);
+                  "
+                  type="text"
+                  
+                  placeholder="{{'Search' | translate}}"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style media="screen">
+        .active_tab {
+          border-bottom: 2px solid black;
+        }
+        .inactive_tab {
+          border-bottom: 0px solid black;
+        }
+        .active_tab > p {
+          opacity: 1;
+        }
+        .inactive_tab > p {
+          opacity: 0.4;
+        }
+        .active-rating {
+          color: {{home_icos.phonebooks_start_color}};
+        }
+        .inactive-rating {
+          color: #a9a9a9;
+        }
+
+        .scrollable-row {
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .widget {
+      cursor: pointer; /* Add pointer cursor to indicate it's clickable */
+    }
+
+    .widget.active .media {
+      border-color: green;
+    }
+    .widget-container {
+      display: inline-block;
+    }
+    .chart-canvas {
+      max-width: 350px;
+      margin: 0 auto; /* Center the canvas horizontally */
+    }
+    .cat-widget-label{
+          font-size: 10px !important;
+          color: #616161 !important;
+          /* padding-top: 6px !important; */
+          font-weight: 700 !important;
+    }
+    .cat-widget-icon{
+      height: 50px;
+      padding: 2px;
+      background: white;
+      border-radius: 5px;
+    }
+    .media{
+      border: 2px solid #848484;
+    border-radius: 4px;
+    padding: 3px;
+    }
+    .card-title{
+      font-size: small !important;
+    }
+    .card-scroll {
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.card-container {
+  display: inline-block;
+  padding: 5px;
+}
+
+.chart-canvas {
+  width: 100%;
+}
+
+/* Adjust other card styles as needed */
+
+    /* Style filters */
+        /* Custom CSS for styling */
+              .input-text {
+                border: 1px solid #a9a9a9;
+                height: 35px !important;
+                width: 100%;
+                padding: 5px;
+                font-size: 11px !important;
+                border-radius: 3px;
+                background-color: white;
+              }
+
+              .button-reset {
+                background-color: #f8d578;
+                color:black;
+                border: none;
+                border-radius: 3px;
+                padding: 9px 20px;
+                font-size: 11px;
+                cursor: pointer;
+                width: 100%;
+                font-weight: 700;
+              }
+              .button-add {
+                background-color: #f8d578;
+                color:black;
+                border: none;
+                border-radius: 3px;
+                padding: 3px 20px;
+                font-size: 21px;
+                cursor: pointer;
+                width: 100%;
+                font-weight: 900;
+                }
+              .button-all-ref{
+                font-weight: 700;
+                padding-left: 30px !important;
+                padding-right: 30px !important;
+                background-color: #f8d578 !important;
+                color:black !important;
+              }          
+              .card-scroll {
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.card-container {
+  display: inline-block;
+  padding: 5px;
+}
+
+.card {
+  display: inline-block !important;
+  width: 80% !important; /* Adjust the width as needed */
+  margin-right: 5% !important;
+}
+
+.chart-canvas {
+  width: 100%;
+}
+
+/* Adjust other card styles as needed */
+    
+  </style>
+</ion-view>

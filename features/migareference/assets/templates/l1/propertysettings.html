@@ -1,0 +1,716 @@
+<ion-view
+  class="migareference-view module module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <!--START:Header-->
+  <ion-nav-title>{{ home_icos.settings_box_label | translate}} </ion-nav-title>
+  <!--END:Header-->
+  <!--START:Home page Content-->
+  <ion-content>
+    <form name="reminderform" ng-submit="savePropertysettings()">
+      <div class="list">
+        <label
+          style="padding-right: 16px; display: none"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Notification Type" | translate}}*</span
+          >
+          <br />
+          <select
+            style="
+              width: 100%;
+              padding: 8px;
+              border-radius: 3px;
+              font-size: medium;
+            "
+            ng-model="blisterPackTemplateSelected"
+            ng-change="changedValue(blisterPackTemplateSelected)"
+            data-ng-options="blisterPackTemplate as blisterPackTemplate.name for blisterPackTemplate in blisterPackTemplates"
+          ></select>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Block Chain public data password" | translate}}*</span
+          >
+          <input
+            disabled
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            name="blockchain_password"
+            id="blockchain_password"
+            type="text"
+            ng-model="migareferenceformchange.blockchain_password"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="is_agent_list"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Who invited you to be a referral user?" | translate}}*</span
+          >
+          <br />
+          <input
+            type="hidden"
+            ng-model="migareferenceformchange.is_agent_list"
+            name=""
+            value=""
+          />
+          <select
+            ng-options="item.name for item in agentList track by item.id"
+            style="
+              width: 100%;
+              padding: 8px;
+              border-radius: 3px;
+              font-size: medium;
+            "
+            data-ng-model="migareferenceformchange.sponsor_id"
+          ></select>
+        </label>
+        <label
+          style="padding-right: 16px;display: none;"
+          class="item item-input item-stacked-label"          
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Who invited you to be a referral user?" | translate}}*</span
+          >
+          <br />          
+          <select
+            ng-options="item.name for item in partneragentList track by item.id"
+            style="
+              width: 100%;
+              padding: 8px;
+              border-radius: 3px;
+              font-size: medium;
+            "
+            data-ng-model="migareferenceformchange.partner_sponsor_id"
+          ></select>
+        </label>
+        <!-- This field is raplacd wiht address main province fields 08/30/2022 -->
+        <!-- <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="is_geo_list"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Select Province" | translate}}*</span
+          >
+          <br />
+          <select
+            class="input-text"
+            ng-model="migareferenceformchange.province_id"
+            name=""
+            style="height: 41px"
+          >
+            <option
+              ng:repeat="stat in agnet_province_list"
+              value="{{ stat.province_id }}"
+            >
+              {{ stat.province }}
+            </option>
+          </select>
+        </label> -->
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Select Job" | translate}}*</span
+          >
+          <br />
+          <select
+            ng-options="item.name for item in jobitems track by item.job_id"
+            style="
+              width: 100%;
+              padding: 8px;
+              border-radius: 3px;
+              font-size: medium;
+            "
+            data-ng-model="migareferenceformchange.job_id"
+          ></select>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Select Sector" | translate}}*</span
+          >
+          <br />
+          <select
+            ng-options="item.name for item in professionitems track by item.profession_id"
+            style="
+              width: 100%;
+              padding: 8px;
+              border-radius: 3px;
+              font-size: medium;
+            "
+            data-ng-model="migareferenceformchange.profession_id"
+          ></select>
+        </label>
+        <label
+          class="item item-input item-stacked-label property-heading-container"
+        >
+          <h2
+            class="input-label property-heading"
+            style="white-space: initial;display: contents;color:{{home_icos.page_text_color }}!important;"
+          >
+            {{"Invoice Detail" | translate}}
+          </h2>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Name" | translate}}*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.invoice_name"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Surname" | translate}}*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.invoice_surname"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Mobile" | translate}}*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.invoice_mobile"
+            placeholder=""
+          />
+        </label>
+        <label
+          ng-if="pre_report_data.enable_company==1"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Company" | translate}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_company==1"
+            >*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.company"
+            placeholder=""
+          />
+        </label>
+        <!-- START: Address Fileds -->
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="pre_report_data.enable_main_address==1 && countries_count>1"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Select Country" | translate}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_main_address==1"
+            >*</span
+          >
+          <br />
+          <select
+            class="input-text"
+            ng-model="migareferenceformchange.address_country_id"
+            style="height: 41px"
+            ng-change="getprovince()"
+          >
+            <option
+              ng:repeat="country_item in address_country_list"
+              value="{{ country_item.country_id }}"
+            >
+              {{ country_item.country }}
+            </option>
+          </select>
+        </label>
+        <label
+          ng-if="pre_report_data.enable_sub_address==1"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Street" | translate}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_sub_address==1"
+            >*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.address_street"
+          />
+        </label>
+        <label
+          ng-if="pre_report_data.enable_sub_address==1"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"ZIP Code" | translate}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_sub_address==1"
+            >*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.address_zipcode"
+          />
+        </label>
+        <label
+          ng-if="pre_report_data.enable_sub_address==1"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"City" | translate}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_sub_address==1"
+            >*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.address_city"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="pre_report_data.enable_main_address==1"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Select Province" | translate}} </span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_main_address==1"
+            >*</span
+          >
+          <br />
+          <select
+            class="input-text"
+            ng-model="migareferenceformchange.province_id"
+            style="height: 41px"
+          >
+            <option
+              ng:repeat="stat in address_province_list"
+              value="{{ stat.province_id }}"
+            >
+              {{ stat.province }}
+            </option>
+          </select>
+        </label>
+        <!-- END: Address Fileds -->
+        <label
+          ng-if="pre_report_data.enable_legal_address==100"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Legal Address" | translate}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_legal_address==1"
+            >*</span
+          >
+          <textarea
+            style="
+              padding: 20px;
+              font-size: medium;
+              border: 1px solid rgb(169, 169, 169);
+              border-radius: 3px;
+            "
+            name="name"
+            ng-model="migareferenceformchange.leagal_address"
+            rows="4"
+            cols="80"
+          ></textarea>
+        </label>
+
+        <label
+          ng-if="pre_report_data.enable_birthdate==1"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{"Birth Date" | translate}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_birthdate==1"
+            >*</span
+          >
+          <div class="row" style="padding: 0px">
+            <div class="col" style="padding: 0px">
+              <select
+                id="day"
+                name="day"
+                ng-model="migareferenceformchange.birth_day"
+                class="input-text"
+                style="height: 41px"
+              >
+                <option ng:repeat="day in daysdateday" value="{{ day.id }}">
+                  {{ day.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col" style="padding-top: 0px">
+              <select
+                id="month"
+                name="month"
+                ng-model="migareferenceformchange.birth_month"
+                class="input-text"
+                style="height: 41px"
+              >
+                <option ng:repeat="month in months" value="{{ month.id }}">
+                  {{ month.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col" style="padding: 0px">
+              <select
+                id="year"
+                name="year"
+                ng-model="migareferenceformchange.birth_year"
+                class="input-text"
+                style="height: 41px"
+              >
+                <option ng:repeat="year in years" value="{{ year.id }}">
+                  {{ year.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Tax_ID" | translate}}*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.tax_id"
+            placeholder=""
+          />
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;"
+            >{{"Vat ID" | translate}}</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.vat_id"
+            placeholder=""
+          />
+        </label>
+        <label
+          ng-if="pre_report_data.extra_one==1"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{pre_report_data.extra_one_label}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_extra_one==1"
+            >*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.extra_one_text"
+            placeholder=""
+          />
+        </label>
+        <label
+          ng-if="pre_report_data.extra_two==1"
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+        >
+          <span
+            class="input-label"
+            style="color:{{home_icos.page_text_color }}!important;max-width: fit-content !important;"
+            >{{pre_report_data.extra_two_label}}</span
+          ><span
+            style="color:{{home_icos.page_text_color }}!important;"
+            ng-if="pre_report_data.mandatory_extra_two==1"
+            >*</span
+          >
+          <input
+            style="
+              padding: 20px;
+              font-size: medium;
+              border-radius: 3px;
+              border: 1px solid rgb(169, 169, 169);
+            "
+            type="text"
+            ng-model="migareferenceformchange.extra_two_text"
+            placeholder=""
+          />
+        </label>
+        <!-- nEW bLOCKS -->
+        <label
+          style="background: none"
+          class="checkbox-custom item item-input item-stacked-label item-checkbox ng-not-empty ng-valid"
+        >
+          <div
+            class="checkbox checkbox-input-hidden disable-pointer-events checkbox-circle"
+          >
+            <input
+              type="checkbox"
+              ng-model="migareferenceformchange.privacy_accepted"
+              ng-change="showTerms(1)"
+              class="ng-untouched ng-valid ng-not-empty ng-dirty ng-valid-parse"
+              value=""
+              style=""
+            />
+            <i class="checkbox-icon"></i>
+          </div>
+          <div class="item-content disable-pointer-events">
+            <span
+              class="input-label"
+              style="color:{{home_icos.page_text_color }}!important;font-size:15px;"
+              >{{"I have read and accept Privacy Statements" |
+              translate}}*</span
+            >
+          </div>
+        </label>
+        <label
+          style="background: none"
+          class="checkbox-custom item item-input item-stacked-label item-checkbox ng-not-empty ng-valid"
+        >
+          <div
+            class="checkbox checkbox-input-hidden disable-pointer-events checkbox-circle"
+          >
+            <input
+              type="checkbox"
+              ng-model="migareferenceformchange.terms_accepted"
+              ng-change="showTerms(2)"
+              class="ng-untouched ng-valid ng-not-empty ng-dirty ng-valid-parse"
+              value=""
+              style=""
+            />
+            <i class="checkbox-icon"></i>
+          </div>
+          <div class="item-content disable-pointer-events">
+            <span
+              class="input-label"
+              style="color:{{home_icos.page_text_color }}!important;font-size:15px;"
+              >{{"I have read and accept Terms" | translate}}*</span
+            >
+          </div>
+        </label>
+        <label
+          style="background: none"
+          ng-if="is_special_terms"
+          class="checkbox-custom item item-input item-stacked-label item-checkbox ng-not-empty ng-valid"
+        >
+          <div
+            class="checkbox checkbox-input-hidden disable-pointer-events checkbox-circle"
+          >
+            <input
+              type="checkbox"
+              ng-model="migareferenceformchange.special_terms_accepted"
+              ng-change="showTerms(3)"
+              class="ng-untouched ng-valid ng-not-empty ng-dirty ng-valid-parse"
+              value=""
+              style=""
+            />
+            <i class="checkbox-icon"></i>
+          </div>
+          <div class="item-content disable-pointer-events">
+            <span
+              class="input-label"
+              style="color:{{home_icos.page_text_color }}!important;font-size:15px;"
+              >{{term_label_text | translate}}*</span
+            >
+          </div>
+        </label>
+        <label
+          style="padding-right: 16px"
+          class="item item-input item-stacked-label"
+          ng-if="is_created"
+        >
+          <p
+            class=""
+            style="color:{{home_icos.page_text_color }}!important;text-align:center;font-size: x-small;"
+          >
+            {{"First Approval" | translate}}: {{is_created_at}} V
+            {{app_full_version}}
+          </p>
+        </label>
+        <!-- nEW bLOCKS -->
+        <button
+          class="button button-full button-positive"
+          type="submit"
+          name="button"
+        >
+          {{"Submit" | translate}}
+        </button>
+      </div>
+    </form>
+  </ion-content>
+  <script id="showTerms.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar bar-header bar-positive">
+        <div class="buttons">
+            <button class="button button-clear" ng-click="modal.hide()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title" style='color:black;'>{{termsTitle | translate}}</h1>
+      </ion-header-bar>
+      <ion-content>
+      <p style="padding:6px;color:black;" ng-bind-html="termsDescription">
+      </p>
+      </ion-content>
+        <style>
+          ol{
+              list-style: block;
+              padding-left: 35px;
+            }
+            ul {
+              list-style: disc;
+              padding-left: 35px;
+          }
+      </style>
+    </ion-modal-view>
+  </script>
+</ion-view>

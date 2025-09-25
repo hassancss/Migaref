@@ -1,0 +1,588 @@
+<ion-view
+  class="migareference-view module-migareference"
+  sb-page-background
+  cache-view="false"
+>
+  <!--START:Header-->
+  <ion-nav-title
+    >{{ home_icos.report_status_box_label | translate }}</ion-nav-title
+  >
+  <ion-content>
+    <div class="">
+      <!-- Search Filter -->
+      <div class="item item-custom">
+        <div class="col col-100">        
+        <input
+          class="input-text"
+          type="text"
+          name=""
+          placeholder="{{'Search' | translate}}"
+          ng-model="filters.search"        
+        />
+        </div>
+      </div>
+      <div class="row item item-custom">
+        <!-- Report Type or Status ALL -->
+        <div class="col col-50">    
+          <select
+            class="input-text"
+            ng-model="filters.status_id"          
+            ng-change="loadactivereports()"
+            style="height: 41px"
+          >
+            <option
+              ng:repeat="stat in stasuses"
+              value="{{ stat.migareference_report_status_id }}"
+            >
+              {{ stat.status_title }}
+            </option>
+          </select>
+        </div>
+        <!-- Date Range Admin & Agent ALL -->   
+        <div class="col col-50">    
+          <select
+            class="input-text"
+            ng-change="applyFilter()"
+            ng-model="filters.days_range_filter"
+          >     
+          <option value="">
+            {{ "Range" | translate }}
+          </option>
+            <option
+              ng-repeat="rep_filter in reports_filter_date_range"
+              value="{{ rep_filter.filter_id}}"
+            >
+              {{ rep_filter.date_range | translate }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!--Custom date from  -->
+      <div ng-show="showmore" class="row item item-custom">
+          <div class="col col-50">    
+            <input
+            class="input-text"
+            type="date"
+            name=""
+            ng-model="filters.from_date"
+            ng-change="applyFilter()"
+            value=""
+          />
+          </div>
+          <div class="col col-50">    
+            <input
+            class="input-text"
+            type="date"
+            name=""
+            ng-model="filters.to_date"
+            ng-change="applyFilter()"
+            value=""
+          />
+          </div>
+      </div>
+      <!-- Specific Block for Admin to manage template  -->
+      <div ng-if="is_admin">
+         <!--Referrer and Agent filter  -->
+        <div class="row item item-custom">
+          <div class="col col-50">    
+            <select
+            class="input-text"
+            ng-model="filters.agent_group_id"
+            ng-options="agent.id as agent.name for agent in agent_group_collection"
+            ng-change="applyFilter()"
+            style="height: 41px"
+          ></select>
+          </div>
+          <div class="col col-50">    
+          <select
+          class="input-text"
+          ng-change="applyFilter()"
+          ng-model="filters.referrer_id"
+        >     
+        <option value="">
+          {{ "Referrer" | translate }}
+        </option>
+          <option
+            ng-repeat="referrer in referrer_collection"
+            value="{{ referrer.id}}"
+          >
+            {{ referrer.name }}
+          </option>
+        </select>
+          </div>
+        </div>
+        <div class="row item item-custom">
+          <!-- SOERT or ORDER All (Admin || Agent || Referrer) -->
+          <div class="col col-50">    
+            <select
+            class="input-text"
+            ng-change="ReportSortBy()"
+            ng-model="reportsorderby.orderkey"
+          >                  
+            <option
+              ng-repeat="reports_filter in reports_sort_by_filter"
+              value="{{ reports_filter.filter_id}}"
+            >
+              {{ reports_filter.sort_by | translate }}
+            </option>
+          </select> 
+          </div>
+          <!-- Reset Filter -->
+          <div class="col col-50">    
+            <button style="float: right;" ng-click="clearFilter()" class="button">{{"Reset Filter" | translate}}</button>
+          </div>
+        </div>  
+      </div>
+      <!-- Specific Block for Admin to manage template  -->
+      <div ng-if="is_agent">
+         <!--Referrer and Agent filter  -->
+        <div class="row item item-custom">
+          <div class="col col-50">    
+            <select
+            class="input-text"
+            ng-change="applyFilter()"
+            ng-model="filters.referrer_id"
+          >     
+          <option value="">
+            {{ "Referrer" | translate }}
+          </option>
+            <option
+              ng-repeat="referrer in referrer_collection"
+              value="{{ referrer.id}}"
+            >
+              {{ referrer.name }}
+            </option>
+          </select>
+          </div>
+          <div class="col col-50">    
+            <select
+            class="input-text"
+            ng-change="ReportSortBy()"
+            ng-model="reportsorderby.orderkey"
+          >                  
+            <option
+              ng-repeat="reports_filter in reports_sort_by_filter"
+              value="{{ reports_filter.filter_id}}"
+            >
+              {{ reports_filter.sort_by | translate }}
+            </option>
+                
+          </select> 
+          </div>
+        </div>
+        <div class="row item item-custom">
+          <!-- All (Admin || Agent || Referrer) -->
+          <!-- Reset Filter -->
+          <div class="col col-50">    
+        
+          </div>
+          <div class="col col-50">    
+            <button style="float: right;" ng-click="clearFilter()" class="button">{{"Reset Filter" | translate}}</button>
+          </div>
+        </div>  
+      </div>
+    </div>
+    <div
+      class="card"
+      ng-repeat="x in filteredReports | filter:filters.search | orderBy:reportPhoOrder"
+      ng-if="filteredReports.length"
+      style="border: 1 px solid #34b18b"
+    >
+      <div class="item item-text-wrap" style="padding: 7px">
+        <div
+          style="
+            position: absolute;
+            margin-top: 25px;
+            right: 10px;
+            width: 50px;
+            text-align: center;
+            height: 106px;
+          "
+        >          
+        </div>
+        <div class="row p-6">
+          <div class="col-50">
+            <h2 class="report-list-report-no">
+              {{"Report NO" | translate}}: {{x.report_no}}
+            </h2>
+          </div>
+          <div class="col-50" style="text-align: right;">                        
+            <h4 class="" style="font-size: medium;color: #7a8ea3;font-weight: 700;padding-top: 3px;float: right;padding-left: 3px;">
+              {{x.commission_type_label}}
+            </h4>          
+            <h4 class="" style="font-size: 20px;color: #25445f;font-weight: 750;">
+              {{x.commission_fee}}
+            </h4>          
+          </div>
+        </div>
+        <hr />
+        <div class="p-6" style="background-color: #f4f8fb;height: 45px;padding-top:12px;padding-left: 11px;">
+          <div class="" style="float: left;">            
+            <h4 style="font-size: 15px !important;color: black;">{{"Report Status" | translate}}:</h4>            
+          </div>
+          <div class="" style="float: right;">            
+            <h4 style="font-size: 16px !important;font-weight: 700;display: inline-block;color: black;">{{x.report_status}}</h4>
+            <img style="width: 20px; height: 20px;display: inline-block;" ng-src="{{x.status_icon}}" alt="" />
+          </div>
+        </div>        
+        <div class="p-6" ng-if="pre_settings.enable_report_type==1" style="background-color: #f4f8fb;height: 45px;padding-top:12px;padding-left: 11px;">
+          <div class="" style="float: left;">
+            <h4 style="font-size: 15px !important;">{{"Report Type" | translate}}:</h4>            
+          </div>
+          <div class="" style="float: right;">              
+            <h4 style="font-size: 16px !important;font-weight: 700;display: inline-block;color: black;">{{x.report_custom_type}}</h4>
+            <img style="width: 20px; height: 20px;display: inline-block;" ng-src="{{x.report_custom_type_icon}}" alt="" />          
+          </div>
+        </div>        
+        <div class="p-6" style="background-color: #f4f8fb;height: 45px;padding-top:12px;padding-left: 11px;">
+          <div class="" style="float: left;">
+            <h4 style="font-size: 15px !important;">{{"Report Source" | translate}}:</h4>            
+          </div>
+          <div class="" style="float: right;">              
+            <h4 style="font-size: 16px !important;font-weight: 700;display: inline-block;color: black;">{{x.report_source_title}}</h4>
+            <img style="width: 20px; height: 20px;display: inline-block;" ng-src="{{x.report_source_icon}}" alt="" />          
+          </div>
+        </div>        
+        <!-- Done End -->        
+        <div class="row  p-6">
+          <div class="col">
+            <h2              
+              style="color: #322d2d;"
+            >
+              {{"Referrer" | translate}}:
+            </h2>
+          </div>
+          <div class="col">
+            <h2                
+            style="text-align: right; font-weight: 600;color:black"
+              >
+                {{x.refrale_c_name}}
+              </h2>
+          </div>
+        </div>
+        <div class="row  p-6">
+          <div class="col">
+            <h2              
+              style="color: #322d2d;"
+            >
+            {{"Owner" | translate}}:
+            </h2>
+          </div>
+          <div class="col">
+            <h2                
+                style="text-align: right; font-weight: 600;color:black"
+              >
+              {{x.owner_c_name}}
+              </h2>
+          </div>
+        </div> 
+        <div class="row  p-6" ng-if="x.can_manage">
+          <div class="col">
+            <h2
+              class=""
+              style="color: #322d2d;"
+            >
+              {{"Managed By" | translate}}:
+            </h2>            
+          </div>
+          <div class="col">
+            <h2                
+                style="text-align: right; font-weight: 600;color:black"
+              >
+              {{x.managed_by}}
+              </h2>
+          </div>          
+        </div>  
+        <!-- All Dynamically Visiable fields will added here (Show in Status Report?)-->
+        <div ng-bind-html="x.dynamic_visible_fields_raw"></div>        
+        <div class="row  p-6">
+          <div class="col">
+            <h2 style="color: #322d2d;">{{"Created At" | translate}}:</h2>
+          </div>
+          <div class="col">
+            <h2 style="text-align: right; font-weight: 600;color:black">{{x.created_at}}</h2>
+          </div>
+        </div>             
+        <div class="row  p-6">
+          <div class="col">
+            <h2 style="color: #322d2d;">{{"Last Modification" | translate}}:</h2>
+          </div>
+          <div class="col">
+            <h2 style="text-align: right; font-weight: 600;color:black">{{x.last_modification_at}}</h2>
+          </div>
+        </div>             
+
+
+        <div class="" style=" text-align: right;height: 90px;">
+          <!-- GDPR -->          
+            <div ng-if="enable_gdpr" >
+              <div ng-if="x.can_manage" style="float:left;background: #f4f8fb;padding: 8px;border-radius: 10px; width: 100px;margin: 5px;">
+                <div ng-click="manualConsent(x)" class="">
+                  <img style="width: 20px; height: 20px;float: left;" ng-src="{{x.gdpr_icon}}" alt="" />
+                </div>
+                <p style="color: black;">
+                  {{x.gdpr_text}}
+                </p>
+              </div>
+              <div
+                ng-if="!x.can_manage"
+                class=""
+                style="float:left;background: #f4f8fb;padding: 8px;border-radius: 10px; width: 100px;margin: 5px;"
+              >
+                <img style="width: 20px; height: 20px;float: left;" ng-src="{{x.gdpr_icon}}" alt="" />
+                <p style="color: black;">
+                  {{x.gdpr_text}}
+                </p>
+              </div>
+            </div>
+          <!-- Bloackchain -->
+          <div ng-if="x.is_notarized"  ng-click="downloadCertificate(x.migareference_report_id)" style="cursor: pointer;float:left;background: #f4f8fb;padding: 8px;border-radius: 10px; width: 160px;margin: 5px;">
+            <img              
+              style="width: 20px; height: 20px;float: left;"
+              class="full-image home-image-background"
+              ng-src="{{ x.block_icon }}"
+            />
+            <p style="color: black;">
+              {{"BlockChain Certified" | translate}}
+            </p>
+          </div>
+          <!-- Call -->          
+          <div style="float:left;background: #f4f8fb;padding: 8px;border-radius: 10px; width: 140px;margin: 5px;">
+            <img              
+              style="width: 20px; height: 20px;float: left;"
+              class="full-image home-image-background"
+              ng-src="{{ x.phone_icon }}"
+            />
+            <p style="color: black;">
+              {{x.owner_mobile}}
+            </p>
+          </div>
+          <div ng-if="!x.can_manage" ng-click="showNotesList(x)" style="float:left;background: #f4f8fb;padding: 8px;border-radius: 10px; width: 125px;margin: 5px;">
+            <img              
+              style="width: 20px; height: 20px;float: left;"
+              class="full-image home-image-background"
+              ng-src="{{ x.note_icon}}"
+            />
+            <p style="color: black;text-align: center;">
+              <span>{{"Notes" | translate}}</span>
+              <span style="width: fit-content; margin-left: 16px; position: static;float: inline-end;"              
+              ng-if="x.note_unread_count > 0"
+              class="blink badge badge-assertive">{{ x.note_unread_count }}</span>
+            </p>
+          </div>
+        </div>
+
+
+        <div ng-if="x.can_manage" class="row" style="border-top: 1px solid black;">          
+        </div>
+        <div class="" style="width: 100%; text-align: end" ng-if="x.can_manage">
+          <button
+            style="width: 49%;"
+            class="btn-report-share"
+            ng-click="showExternalLink(x.migareference_report_id)"
+          >
+            {{"SHARE" | translate}}
+          </button>
+          <button
+            style="width: 49%;"
+            class="btn-report-detail"
+            ng-click="showdetail(x.migareference_report_id)"
+          >
+            {{"DETAIL" | translate}}
+          </button>
+        </div>    
+    </div>
+    </div>
+    <div
+      class="item"
+      style="margin-bottom: 2px"
+      ng-if="!filteredReports.length"
+    >
+      <h2 class="" style="font-weight: 200; text-align: center">
+        {{"No items Found" | translate}}
+      </h2>
+    </div>
+  </ion-content>
+  <!--END:Home page Content-->
+  <script id="manualconsent.html" type="text/ng-template">
+    <ion-modal-view >
+      <ion-header-bar class="bar bar-header bar-positive">
+        <h1 class="title">{{"Consent" | translate}}</h1>
+        <button class="button button-clear button-primary" ng-click="modal.hide()">{{"Close" | translate }}</button>
+      </ion-header-bar>
+      <ion-content>
+      <div class="" style="border: 2px solid #387ef5;">
+      <form name="reportdetailform" ng-submit="saveManualConsent()" >
+        <div class="list">
+          <label style="padding-right:0px;" class="item item-input item-stacked-label">
+            <span class="input-label" style="color:black;" >{{ "Select Consent Date" | translate}}*</span>
+            <div class="row" style="padding:0px">
+              <div class="col" style="padding:0px">
+                    <select id="day" name="day" ng-change="eventChnage()" ng-model="manualfields.consent_day" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                        <option ng:repeat="day in daysdateday" value="{{ day.id }}" >{{ day.name }}</option>
+                    </select>
+              </div>
+              <div class="col" style="padding-top:0px">
+                    <select id="month" name="month" ng-change="eventChnage()" ng-model="manualfields.consent_month" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                        <option ng:repeat="month in months" value="{{ month.id }}" >{{ month.name }}</option>
+                    </select>
+              </div>
+              <div class="col" style="padding:0px;padding-right: 15px;">
+                    <select id="year" name="year" ng-change="eventChnage()" ng-model="manualfields.consent_year" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                        <option ng:repeat="year in years" value="{{ year.id }}" >{{ year.name }}</option>
+                    </select>
+              </div>
+            </div>
+          </label>
+          <label style="padding-right:0px;" class="item item-input item-stacked-label">
+            <span class="input-label" style="color:black;" >{{ "Select Consent Time" | translate}}*</span>
+            <div class="row" style="padding:0px">
+              <div class="col" style="padding:0px">
+                    <select id="hour" name="hour" ng-change="eventChnage()" ng-model="manualfields.consent_hour" style="width:100%;padding:8px;border-radius:3px;font-size:medium;border:1px solid rgb(169, 169, 169);" >
+                        <option ng:repeat="hour in hours" value="{{ hour.id }}" >{{ hour.name }}</option>
+                    </select>
+              </div>
+              <div class="col" style="padding-top:0px;padding-right: 15px;">
+                    <select style="width:100%;padding:8px;border-radius:3px;font-size:medium"  id="minute" name="" ng-change="eventChnage()" ng-model="manualfields.consent_min" >
+                        <option ng:repeat="minute in minutes" value="{{ minute.id }}" >{{ minute.name }}</option>
+                    </select>
+              </div>
+            </div>
+          </label>
+          <div class="row" style="padding:6px;">
+              <button class="button button-full button-positive">{{"Save" | translate }}</button>
+          </div>
+        </div>
+      </form>
+      <div class="row" style="padding:6px;">
+        <button ng-click="shareConsent()" class="button button-full button-positive">{{"Share" | translate }}</button>
+      </div>
+      </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+  <!-- External Share Link Model -->
+  <script id="externalsharelink.html" type="text/ng-template">
+    <ion-modal-view >
+      <ion-header-bar class="bar bar-header bar-positive">
+        <h1 class="title">{{"Manage Reports Externally" | translate}}</h1>
+        <button class="button button-clear button-primary" ng-click="modal.hide()">{{"Close" | translate }}</button>
+      </ion-header-bar>
+      <ion-content>
+      <div class="" style="border: 2px solid #387ef5;">
+        <div class="list">
+          <label style="padding-right:0px;" class="item item-input item-stacked-label">
+            <span class="input-label" style="color:black;" >{{ "Select Admin/Agent" | translate}}*</span>
+            <div class="row" style="padding:0px">
+              <div class="col" style="padding:0px;padding-right: 15px;">
+               <select
+          class="input-text"
+          ng-model="shareurlmodel.url"
+          name=""
+          ng-change="showShareLink()"
+          style="height: 41px;width:100%;"
+        >
+          <option
+            style="font-weight:{{user.style}}"
+            ng:repeat="user in user_list"
+            value="{{user.share_url}}"
+          >
+            {{ user.name }}
+            {{ user.share_url }}
+          </option>
+        </select>
+              </div>
+            </div>
+          </label>
+          <label style="padding-right:0px;" class="item item-input item-stacked-label">
+            <div class="row" style="padding:0px">
+              <div class="col-80" style="padding:0px;padding-right: 15px;background-color:white;padding:15px">
+                <p>
+                  {{shareurlmodel.url}}
+                </p>
+              </div>
+              <div class="col-20" style="padding:0px;padding-right: 15px;">
+                <button
+                class="button button-dark"
+                ng-click="copyUrl()"
+                style="border-radius: 0;float:right;"
+              >
+                {{"Copy" | translate}}
+              </button>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+  <style>
+    .btn-report-share {
+      background-color: #33c421;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 9px 20px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .btn-report-detail {
+      background-color: #1baaf8;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 9px 20px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .p-6{
+      padding: 6px;
+    }
+    .report-list-report-no {
+      width: fit-content;
+      background: #2355b1;
+      padding-top: 3px;
+      color: white;
+      border-bottom-width: 3px;
+      padding-bottom: 3px;
+      padding-left: 10px;
+      padding-right: 10px;
+      font-weight: 600 !important;
+      margin-left: -13px !important;      
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+    .report-list-report-created {
+      float: right;
+      background: orange;
+      width: fit-content;
+      font-size: 10px !important;
+      border-radius: 5px;
+      padding: 3px;
+      color: white;
+      font-weight: 700 !important;
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .badge-assertive.blink {
+      animation: blink 2s linear infinite;
+    }
+    .h2-color {
+        color: #322d2d;
+    }
+
+    .h2-right-align {
+        text-align: right;
+        font-weight: 600 !important;
+        color: black;
+    }
+
+  </style>
+</ion-view>

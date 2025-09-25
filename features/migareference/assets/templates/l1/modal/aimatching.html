@@ -1,0 +1,271 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="migareference-view module module-migareference">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeMatchingModal()">
+                    <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{"AI Matching System" | translate }}</h1>
+        <button ng-if="is_first_call_done" class="button button-clear pull-right"
+                        ng-click="refreshAiMatching(0)">
+                        <i class="icon ion-refresh" ></i>
+        </button>
+    </ion-header-bar>
+   
+   <ion-content class="has-header">
+       
+        <div class="loader" ng-show="isLoading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+        <div class="card list" ng-show="!isLoading && !is_first_call_done">
+          <div class="item item-devider" style="text-align: center;background-color: #eaeaea;padding: 0;margin-top: 60px;">                  
+            <div class="item item-custom item-text-wrap item-body" style="text-align: center;">
+              <button class="button button-positive"
+                ng-click="refreshAiMatching(1)">
+                {{ "AI Matching" | translate }}
+              </button>
+              <p>{{"Click the above button to get your first AI Matching list" | translate}}</p>
+            </div> 
+          </div>
+        </div>
+        <div class="card list" ng-show="!isLoading && is_first_call_done">
+            <div class="header-tabs">
+                  <div class="tabs_container">
+                    <div
+                      class="{{tab1_css}}"
+                      style="width: 33.33%; text-align: center; float: left; background: #faf9f9"
+                      ng-click="tabs_shift(1)"
+                    >
+                      <p class="" style="padding-top: 4px; margin-bottom: 0px">
+                        <i
+                          class="icon ion-clipboard"
+                          style="color: black; font-size: 30px"
+                        ></i>
+                      </p>
+                      <p style="margin-bottom: 2px; font-size: small">
+                        {{"Available Matching" | translate}}
+                      </p>
+                    </div>                 
+                    <div
+                      class="{{tab3_css}}"
+                      style="
+                        width: 33.33%;
+                        text-align: center;
+                        float: right;
+                        background: #faf9f9;
+                      "
+                      ng-click="tabs_shift(3)"
+                    >
+                      <p class="" style="padding-top: 4px; margin-bottom: 0px">
+                        <i
+                          class="icon ion-clipboard"
+                          style="color: black; font-size: 30px"
+                        ></i>
+                      </p>
+                      <p style="margin-bottom: 2px; font-size: small">
+                        {{"Discard" | translate}}
+                      </p>
+                    </div>
+                    <div
+                    class="{{tab2_css}}"
+                    style="
+                      width: 33.33%;
+                      text-align: center;
+                      float: right;
+                      background: #faf9f9;
+                    "
+                    ng-click="tabs_shift(2)"
+                  >
+                    <p class="" style="padding-top: 4px; margin-bottom: 0px">
+                      <i
+                        class="icon ion-clipboard"
+                        style="color: black; font-size: 30px"
+                      ></i>
+                    </p>
+                    <p style="margin-bottom: 2px; font-size: small">
+                      {{"Matched" | translate}}
+                    </p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab1_content" style="background-color: #eaeaea;" ng-if="show_tab1_content">
+              <div class="item item-custom item-text-wrap item-body" style="text-align: center;">
+                <strong>{{last_matching_call}} | {{token_used}}</strong>
+              </div>  
+              <div class="list">
+                <div class="card" ng-repeat="match in available_matching_data_collection" style="background-color: white;">
+                    <div class="row" style="border-bottom:1px solid #e4e4e4;">
+                        <div class="col col-100" style="text-align:left;">
+                            <strong>UID #{{ match.customer_id }}</strong>
+                        </div>                              
+                    </div>
+            
+                    <div class="row" style="text-align:left;">
+                        <div class="col col-20">{{ 'Name' | translate }}</div>
+                        <div class="col col-80">
+                            <strong>{{ match.firstname }} {{ match.lastname }}</strong>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col col-20" style="text-align:left;">
+                            {{ 'Email' | translate }}
+                        </div>
+                        <div class="col col-80" style="text-align:left;">
+                            <strong>{{ match.email }}</strong>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col col-100" style="text-align:left;white-space: normal;">
+                            {{ match.matching_description }}
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <div class="col col-34">
+                            <button class="button button-positive" 
+                                    ng-click="openPhonebook(match.migarefrence_phonebook_id)">
+                                {{"Phonebook" | translate}}
+                            </button>                            
+                        </div>
+                        <div class="col col-33">                            
+                            <button class="button button-balanced" 
+                            ng-click="matchCustomer(match.migareference_matching_network_id)">
+                                {{"Match" | translate}}
+                            </button>
+                        </div>
+                        <div class="col col-33"> 
+                            <button class="button button-assertive" 
+                            ng-click="discardCustomer(match.migareference_matching_network_id)">
+                                {{"Discard" | translate}} 
+                            </button>                           
+                        </div>
+                    </div>
+                </div>
+              </div>  
+            </div>            
+            <div class="tab2_content" style="background-color: #eaeaea;" ng-if="show_tab2_content">
+              <div class="item item-custom item-text-wrap item-body" style="text-align: center;">
+                <strong>{{last_matching_call}} | {{token_used}}</strong>
+              </div>              
+              <div class="list">
+                <div class="card" ng-repeat="match in matched_data_collection">
+                    <div class="row" style="border-bottom:1px solid #e4e4e4;">
+                        <div class="col col-100" style="text-align:left;">
+                            <strong>UID #{{ match.customer_id }}</strong>
+                        </div>                        
+                    </div>
+            
+                    <div class="row" style="text-align:left;">
+                        <div class="col col-20">{{ 'Name' | translate }}</div>
+                        <div class="col col-80">
+                            <strong>{{ match.firstname }} {{ match.lastname }}</strong>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col col-20" style="text-align:left;">
+                            {{ 'Email' | translate }}
+                        </div>
+                        <div class="col col-80" style="text-align:left;">
+                            <strong>{{ match.email }}</strong>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col col-100" style="text-align:left;white-space: normal;">
+                            {{ match.matching_description }}
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col col-33">
+                        <button class="button button-positive" 
+                                ng-click="openPhonebook(match.migareference_matching_network_id)">
+                            {{"Phonebook" | translate}}
+                        </button>                            
+                      </div>
+                      <div class="col col-33">                            
+                        <button class="button button-balanced" 
+                        ng-click="unMatchCustomer(match.migareference_matching_network_id)">
+                            {{"UnMatch" | translate}}
+                        </button>
+                      </div>
+                      <div class="col col-33"> 
+                        <button class="button button-assertive" 
+                        ng-click="discardCustomer(match.migareference_matching_network_id)">
+                            {{"Discard" | translate}} 
+                        </button>                           
+                      </div>
+                    </div>
+                </div>
+            </div>            
+            </div>          
+            <div class="tab3_content" style="background-color: #eaeaea;" ng-if="show_tab3_content">
+              <div class="item item-custom item-text-wrap item-body" style="text-align: center;">
+                <strong>{{last_matching_call}}</strong> | <strong>{{token_used}}</strong>
+              </div>              
+              <div class="list">
+                <div class="card" ng-repeat="match in discard_data_collection">
+                    <div class="row" style="border-bottom:1px solid #e4e4e4;">
+                        <div class="col col-100" style="text-align:left;">
+                            <strong>UID #{{ match.customer_id }}</strong>
+                        </div>                        
+                    </div>
+            
+                    <div class="row" style="text-align:left;">
+                        <div class="col col-20">{{ 'Name' | translate }}</div>
+                        <div class="col col-80">
+                            <strong>{{ match.firstname }} {{ match.lastname }}</strong>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col col-20" style="text-align:left;">
+                            {{ 'Email' | translate }}
+                        </div>
+                        <div class="col col-80" style="text-align:left;">
+                            <strong>{{ match.email }}</strong>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col col-100" style="text-align:left;white-space: normal;">
+                            {{ match.matching_description }}
+                        </div>
+                    </div>
+                    <div class="row">                      
+                      <div class="col col-100">
+                        <button class="button button-assertive pull-right" 
+                                    ng-click="removeCustomer(match.migareference_matching_network_id)">
+                                {{"Remove" | translate}}
+                            </button>
+                      </div>
+                    </div>
+                </div>
+            </div>            
+            </div>          
+        </div>
+    </ion-content>
+</ion-modal-view>
+<style>
+    <style media="screen">
+    .active_tab {
+      border-bottom: 2px solid black;
+    }
+    .inactive_tab {
+      border-bottom: 0px solid black;
+    }
+    .active_tab > p {
+      opacity: 1;
+    }
+    .inactive_tab > p {
+      opacity: 0.4;
+    }
+    .p-6{
+      padding: 6px;
+    }
+</style>

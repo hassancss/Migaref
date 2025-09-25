@@ -1,0 +1,114 @@
+<ion-view class="migareference-view module-migareference">
+  <ion-nav-title>{{ migareference.page_title }}</ion-nav-title>
+
+  <ion-content class="has-header">
+    <!-- Single Card -->
+    <div class="card" style="background: {{home_icos.qlf_box_bg_color}}">
+      <!-- Header -->
+      <div
+        class="item item-divider card-header"
+        style="color: {{home_icos.qlf_box_text_color}}; font-size:22px; text-align:center; font-weight:600; padding: 12px 0;"
+      >
+        {{home_icos.qlf_level_one_title}}
+      </div>
+
+      <!-- Image -->
+      <div
+        class="item item-image"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 200px;
+        "
+      >
+        <img
+          ng-src="{{home_icos.qlf_level_one_cover}}"
+          alt="Level One Cover"
+          style="max-height: 100%; max-width: 100%"
+        />
+      </div>
+
+      <!-- Subtitle -->
+      <div class="item item-text-wrap" style="text-align: center; color: #444">
+        <p>{{home_icos.qlf_level_one_subtitle}}</p>
+      </div>
+
+      <!-- List Items -->
+      <div class="list">
+        <!-- Level 2 -->
+        <a
+          class="item sv-item"
+          ng-click="goToLevelTwo()"
+          style="display: flex; align-items: center"
+        >
+          <img
+            ng-src="{{home_icos.qlf_level_one_btn_one_cover}}"
+            alt="Level 2"
+            style="
+              height: 60px;
+              width: 60px;
+              object-fit: cover;
+              border-radius: 8px;
+              margin-right: 10px;
+            "
+          />
+          <div style="min-width: 0">
+            <h2 style="font-size: 16px; margin: 0; font-weight: 600">
+              {{home_icos.qlf_level_one_btn_one_title}}
+            </h2>
+            <p
+              style="
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin: 0;
+              "
+            >
+              {{home_icos.qlf_level_one_btn_one_subtitle}}
+            </p>
+          </div>
+        </a>
+
+        <!-- Media -->
+        <a
+          class="item sv-item"
+          ng-click="goToMedia()"
+          style="display: flex; align-items: center"
+        >
+          <img
+            ng-src="{{home_icos.qlf_level_one_btn_two_cover}}"
+            alt="Media"
+            style="
+              height: 60px;
+              width: 60px;
+              object-fit: cover;
+              border-radius: 8px;
+              margin-right: 10px;
+            "
+          />
+          <div style="min-width: 0">
+            <h2 style="font-size: 16px; margin: 0; font-weight: 600">
+              {{home_icos.qlf_level_one_btn_two_title}}
+            </h2>
+            <p
+              style="
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin: 0;
+              "
+            >
+              {{home_icos.qlf_level_one_btn_two_subtitle}}
+            </p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- No Data -->
+    <div ng-if="!home_icos" style="text-align: center; padding: 15px">
+      <p>No content available.</p>
+    </div>
+  </ion-content>
+</ion-view>
