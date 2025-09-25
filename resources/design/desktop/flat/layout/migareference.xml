@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <migareference_application_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="migareference/application/edit.phtml" />
+        </views>
+    </migareference_application_edit>
+    <migarefrence_application_view>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Migareference</title>
+        </base>
+        <views>
+            <content class="admin_view_default"
+                     template="migarefrence/application/view.phtml" />
+        </views>
+    </migarefrence_application_view>
+    <migareference_referrerstats_referrer>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Migareference Stats</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="migareference/stats/referrer.phtml" />
+        </views>        
+    </migareference_referrerstats_referrer>
+    <migareference_generalstats_general>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Migareference Stats</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="migareference/stats/general.phtml" />
+        </views>        
+    </migareference_generalstats_general>    
+    <migareference_adminstats_admin>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Migareference Stats</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="migareference/stats/admin.phtml" />
+        </views>        
+    </migareference_adminstats_admin>
+	<migareference_prospectstats_prospect>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Migareference Prospecting Stats</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="migareference/stats/prospect.phtml" />
+        </views>        
+    </migareference_prospectstats_prospect>       
+	<migareference_reportstats_report>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Migareference Report Stats</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="migareference/stats/report.phtml" />
+        </views>        
+    </migareference_reportstats_report> 
+	<migareference_followupstats_followup>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Migareference Followup Stats</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="migareference/stats/followup.phtml" />
+        </views>        
+    </migareference_followupstats_followup>
+</layout>

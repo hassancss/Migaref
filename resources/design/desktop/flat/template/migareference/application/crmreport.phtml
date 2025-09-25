@@ -1,0 +1,754 @@
+<?php
+$migareference    = new Migareference_Model_Migareference();
+$app_id           = $this->getAppid();
+$user_id          = $this->getUserid();
+$agent_id         = $this->getAgentid();
+$report_by        = $this->getReportby();
+$report_id        = $this->getReportid();
+$invalid_token    = $this->getInvalidtoken();
+$default        = new Core_Model_Default();
+$base_url       = $default->getBaseUrl();
+if ($invalid_token) {  
+  header('Location: '.$base_url."/migareference/invalidaccess?appid=".$app_id);
+  exit;
+}
+
+$pre_settings     = $migareference->preReportsettigns($app_id);
+$app_theme        = $migareference->get_app_content($app_id);
+$enable_pro_type  = $pre_settings['enable_property_type'];
+$enable_pro_sales = $pre_settings['enable_property_sales_expectaion'];
+$enable_pro_addr  = $pre_settings['enable_property_address'];
+$appKey           = "AIzaSyB1q62Lf7qc89028lj5BvEpADEq16cTxHQ";
+$landing_cover    = $this->getUrl('/app/local/modules')."/Migareference/resources/appicons/landing_cover.jpg";
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title Page-->
+    <title><?php echo $this->getPagetitle(); ?></title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+    <style media="screen">
+    .font-robo {
+      font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+    }
+       .input-label{
+         font-size: initial;
+       }
+    .row {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+    }
+    .row-space {
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      -moz-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+    }
+    .col-2 {
+      width: -webkit-calc((100% - 60px) / 2);
+      width: -moz-calc((100% - 60px) / 2);
+      width: calc((100% - 60px) / 2);
+    }
+    @media (max-width: 767px) {
+      .col-2 {
+        width: 100%;
+      }
+    }
+    html {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    *, *:before, *:after {
+      -webkit-box-sizing: inherit;
+      -moz-box-sizing: inherit;
+      box-sizing: inherit;
+    }
+    body,
+    h1, h2, h3, h4, h5, h6,
+    blockquote, p, pre,
+    dl, dd, ol, ul,
+    figure,
+    hr,
+    fieldset, legend {
+      margin: 0;
+      padding: 0;
+    }
+    /**
+     * 1. Reset Chrome and Firefox behaviour which sets a `min-width: min-content;`
+     *    on fieldsets.
+     */
+    fieldset {
+      min-width: 0;
+      /* [1] */
+      border: 0;
+    }
+    button {
+      outline: none;
+      background: none;
+      border: none;
+    }
+    /* ==========================================================================
+       #PAGE WRAPPER
+       ========================================================================== */
+    .page-wrapper {
+      min-height: 100vh;
+    }
+    body {
+      font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 400;
+    }
+    h1 {
+      font-size: 36px;
+    }
+    h2 {
+      font-size: 30px;
+    }
+    h3 {
+      font-size: 24px;
+    }
+    h4 {
+      font-size: 18px;
+    }
+    h5 {
+      font-size: 15px;
+    }
+    h6 {
+      font-size: 13px;
+    }
+    /* ==========================================================================
+       #BACKGROUND
+       ========================================================================== */
+    .bg-blue {
+      background: rgb(51,51,51);
+    }
+    .inactive_pile{
+      width:100%;
+      height:25px;
+      background-color:#b3b3b3;
+    }
+    .active_pile{
+      width:100%;
+      height:25px;
+      background-color:#c51162;
+    }
+    /* ==========================================================================
+       #SPACING
+       ========================================================================== */
+    .p-t-100 {
+      padding-top: 10px;
+    }
+    .p-t-20 {
+      padding-top: 20px;
+    }
+    .p-b-100 {
+      padding-bottom: 10px;
+    }
+    /* ==========================================================================
+       #WRAPPER
+       ========================================================================== */
+    .wrapper {
+      margin: 0 auto;
+    }
+    .wrapper--w680 {
+      max-width: 680px;
+    }
+    /* ==========================================================================
+       #BUTTON
+       ========================================================================== */
+    .btn {
+      line-height: 40px;
+      display: inline-block;
+      padding: 0 25px;
+      cursor: pointer;
+      font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+      color: #fff;
+      -webkit-transition: all 0.4s ease;
+      -o-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .btn--radius {
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+    }
+    .btn--green {
+      background: #57b846;
+    }
+    .btn--green:hover {
+      background: #4dae3c;
+    }
+    /* ==========================================================================
+       #DATE PICKER
+       ========================================================================== */
+    td.active {
+      background-color: #2c6ed5;
+    }
+    input[type="date" i] {
+      padding: 14px;
+    }
+    .table-condensed td, .table-condensed th {
+      font-size: 14px;
+      font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+      font-weight: 400;
+    }
+    .daterangepicker td {
+      width: 40px;
+      height: 30px;
+    }
+    .daterangepicker {
+      border: none;
+      -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      display: none;
+      border: 1px solid #e0e0e0;
+      margin-top: 5px;
+    }
+    .daterangepicker::after, .daterangepicker::before {
+      display: none;
+    }
+    .daterangepicker thead tr th {
+      padding: 10px 0;
+    }
+    .daterangepicker .table-condensed th select {
+      border: 1px solid #ccc;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      font-size: 14px;
+      padding: 5px;
+      outline: none;
+    }
+    /* ==========================================================================
+       #FORM
+       ========================================================================== */
+    input {
+      outline: none;
+      margin: 0;
+      border: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      width: 100%;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .input-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .input-icon {
+      position: absolute;
+      font-size: 18px;
+      color: #ccc;
+      right: 8px;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -o-transform: translateY(-50%);
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .input--style-1 {
+      padding: 9px 15px;
+      color: #666;
+      border-radius: 2px;
+      width: 100%;
+      border: 1px solid;
+    }
+    .input--style-1::-webkit-input-placeholder {
+      /* WebKit, Blink, Edge */
+      color: #555;
+    }
+    .input--style-1:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      color: #555;
+      opacity: 1;
+    }
+    .input--style-1::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: #555;
+      opacity: 1;
+    }
+    .input--style-1:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #555;
+    }
+    .input--style-1:-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #555;
+    }
+    /* ==========================================================================
+       #SELECT2
+       ========================================================================== */
+    .select--no-search .select2-search {
+      display: none !important;
+    }
+    .rs-select2 .select2-container {
+      width: 100% !important;
+      outline: none;
+    }
+    .rs-select2 .select2-container .select2-selection--single {
+      outline: none;
+      border: none;
+      height: 42px;
+    }
+    .rs-select2 .select2-container .select2-selection--single .select2-selection__rendered {
+      line-height: 42px;
+      padding-left: 5px;
+      color: #555;
+    }
+    .rs-select2 .select2-container .select2-selection--single .select2-selection__arrow {
+      height: 32px;
+      right: 4px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -moz-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -moz-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+    }
+    .rs-select2 .select2-container .select2-selection--single .select2-selection__arrow b {
+      display: none;
+    }
+    .rs-select2 .select2-container .select2-selection--single .select2-selection__arrow:after {
+      font-family: "Material-Design-Iconic-Font";
+      content: '\f2f9';
+      font-size: 18px;
+      color: #ccc;
+      -webkit-transition: all 0.4s ease;
+      -o-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+    }
+    .rs-select2 .select2-container.select2-container--open .select2-selection--single .select2-selection__arrow::after {
+      -webkit-transform: rotate(-180deg);
+      -moz-transform: rotate(-180deg);
+      -ms-transform: rotate(-180deg);
+      -o-transform: rotate(-180deg);
+      transform: rotate(-180deg);
+    }
+    .select2-container--open .select2-dropdown--below {
+      border: none;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e0e0e0;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    /* ==========================================================================
+       #TITLE
+       ========================================================================== */
+    .title {
+      margin-bottom: 37px;
+    text-align: center;
+    border-radius: 2px;
+    }
+    /* ==========================================================================
+       #CARD
+       ========================================================================== */
+    .card {
+      overflow: hidden;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      background: #fff;
+    }
+    .card-1 {
+      -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+    }
+    .card-1 .card-heading {
+      background: url("../images/bg-head-02.jpg") center center/cover no-repeat;
+      padding-top: 210px;
+    }
+    .card-1 .card-body {
+      padding: 0 50px;
+      padding-top: 55px;
+      padding-bottom: 65px;
+    }
+    @media (max-width: 767px) {
+      .card-1 .card-body {
+        padding: 0 20px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+      }
+    }
+    .progress.active .progress-bar {
+       -webkit-transition: none !important;
+       transition: none !important;
+     }
+     .progress-danger-line{
+       background-color: red;
+     }
+     .progress-success-line{
+       background-color: green;
+     }
+  .inactive_pile{
+    width:100%;
+    height:25px;
+    background-color:#dededc;
+    border-radius:0px;
+    padding-top: 0px;
+  }
+  .active_pile{
+    padding-top: 0px;
+    width:100%;
+    height:25px;
+    background-color:#c51162;
+    border-radius:0px;
+  }
+  /* START Tabs CSS */
+  
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  border-radius:2px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+  /* END Tabs CSS */
+</style>
+</head>
+<body style="background-color:<?= ($app_theme[0]['crmreport_page_bg_color']!='') ? $app_theme[0]['crmreport_page_bg_color'].' !important' : '' ; ?>">
+    <div class="page-wrapper  p-t-100 p-b-100 font-robo">
+        <div class="wrapper wrapper--w680" style="padding:5px;">
+            <div class="card card-1" style="border: none;background-color:<?= ($app_theme[0]['crmreport_page_form_bg_color']!='') ? $app_theme[0]['crmreport_page_form_bg_color'].' !important' : '' ; ?>">
+                <div class="">
+                  <img  width="100%" src=" <?=($app_theme[0]['crmreport_page_header_file']!='') ? $this->getPlatform().'/images/application/'.$app_id.'/features/migareference/'.$app_theme[0]['crmreport_page_header_file'] : $landing_cover ; ?>" alt="">
+                </div>
+                <!-- Tabs -->
+                <div class="tabs_navigation">
+                    <div class="tab">
+                    <button class="tablinks active" onclick="tabsData(event,'Report')" ><?php echo __("Report"); ?></button>
+                    <button class="tablinks" onclick="tabsData(event,'Reminder')"><?php echo __("Reminder"); ?></button>
+                    <button class="tablinks" onclick="tabsData(event,'Notes')" ><?php echo __("Notes"); ?></button>
+                  </div>
+                </div>
+                <!-- Tab 1 -->
+                <div style="display:block;" id="Report" class="tabcontent" class="card-body">
+                    <h2 class="title"><?= ($app_theme[0]['crmreport_page_form_title']!='') ? $app_theme[0]['crmreport_page_form_title'] : '' ; ?></h2>
+                    <div bis_skin_checked="1" style="margin-left: 15px;margin-bottom: 15px;">
+                      <strong id="header_report_no"></strong> | <strong id="header_report_created_at"></strong>
+                    </div>
+        					  <div style="display:none" class="alert alert-danger error_message" role="alert"></div>
+                    <div style="display:none" class="alert alert-success success_message" role="alert"></div>
+                    <form id="updateNewReport" method="post" action="<?php echo $this->getUrl('migareference/crmreports'); ?>">
+                      <input type="hidden" name="app_id" value="<?=$app_id ?>">
+                      <input type="hidden" id="order_id" name="order_id" value="" />
+                        <input type="hidden" id="new_order_id" name="new_order_id" value="" />
+                        <input type="hidden" id="commission_type_report" name="commission_type" value="" />
+                        <input type="hidden" id="" name="value_id" value="1" />
+                        <input type="hidden" id="migareference_report_id" name="migareference_report_id" value="" />
+                        <input type="hidden" id="" name="modification_by" value="<?php echo $user_id ?>" />
+                        <input type="hidden" id="commission_fee_report" name="commission_fee_report" value="" />
+                        <input type="hidden" id="referral_user_id" name="referral_user_id" value="" />
+                        <input type="hidden" id="is_acquired_text" name="is_acquired" value="" />
+                        <input type="hidden" id="reward_type_report_detail" name="reward_type" value="" />
+                        <input type="hidden" id="is_standard" name="is_standard" value="" />
+                        <input type="hidden" id="standard_type" name="standard_type" value="" />
+                      <div class="form-horizontal" id="report-form-container">
+                          <!-- Dynamic form will be embed in this div -->
+                      </div>
+                      <div class="p-t-20" style="text-align:center;">
+                       <button id="saveproperty-submit" class="btn btn-success" type="submit"><?php echo __("Submit Report"); ?></button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- Tab 2 -->
+                <div id="Reminder" class="tabcontent" class="card-body">
+                   <table id="report_reminders" class="table table-striped" style="width:100%;">
+                    <thead>
+                      <tr>
+                        <th>Event Date</th>
+                        <th>Type</th>                        
+                      </tr>
+                    </thead>
+                    </table>
+                </div>
+                <div id="Notes" class="tabcontent" class="card-body">
+                  <table id="report_notes" class="table table-striped" style="width:100%;">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Note</th>                        
+                      </tr>
+                    </thead>
+                    </table>
+                </div>
+        </div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $appKey; ?>&libraries=places"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      $("#updateNewReport").submit(function (event) {
+    $("#saveproperty-submit").attr("disabled", true);
+    formData=$('#updateNewReport').serialize();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo $this->getUrl('migareference/crmreports/updatereport'); ?>',
+      data: formData,
+      dataType: "json",
+      encode: true,
+    }).done(function (data) {      
+      window.scrollTo(0, 0);
+      if (data.success) {
+        if (data.address_error) {
+          $(".error_message").show().html("").append(data.address_error_message);
+          setTimeout(function(){
+            window.location = '<?php echo $this->getPlatform()."/migareference/updatereportconfirm/index/appid/".$app_id  ?>';
+          }, 4000);
+        }else {
+          window.location = '<?php echo $this->getPlatform()."/migareference/updatereportconfirm/index/appid/".$app_id  ?>';          
+        }
+      }else {
+        $("#saveproperty-submit").attr("disabled", false);
+        $(".error_message").show().html("").append(data.message);
+      }
+    });
+    event.preventDefault();
+  });
+    });
+    // Location Work
+    var address_key=1;
+    function callforaddress(key) {
+        address_key=key;
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById('address-new-report-'+key)), {types: ['geocode']});
+        autocomplete.addListener('place_changed', fillInAddresstest);
+    }
+    function fillInAddresstest() {
+        var place = autocomplete.getPlace();
+        lat = place.geometry.location.lat(),
+        lng = place.geometry.location.lng();
+        $("#new-report-latitude-"+address_key).val(lng);
+        $("#new-report-longitude-"+address_key).val(lng);
+    }
+    // Form Settings
+    loadNewReportForm();
+    loadReportReminders();
+    function loadNewReportForm() {
+          $.ajax({
+            url: '<?php echo $this->getUrl('migareference/crmreports/reportformbuilder'); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {app_id: <?php echo $app_id; ?>,report_id: <?php echo $report_id; ?>}
+          })
+          .done(function(data) {
+             $("#report-form-container").html("").append(data.form_builder);
+             $("#order_id").val(data.item[0].order_id);
+             $("#new_order_id").val(data.item[0].order_id);            
+             if (data.item[0].sponsor_id == 0) {
+                    $(".is_sponsor").hide();
+                }
+                $("#migareference_invoice_settings_id").val(data.item[0].migareference_invoice_settings_id);
+                $("#referral_user_id").val(data.item[0].user_id);
+                $("#migareference_report_id").val(data.item[0].migareference_report_id);
+                $("#commission_type_report").val(data.item[0].commission_type);
+                $("#commission_fee_report").val(data.item[0].commission_fee);
+                $("#is_acquired_text").val(data.item[0].is_acquired);
+                $("#reward_type_report_detail").val(data.item[0].reward_type);
+                $("#header_report_no").html("Report NO"+" "+data.item[0].report_no);
+                $("#header_report_created_at").html("Created at"+" "+data.item[0].report_created_at);
+                // Standard Status
+                $("#is_standard").val(data.item[0].is_standard);
+                $("#standard_type").val(data.item[0].standard_type);
+          })
+          .fail(function(data) {
+            console.log("completed form bulideds");
+          })
+          .always(function() {
+            console.log("completed form bulideds");
+          });
+    }
+    function loadReportReminders() {  
+              //  Load Reminders
+    $('#report_reminders').DataTable({
+        responsive: true,
+        searching:false,
+        paging:false,
+        info:false,
+        columnDefs: [{
+            className: 'control',
+            orderable: false,
+            targets: 0
+        }],
+        "ajax": '<?php echo $this->getUrl("migareference/crmreports/getsinglereportreminder?app_id=$app_id&report_id=$report_id"); ?>',
+    });             
+    // Load Notes
+    $('#report_notes').DataTable({
+    responsive: true,
+    searching: false,
+    paging: false,
+    info: false,
+    "ajax": '<?php echo $this->getUrl("migareference/crmreports/getnoteslist?app_id=$app_id&report_id=$report_id"); ?>',
+    columns: [
+        { data: 'date' },  // Specify the data property for the 'Date' column
+        { data: 'note' }   // Specify the data property for the 'Note' column
+    ]
+});
+
+}    
+    function loadProvicnes(type1,type2) {
+      country_id=$(".country_default").children("option:selected").val();
+          $.ajax({
+            url: '<?php echo $this->getUrl('migareference/landingreport/loadgeoprovice'); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {app_id: <?php echo $app_id; ?>,country_id:country_id}
+          })
+          .done(function(data) {
+          $(".default_province").html("");
+          $.each(data.collection, function (i, item) {
+              $('.default_province').append($('<option>', {
+                  value: item.migareference_geo_provinces_id,
+                  text : item.province
+              }));
+          });
+          })
+          .fail(function(data) {
+            console.log("completed form bulideds");
+          })
+          .always(function() {
+            console.log("completed form bulideds");
+          });
+    }
+    function chnagestatus(obj) {
+    pkid = parseInt(obj.value);
+    report_id = parseInt($("#migareference_report_id").val());
+    $.ajax({
+            url: '<?php echo $this->getUrl('migareference/application/chrckmandate'); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                pkid: pkid,
+                report_id: report_id
+            }
+        }).done(function(data) {
+            // Comment Section
+            $("#is_comment_flag").val(data.checkmandate.is_comment);
+            if (data.checkmandate.is_comment == 1 || data.checkmandate.status_title == "Declinato/Non Venduto") {
+                $("#is_comment_flag").val(1);
+                $("#comment-container-text").show();
+                $("#comment_text").val(data.checkmandate.comment);
+            } else {
+                $("#comment-container-text").hide();
+                $("#comment_text").val("");
+            }
+            $("#new_order_id").val(data.checkmandate.order_id);
+            $("#is_standard").val(data.checkmandate.is_standard);
+            $("#standard_type").val(data.checkmandate.standard_type);
+            // Commission Section
+            $("#is_acquired_text").val(data.checkmandate.is_acquired);
+            if (data.report.commission_type == 1 || data.report.commission_type == 3) {
+                if (data.report.commission_fee > 0) {
+                    $("#commision_validaity").show();
+                    $("#commission_fee").val(data.report.commission_fee);
+                    $("#commission_fee").prop('disabled', true);
+                } else if (data.checkmandate.is_acquired == 1) {
+                    $("#commision_validaity").show();
+                    $("#commission_fee").val(data.report.commission_fee);
+                    $("#commission_fee").prop('disabled', false);
+                } else {
+                    $("#commision_validaity").hide();
+                    $("#commission_fee").val(data.report.commission_fee);
+                    $("#commission_fee").prop('disabled', true);
+                }
+            } else {
+                $("#commission_fee").val(data.report.commission_fee);
+                $("#commission_fee").prop('disabled', true);
+            }
+        }).fail(function(data) {
+            console.log("Fail");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+}
+// Tabs
+function tabsData(event,tabtype) {
+  $(".tabcontent").hide();  
+  $("#"+tabtype).show();
+}
+$(".tablinks").click(function() { 
+  $(".tablinks").removeClass("active");
+  $(this).addClass("active");      
+});
+    </script>
+</body>
+</html>
+<!-- end document-->

@@ -1,0 +1,1153 @@
+﻿<?php
+$app_id   = $this->getApplication()->getId();
+$features = $this->getApplication()->getOptions();
+$value_id = $this->getValueid();
+?>
+<h3 class="title-editor no-border-radius title-feature-indent">
+    <?php echo __(' Manage Qualifications'); ?>
+</h3>
+
+<div class='qualification-qualification-contianer container-fluid content-feature pt30'>
+
+    <!-- Add Qualification Button -->
+    <div class="mb-3 text-right">
+        <button type="button" id="add-qualification-btn" class="btn btn-info">
+            <i class="fa fa-plus"></i> <?php echo __('Add Qualification'); ?>
+        </button>
+    </div>
+
+    <!-- Qualification List -->
+    <div id="qualification-list-container">
+        <table id="qualification-list"
+            class="table display responsive nowrap content-white-bkg"
+            style="width:100%">
+            <thead>
+               <tr class="border-grey text-center">
+                <th><?php echo __('ID'); ?></th>
+                <th><?php echo __('Date'); ?></th>
+                <th><?php echo __('Name'); ?></th>
+                <th><?php echo __('Image'); ?></th>
+                <th><?php echo __('Min. Credits'); ?></th>
+                <th><?php echo __('Referrer List'); ?></th>
+                <th><?php echo __('Content Type'); ?></th>
+                <th><?php echo __('Status'); ?></th> 
+                <th><?php echo __('Action'); ?></th>
+                </tr>
+
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Qualification Form -->
+    <form id="qualification-form" class="form-horizontal" style="display:none;"
+        action="<?php echo $this->getUrl('migareference/qualification_qualification/savequalification') ?>"
+        method="post">
+
+        <!-- Hidden Inputs -->
+  <input type="hidden" name="app_id" value="<?= $app_id ?>">
+  <input type="hidden" name="value_id" value="<?= $value_id ?>">
+  <input type="hidden" id="operation" name="operation" value="create">
+        <input type="hidden" id="migareference_qualifications_id" name="migareference_qualifications_id" value="">
+
+        <!-- Name -->
+        <div class="form-group sb-form-line">
+            <label for="qlf-name" class="sb-form-line-title col-sm-3">
+                <?php echo __(' Qualification Name'); ?>
+            </label>
+            <div class="col-sm-7">
+                <input id="qlf-name" type="text" name="qlf_name"
+                    class="form-control input-flat"
+                    placeholder="<?php echo __('Gold'); ?>">
+            </div>
+        </div>
+
+        <!-- credits -->
+        <div class="form-group sb-form-line">
+            <label for="qlf-credits" class="sb-form-line-title col-sm-3">
+                <?php echo __('Min. Credits'); ?>
+            </label>
+            <div class="col-sm-7">
+                <input id="qlf-credits" type="number" name="qlf_credits"
+                    class="form-control input-flat"
+                    placeholder="<?php echo __('100'); ?>">
+            </div>
+        </div>
+
+        <!-- Qualification Logo -->
+        <div class="form-group sb-form-line">
+            <label for="qlf-credits" class="sb-form-line-title col-sm-3">
+                <?php echo __('Icon/Logo'); ?>
+            </label>
+            <div class="col-sm-7">                 
+                <button id="qualification_custom_picture" type="button" class="upload_contact_picture btn color-blue image_left">
+                    <i class="icon-camera-retro"></i>
+                    <?php echo __('Insert a <span class="bold">Logo/Icon</span>'); ?>
+                </button><br>                                
+                <input id="qualification_custom_file" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                <img id="qualification_custom_cover_img" style="display:none" width="100" height="100" src="" class="cimage" />                
+                <input type="hidden" id="qualification_custom_migareference_cover_file" name="qlf_file" />                
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group sb-form-line">
+            <label class="sb-form-line-title col-sm-3">
+                <?php echo __('Status'); ?>
+            </label>
+            <div class="col-sm-7">
+                <label class="radio-inline">
+                    <input type="radio" name="qlf_status" value="1" checked>
+                    <?php echo __('Active'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="qlf_status" value="0">
+                    <?php echo __('Inactive'); ?>
+                </label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7 text-right">
+                <button class="btn color-blue" type="submit">
+                    <?php echo __('Save'); ?>
+                </button>
+                <button type="button" id="cancel-btn" class="btn btn-link">
+                    <?php echo __('Cancel'); ?>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<h3 class="title-editor no-border-radius title-feature-indent">
+    <?php echo __('  Qualifications Notifications'); ?>
+</h3>
+<div class='qualification-qualification-contianer container-fluid content-feature pt30'>
+
+    <!-- Notification Template Form -->
+    <form id="notification-form" class="form-horizontal"
+        action="<?php echo $this->getUrl('migareference/qualification_notification/savenotification') ?>"
+        method="post" enctype="multipart/form-data">
+
+        <!-- Hidden Inputs -->
+        <input type="hidden" name="app_id" value="<?= $app_id ?>">
+        <input type="hidden" name="value_id" value="<?= $value_id ?>">
+        <input type="hidden" name="operation" value="create">
+        <input type="hidden" id="migareference_qualificationnotifications_id" name="migareference_qualificationnotifications_id" value="">
+
+      
+
+        <!-- Webhook -->
+        <div class="form-group sb-form-line">
+            <label for="webhook" class="sb-form-line-title col-sm-3">
+                <?php echo __('Webhook'); ?>
+            </label>
+            <div class="col-sm-7">
+                <input id="webhook" type="text" name="webhook"
+                    class="form-control input-flat"
+                    placeholder="<?php echo __('https://example.com/webhook'); ?>">
+            </div>
+        </div>
+
+        <!-- Email Subject -->
+        <div class="form-group sb-form-line">
+            <label for="email_subject" class="sb-form-line-title col-sm-3">
+                <?php echo __('Email Subject'); ?>
+            </label>
+            <div class="col-sm-7">
+                <input id="email_subject" type="text" name="email_subject"
+                    class="form-control input-flat"
+                    placeholder="<?php echo __('Congratulations on your new qualification'); ?>">
+            </div>
+        </div>
+
+        <!-- BCC -->
+        <div class="form-group sb-form-line">
+            <label for="bcc" class="sb-form-line-title col-sm-3">
+                <?php echo __('BCC'); ?>
+            </label>
+            <div class="col-sm-7">
+                <input id="bcc" type="text" name="bcc"
+                    class="form-control input-flat"
+                    placeholder="<?php echo __('john@example.com, jane@example.com'); ?>">
+            </div>
+        </div>
+
+
+        <!-- TAG Info -->
+        <div class="form-group sb-form-line">
+            <label class="sb-form-line-title col-sm-3">
+            </label>
+            <div class="col-sm-7">
+                <div class="alert alert-info" style="margin-bottom:0; padding:6px 10px; height:34px; line-height:20px; overflow:hidden;">
+                    @@first_name@@ @@last_name@@ @@qualification_title@@ @@icon_url@@ app@@name@@
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Email Text (Rich Text Editor) -->
+        <div class="form-group sb-form-line">
+            <label for="email_text" class="sb-form-line-title col-sm-3">
+                <?php echo __('Email Body'); ?>
+            </label>
+            <div class="col-sm-7">
+                <textarea id="email_text" name="email_text" rows="5"
+                    class="form-control replace-with-ckeditor input-flat"
+                    placeholder="<?php echo __('Hello @@first_name@@, congratulations on achieving @@qualification_title@@.'); ?>"></textarea>
+            </div>
+        </div>
+
+        <!-- Push Notification Title -->
+        <div class="form-group sb-form-line">
+            <label for="push_title" class="sb-form-line-title col-sm-3">
+                <?php echo __('Push Notification Title'); ?>
+            </label>
+            <div class="col-sm-7">
+                <input id="push_title" type="text" name="push_title"
+                    class="form-control input-flat"
+                    placeholder="<?php echo __('New qualification earned!'); ?>">
+            </div>
+        </div>
+
+        <!-- Push Notification Text -->
+        <div class="form-group sb-form-line">
+            <label for="push_text" class="sb-form-line-title col-sm-3">
+                <?php echo __('Push Notification Message'); ?>
+            </label>
+            <div class="col-sm-7">
+                <textarea id="push_text" name="push_text" rows="3"
+                    class="form-control input-flat"
+                    placeholder="<?php echo __('Congrats John! You achieved Gold status.'); ?>"></textarea>
+            </div>
+        </div>
+
+        <!-- Notification Image Upload -->
+        <div class="form-group sb-form-line">
+            <label class="sb-form-line-title col-sm-3">
+                <?php echo __('Notification Image'); ?>
+            </label>
+            <div class="col-sm-7">
+                <button id="upload_logo_btn" type="button" class="btn btn-block color-blue">
+                    <i class="icon-camera-retro"></i> <?php echo __('Upload Image'); ?>
+                </button>
+                <input id="tmp_logo_file" class="uploader" style="display:none" type="file" name="files[]"
+                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                <img id="show_logo_img" style="display:none;width: 100%; margin-top:10px;" />
+                <input type="hidden" id="logo_url" name="logo_url" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="ref_credits_api_open_feature"><?php echo __("Open a feature or a custom URL") ?></label>
+            </div>
+            <div class="col-sm-7">
+                <select id="ref-credits-api-open-features" name="ref_credits_api_open_feature" class="no-dk styled-select color-blue">
+                    <option value="1"><?php echo __("Yes") ?></option>
+                    <option value="0"><?php echo __("No") ?></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" id="ref-credits-api-feature-id-containerss">
+            <div class="col-sm-3">
+                <label for="ref_credits_api_feature_ids"><?php echo __('Choose the features to open'); ?></label>
+            </div>
+            <div class="col-sm-7 div-all-features">
+                <select id="ref-credits-api-feature-ids" name="ref_credits_api_feature_id"
+                    class="no-dk styled-select color-blue">
+                    <?php echo $getCreditsApiNotification[0]['ref_credits_api_feature_id']; ?>
+                    <?php foreach ($features as $feature) : ?>
+                        <?php if (!$feature->getIsVisible()) continue; ?>
+                        <?php $selected = (count($getCreditsApiNotification) && $getCreditsApiNotification[0]['ref_credits_api_feature_id'] == $feature->getId()) ? "selected" : ""; ?>
+                        <option <?php echo $selected ?> value="<?php echo $feature->getId(); ?>">
+                            <?php echo $feature->getTabbarName() ?>
+                        </option>
+                    <?php endforeach ?>
+                    <option value="0">
+                        <?php echo __('Custom URL?'); ?>
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group ref-credits-api-custom-url-container " style="display:none"
+            id="ref-credits-api-custom-url-containers">
+            <div class="col-sm-3">
+                <label for="ref_credits_api_custom_url"><?php echo __('Custom URL'); ?> *</label>
+            </div>
+            <div class="col-sm-7">
+                <input id="ref_credits_api_custom_url" name="ref_credits_api_custom_url" value=""
+                    class="ref_credits_api_custom_url required input-flat"
+                    placeholder="<?php echo __('https://example.com/page'); ?>">
+            </div>
+        </div>
+        <!-- Save Button -->
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7 text-right">
+                <button class="btn color-blue" type="submit">
+                    <?php echo __('Save'); ?>
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+
+
+</div>
+<!-- Customer Modal -->
+<div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content shadow-lg border-0 rounded-lg">
+            
+            <!-- Header -->
+ 
+           <div class="modal-header text-white" style="background-color: #52a1c0ff;">
+                 <h5 class="modal-title  " style="font-size: large; text-align: center; color: white;">><?php echo __('Referrers List'); ?></h5> 
+             
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body p-1">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th><?php echo __('Name'); ?></th>
+                                <th><?php echo __('Email'); ?></th>
+                                <th><?php echo __('Phone'); ?></th>
+                                <th><?php echo __('Date'); ?></th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="customerListBody">
+                            <!-- Dynamic Data Load -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="contentTypeModal" tabindex="-1" role="dialog" aria-labelledby="contentTypeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">  
+
+      <div class="modal-header text-white" style="background-color: #52a1c0ff;">
+        <h5 class="modal-title" style="font-size: large; text-align: center; color: white;">
+          <?php echo __('Manage Reserved Section Contents'); ?>
+        </h5> 
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Reserved Section Form -->
+<form id="qualification-content-setting-form" class="form-horizontal"
+      action="<?php echo $this->getUrl('migareference/qualification_qualification/savecontentsetting') ?>"
+      method="post">
+
+  <input type="hidden" name="migareference_qualification_content_setting_id" id="migareference_qualification_content_setting_id" value="">
+  <input type="hidden" name="app_id" value="<?= $app_id ?>">
+  <input type="hidden" name="value_id" value="<?= $value_id ?>">
+  <input type="hidden" name="operations" value="create">
+<input type="hidden" name="qualification_id" id="migareference_q_id" value="">
+
+
+  <!-- Non-customer Section -->
+<h6 style="font-size: medium;"><?php echo __('Referrer Type: Non customer'); ?></h6>
+<div class="form-group sb-form-line">
+  <!-- Content Type -->
+  <div class="col-sm-6">
+    <label for="non_customer_content_type" class="sb-form-line-title">
+      <?php echo __('Type'); ?>
+    </label>
+    <select id="non_customer_content_type" name="non_customer_content_type" class="form-control input-flat color-blue">
+      <option value=""><?php echo __('-- Select --'); ?></option>
+      <option value="1" selected><?php echo __('Feature'); ?></option>
+      <option value="2"><?php echo __('Folder'); ?></option>
+    </select>
+  </div>
+
+  <!-- List -->
+  <div class="col-sm-6">
+    <label for="non_customer_list_id" class="sb-form-line-title">
+      <?php echo __('List'); ?>
+    </label>
+    <select id="non_customer_list_id" name="non_customer_list_id" class="form-control input-flat color-blue">
+      <option value=""><?php echo __('-- Select --'); ?></option>
+      <!-- options load by JS -->
+    </select>
+  </div>
+</div>
+
+<!-- Customer Section -->
+<h6 style="font-size: medium;"><?php echo __('Referrer Type: Customer'); ?></h6>
+<div class="form-group sb-form-line">
+  <!-- Content Type -->
+  <div class="col-sm-6">
+    <label for="customer_content_type" class="sb-form-line-title">
+      <?php echo __('Type'); ?>
+    </label>
+    <select id="customer_content_type" name="customer_content_type" class="form-control input-flat color-blue">
+      <option value=""><?php echo __('-- Select --'); ?></option>
+      <option value="1" selected><?php echo __('Feature'); ?></option>
+      <option value="2"><?php echo __('Folder'); ?></option>
+    </select>
+  </div>
+
+  <!-- List -->
+  <div class="col-sm-6">
+    <label for="customer_list_id" class="sb-form-line-title">
+      <?php echo __('List'); ?>
+    </label>
+    <select id="customer_list_id" name="customer_list_id" class="form-control input-flat color-blue">
+      <option value=""><?php echo __('-- Select --'); ?></option>
+      <!-- options load by JS -->
+    </select>
+  </div>
+</div>
+
+
+  <!-- Buttons -->
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-7 text-right">
+      <button class="btn color-blue" type="submit">
+        <?php echo __('Save'); ?>
+      </button>
+      <button type="button" id="cancel-btn" class="btn btn-link" data-dismiss="modal">
+        <?php echo __('Cancel'); ?>
+      </button>
+    </div>
+  </div>
+</form>
+
+
+      </div> <!-- /.modal-body -->
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- CSS Fix (remove # before labels/buttons) -->
+<style>
+    .sb-form-line-title::before {
+        content: none !important;
+    }
+
+    button::before {
+        content: none !important;
+    }
+    .modal-body h6 {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.border {
+  border: 1px solid #ccc !important;
+  border-radius: 5px;
+}
+
+</style>
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+<!-- jQuery is expected to be provided by the admin theme/layout. Avoid reloading it here
+     because it can detach Bootstrap/DataTables plugins and break modals. -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+ 
+<script>
+    $('.replace-with-ckeditor').ckeditor();
+    // Base URL for building image paths when DB stores only filename
+    const BASE_URL = "<?php echo (new Core_Model_Default())->getBaseUrl(); ?>";
+    $(document).ready(function() {
+        let appId = "<?php echo $this->getApplication()->getId(); ?>";
+        if (appId) {
+            loadNotificationData(appId);
+        }
+        // Open content type modal
+        $('#open-content-type-modal').on('click', function(e){
+            e.preventDefault();
+            initContentTypeOptions();
+        });
+    });
+
+function loadNotificationData(appId) {
+    $.ajax({
+        url: "<?php echo $this->getUrl('migareference/qualification_notification/getnotification') ?>",
+        type: "POST",
+        data: { app_id: appId },
+        dataType: "json",
+        success: function(response) {
+            if (response.success && response.data) {
+                let data = response.data;
+
+                // Fill form fields
+                $("#migareference_qualificationnotifications_id").val(data.migareference_qualificationnotifications_id);
+                $("input[name='webhook']").val(data.webhook);
+                $("input[name='email_subject']").val(data.email_subject);
+                $("input[name='bcc']").val(data.bcc);
+                $("#email_text").val(data.email_text);
+                $("input[name='push_title']").val(data.push_title);
+                $("textarea[name='push_text']").val(data.push_text);
+
+                $("#ref-credits-api-open-feature").val(data.ref_credits_api_open_feature);
+                $("#ref-credits-api-feature-ids").val(data.ref_credits_api_feature_id); // fix typo
+                $("input[name='ref_credits_api_custom_url']").val(data.ref_credits_api_custom_url);
+
+                // Show logo image if present
+                if (data.logo_url) {
+                    var original = data.logo_url;
+                    var imgSrc = original;
+
+                    // If the API returns only a filename, build the app image path
+                    if (!/^https?:\/\//i.test(imgSrc) && imgSrc.indexOf('/images/') === -1) {
+                        imgSrc = BASE_URL + '/images/application/' + appId + '/features/migareference/' + original;
+                    }
+
+                    $('#logo_url').val(original);
+                    $('#show_logo_img').attr('src', imgSrc).show();
+                }
+
+                // Set operation = update
+                $("input[name='operation']").val("update");
+            } else {
+                // No record found, set operation = create
+                $("input[name='operation']").val("create");
+            }
+        },
+        error: function(xhr) {
+            console.error("Error while loading notification data:", xhr.responseText);
+        }
+    });
+}
+
+
+    $('#notification-form').submit(function(e) {
+        e.preventDefault();
+
+        $.post(this.action, $(this).serialize(), function(data) {
+            if (data.success) {
+                // SweetAlert success
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message || "Notification saved successfully!",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                // Reload table + close form
+                table.ajax.reload();
+                toggleForm(false);
+
+            } else {
+                // SweetAlert error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    html: data.message || "Error saving Notification",
+                    confirmButtonText: "OK"
+                });
+            }
+        }, "json");
+    });
+
+
+
+
+    $('#ref-credits-api-open-features').on('change', function() {
+        if (this.value == 1) {
+            $("#ref-credits-api-feature-id-containerss").show();
+        } else {
+            $("#ref-credits-api-feature-id-containerss").hide();
+        }
+    });
+    $('#ref-credits-api-feature-ids ').on('change', function() {
+        if (this.value == 0) {
+            $("#ref-credits-api-custom-url-containers").show();
+        } else {
+            $("#ref-credits-api-custom-url-containers").hide();
+        }
+    });
+    $(document).ready(function() {
+        const addBtn = $("#add-qualification-btn");
+        const form = $("#qualification-form");
+        const list = $("#qualification-list-container");
+
+        function toggleForm(showForm) {
+            if (showForm) {
+                form.show();
+                list.hide();
+                addBtn.hide();
+            } else {
+                form.hide();
+                list.show();
+                addBtn.show();
+            }
+        }
+
+        // Add button → Show form
+        addBtn.on("click", function(e) {
+            e.preventDefault();
+            $("#qualification-form")[0].reset();
+            $("input[name=operation]").val("create");
+            $("#migareference_qualifications_id").val("");
+            toggleForm(true);
+        });
+
+        // Cancel button → Hide form & show list
+        $("#cancel-btn").on("click", function(e) {
+            e.preventDefault();
+            toggleForm(false);
+        });
+
+        // Form submit (Ajax)
+      $('#qualification-form').submit(function(e) {
+                e.preventDefault();
+
+                $.post(this.action, $(this).serialize(), function(data) {
+                    if (data.success) {
+                       Swal.fire({
+                            icon: 'success',
+                            title: "<?php echo __('Saved'); ?>",
+                            text: data.message || "<?php echo __('Qualification saved successfully!'); ?>"
+                            });
+
+                        $('#qualification-form')[0].reset();
+                        // Clear uploaded image preview and hidden file value
+                        $('#qualification_custom_cover_img').hide().attr('src', '');
+                        $('#qualification_custom_migareference_cover_file').val('');
+                        $('#qualification_custom_file').val('');
+ 
+                        $('#qualification-list').DataTable().ajax.reload(null, false);
+ 
+                        toggleForm(false);
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || "Error saving qualification"
+                        });
+                    }
+                }, "json");
+            });
+
+
+        var dt_qualification = {
+            responsive: true,
+            autoWidth: false,
+            language: {
+                "decimal": "",
+                "emptyTable": "<?php echo p__('qualification', 'No data available in table'); ?>",
+                "info": "<?php echo p__('qualification', 'Showing _START_ to _END_ of _TOTAL_ entries'); ?>",
+                "infoEmpty": "<?php echo p__('qualification', 'Showing 0 to 0 of 0 entries'); ?>",
+                "infoFiltered": "<?php echo p__('qualification', '(filtered from _MAX_ total entries)'); ?>",
+                "lengthMenu": "<?php echo p__('qualification', 'Show _MENU_ entries'); ?>",
+                "loadingRecords": "<?php echo p__('qualification', 'Loading...'); ?>",
+                "processing": "<?php echo p__('qualification', 'Processing...'); ?>",
+                "search": "<?php echo p__('qualification', 'Search:'); ?>",
+                "zeroRecords": "<?php echo p__('qualification', 'No matching records found'); ?>",
+                "paginate": {
+                    "first": "<?php echo p__('qualification', 'First'); ?>",
+                    "last": "<?php echo p__('qualification', 'Last'); ?>",
+                    "next": "<?php echo p__('qualification', 'Next'); ?>",
+                    "previous": "<?php echo p__('qualification', 'Previous'); ?>"
+                },
+                "aria": {
+                    "sortAscending": "<?php echo p__('qualification', ': activate to sort column ascending'); ?>",
+                    "sortDescending": "<?php echo p__('qualification', ': activate to sort column descending'); ?>"
+                },
+            },
+            bLengthChange: false,
+            bFilter: true,
+            sPaginationType: "full_numbers",
+            fnDrawCallback: function() {
+                $('.paginate_button').addClass('btn color-blue');
+                $('span a.paginate_button').addClass('btn btn-grey');
+            },
+            order: [],
+            ajax: '<?php echo $this->getUrl('migareference/qualification_qualification/getqualifications?app_id=' . $app_id); ?>',
+            columns: [{
+                    data: "id"
+                },
+                {
+                    data: "created_at",
+                    render: function(data, type, row) {
+                        if (!data) return "";
+                        // "2025-09-09 13:45:22" => "2025-09-09"
+                        return data.split(" ")[0];
+                    }
+                },
+                {
+                    data: "name"
+                },
+                 { 
+                    data: "qlf_file",
+                    render: function(data, type, row) {
+                        if (row.image_url) {
+                            return '<img src="' + row.image_url + '" style="max-width: 50px; max-height: 50px;" />';
+                        }
+                        return 'No Image';
+                    }
+                },
+                {
+                    data: "credits"
+                },
+               {
+                    data: "list",
+                    render: function (data) {
+                        return '<div style="text-align:center;">' + data + '</div>';
+                    }
+                },
+
+                 {
+                    data: "content_type",
+                      render: function (data) {
+                        return '<div style="text-align:center;">' + data + '</div>';
+                    }
+                },
+                {
+                    data: "status"
+                },
+                
+                {
+                    data: "action"
+                }
+            ]
+        };
+
+        var table_qualification = $('#qualification-list').DataTable(dt_qualification);
+
+        function table_qualification_reload() {
+            table_qualification.ajax.reload(null, false);
+            table_qualification.columns.adjust().draw();
+        }
+
+
+    });
+
+    function deleteQualification(id) {
+        Swal.fire({
+            title: '<?php echo __("Are you sure?"); ?>',
+            text: '<?php echo __("Do you really want to delete this qualification?"); ?>',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '<?php echo __("Yes, delete it!"); ?>',
+            cancelButtonText: '<?php echo __("Cancel"); ?>'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('<?php echo $this->getUrl('migareference/qualification_qualification/deletequalification'); ?>', {
+                    migarefrence_qualifications_id: id
+                }, function(res) {
+                    if (res.success) {
+                        Swal.fire(
+                            '<?php echo __("Deleted!"); ?>',
+                            res.message,
+                            'success'
+                        );
+                        $('#qualification-list').DataTable().ajax.reload();
+                    } else {
+                        Swal.fire(
+                            '<?php echo __("Error!"); ?>',
+                            res.message,
+                            'error'
+                        );
+                    }
+                }, 'json');
+            }
+        });
+    }
+
+
+    function editQualification(id) {
+        // Toggle Table → Form
+        $('#qualification-list-container').hide();
+        $('#qualification-form').show();
+        $('#add-qualification-btn').hide();
+
+        var url = '<?php echo $this->getUrl('migareference/qualification_qualification/editqualification?id='); ?>' + id;
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data.error) {
+                    alert(data.message || "Could not fetch qualification data");
+                    return;
+                }
+
+                $("#qualification-form input[name='operation']").val("update");
+                $("#migareference_qualifications_id").val(data.data.migareference_qualifications_id);
+                $("#qlf-name").val(data.data.qlf_name);
+                $("#qlf-credits").val(data.data.qlf_credits);
+                if (data.data.qlf_status == "1") {
+                    $("input[name='qlf_status'][value='1']").prop("checked", true);
+                } else {
+                    $("input[name='qlf_status'][value='0']").prop("checked", true);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching qualification:', error);
+                alert("Error fetching qualification data");
+            }
+        });
+    }
+
+    function ViewList(id) {
+        var url = '<?php echo $this->getUrl('migareference/qualification_qualification/viewlist?id='); ?>' + id;
+
+        $("#mask").show();
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $("#mask").hide();
+
+                // No data or empty list -> SweetAlert info
+                if (response.error || !response.data || !Array.isArray(response.data.customers) || response.data.customers.length === 0) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: '<?php echo __("No Referrer"); ?>',
+                        text: response && response.message ? response.message : '<?php echo __("No Referrer found."); ?>',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                if (response.data && Array.isArray(response.data.customers)) {
+                    let rows = '';
+                    response.data.customers.forEach(function(customer) {
+                        rows += `
+                        <tr>
+                             
+                            <td>${customer.firstname} ${customer.lastname}</td>
+                            <td>${customer.email}</td>
+                            <td>${customer.mobile || '-'}</td>
+                                <td>${customer.referrer_created_at|| '-'}</td>
+                            
+                        </tr>
+                    `;
+                    });
+
+                    $("#customerListBody").html(rows);
+                    // Open modal (support Bootstrap 5, Bootstrap 4, or fallback)
+                    (function openCustomerModal() {
+                        var modalEl = document.getElementById('customerModal');
+                        // Bootstrap 5
+                        if (window.bootstrap && bootstrap.Modal) {
+                            var instance = bootstrap.Modal.getOrCreateInstance(modalEl);
+                            instance.show();
+                            return;
+                        }
+                        // Bootstrap 4 (jQuery plugin)
+                        if (window.jQuery && typeof jQuery.fn.modal === 'function') {
+                            jQuery('#customerModal').modal('show');
+                            return;
+                        }
+                        // Fallback: emulate modal behavior
+                        var $modal = jQuery('#customerModal');
+                        $modal.addClass('show').css('display', 'block');
+                        if (!jQuery('.modal-backdrop').length) {
+                            jQuery('body').append('<div class="modal-backdrop fade show"></div>');
+                        }
+                        jQuery('body').addClass('modal-open');
+                        // Close handlers for fallback
+                        $modal.find('[data-dismiss="modal"], .close').off('click.fallback').on('click.fallback', function() {
+                            $modal.removeClass('show').css('display', 'none');
+                            jQuery('.modal-backdrop').remove();
+                            jQuery('body').removeClass('modal-open');
+                        });
+                    })();
+                }
+            },
+            error: function() {
+                $("#mask").hide();
+                Swal.fire({
+                    icon: 'error',
+                    title: '<?php echo __("Error"); ?>',
+                    text: '<?php echo __("No Referrer found."); ?>',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    }
+    //Qualitfication Image/Logo Upload
+    $('#qualification_custom_file').fileupload({
+    dataType: 'json',
+    add: function(e, data) {
+        data.submit();
+        img_uploader.showProgressbar();
+    },
+    progressall: function(e, data) {
+        img_uploader.moveProgressbar(data);
+    },
+    done: function(e, data) {
+        if (data.result.error) {
+            img_uploader.showError(data.result.message);
+        }
+        if (data.result.success) {
+            img_uploader.hide();
+            var params = [];
+            params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+            params["file"] = data.result.files;
+            params["output_w"] = 300;
+            params["output_h"] = 300;
+            params["output_url"] ='<?php echo str_replace('/', '$', $this->getUrl('migareference/application/crop')) ?>';
+            params["uploader"] = 'img_uploader';
+            img_uploader.crop(params);
+            img_uploader.callback = function(file) {
+                var image = iframe.content.find('#active_migarefrence_img_<?php echo $value_id; ?>');
+                $('#qualification_custom_cover_img').hide().attr('src','<?php echo Core_Model_Directory::getTmpDirectory() ?>/' + file).slideDown();
+                $('#qualification_custom_cover_img').show();                
+                $('#qualification_custom_migareference_cover_file').val(file);
+                default_active_migarefrence_url = file;
+            }
+        }
+    }
+});
+$('#qualification_custom_picture').click(function() {    
+    $('#qualification_custom_file').trigger('click');
+});
+
+// Notification Image Upload (same pattern as qualification upload)
+$('#tmp_logo_file').fileupload({
+    dataType: 'json',
+    add: function (e, data) {
+        data.submit();
+        if (typeof img_uploader !== 'undefined') {
+            img_uploader.showProgressbar();
+        }
+    },
+    progressall: function (e, data) {
+        if (typeof img_uploader !== 'undefined') {
+            img_uploader.moveProgressbar(data);
+        }
+    },
+    done: function (e, data) {
+        if (data.result && data.result.error) {
+            if (typeof img_uploader !== 'undefined') img_uploader.showError(data.result.message);
+            return;
+        }
+        if (data.result && data.result.success) {
+            if (typeof img_uploader !== 'undefined') img_uploader.hide();
+            var params = [];
+            params["url"]       = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+            params["file"]      = data.result.files;
+            params["output_w"]  = 300; 
+            params["output_h"]  = 300;
+            params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('migareference/application/crop')) ?>';
+            params["uploader"]  = 'img_uploader';
+            if (typeof img_uploader !== 'undefined') {
+                img_uploader.crop(params);
+                img_uploader.callback = function(file) {
+                  
+                    $('#show_logo_img')
+                        .hide()
+                        .attr('src','<?php echo Core_Model_Directory::getTmpDirectory() ?>/' + file)
+                        .slideDown();
+                    $('#logo_url').val(file);
+                }
+            }
+        }
+    }
+});
+$('#upload_logo_btn').on('click', function () {
+    $('#tmp_logo_file').trigger('click');
+});
+function initContentTypeOptions(qualificationId) {
+    // modal show
+    $('#contentTypeModal').modal('show');
+
+    // reset form
+    $('#qualification-content-setting-form')[0].reset();
+    $('#migareference_qualification_content_setting_id').val(""); // reset hidden id
+    if (qualificationId) {
+        $('#migareference_q_id').val(qualificationId);
+    }
+
+    var appId = "<?= $app_id ?>";
+    var valueId = "<?= $value_id ?>";
+
+    $('#qualification-content-setting-form input[name="app_id"]').val(appId);
+    $('#qualification-content-setting-form input[name="value_id"]').val(valueId);
+
+    console.log("App ID:", appId);
+    console.log("Value ID:", valueId);
+    console.log("Qualification ID:", qualificationId);
+
+    // default Non-customer
+    $("#non_customer_content_type").val("1"); // Feature
+    $("#non_customer_list_id").empty();
+    loadOptions("1", "non_customer_list_id");
+
+    // default Customer
+    $("#customer_content_type").val("1"); // Feature
+    $("#customer_list_id").empty();
+    loadOptions("1", "customer_list_id");
+
+    if (qualificationId) {
+        $.ajax({
+            url: "<?= $this->getUrl('migareference/qualification_qualification/getcontentsetting') ?>",
+            type: "POST",
+            data: { qualification_id: qualificationId, app_id: appId, value_id: valueId },
+            dataType: "json",
+            success: function(response) {
+                if (response.success && response.data) {
+                    var data = response.data;
+
+                    // yahan hidden id set karo
+                    $('#migareference_qualification_content_setting_id')
+                        .val(data.migareference_qualification_content_setting_id || "");
+                    // mark as update
+                    $('#operation').val('update');
+
+                    // Non-customer set karo
+                    if (data.non_customer_content_type && data.non_customer_list_id) {
+                        $("#non_customer_content_type").val(data.non_customer_content_type);
+                        $("#non_customer_list_id").empty();
+                        loadOptions(
+                            data.non_customer_content_type,
+                            "non_customer_list_id",
+                            data.non_customer_list_id
+                        );
+                    }
+
+                    // Customer set karo
+                    if (data.customer_content_type && data.customer_list_id) {
+                        $("#customer_content_type").val(data.customer_content_type);
+                        $("#customer_list_id").empty();
+                        loadOptions(
+                            data.customer_content_type,
+                            "customer_list_id",
+                            data.customer_list_id
+                        );
+                    }
+
+                    console.log("Existing data loaded:", data);
+                } else {
+                    // no existing data; ensure create mode
+                    $('#operation').val('create');
+                }
+            },
+            error: function(err) {
+                console.error("Error fetching existing content settings:", err);
+            }
+        });
+    }
+}
+
+function loadOptions(type, targetId, selectedValue) {
+    var $options = $("#" + targetId);
+    $options.empty();
+
+    // Normalize type
+    var key = "";
+    if (type == "1" || type == 1 || type === "feature") {
+        key = "feature";
+    } else if (type == "2" || type == 2 || type === "folder") {
+        key = "folder";
+    }
+
+    if (key === "feature") {
+        $options.append(`<?php 
+            $featureOptions = "";
+            foreach ($features as $feature) {
+                if(!$feature->getIsVisible()) continue;
+                $featureOptions .= "<option value='".$feature->getId()."'>".$feature->getTabbarName()."</option>";
+            }
+            echo $featureOptions;
+        ?>`);
+    } 
+    else if (key === "folder") {
+        $options.append('<option value="1">Folder 1</option>');
+        $options.append('<option value="2">Folder 2</option>');
+    } 
+    else {
+        $options.append('<option value="">-- Select --</option>');
+    }
+
+    // agar selected value aya ho to usko select karo
+    if (selectedValue) {
+        $options.val(selectedValue);
+    }
+}
+
+// events bind
+$("#non_customer_content_type").on("change", function () {
+    loadOptions($(this).val(), "non_customer_list_id");
+});
+
+$("#customer_content_type").on("change", function () {
+    loadOptions($(this).val(), "customer_list_id");
+});
+
+
+// Bind the submit handler safely
+// form submit
+$(document).off('submit', '#qualification-content-setting-form')
+           .on('submit', '#qualification-content-setting-form', function(e) {
+    e.preventDefault();
+
+    // agar hidden id filled hai to operations = update warna create
+    if ($('#migareference_qualification_content_setting_id').val()) {
+        $('#operations').val('update');
+    } else {
+        $('#operations').val('create');
+    }
+
+    var formData = $(this).serialize();
+    console.log("Form Data Sent:", formData);
+
+    $.post(this.action, formData, function(data) {
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: '<?php echo __("Saved"); ?>',
+                text: data.message || '<?php echo __("Content setting saved successfully."); ?>',
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+            $('#contentTypeModal').modal('hide');
+
+            if (typeof table !== 'undefined') {
+                table.ajax.reload(null, false);  
+            }
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '<?php echo __("Error"); ?>',
+                html: data.message || '<?php echo __("Unable to save content setting."); ?>',
+                confirmButtonText: "OK"
+            });
+        }
+    }, "json").fail(function(xhr) {
+        var msg = xhr && xhr.responseText ? xhr.responseText : '<?php echo __("Request failed."); ?>';
+        Swal.fire({
+            icon: 'error',
+            title: '<?php echo __("Error"); ?>',
+            html: msg
+        });
+    });
+});
+
+
+
+</script>

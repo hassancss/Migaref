@@ -1,0 +1,609 @@
+<?php
+$migareference    = new Migareference_Model_Migareference();
+$app_id           = $this->getAppid();
+$user_id          = $this->getUserid();
+$agent_id         = $this->getAgentid();
+$report_by        = $this->getReportby();
+$report_custom_type = $this->getReportcustomtype();
+$type             = $this->getType();
+$pre_settings     = $migareference->preReportsettigns($app_id);
+$app_theme        = $migareference->get_app_content($app_id);
+$gdpr_settings    = $migareference->get_gdpr_settings($app_id);
+$enable_pro_type  = $pre_settings['enable_property_type'];
+$enable_pro_sales = $pre_settings['enable_property_sales_expectaion'];
+$enable_pro_addr  = $pre_settings['enable_property_address'];
+$appKey           = "AIzaSyB1q62Lf7qc89028lj5BvEpADEq16cTxHQ";
+$landing_cover    = $this->getUrl('/app/local/modules')."/Migareference/resources/appicons/landing_cover.jpg";
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title Page-->
+    <title><?php echo $this->getPagetitle(); ?></title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style media="screen">
+    .font-robo {
+      font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+    }
+       .input-label{
+         font-size: initial;
+       }
+    .row {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+    }
+    .row-space {
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      -moz-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+    }
+    .col-2 {
+      width: -webkit-calc((100% - 60px) / 2);
+      width: -moz-calc((100% - 60px) / 2);
+      width: calc((100% - 60px) / 2);
+    }
+    @media (max-width: 767px) {
+      .col-2 {
+        width: 100%;
+      }
+    }
+    html {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    *, *:before, *:after {
+      -webkit-box-sizing: inherit;
+      -moz-box-sizing: inherit;
+      box-sizing: inherit;
+    }
+    body,
+    h1, h2, h3, h4, h5, h6,
+    blockquote, p, pre,
+    dl, dd, ol, ul,
+    figure,
+    hr,
+    fieldset, legend {
+      margin: 0;
+      padding: 0;
+    }
+    /**
+     * 1. Reset Chrome and Firefox behaviour which sets a `min-width: min-content;`
+     *    on fieldsets.
+     */
+    fieldset {
+      min-width: 0;
+      /* [1] */
+      border: 0;
+    }
+    button {
+      outline: none;
+      background: none;
+      border: none;
+    }
+    /* ==========================================================================
+       #PAGE WRAPPER
+       ========================================================================== */
+    .page-wrapper {
+      min-height: 100vh;
+    }
+    body {
+      font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 400;
+    }
+    h1 {
+      font-size: 36px;
+    }
+    h2 {
+      font-size: 30px;
+    }
+    h3 {
+      font-size: 24px;
+    }
+    h4 {
+      font-size: 18px;
+    }
+    h5 {
+      font-size: 15px;
+    }
+    h6 {
+      font-size: 13px;
+    }
+    /* ==========================================================================
+       #BACKGROUND
+       ========================================================================== */
+    .bg-blue {
+      background: rgb(51,51,51);
+    }
+    .inactive_pile{
+      width:100%;
+      height:25px;
+      background-color:#b3b3b3;
+    }
+    .active_pile{
+      width:100%;
+      height:25px;
+      background-color:#c51162;
+    }
+    /* ==========================================================================
+       #SPACING
+       ========================================================================== */
+    .p-t-100 {
+      padding-top: 10px;
+    }
+    .p-t-20 {
+      padding-top: 20px;
+    }
+    .p-b-100 {
+      padding-bottom: 10px;
+    }
+    /* ==========================================================================
+       #WRAPPER
+       ========================================================================== */
+    .wrapper {
+      margin: 0 auto;
+    }
+    .wrapper--w680 {
+      max-width: 680px;
+    }
+    /* ==========================================================================
+       #BUTTON
+       ========================================================================== */
+    .btn {
+      line-height: 40px;
+      display: inline-block;
+      padding: 0 25px;
+      cursor: pointer;
+      font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+      color: #fff;
+      -webkit-transition: all 0.4s ease;
+      -o-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .btn--radius {
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+    }
+    .btn--green {
+      background: #57b846;
+    }
+    .btn--green:hover {
+      background: #4dae3c;
+    }
+    /* ==========================================================================
+       #DATE PICKER
+       ========================================================================== */
+    td.active {
+      background-color: #2c6ed5;
+    }
+    input[type="date" i] {
+      padding: 14px;
+    }
+    .table-condensed td, .table-condensed th {
+      font-size: 14px;
+      font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+      font-weight: 400;
+    }
+    .daterangepicker td {
+      width: 40px;
+      height: 30px;
+    }
+    .daterangepicker {
+      border: none;
+      -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      display: none;
+      border: 1px solid #e0e0e0;
+      margin-top: 5px;
+    }
+    .daterangepicker::after, .daterangepicker::before {
+      display: none;
+    }
+    .daterangepicker thead tr th {
+      padding: 10px 0;
+    }
+    .daterangepicker .table-condensed th select {
+      border: 1px solid #ccc;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      font-size: 14px;
+      padding: 5px;
+      outline: none;
+    }
+    /* ==========================================================================
+       #FORM
+       ========================================================================== */
+    input {
+      outline: none;
+      margin: 0;
+      border: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      width: 100%;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .input-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .input-icon {
+      position: absolute;
+      font-size: 18px;
+      color: #ccc;
+      right: 8px;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -o-transform: translateY(-50%);
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .input--style-1 {
+      padding: 9px 15px;
+      color: #666;
+      border-radius: 2px;
+      width: 100%;
+    }
+    .input--style-1::-webkit-input-placeholder {
+      /* WebKit, Blink, Edge */
+      color: #555;
+    }
+    .input--style-1:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      color: #555;
+      opacity: 1;
+    }
+    .input--style-1::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: #555;
+      opacity: 1;
+    }
+    .input--style-1:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #555;
+    }
+    .input--style-1:-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #555;
+    }
+    /* ==========================================================================
+       #SELECT2
+       ========================================================================== */
+    .select--no-search .select2-search {
+      display: none !important;
+    }
+    .rs-select2 .select2-container {
+      width: 100% !important;
+      outline: none;
+    }
+    .rs-select2 .select2-container .select2-selection--single {
+      outline: none;
+      border: none;
+      height: 42px;
+    }
+    .rs-select2 .select2-container .select2-selection--single .select2-selection__rendered {
+      line-height: 42px;
+      padding-left: 5px;
+      color: #555;
+    }
+    .rs-select2 .select2-container .select2-selection--single .select2-selection__arrow {
+      height: 32px;
+      right: 4px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -moz-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -moz-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+    }
+    .rs-select2 .select2-container .select2-selection--single .select2-selection__arrow b {
+      display: none;
+    }
+    .rs-select2 .select2-container .select2-selection--single .select2-selection__arrow:after {
+      font-family: "Material-Design-Iconic-Font";
+      content: '\f2f9';
+      font-size: 18px;
+      color: #ccc;
+      -webkit-transition: all 0.4s ease;
+      -o-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+    }
+    .rs-select2 .select2-container.select2-container--open .select2-selection--single .select2-selection__arrow::after {
+      -webkit-transform: rotate(-180deg);
+      -moz-transform: rotate(-180deg);
+      -ms-transform: rotate(-180deg);
+      -o-transform: rotate(-180deg);
+      transform: rotate(-180deg);
+    }
+    .select2-container--open .select2-dropdown--below {
+      border: none;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e0e0e0;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    /* ==========================================================================
+       #TITLE
+       ========================================================================== */
+    .title {
+      margin-bottom: 37px;
+    text-align: center;
+    border-radius: 2px;
+    }
+    /* ==========================================================================
+       #CARD
+       ========================================================================== */
+    .card {
+      overflow: hidden;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      background: #fff;
+    }
+    .card-1 {
+      -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+    }
+    .card-1 .card-heading {
+      background: url("../images/bg-head-02.jpg") center center/cover no-repeat;
+      padding-top: 210px;
+    }
+    .card-1 .card-body {
+      padding: 0 50px;
+      padding-top: 55px;
+      padding-bottom: 65px;
+    }
+    @media (max-width: 767px) {
+      .card-1 .card-body {
+        padding: 0 20px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+      }
+    }
+    .progress.active .progress-bar {
+       -webkit-transition: none !important;
+       transition: none !important;
+     }
+     .progress-danger-line{
+       background-color: red;
+     }
+     .progress-success-line{
+       background-color: green;
+     }
+  .inactive_pile{
+    width:100%;
+    height:25px;
+    background-color:#dededc;
+    border-radius:0px;
+    padding-top: 0px;
+  }
+  .active_pile{
+    padding-top: 0px;
+    width:100%;
+    height:25px;
+    background-color:#c51162;
+    border-radius:0px;
+  }
+
+  /* //Loader css */
+  .loader {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+}
+.loader::after,
+.loader::before {
+  content: '';  
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #FFF;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: animloader 2s linear infinite;
+}
+.loader::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloader {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+<body class="bg-blue" style="background-color:<?= ($gdpr_settings[0]['landing_page_bg_color']!='') ? $gdpr_settings[0]['landing_page_bg_color'].' !important' : '' ; ?>;color:<?= ($gdpr_settings[0]['landing_page_text_color']!='') ? $gdpr_settings[0]['landing_page_text_color'].' !important' : '' ; ?>">
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+        <div id="loader" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+          <span class="loader"></span>
+        </div>
+    </div>
+    <div class="page-wrapper  p-t-100 p-b-100 font-robo">
+        <div class="wrapper wrapper--w680" style="padding:5px;">
+            <div class="card card-1" style="border: none;background-color:<?= ($gdpr_settings[0]['landing_page_form_bg_color']!='') ? $gdpr_settings[0]['landing_page_form_bg_color'].' !important' : '' ; ?>">
+                <div class="">
+                  <img  width="100%" src=" <?=($gdpr_settings[0]['landing_page_header_file']!='') ? $this->getPlatform().'/images/application/'.$app_id.'/features/migareference/'.$gdpr_settings[0]['landing_page_header_file'] : $landing_cover ; ?>" alt="">
+                </div>
+                <div class="card-body">
+                    <h2 class="title"><?= ($gdpr_settings[0]['landing_page_form_title']!='') ? $gdpr_settings[0]['landing_page_form_title'] : '' ; ?></h2>
+        					  <div style="display:none" class="alert alert-danger error_message" role="alert"></div>
+                    <div style="display:none" class="alert alert-success success_message" role="alert"></div>
+                    <form id="saveNewReport" method="post" action="<?php echo $this->getUrl('migareference/landingreport'); ?>">
+                      <input type="hidden" name="app_id" value="<?=$app_id ?>">
+                      <input type="hidden" name="user_id" value="<?=$user_id ?>">
+                      <input type="hidden" name="report_by" value="<?=$report_by ?>">
+                      <input type="hidden" name="report_custom_type" value="<?=$report_custom_type ?>">
+                      <input type="hidden" name="agnet_id" value="<?=$agnet_id ?>">
+                      <input type="hidden" name="type" value="<?=$type ?>">
+                      <input type="hidden" name="owner_hot" value="5">
+                      <div class="form-horizontal" id="report-form-container">
+                          <!-- Dynamic form will be embed in this div -->
+                      </div>
+                      <div class="p-t-20" style="text-align:center;">
+                       <button 
+                       style="border: none;background-color:<?= ($gdpr_settings[0]['invite_consent_btn_submit_bg']!='') ? $gdpr_settings[0]['invite_consent_btn_submit_bg'].' !important' : '' ; ?>;color:<?= ($gdpr_settings[0]['invite_consent_btn_submit_font']!='') ? $gdpr_settings[0]['invite_consent_btn_submit_font'].' !important' : '' ; ?>" 
+                       id="saveproperty-submit" class="btn btn-success" type="submit">                        
+                        <?= ($gdpr_settings[0]['invite_consent_btn_submit_text']!='') ? $gdpr_settings[0]['invite_consent_btn_submit_text'] : __("Submit Report") ; ?>
+                      </button>
+                      </div>
+                    </form>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $appKey; ?>&libraries=places"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+    $("#saveNewReport").submit(function (event) {
+    $("#saveproperty-submit").attr("disabled", true);
+    $("#overlay").show(); // Show the loader
+    event.preventDefault();
+    formData=$('#saveNewReport').serialize();
+    $.ajax({
+      type: "POST",
+      url: '<?php echo $this->getUrl('migareference/landingreport/savereport'); ?>',
+      data: formData,
+      dataType: "json",
+      encode: true,
+    }).done(function (data) {
+      window.scrollTo(0, 0);
+      if (data.success) {
+        if (data.address_error) {
+          $(".error_message").show().html("").append(data.address_error_message);
+          setTimeout(function(){
+            window.location = '<?php echo $this->getPlatform()."/migareference/reportconfirm/index/appid/".$app_id  ?>'+"/rep/"+data.report_id;
+          }, 4000);
+        }else {
+          window.location = '<?php echo $this->getPlatform()."/migareference/reportconfirm/index/appid/".$app_id  ?>'+"/rep/"+data.report_id;          
+        }
+      }else {
+        $("#saveproperty-submit").attr("disabled", false);
+        $(".error_message").show().html("").append(data.message);
+      }
+    }).fail(function () {
+        $(".error_message").show().html("An error occurred. Please try again.");
+    }).always(function () {
+        $("#overlay").hide(); // Hide the loader
+    });
+    
+  });
+    });
+    // Location Work
+    var address_key=1;
+    function callforaddress(key) {
+        address_key=key;
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById('address-new-report-'+key)), {types: ['geocode']});
+        autocomplete.addListener('place_changed', fillInAddresstest);
+    }
+    function fillInAddresstest() {
+        var place = autocomplete.getPlace();
+        lat = place.geometry.location.lat(),
+        lng = place.geometry.location.lng();
+        $("#new-report-latitude-"+address_key).val(lng);
+        $("#new-report-longitude-"+address_key).val(lng);
+    }
+    // Form Settings
+    loadNewReportForm();
+    function loadNewReportForm() {
+          $.ajax({
+            url: '<?php echo $this->getUrl('migareference/landingreport/reportformbuilder'); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {app_id: <?php echo $app_id; ?>}
+          })
+          .done(function(data) {
+            $("#report-form-container").html("").append(data.form_builder);
+            $('#owner_mobile').val("+39");
+          })
+          .fail(function(data) {
+            console.log("completed form bulideds");
+          })
+          .always(function() {
+            console.log("completed form bulideds");
+          });
+    }
+    function loadProvicnes(type1,type2) {
+      country_id=$(".country_default").children("option:selected").val();
+          $.ajax({
+            url: '<?php echo $this->getUrl('migareference/landingreport/loadgeoprovice'); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {app_id: <?php echo $app_id; ?>,country_id:country_id}
+          })
+          .done(function(data) {
+          $(".default_province").html("");
+          $.each(data.collection, function (i, item) {
+              $('.default_province').append($('<option>', {
+                  value: item.migareference_geo_provinces_id,
+                  text : item.province
+              }));
+          });
+          })
+          .fail(function(data) {
+            console.log("completed form bulideds");
+          })
+          .always(function() {
+            console.log("completed form bulideds");
+          });
+    }
+    </script>
+</body>
+</html>
+<!-- end document-->

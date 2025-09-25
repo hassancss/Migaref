@@ -1,0 +1,892 @@
+<?php
+$application = $this->getApplication();
+$app_id      = $application->getId();
+$migareference  = new Migareference_Model_Migareference();    
+$referral_usrs  = $migareference->get_referral_users($app_id);
+$agent_report_count  = $migareference->count_agent_reports($app_id,0);
+$agents         = $migareference->get_customer_agents($app_id);
+$pre_settings = $migareference->preReportsettigns($app_id);
+$default        = new Core_Model_Default();
+$base_url       = $default->getBaseUrl();
+?>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+<div id="pagecontainer">
+    <div class="application_analytics application content" id="content">
+        <h3 class="title-editor border-blue text-center"><?php echo __("Migareference Referrer Stats") ?></h3>
+        <div class="container-fluid subcontent content-color"  >        
+		<ul class="nav nav-tabs" role="tablist" data-html2canvas-ignore="true" style="margin-bottom:10px;">
+				<li role="presentation">
+                    <a href="<?=$base_url."/migareference/generalstats/general"?>">
+                        <?php echo __("General") ?>
+                    </a>
+                </li>
+				<li role="presentation">
+					<a href="<?=$base_url."/migareference/prospectstats/prospect" ?>">
+                        <?php echo __("Prospecting") ?>
+                    </a>
+                </li>
+				<li role="presentation">
+                    <a href="<?=$base_url."/migareference/reportstats/report" ?>">
+                        <?php echo __("Reports") ?>
+                    </a>
+                </li>
+				<li role="presentation">
+                    <a href="<?=$base_url."/migareference/followupstats/followup" ?>">
+                        <?php echo __("Followup") ?>
+                    </a>
+                </li>
+				<li role="presentation" class="active">
+                    <a href="<?=$base_url."/migareference/referrerstats/referrer" ?>">
+                        <?php echo __("Referrers") ?>
+                    </a>
+                </li>
+                <!-- <li role="presentation" >
+                    <a href="<?=$base_url."/migareference/adminstats/admin" ?>">
+                        <?php echo __("Agent") ?>
+                    </a>
+                </li>
+                <li role="presentation" >
+                    <a href="<?=$base_url."/migareference/referrerstats/referrer" ?>">
+                        <?php echo __("Referrers") ?>
+                    </a>
+                </li>      -->
+                <li style="float:right;">
+                    <button class="btn color-blue" onclick="printPdf()">
+                        <i class="fa fa-download"></i>
+                        <?php echo __("PDF") ?>
+                        <span style="display:none;" id="pdf_download_loader"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i></span>
+                    </button>
+                </li>               
+            </ul>       
+            <!-- Filter Start -->
+            <div class="row">
+                <div class="col-md-2">
+                    <select onChange="filterType()" id="range_filter" class="input-flat" name="">
+                        <!-- <option value="1"><?php echo __("Last 30 Days") ?></option>                            
+                        <option value="2"><?php echo __("Last 3 Months") ?></option>                            
+                        <option value="3"><?php echo __("Last 6 Months") ?></option>                            
+                        <option value="4"><?php echo __("Current Year") ?></option>                            
+                        <option value="5"><?php echo __("Last Year") ?></option>                            
+                        <option value="6"><?php echo __("All") ?></option>                            
+                        <option style="font-weight:600" value="100"><?php echo __("Custom Range") ?></option> -->                            
+						<option value="6"><?php echo __("ALL") ?></option> 
+						<option value="8"><?php echo __("Past Week") ?></option> 
+                        <option selected value="1"><?php echo __("Last 30 Days") ?></option> 
+						<option value="7"><?php echo __("Past Month") ?></option>                           
+                        <option value="2"><?php echo __("Last 3 Months") ?></option>                            
+                        <option value="3"><?php echo __("Last 6 Months") ?></option>                            
+                        <option value="4"><?php echo __("Current Year") ?></option>                            
+                        <option value="5"><?php echo __("Last Year") ?></option>                               
+                        <option style="font-weight:600" value="100"><?php echo __("Custom Range") ?></option>
+                    </select>
+                </div> 
+                <div class="col-md-2">
+                    <select  id="sponsor_filter" class="input-flat" name="">
+                        <option value="-1"><?php echo __("ALL") ?></option>
+                        <?php if ($pre_settings[0]['enable_mandatory_agent_selection']==2) { ?>
+                            <option value="0"><?php echo __("I dont know")." (".$agent_report_count[0]['total_reports'].")"; ?></option>
+                        <?php } ?>                          
+                        <?php foreach ($agents as $key => $value): ?>
+                        <option value="<?=$value['user_id'] ?>"><?=$value['firstname']." ".$value['lastname']." (".$value['total_reports'].")"; ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select  id="referrer_filter"
+                        class="input-flat" name="referrer_filter">                                                                                            
+                        <option value="0"><?php echo __("ALL") ?></option>
+                        <?php foreach ($referral_usrs as $key => $value): ?>
+                        <option value="<?=$value['user_id'] ?>">
+                            <?=$value['invoice_name']." ".$value['invoice_surname']." (".$value['total_reports'].")" ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>  
+                <div class="col-md-4" id="custom_date_filter_container" style="display:none;">                
+                    <div id="row_filter_metrics" class="row sb-tour">
+                        <div class="col-md-2 col-sm-6 col-xs-6" style="padding:0">
+                            <label for="from"><?php echo __("From"); ?></label>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-6" style="padding:0">
+                            <input type="text" id="from" name="from" class="input-flat sb-tour">
+                        </div>
+                        <div class="col-md-2 col-sm-6 col-xs-6" style="padding-right:0">
+                            <label for="to"><?php echo __("To"); ?></label>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-6"  style="padding:0">
+                            <input type="text" id="to" name="to" class="input-flat sb-tour">
+                        </div>                    
+                    </div>
+                </div>                             
+                <div class="col-md-2">
+                    <button data-html2canvas-ignore="true" class="btn color-blue" onclick="loadReferrerStats()">                    
+                        <?php echo __("Filter Stats") ?>                    
+                    </button>
+                </div>                    
+            </div>        
+            <!-- Filter End -->
+            <?php  if (count($referral_usrs)) { ?>        
+            <div class="row first-row-feature" style="1px solid #d0cfcf">
+                <h3 class="fs-titel stat-headings"><?php echo __("Reports Statistics") ?></h3>
+                <div class="row" style="padding:20px;">
+                    <div class="col-md-12 col-xs-12" style="max-height:350px">
+                        <div style="margin-left:49%;" id="total_referrers_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo __("Loading..."); ?></div>
+                        <canvas style="border:1px solid #dedddd"  id="total_referrers" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+                    </div>
+                </div>
+                <div class="row stat-count-container">
+                    <div class="col-md-1">                                    
+                    </div>               
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><?php echo __("No. of Reports") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_total_reports_all"></h1>
+                            <p class="default-hide count_veriation">
+                                Variation 
+                                <span class="default-hide stats-possitive"> <i class="fa fa-arrow-up" aria-hidden="true"></i></span>
+                                <span class="default-hide stats-negative"> <i class="fa fa-arrow-down" aria-hidden="true"></i></span>                                   
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><?php echo __("No. Deal Closed") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_total_reports_success"></h1>
+                            <p class="default-hide count_veriation">
+                                Variation 
+                                <span class="default-hide "> <i class="fa fa-arrow-up" aria-hidden="true"></i></span>
+                                <span class="default-hide "> <i class="fa fa-arrow-down" aria-hidden="true"></i></span>                                    
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="background-color:#f8eabb;">
+                            <p><?php echo __("Incubation Days") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_total_reports_incubation"></h1>
+                            <p class="default-hide count_veriation">                                            
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p id="ref_stat_count_total_reports_commission_label"><?php echo __("Commissions") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_total_reports_commission"></h1>
+                            <p class="default-hide count_veriation">
+                                Variation 
+                                <span class="default-hide "> <i class="fa fa-arrow-up" aria-hidden="true"></i></span>
+                                <span class="default-hide "> <i class="fa fa-arrow-down" aria-hidden="true"></i></span>                                    
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="background-color:#f8eabb;">
+                            <p><?php echo __("Reports KPI") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_total_reports_kpi"></h1>
+                            <p class="default-hide count_veriation">
+                                Variation 
+                                <span class="default-hide "> <i class="fa fa-arrow-up" aria-hidden="true"></i></span>
+                                <span class="default-hide "> <i class="fa fa-arrow-down" aria-hidden="true"></i></span>                                    
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-1">                                    
+                    </div>                                                        
+                </div>
+            </div>        
+            <!-- Range Staticistx -->
+            <div class="row first-row-feature">
+                <h3 class="fs-titel stat-headings"><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("Time Range Reports Statistics") ?><span class='filter-time-stamp'></span></h3>
+                <div class="row" style="padding:20px;">
+                    <div class="col-md-12 col-xs-12" style="max-height:350px">
+                        <div style="margin-left:49%;" id="range_referrers_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo __("Loading..."); ?></div>
+                        <canvas style="border:1px solid #dedddd" id="range_referrers" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+                    </div>
+                </div>
+                <div class="row stat-count-container">
+                    <div class="col-md-1">                                    
+                    </div>               
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><?php echo __("No. of Reports") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_reports_all"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_reports_all">                                            
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><?php echo __("No. Deal Closed") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_reports_success"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_reports_success">                                            
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="background-color:#f8eabb;">
+                            <p><?php echo __("Incubation Days") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_reports_incubation"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_reports_incubation">                                            
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p id="ref_stat_count_range_reports_commission_label"><?php echo __("Commissions") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_reports_commission"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_reports_commission">
+                                
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="background-color:#f8eabb;">
+                            <p><?php echo __("Reports KPI") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_reports_kpi"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_reports_kpi">                                            
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-1">                                    
+                    </div>                                                        
+                </div>
+            </div>
+            <!-- Landing Page Prospect Staticistx -->
+            <div class="row first-row-feature">
+                <h3 class="fs-titel stat-headings"> <i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("Time Range Invite Prospectus") ?><span class='filter-time-stamp'></span></h3>                          
+                <div class="row stat-count-container">
+                    <div class="col-md-1">                                    
+                    </div>               
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><?php echo __("No. Invitations") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_prospect_all"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_prospect_all">                                            
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><?php echo __("No. Visits") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_prospect_visit"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_prospect_visit">                                             
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><?php echo __("No. of Reports") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_prospect_success"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_prospect_success">                                            
+                            </p>
+                        </div>
+                    </div>                                                                
+                    <div class="col-md-2">
+                        <div class="stat-calculate" style="background-color:#f8eabb;">
+                            <p><?php echo __("Reports KPI") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_prospect_kpi"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_prospect_kpi">                                            
+                            </p>
+                        </div>
+                    </div>                        
+                    <div class="col-md-2">                                    
+                    </div>                
+                    <div class="col-md-1">                                    
+                    </div>                                                        
+                </div>
+            </div>                                                               
+            <?php } else { ?>
+                <div class="row">
+                    <div class="col-sm-12" style="text-align:center;" >
+                        <strong ><?php echo __("No Referrers Found")."!"; ?></strong> 
+                    </div>
+                </div>
+            <?php } ?>                             
+        </div>
+    </div>
+</div>
+<script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
+    integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+<script>   
+// START Date Picker
+        var today = new Date();  // get current date
+        var oneYearAgo = new Date();  // create new date object
+        oneYearAgo.setFullYear(today.getFullYear() - 1);  // set year to previous year
+
+        if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+            $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+        } else {
+            $.datepicker.setDefaults($.datepicker.regional['en']);
+        }
+
+        $("#from").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 3,
+            minDate: oneYearAgo,
+            onClose: function( selectedDate ) {
+                $("#to").datepicker( "option", "minDate", selectedDate );
+            }
+        });
+
+        $("#to").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+                $("#from").datepicker( "option", "maxDate", selectedDate );
+            }
+        });        
+        $("#to").datepicker('setDate', new Date());
+        $("#from").datepicker('setDate', -30);        
+        function computeDateRange() {
+                var start_timestamp = parseInt($.datepicker.formatDate( "@", $("#from").datepicker("getDate"))/1000);
+                var end_timestamp = parseInt($.datepicker.formatDate( "@", $("#to").datepicker("getDate"))/1000);
+                //We go to 23:59
+                end_timestamp = end_timestamp + (60*60*24) - 60;
+                date_range = {
+                    "start": start_timestamp,
+                    "end": end_timestamp
+                };
+                return date_range;
+
+            }    
+        var date_range_params='';
+        function filterStats() {
+        if($("#from").val() && $("#to").val()) {
+            date_range_params = computeDateRange();
+            if(date_range_params.start <= date_range_params.end) {                
+                console.log("Done");             
+            } else {
+                var page_message = new AlertMessage("<?php echo __("Start date must be lower than end date."); ?>");
+                page_message.addButton(true);
+                page_message.setTimer(false);
+                page_message.isError(true);
+                page_message.show();
+            }
+        } else {
+            var page_message = new AlertMessage("<?php echo __("You have to chose a start and an end date."); ?>");
+            page_message.addButton(true);
+            page_message.setTimer(false);
+            page_message.isError(true);
+            page_message.show();
+        }
+    }
+        // END Date Picker
+        $(".default-hide").hide();    
+        // TOTAL
+        var total_referrers;
+        var total_referrers_labels = [];
+        var total_referrers_values = [];  
+        // Range Report
+        var range_referrers;
+        var range_referrers_labels = [];
+        var range_referrers_values = [];  
+        var range_referrers_colors = [];          
+        // Range Prospect Landing Page
+        var range_prospect_landing;
+        var range_prospect_landing_labels = [];
+        var range_prospect_landing_values = [];  
+
+        var total_ctx = $("#total_referrers");
+        var range_ctx = $("#range_referrers");
+        // Total Stats Section
+        var data = {
+            labels: total_referrers_labels,
+            datasets: [
+                {
+                    label: '<?php echo __("Total Reports"); ?>',
+                    backgroundColor: "#fbb862",
+                    borderColor: "#f59b56",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "#f59b56",
+                    hoverBorderColor: "#fbb862",
+                    data: total_referrers_values
+                },
+                {
+                    label: '<?php echo __("Deal Closed"); ?>',
+                    backgroundColor: "#64ad73",
+                    borderColor: "#3d9a70",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "#3d9a70",
+                    hoverBorderColor: "#64ad73",
+                    data: total_referrers_values
+                }
+            ]
+        };
+        total_referrers = new Chart(total_ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                "responsive":true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        min: 0,
+                        ticks:{
+                            precision:0
+                        }                        
+                    }
+                }
+            }
+        });
+        // Report Range Section
+        var data = {
+            labels: range_referrers_labels,
+            datasets: [
+                {
+                    label: '<?php echo __("Total Reports"); ?>',
+                    backgroundColor: "#fbb862",
+                    borderColor: "#f59b56",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "#f59b56",
+                    hoverBorderColor: "#fbb862",
+                    data: range_referrers_values
+                },
+                {
+                    label: '<?php echo __("Deal Closed"); ?>',
+                    backgroundColor: "#64ad73",
+                    borderColor: "#3d9a70",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "#3d9a70",
+                    hoverBorderColor: "#64ad73",
+                    data: total_referrers_values
+                }
+            ]
+        };
+        range_referrers = new Chart(range_ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                "responsive":true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        min: 0,
+                        ticks:{
+                            precision:0
+                        }                        
+                    }
+                }
+            }
+        });        
+        // Empty No Graph
+        loadReferrerStats();  
+        var is_custome_date_filter=0;
+        function filterType() {
+            range_filter=$("#range_filter").val();                 
+            if (range_filter==100) {
+                is_custome_date_filter=1;
+                $("#custom_date_filter_container").show();
+            }else{
+                is_custome_date_filter=0;
+                $("#custom_date_filter_container").hide();
+            }  
+        }
+        loadReferrerStats();
+        var range_filter=0;
+        var sponsor_filter=0;
+        var referrer_filter=0;        
+        function loadReferrerStats() {            
+            $("#total_referrers_loader").show();
+            $("#range_referrers_loader").show();
+            range_filter=$("#range_filter").val();           
+            sponsor_filter=$("#sponsor_filter").val();       
+            referrer_filter=$("#referrer_filter").val();             
+            filterStats();  
+            $.ajax({
+                method: "POST",
+                dataType: 'json',
+                url: "/migareference/referrerstats/referrerstats",
+                data: { app_id: '<?php echo $app_id; ?>', range_filter: range_filter,sponsor_filter:sponsor_filter,referrer_filter:referrer_filter,date_range_params:date_range_params,is_custome_date_filter:is_custome_date_filter}
+            }).done(function( data ) {  
+                $(".filter-time-stamp").text(" ("+'<?php echo __("From") ?>'+": "+data.params.from_date+" "+'<?php echo __("To") ?>'+": "+data.params.to_date+" )");          
+                if(data.success) {                  
+                    //   Section 1
+                    if(data.data.length) {
+                        //Start: Print Chart
+                        var total_scussess_labels = [];
+                        var total_reports = [];
+                        var success_reports = [];
+                        $.each(data.data, function(ind, elem) {
+                            total_scussess_labels.push(elem.labels);
+                            total_reports.push(elem.total_reports);
+                            success_reports.push(elem.success_reports);
+                        });
+                        total_referrers.data.datasets[0].data = total_reports;
+                        total_referrers.data.datasets[1].data = success_reports;
+                        total_referrers.data.labels = total_scussess_labels;
+                        total_referrers.update();
+                        //END Print Chart                        
+                        //Print Count Variations
+                        $(".dfault-0").text(0); //Reset count values to 0                   
+                        $("#ref_stat_count_total_reports_all").text(data.count_data[0].total_reports);
+                        $("#ref_stat_count_total_reports_success").text(data.count_data[0].success_reports);                                            
+                        $("#ref_stat_count_total_reports_incubation").text(data.count_data[0].incubation);                        
+                        $("#ref_stat_count_total_reports_commission_label").text(data.count_data[0].earn_label);                                                
+                        $("#ref_stat_count_total_reports_commission").text(data.count_data[0].earn_amount);                                                                        
+                        $("#ref_stat_count_total_reports_kpi").text(data.count_data[0].kpi);                                                
+                    } else {
+                        total_referrers.data.datasets[0].data = [];
+                        total_referrers.data.datasets[1].data = [];
+                        total_referrers.data.labels = [];
+                        total_referrers.update();
+                    }
+                    //   Section 2
+                    if(data.range_data.length) {
+                        //Start: Print Chart
+                        var range_scussess_labels = [];
+                        var range_reports = [];
+                        var success_reports = [];
+                        $.each(data.range_data, function(ind, elem) {
+                            range_scussess_labels.push(elem.labels);
+                            range_reports.push(elem.total_reports);
+                            success_reports.push(elem.success_reports);
+                        });
+                        range_referrers.data.datasets[0].data = range_reports;
+                        range_referrers.data.datasets[1].data = success_reports;
+                        range_referrers.data.labels = range_scussess_labels;
+                        range_referrers.update();
+                        //END Print Chart
+                        //Range: Print Count and Variations                        
+                        $("#ref_stat_count_range_reports_all").text(data.range_count_data[0].total_reports);                                                                
+                        $("#var_ref_stat_count_range_reports_all").html("").append(data.var_range_count_reports[0].var_total_reports);
+
+                        $("#ref_stat_count_range_reports_success").text(data.range_count_data[0].success_reports);                    
+                        $("#var_ref_stat_count_range_reports_success").html("").append(data.var_range_count_reports[0].var_success_reports);
+
+                        $("#ref_stat_count_range_reports_incubation").text(data.range_count_data[0].incubation);                    
+                        $("#var_ref_stat_count_range_reports_incubation").html("").append(data.var_range_count_reports[0].var_incub_reports);
+                        
+                        $("#ref_stat_count_range_reports_commission_label").text(data.range_count_data[0].earn_lable);                    
+                        $("#ref_stat_count_range_reports_commission").text(data.range_count_data[0].earn_amount);                    
+                        $("#var_ref_stat_count_range_reports_commission").html("").append(data.var_range_count_reports[0].var_earn_reports);                        
+                        
+                        $("#ref_stat_count_range_reports_kpi").text(data.range_count_data[0].kpi);                    
+                        $("#var_ref_stat_count_range_reports_kpi").html("").append(data.var_range_count_reports[0].var_kpi_reports);                                                
+                        
+                    } else {
+                        range_referrers.data.datasets[0].data = [];
+                        range_referrers.data.datasets[1].data = [];
+                        range_referrers.data.labels = [];
+                        range_referrers.update();
+                    }             
+                    //   Section 3       
+                    if(data.range_data.length) {                        
+                        //Range: Print Count Variations  
+                        $("#ref_stat_count_range_prospect_all").text(data.range_count_prospects[0].total_share);                                                                
+                        $("#var_ref_stat_count_range_prospect_all").html("").append(data.var_range_count_prospects[0].var_total_share);
+
+                        $("#ref_stat_count_range_prospect_visit").text(data.range_count_prospects[0].total_visit);                    
+                        $("#var_ref_stat_count_range_prospect_visit").html("").append(data.var_range_count_prospects[0].var_total_visit);
+
+                        $("#ref_stat_count_range_prospect_success").text(data.range_count_prospects[0].total_report);                    
+                        $("#var_ref_stat_count_range_prospect_success").html("").append(data.var_range_count_prospects[0].var_total_report);                        
+                        
+                        $("#ref_stat_count_range_prospect_kpi").text(data.range_count_prospects[0].kpi);                    
+                        $("#var_ref_stat_count_range_prospect_kpi").html("").append(data.var_range_count_prospects[0].var_kpi);                                                                        
+                    } else {
+                        range_referrers.data.datasets[0].data = [];
+                        range_referrers.data.datasets[1].data = [];
+                        range_referrers.data.labels = [];
+                        range_referrers.update();
+                    }                    
+                    $("#total_referrers_loader").hide();
+                    $("#range_referrers_loader").hide();
+
+                    // Background Print WOrk
+                    const divElement = document.getElementById('pagecontainer');
+                    console.log("Element is here");
+                    console.log(divElement);
+                    // Get the innerHTML of the div element
+                    const htmlContent = divElement.innerHTML;
+                    $("#newcontent").remove();
+                    // Create a new element to pass the same data
+                    newElement = document.createElement('div');
+                    newElement.setAttribute('id', 'newcontent');
+                    newElement.style.width = '1284px';
+                    newElement.style.marginLeft = '200px';
+                    newElement.style.position = "absolute";
+                    newElement.style.bottom = "100%";
+                    newElement.innerHTML = htmlContent;
+                    // Get the duplicated chart canvas and chart instance                    
+                    duplicateChartCanvas = newElement.querySelector('#total_referrers');
+                    duplicateChart = new Chart(duplicateChartCanvas, {
+                        type: total_referrers.config.type,
+                        data: total_referrers.config.data,
+                        options: total_referrers.config.options
+                    });
+                    duplicateChartCanvas.style.height='348px';
+                    duplicateChartCanvas = newElement.querySelector('#range_referrers');
+                    duplicateChart = new Chart(duplicateChartCanvas, {
+                        type: range_referrers.config.type,
+                        data: range_referrers.config.data,
+                        options: range_referrers.config.options
+                    });
+                    duplicateChartCanvas.style.height='348px';
+                    range_filter=$("#range_filter").val();
+                    sponsor_filter=$("#sponsor_filter").val();
+                    referrer_filter=$("#referrer_filter").val();
+                    from_date=$("#from").val();
+                    to_date=$("#to").val();                                            
+                    myDropdown = newElement.querySelector('#range_filter');                                                            
+                    optionWithValue100 = myDropdown.querySelector(`option[value="${range_filter}"]`);                    
+                    optionWithValue100.selected = true;
+                    myDropdown = newElement.querySelector('#sponsor_filter');                                                            
+                    optionWithValue100 = myDropdown.querySelector(`option[value="${sponsor_filter}"]`);                    
+                    optionWithValue100.selected = true;
+                    myDropdown = newElement.querySelector('#referrer_filter');                                                            
+                    optionWithValue100 = myDropdown.querySelector(`option[value="${referrer_filter}"]`);                    
+                    optionWithValue100.selected = true;
+                    fromInput = newElement.querySelector('#from');                    
+                    fromInput.setAttribute('value', from_date);
+                    toInput = newElement.querySelector('#to');
+                    toInput.setAttribute('value', to_date);                         
+                    document.body.appendChild(newElement);
+                }
+            }).error(function() {            
+                $("#range_referrers_loader").hide();
+            });
+        }
+        function loadAgentReferrers() {
+            sponsor_id=$("#sponsor_filter").val();
+            $.ajax({
+                method: "POST",
+                dataType: 'json',
+                url: "/migareference/stats/agentreferrers",
+                data: { app_id: '<?php echo $app_id; ?>', sponsor_id: sponsor_id}
+            }).done(function( data ) {                            
+                $("#referrer_filter").html("");
+                $('#referrer_filter').append($('<option>', {
+                    value: 0,
+                    text: "<?php echo __("") ?>"
+                }));
+                $.each(data.data, function(i, item) {
+                    $('#referrer_filter').append($('<option>', {
+                        value: item.user_id,
+                        text: item.invoice_name+" "+item.invoice_surname+" ("+item.total_reports+")"
+                    }));
+                });
+            }).error(function() {            
+                console.log("Error");
+            });
+        }      
+function printPdf() {     
+      $("#pdf_download_loader").show();   
+      const doc = new jsPDF();            
+      html2canvas(newElement.querySelector("#content")).then((canvas) => {
+        var imgData    = canvas.toDataURL();
+        var imgWidth   = 210; 
+        var pageHeight = 295;  
+        var imgHeight  = canvas.height * imgWidth / canvas.width;
+        var heightLeft = imgHeight;        
+        var doc        = new jsPDF('p', 'mm');
+        var position   = 3; // give some top padding to first page
+        doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;        
+        while (heightLeft >= 0) {
+        position = heightLeft - imgHeight; // top padding for other pages        
+        doc.addPage();
+        doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        }
+        doc.save('General Stats.pdf');
+        $("#pdf_download_loader").hide();
+      });
+    }
+</script>
+<style>
+/* Stat CSS */
+.stat-calculate{
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 7px;
+    background: #f7f7f7;
+    text-align: center;
+    transition: transform .7s;
+}
+.stat-calculate:hover {      
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);    
+    background: #9797974a;
+}
+.stat-calculate h1{
+    font-weight:700;
+    margin-top:18px;
+    margin-bottom:21px;
+    line-height:40px;
+
+}
+.stat-calculate p{
+    font-weight:700;
+    /* font-size:1vw; */
+    line-height:20px;
+    overflow:hidden;
+}
+.count_veriation{
+    font-size:small;
+}
+.count_veriation span{
+    font-size:small;
+    /* font-size:1vw; */
+}
+.var-positive {
+    background: #87d82757;
+    padding: 2px;
+    border-radius: 10px;
+    color: green;
+    font-weight: 700;
+}
+.var-negative {
+    background: #d827272e;
+    padding: 2px;
+    border-radius: 10px;
+    color: #e91e63;
+    font-weight: 700;
+}
+.var-nochange {
+    background: #0000003d;
+    padding: 2px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+.stat-headings{
+    color: white;
+    background-color: #0099C7;
+    padding: 9px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.stat-count-container{
+    border: 1px solid #d0cfcf;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+/* Pie CHart */
+.pie-chart-legend ul>li span{
+    display: inline-block;    
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+.pie-chart-legend ul>li {
+    display: inline-block;  
+    margin: 4px;  
+}
+
+.pie-chart-legend{
+  height:115px;
+  
+}
+.hidden-pie-label {
+  text-decoration: line-through;
+}
+/* START Data Table  style*/
+.sub_heading{
+        border-bottom: 2px solid #0099c7;
+        padding-bottom: 13px;
+    }
+    .remove_btn{
+        background-color: red;
+    }
+    .emptydataset{
+        text-align: center;
+    }
+table{
+    background-color: white;
+}
+     table.dataTable {
+                margin: 20px 0 10px;
+                width: 100% !important;
+            }
+
+            table.dataTable th {
+                text-align: left;
+            }
+            table.dataTable tbody tr.edit_product {
+                cursor: pointer;
+            }
+
+            .dataTables_info {
+                float: left;
+                padding: 10px;
+            }
+
+            .dataTables_paginate {
+                float: right;
+            }
+
+            .dataTables_paginate a {
+                display: block;
+                float: left;
+                margin-left: 4px;
+                padding: 6px;
+            }
+
+            .dataTables_paginate a.paginate_button_disabled {
+                opacity: 0.3
+            }
+
+            .dataTable tbody tr:last-of-type {
+                border-bottom: 0;
+            }
+
+            #migasms {
+                overflow: auto;
+            }
+            #contantcontainer {
+                border-radius: 0px !important;
+            }
+            #contentheader{
+              background-color: #f3f3f3 !important;
+              padding: 8px !important;
+            }
+            #contentfooter{
+              padding: 5px !important;
+            }
+            .right-side{
+              float: right;
+              margin-right: 5px;
+            }
+            #delbtn{
+              float: right;
+            }
+            #delbtner{
+              float: right;
+            }
+/* END Data Table  style*/
+#row_filter_metrics label{line-height:29px}
+
+</style>

@@ -1,0 +1,14 @@
+{
+  "name": "Migareference",
+  "description": "Migareference Module",
+  "type": "module",
+  "version": "3.9.59",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.20.10"
+    },
+    "modules": {}
+  }
+}
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <migareference_backoffice_migareference_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/migareference/index.phtml" />
+        </views>
+    </migareference_backoffice_migareference_template>
+</layout>

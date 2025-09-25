@@ -1,0 +1,1256 @@
+<?php
+    $default       = new Core_Model_Default();
+    $optinform     = new Migareference_Model_Optinform();     
+    $migareference = new Migareference_Model_Migareference();   
+    $value_id           = $this->getValueid();        
+    $application   = $this->getApplication();
+    $features      = $application->getOptions();
+    $app_id = $application->getId();
+    $key = $application->getKey();
+    $base_url = $default->getBaseUrl();
+    $welcome_push = (new Migareference_Model_Welcomenotificationtemplate())->findAll(['app_id' => $app_id])->toArray(); 
+    $pre_settings = $migareference->preReportsettigns($app_id);
+    $optin_settings = $optinform->getOptinSettings($app_id);
+    $agents = $migareference->get_customer_agents($app_id);
+    $all_jobs = $migareference->getJobs($app_id);
+    $all_professions           = $migareference->getProfessions($app_id);
+    if (count($optin_settings)) {
+        $button_width = (!empty($optin_settings[0]['button_width'])) ? $optin_settings[0]['button_width']."%" : "100%" ; 
+        $button_label = (!empty($optin_settings[0]['button_label'])) ? $optin_settings[0]['button_label'] : __("INVIA IL MODULO") ; 
+        $button_background_color = (!empty($optin_settings[0]['button_background_color'])) ? $optin_settings[0]['button_background_color'] : "#4CAF50" ; 
+        $button_text_color = (!empty($optin_settings[0]['button_text_color'])) ? $optin_settings[0]['button_text_color'] : "white" ; 
+        // $on_submit_button_label = (!empty($optin_settings[0]['on_submit_button_label'])) ? $optin_settings[0]['on_submit_button_label'] : $button_label ; 
+        // $on_submit_button_background_color = (!empty($optin_settings[0]['on_submit_button_background_color'])) ? $optin_settings[0]['on_submit_button_background_color'] : $button_background_color ; 
+        // $on_submit_button_text_color = (!empty($optin_settings[0]['on_submit_button_text_color'])) ? $optin_settings[0]['on_submit_button_text_color'] : $button_text_color ; 
+    }
+    $deafult_privacy_link = $base_url."/application/privacypolicy/index/id/".$key;
+    $agent_province_list=[];    
+    $agentProvinces=$migareference->getGeoCountrieProvinces($app_id,0);
+    foreach ($agentProvinces as $prov_key => $prove_value) {
+        $agent_province_list[]=[
+            'id'=>$prove_value['user_id'],
+            'province'=>$prove_value['province'],
+            'province_id'=>"0"."@".$prove_value['migareference_geo_provinces_id']
+        ];
+    }
+    $agent_province_list =  array_map("unserialize", array_unique(array_map("serialize", $agent_province_list)));
+    sort($agent_province_list); 
+
+	$optin_setting = (new Migareference_Model_Optinsetting())->find([
+		'app_id' => $app_id
+	]);
+
+	$optin_setting_data = [];
+	if ($optin_setting->getId()) {
+		$optin_setting_data = unserialize($optin_setting->getoptinSetting());
+	}	    
+?>
+<div id="landing_page_managment" class="landing_page_managment">
+    <h3 class="title-editor no-border-radius title-feature-indent  ">
+        <?php echo __('Source Code For Landing Page'); ?>
+    </h3>
+    <div class="container-fluid first-row-feature content-feature new_item">
+     <form id="optinform" method="post" action="<?=$base_url?>/migareference/application/saveoptinform" target="_blank" style="border, 3px solid #f1f1f1;font-family: Arial;">
+     <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" >
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="button_text_color"><?php echo __("Button Text Color") ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="color" id="button_text_color" name="button_text_color"
+                        class="button_text_color color-blue" value="<?php echo $button_text_color; ?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label
+                        for="button_background_color"><?php echo __("Button Background Color") ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="color" id="button_background_color" name="button_background_color"
+                        class="button_background_color color-blue" value="<?php echo $button_background_color; ?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label
+                        for="button_label"><?php echo __("Button Label") ?></label>
+                </div>
+                <div class="col-sm-6">
+                    <span><input type="text" id="button_label"
+                            name="button_label" class="button_label input-flat" value="<?php echo $button_label; ?>"></span>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="on_submit_button_text_color"><?php echo __("On Submit Button Text Color") ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="color" id="on_submit_button_text_color" name="on_submit_button_text_color"
+                        class="on_submit_button_text_color color-blue" value="<?php echo $on_submit_button_text_color; ?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label
+                        for="on_submit_button_background_color"><?php echo __("On Submit Button Background Color") ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="color" id="on_submit_button_background_color" name="on_submit_button_background_color"
+                        class="on_submit_button_background_color color-blue" value="<?php echo $on_submit_button_background_color; ?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label
+                        for="on_submit_button_label"><?php echo __("On Submit Button Label") ?></label>
+                </div>
+                <div class="col-sm-6">
+                    <span><input type="text" id="on_submit_button_label"
+                            name="on_submit_button_label" class="on_submit_button_label input-flat" value="<?php echo $on_submit_button_label; ?>"></span>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label
+                        for="button_width"><?php echo __("Button Width")." (%)" ?> </label>
+                </div>
+                <div class="col-sm-6">
+                    <span><input type="number" min="10" max="100" id="button_width"
+                            name="button_width" class="button_width input-flat" value="<?php echo $button_width; ?>"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label
+                        for="redirect_url"><?php echo __("Redirect URL (optional)") ?></label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="url" id="redirect_url" name="redirect_url"
+                        class="redirect_url input-flat" value="<?php echo $retVal = (count($optin_settings) && !empty($optin_settings[0]['redirect_url'])) ? $optin_settings[0]['redirect_url'] : "" ; ?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label
+                        for="confirmation_message"><?php echo __("Confirmation message (if Redirect URL not set)") ?></label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" id="confirmation_message" name="confirmation_message"
+                        class="confirmation_message input-flat" value="<?php echo $retVal = (count($optin_settings) && !empty($optin_settings[0]['confirmation_message'])) ? $optin_settings[0]['confirmation_message'] : "" ; ?>">
+                </div>
+            </div>
+        </div>
+        <div class="save">
+			<div class="col-sm-4">&nbsp;</div>
+			<div class="col-sm-6" style="padding-left: 10px;">
+				<button class="button btn bt_save btn color-blue" onclick="viewCodeChanges()">
+					<?php echo __('Save and View changes'); ?>
+				</button>
+			</div>
+        </div>
+    </form>
+        <div class="form-group">
+			<div class="col-sm-3">
+				<button style="margin-top:10px;margin-bottom:10px;" id="customize_option_modal_button" type="button" class="btn btn-success"><i class="fa fa-cog"></i> <?php echo __('Customize Optin Form'); ?></button>
+			</div>
+            <div class="col-sm-12 source_code" id="source_code" class="">
+                <div style="padding: 20px;background-color:white;">                    
+                    <p ><?=__("First Name") ?> *</p>
+                    <input
+                        style="width:100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"
+                        type="text" 
+                        name="first_name" required>            
+                    <p ><?= __('Last name') ?> *</p>        
+                    <input
+                        style="width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"
+                        type="text" 
+                        name="last_name" required>
+                    <p ><?= __('Email') ?> *</p>        
+                    <input
+                        style="width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"
+                        type="email"
+                        name="email" required>
+                    <p ><?= __('Mobile') ?> *</p> 
+                    <input
+                        style="width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"
+                        type="text"
+                        value="+39"
+                        name="mobile" required>   
+					<?php if ($optin_setting_data) : ?>
+					<?php if ($optin_setting_data['visibility']['birthdate']) : ?>
+                    <p ><?php echo $optin_setting_data['label']['birthdate'] ? $optin_setting_data['label']['birthdate'] : __('Birthdate'); ?> <?php echo $optin_setting_data['required']['birthdate'] ? '*' : ''; ?></p>                                              
+                    <input
+                    style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"
+                    type="date" 
+                    name="birthdate" <?php echo $optin_setting_data['required']['birthdate'] ? 'required' : ''; ?> >       
+					<?php endif; ?>
+					<?php if ($optin_setting_data['visibility']['job_id']) : ?>                                                            
+                    <p ><?php echo $optin_setting_data['label']['job_id'] ? $optin_setting_data['label']['job_id'] : __('Select Job'); ?> <?php echo $optin_setting_data['required']['job_id'] ? '*' : ''; ?></p>                                              
+                      <select id="job_id" class="" name="job_id" style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" <?php echo $optin_setting_data['required']['job_id'] ? 'required' : ''; ?>>                        
+                        <option value="0"><?php echo __("Not Classifiable") ?></option>
+                        <?php foreach ($all_jobs as $key => $value): ?>
+                        <option value="<?php echo $value['migareference_jobs_id'] ?>">
+                            <?=__($value['job_title']) ?></option>
+                        <?php endforeach; ?>
+                    </select>     
+					<?php endif; ?>   
+					<?php if ($optin_setting_data['visibility']['profession_id']) : ?>                
+                    <p ><?php echo $optin_setting_data['label']['profession_id'] ? $optin_setting_data['label']['profession_id'] : __('Select Sector'); ?> <?php echo $optin_setting_data['required']['profession_id'] ? '*' : ''; ?></p>                                              
+                      <select id="profession_id" class="" name="profession_id" style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" <?php echo $optin_setting_data['required']['profession_id'] ? 'required' : ''; ?> >                        
+                        <?php foreach ($all_professions as $key => $value): ?>
+                        <option value="<?php echo $value['migareference_professions_id'] ?>">
+                            <?=__($value['profession_title']) ?></option>
+                        <?php endforeach; ?>
+                        <option value="0"><?php echo __("N/A") ?></option>
+                    </select>  
+					<?php endif; ?>                    
+					<?php if ($optin_setting_data['visibility']['sponsor_id']) : ?> 
+                       <p ><?php echo $optin_setting_data['label']['sponsor_id'] ? $optin_setting_data['label']['sponsor_id'] : __('Who invited you to be a referral user?'); ?> <?php echo $optin_setting_data['required']['sponsor_id'] ? '*' : ''; ?></p>                                              
+                      <select id="sponsor_id" class="" name="sponsor_id" style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" <?php echo $optin_setting_data['required']['sponsor_id'] ? 'required' : ''; ?>>
+                      <?php if ($pre_settings[0]['enable_mandatory_agent_selection']==2) { ?>
+                                <option value="0"><?php echo __("I dont know") ?></option>
+                        <?php } ?>                        
+                        <?php foreach ($agents as $key => $value): ?>
+                        <option value="<?=$value['user_id'] ?>">
+                            <?=$value['firstname']." ".$value['lastname'] ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>  
+					<?php endif; ?>  
+					<?php if ($optin_setting_data['visibility']['province_id']) : ?>                    
+                    <p ><?php echo $optin_setting_data['label']['province_id'] ? $optin_setting_data['label']['province_id'] : __('Residental Province'); ?> <?php echo $optin_setting_data['required']['province_id'] ? '*' : ''; ?></p>                                              
+                    <select id="province_id" class="" name="province_id" style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" <?php echo $optin_setting_data['required']['sponsor_id'] ? 'required' : ''; ?>>                    
+                        <?php foreach ($agent_province_list as $key => $value): ?>
+                        <option value="<?=$value['province_id'] ?>">
+                            <?=$value['province']; ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>    
+					<?php endif; ?> 
+					<?php if ($optin_setting_data['visibility']['privacy']) : ?> 
+					<label>
+                        <input style="margin-top: 16px;" type="checkbox" <?php echo $optin_setting_data['required']['privacy'] ? 'required' : ''; ?>>
+                        <span><?php echo $optin_setting_data && $optin_setting_data['label']['privacy_text'] ? $optin_setting_data['label']['privacy_text'] : ""; ?></span>
+                        
+                        <a href="<?php echo $optin_setting_data && $optin_setting_data['label']['privacy_link'] ? $optin_setting_data['label']['privacy_link'] : $deafult_privacy_link  ; ?>"target="_blank"
+                            target="_blank">
+                            <?php echo $optin_setting_data['label']['privacy'] ? $optin_setting_data['label']['privacy'] : __('I accept the Privacy Policy'); ?> </a>
+                    </label>
+                    <?php endif; ?> 
+					<?php if ($optin_setting_data['visibility']['gdpr']) : ?> 
+                    <label>
+                        <input style="margin-top: 16px;" type="checkbox" checked="checked" <?php echo $optin_setting_data['required']['gdpr'] ? 'required' : ''; ?>>
+                        <a href='<?=$base_url?>/application/privacypolicy/index/id/<?=$application->getKey();  ?>'
+                            target='_blank'> <?php echo $optin_setting_data['label']['gdpr'] ? $optin_setting_data['label']['gdpr'] : __('GDPR CONSENT'); ?> </a>
+                    </label>   
+					<?php endif; ?> 
+					<?php else: ?>
+					<p ><?= __('Birthdate') ?> *</p>                                              
+                    <input
+                    style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"
+                    type="date" 
+                    name="birthdate" required >                                                                    
+                    <p ><?= __('Select Job') ?> *</p>                                              
+                      <select id="job_id" class="" name="job_id" style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;">                        
+                        <option value="0"><?php echo __("Not Classifiable") ?></option>
+                        <?php foreach ($all_jobs as $key => $value): ?>
+                        <option value="<?php echo $value['migareference_jobs_id'] ?>">
+                            <?=__($value['job_title']) ?></option>
+                        <?php endforeach; ?>
+                    </select>                      
+                    <p ><?= __('Select Sector') ?> *</p>                                              
+                      <select id="profession_id" class="" name="profession_id" style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;">                        
+                        <?php foreach ($all_professions as $key => $value): ?>
+                        <option value="<?php echo $value['migareference_professions_id'] ?>">
+                            <?=__($value['profession_title']) ?></option>
+                        <?php endforeach; ?>
+                        <option value="0"><?php echo __("N/A") ?></option>
+                    </select>                      
+                    <?php if ($pre_settings[0]['sponsor_type']==1) { ?>
+                        <p ><?= __('Who invited you to be a referral user?') ?> *</p>                                              
+                      <select id="sponsor_id" class="" name="sponsor_id" style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;">
+                      <?php if ($pre_settings[0]['enable_mandatory_agent_selection']==2) { ?>
+                                <option value="0"><?php echo __("I dont know") ?></option>
+                        <?php } ?>                        
+                        <?php foreach ($agents as $key => $value): ?>
+                        <option value="<?=$value['user_id'] ?>">
+                            <?=$value['firstname']." ".$value['lastname'] ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>                     
+                    <?php }  ?>                    
+                    <p ><?= __('Residental Province') ?> *</p>                                              
+                    <select id="province_id" class="" name="province_id" style="width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;">                    
+                        <?php foreach ($agent_province_list as $key => $value): ?>
+                        <option value="<?=$value['province_id'] ?>">
+                            <?=$value['province']; ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+					<label>
+                        <input style="margin-top: 16px;" type="checkbox" required>                        
+                        <span><?php echo $optin_setting_data && $optin_setting_data['label']['privacy_text'] ? $optin_setting_data['label']['privacy_text'] : ""; ?></span>
+                        <a href="<?php echo $optin_setting_data && $optin_setting_data['label']['privacy_link'] ? $optin_setting_data['label']['privacy_link'] : $deafult_privacy_link; ?>"
+                        target="_blank"> <?= __('I accept the Privacy Policy') ?> </a>
+                    </label>
+                    
+                    <label>
+                        <input style="margin-top: 16px;" type="checkbox" checked="checked" required>
+                        <a href='<?=$base_url?>/application/privacypolicy/index/id/<?=$application->getKey();  ?>'
+                            target='_blank'> <?= __('GDPR CONSENT') ?> </a>
+                    </label>           
+					<?php endif; ?>                                               
+                    <input type="hidden" name="app_id" value="<?= $app_id ?>">
+                    <input type="hidden" name="value_id" value="<?= $value_id ?>">
+                </div>
+                <div style="padding: 20px;background-color: #f1f1f1;text-align: center;">
+                    <input id="subscription_button" class="subscription_button"
+                        style="
+                        width: <?php echo $button_width; ?>;
+                        background-color: <?php echo $button_background_color; ?>;
+                        color: <?php echo $button_text_color; ?>;
+                        padding: 12px;
+                        margin: 8px 0;
+                        display: inline-block;
+                        border: 1px solid #ccc;
+                        box-sizing: border-box;
+                        border: none;
+                        cursor:pointer"
+                        type="submit" value="<?=$button_label ?>">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+		<div class="col-sm-12">
+            	<div id="preview_source_code"  style="height:350px;overflow:scroll;">
+                    <code id="code">
+                    &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"&gt;
+                &lt;form id="ref_form" method="post" action="<?=$base_url?>/migareference/public_optinlanding/subscribev3" target="_blank" style="border: 3px solid #f1f1f1;font-family: Arial;"&gt;<br>
+                    &lt;div style="padding: 20px;background-color:white;"&gt;<br>
+                        &lt;small style="error-text" class="error-message" id="exception-error"&gt;&lt;/small&gt;
+                        &lt;p&gt;<?=__("First Name") ?> *&lt;/p&gt;
+                        &lt;input style="width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" type="text" name="firstname"required&gt;<br>
+                        &lt;small style="error-text" class="error-message" id="firstname-error"&gt;&lt;/small&gt;
+                        &lt;p&gt;<?=__("Last Name") ?> *&lt;/p&gt;
+                        &lt;input style="width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" type="text" name="lastname"required&gt;<br>
+                        &lt;small style="error-text" class="error-message" id="lastname-error"&gt;&lt;/small&gt;
+                        &lt;p&gt;<?=__("Email Address") ?> *&lt;/p&gt;
+                        &lt;input style="width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" type="email" name="email" required&gt;<br>
+                        &lt;small style="error-text" class="error-message" id="email-error"&gt;&lt;/small&gt;
+                        &lt;p&gt;<?=__("Mobile") ?> *&lt;/p&gt;
+                        &lt;input style="height:46px; width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" type="text" value="+39" name="mobile" required&gt;<br>
+                        &lt;small style="error-text" class="error-message" id="mobile-error"&gt;&lt;/small&gt;
+						<?php if ($optin_setting_data) : ?>
+						<?php if ($optin_setting_data['visibility']['birthdate']) : ?>
+                        &lt;p&gt;<?php echo $optin_setting_data['label']['birthdate'] ? $optin_setting_data['label']['birthdate'] : __('Birthdate'); ?> <?php echo $optin_setting_data['required']['birthdate'] ? '*' : ''; ?>&lt;/p&gt;
+                        &lt;input style="height:46px; width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" type="date"  name="birthdate" <?php echo $optin_setting_data['required']['birthdate'] ? 'required' : ''; ?>&gt;<br>
+                        &lt;small style="error-text" class="error-message" id="birthdate-error"&gt;&lt;/small&gt;
+                        <?php endif; ?>
+                        <?php if ($optin_setting_data['visibility']['job_id']) : ?>
+                        &lt;p class=""&gt;<?php echo $optin_setting_data['label']['job_id'] ? $optin_setting_data['label']['job_id'] : __('Select Job'); ?> <?php echo $optin_setting_data['required']['job_id'] ? '*' : ''; ?>&lt;/p&gt;
+                        &lt;select id="job_id" class="" name="job_id" style="display:none;width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" <?php echo $optin_setting_data['required']['job_id'] ? 'required' : ''; ?>&gt;<br>                                                
+                        &lt;/select&gt;
+                        &lt;small style="error-text" class="error-message" id="job_id-error"&gt;&lt;/small&gt;
+                        <?php endif; ?>
+                        <?php if ($optin_setting_data['visibility']['profession_id']) : ?> 
+                        &lt;p class=""&gt;<?php echo $optin_setting_data['label']['profession_id'] ? $optin_setting_data['label']['profession_id'] : __('Select Sector'); ?> <?php echo $optin_setting_data['required']['profession_id'] ? '*' : ''; ?>&lt;/p&gt;
+                        &lt;select id="profession_id" class="" name="profession_id" style="display:none;width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" <?php echo $optin_setting_data['required']['profession_id'] ? 'required' : ''; ?>&gt;<br>                                                
+                        &lt;/select&gt;
+                        &lt;small style="error-text" class="error-message" id="profession_id-error"&gt;&lt;/small&gt;
+                        <?php endif; ?>
+                        <?php if ($optin_setting_data['visibility']['sponsor_id']) : ?>   
+                        &lt;p class="sponsor_list"&gt;<?php echo $optin_setting_data['label']['sponsor_id'] ? $optin_setting_data['label']['sponsor_id'] : __('Who invited you to be a referral user?'); ?> <?php echo $optin_setting_data['required']['sponsor_id'] ? '*' : ''; ?>&lt;/p&gt;
+                        &lt;select id="sponsor_id" class="sponsor_list" name="sponsor_id" style="display:none;width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" <?php echo $optin_setting_data['required']['sponsor_id'] ? 'required' : ''; ?>&gt;<br>                                                
+                        &lt;/select&gt;
+                        &lt;small style="error-text" class="error-message" id="sponsor_id-error"&gt;&lt;/small&gt;
+                        <?php endif; ?>
+                        <?php if ($optin_setting_data['visibility']['province_id']) : ?>
+                        &lt;p class="province_list"&gt;<?php echo $optin_setting_data['label']['province_id'] ? $optin_setting_data['label']['province_id'] : __('Residental Province'); ?> <?php echo $optin_setting_data['required']['province_id'] ? '*' : ''; ?>&lt;/p&gt;
+                        &lt;select id="province_id" class="province_list" name="province_id" style="display:none;width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" <?php echo $optin_setting_data['required']['province_id'] ? 'required' : ''; ?>&gt;<br>                                                
+                        &lt;/select&gt;
+                        &lt;small style="error-text" class="error-message" id="province_id-error"&gt;&lt;/small&gt;<br>
+                        <?php endif; ?>
+                        &lt;input type="hidden" name="app_id" value="<?=$app_id?>"&gt;<br>
+                        &lt;input type="hidden" name="value_id" value="<?=$value_id?>"&gt;<br>
+                        &lt;input type="hidden" id="sponsord_by" name="sponsord_by" value=""&gt;<br>
+                        <?php if ($optin_setting_data['visibility']['privacy']) : ?> 
+                        &lt;br&gt;
+                        &lt;br&gt;
+                        &lt;label&gt;
+                        &lt;input  name="privacy" type="checkbox" <?php echo $optin_setting_data['required']['privacy'] ? 'required' : ''; ?>&gt; <br>
+                        &lt;small style="error-text" class="error-message" id="privacy-error"&gt;&lt;/small&gt;
+                        &lt;span&gt;<?= $optin_setting_data && $optin_setting_data['label']['privacy_text'] ? $optin_setting_data['label']['privacy_text'] : ""; ?>&lt;/span&gt;                         
+                        &lt;a href="<?=$optin_setting_data && $optin_setting_data['label']['privacy_link'] ? $optin_setting_data['label']['privacy_link'] : $deafult_privacy_link;  ?>" target="_blank" &gt; <?php echo $optin_setting_data['label']['privacy'] ? $optin_setting_data['label']['privacy'] : __('I accept the Privacy Policy'); ?> &lt;/a&gt;<br>                        
+                        &lt;/label&gt;
+                        <?php endif; ?> 
+					    <?php if ($optin_setting_data['visibility']['gdpr']) : ?> 
+                        &lt;br&gt;
+                        &lt;br&gt;
+                        &lt;label&gt;&lt;br&gt; 
+                        &lt;input  name="consent" type="checkbox" <?php echo $optin_setting_data['required']['gdpr'] ? 'required' : ''; ?>&gt; 
+                        &lt;small style="error-text" class="error-message" id="consent-error"&gt;&lt;/small&gt;
+                        &lt;a href="<?=$base_url?>/application/privacypolicy/index/id/<?=$application->getKey();  ?>" target="_blank" &gt; <?php echo $optin_setting_data['label']['gdpr'] ? $optin_setting_data['label']['gdpr'] : __('GDPR CONSENT'); ?> &lt;/a&gt;<br>
+                        &lt;/label&gt;
+                        <?php endif; ?> 
+						<?php else: ?>
+                        &lt;p&gt;<?=__("Birthdate") ?> *&lt;/p&gt;
+                        &lt;input style="height:46px; width: 100%;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" type="date"  name="birthdate" required&gt;<br>
+                        &lt;small style="error-text" class="error-message" id="birthdate-error"&gt;&lt;/small&gt;
+                        &lt;p class=""&gt;<?=__("Select Job") ?> *&lt;/p&gt;
+                        &lt;select id="job_id" class="" name="job_id" style="display:none;width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"&gt;<br>                                                
+                        &lt;/select&gt;
+                        &lt;small style="error-text" class="error-message" id="job_id-error"&gt;&lt;/small&gt;
+                        &lt;p class=""&gt;<?=__("Select Sector") ?> *&lt;/p&gt;
+                        &lt;select id="profession_id" class="" name="profession_id" style="display:none;width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"&gt;<br>                                                
+                        &lt;/select&gt;
+                        &lt;small style="error-text" class="error-message" id="profession_id-error"&gt;&lt;/small&gt;
+                        &lt;p class="sponsor_list"&gt;<?=__("Who invited you to be a referral user?") ?> *&lt;/p&gt;
+                        &lt;select id="sponsor_id" class="sponsor_list" name="sponsor_id" style="display:none;width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"&gt;<br>                                                
+                        &lt;/select&gt;
+                        &lt;small style="error-text" class="error-message" id="sponsor_id-error"&gt;&lt;/small&gt;
+                        &lt;p class="province_list"&gt;<?=__("Residental Province") ?> *&lt;/p&gt;
+                        &lt;select id="province_id" class="province_list" name="province_id" style="display:none;width: 100%;height:46px;padding: 12px; margin: 8px 0;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;"&gt;<br>                                                
+                        &lt;/select&gt;
+                        &lt;small style="error-text" class="error-message" id="province_id-error"&gt;&lt;/small&gt;<br>
+                        &lt;input type="hidden" name="app_id" value="<?=$app_id?>"&gt;<br>
+                        &lt;input type="hidden" name="value_id" value="<?=$value_id?>"&gt;<br>                        
+                        &lt;input type="hidden" id="sponsord_by" name="sponsord_by" value=""&gt;
+                        &lt;br&gt;
+                        &lt;br&gt;
+                        &lt;label&gt;
+                        &lt;input  name="privacy" type="checkbox" required&gt;
+                        &lt;small style="error-text" class="error-message" id="privacy-error"&gt;&lt;/small&gt;
+                        &lt;span&gt;<?= $optin_setting_data && $optin_setting_data['label']['privacy_text'] ? $optin_setting_data['label']['privacy_text'] : ""; ?>&lt;/span&gt;                         
+                        &lt;a href="<?=$optin_setting_data && $optin_setting_data['label']['privacy_link'] ? $optin_setting_data['label']['privacy_link'] : $deafult_privacy_link;  ?>" target="_blank" &gt; <?= __('I accept the Privacy Policy') ?> &lt;/a&gt;<br>                        
+                        &lt;/label&gt;
+                        &lt;label&gt;
+                        &lt;br&gt;
+                        &lt;br&gt;
+                        &lt;input  name="consent" type="checkbox" checked="checked" required&gt; <br>
+                        &lt;small style="error-text" class="error-message" id="consent-error"&gt;&lt;/small&gt;
+                        &lt;a href="<?=$base_url?>/application/privacypolicy/index/id/<?=$application->getKey();  ?>" target="_blank" &gt; <?= __('GDPR CONSENT') ?> &lt;/a&gt;<br>                        
+                        &lt;/label&gt;
+						<?php endif; ?>                          
+                        &lt;br&gt;
+                        &lt;br&gt;
+                        &lt;small style="error-text" class="error-message" id="captcha-error"&gt;&lt;/small&gt;
+                        &lt;p&gt;Enter the SUM of the numbers shown in image &lt;/p&gt;
+                        &lt;div id="captcha_cotainer"&gt;            
+                        &lt;div&gt;
+                        &lt;span id="c-img-con" style="float:left;"&gt;&lt;/span&gt;
+                        &lt;input style="padding: 12px; display: inline-block;border: 1px solid #ccc;box-sizing: border-box;" type="text" name="c_img_fi"required&gt;
+                        &lt;/div&gt;
+                        &lt;/div&gt;                        
+                        &lt;input id='track_id' type="hidden" name="track_id" value=""&gt;<br>
+                    &lt;/div&gt;<br>
+                    &lt;div style="padding: 20px;background-color: #f1f1f1;text-align: center;"&gt;<br>
+                        &lt;button class = "subscription_button g-recaptcha"  style="width: <?=$button_width ?>;padding: 12px; margin: 8px 0;cursor:pointer;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;background-color: <?=$button_background_color ?>;color: <?=$button_text_color ?>;border: none;" data-sitekey="6LdMEUApAAAAAJcxL4F-rbULHjFebG8xOS707wUA" 
+                    data-callback='onSubmit' 
+                    data-action='submit'&gt;<?=$button_label ?>&lt;/button&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/form&gt;<br>
+                &lt;div id="loader" style="display:none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 9999; background: rgba(255,255,255,0.8) url('<?=$base_url."/app/local/modules/Migareference/resources/appicons/loader.gif" ?>') 50% 50% no-repeat;"&gt;&lt;/div&gt;
+                <br>
+                &lt;script
+                src="https://cdn.jsdelivr.net/npm/sweetalert2@11"&gt;
+                &lt;/script&gt;
+                &lt;script
+                src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"&gt;
+                &lt;/script&gt;<br>
+                &lt;script
+                src="https://www.google.com/recaptcha/api.js"&gt;
+                &lt;/script&gt;<br>
+                &lt;style&gt;
+                .error-message{
+                    color: red;
+                    font-size: 12px;
+                }
+                &lt;/style&gt;
+                &lt;script&gt;
+                function onSubmit(token) {
+                    submitForm();
+                }
+                function submitForm() {
+                    $("#loader").show();
+                    $.ajax({
+                        url: $('#ref_form').attr('action'),
+                        type: 'POST',
+                        dataType: 'json',
+                        data: $('#ref_form').serialize(),
+                        success: function(response) {
+                            $('.error-message').html(''); // Clear any previous error messages
+                            $("#loader").hide();
+                            if (response.success) {
+                                if (response.is_redirect) {
+                                    // Redirect to the provided URL and close the current window
+                                    window.open(response.redirect_url, '_blank');
+                                    window.close();
+                                } else {
+                                    // Show SweetAlert success message
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: response.success_title,
+                                        text: response.success_message
+                                    }).then(() => {
+                                        document.getElementById('ref_form').reset(); // Reset the form
+                                    });
+                                }
+                            } else {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                displayErrors(response.errors);
+                            }
+                        },
+                        error: function() {
+                            $("#loader").hide();
+                            alert('An error occurred. Please try again.');
+                        }
+                    });
+                }
+
+                function displayErrors(errors) {                                
+                    for (let key in errors) {
+                        if (errors.hasOwnProperty(key)) {                    
+                            $('#' + key + '-error').html(errors[key]);
+                        }
+                    }
+                }
+                  loadSettings();
+                    function loadSettings() {
+                    $.ajax({
+                            url: '<?php echo $this->getUrl('migareference/public_optinlanding/loadsettings'); ?>',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {app_id: <?php echo  $app_id ?>}
+                        })
+                        .done(function(data) {
+                           $("#sponsor_id").html("").append(data.agent_option);
+                           $("#province_id").html("").append(data.province_list);
+                           $("#job_id").html("").append(data.job_list);
+                           $("#profession_id").html("").append(data.profession_list);
+                           $("#profession_id").html("").append(data.profession_list);
+                           $("#c-img-con").html("").append(data.c_img);
+                           $("#track_id").val(data.track_id);
+						   <?php if (!$optin_setting_data) : ?>
+                           $(".sponsor_list").css("display", data.sponsor_display);
+                           $(".province_list").css("display", data.province_display);
+						   <?php endif; ?> 
+                           const urlParams = new URLSearchParams(window.location.search);                               
+                           $("#sponsord_by").val(urlParams.get('agval'));
+                        });
+                    }
+                &lt;/script&gt;
+                </code>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <div class="save pull-right">
+                        <p style="display:none;" id="code_copied"><?=__("Code Copied") ?>!</p>                        
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="save pull-right">                        
+                        <button class="button btn bt_save btn color-blue" onclick="copyCode()">
+                            <?php echo __('Generate & Copy Source Code'); ?>
+                        </button>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <!-- Optin form user List -->    
+    <div class="feature-block-list">
+        <div class="margin-top">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('OPTIN Form Referrers'); ?>                                   
+            </h3>
+        </div>
+        <div class='optin_form_view'>
+            <button style="margin-bottom:-32px;float:right;" onClick='deleteBulkOptin()' class="btn btn-danger" ><?php echo __('Delete All Selected') ?></button>            
+            <form id="bulkuserdeletion"
+            action="<?php echo $base_url.'/migareference/optinsetting/bulkuserdeletion' ?>"
+            method="post"target="_blank" >                                                                        
+            <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" />
+                <!-- Add two buttons for bulk deletion-->                
+                <table id="optin_form_user_table" class="table display responsive nowrap content-white-bkg" style="width:100%">
+                    <thead>
+                        <tr class="border-grey">
+                            <th><?php echo __('UID'); ?></th>
+                            <th><?php echo __('Name'); ?></th>                                        
+                            <th><?php echo __('Mobile'); ?></th>                                        
+                            <th><?php echo __('Email'); ?></th>                                        
+                            <th><?php echo __('IP Address'); ?></th>                                        
+                            <th><?php echo __('Form V'); ?></th>                                        
+                            <th><?php echo __('Created At'); ?></th>                                        
+                            <th><?php echo __('Action'); ?></th>                                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <!-- Optin form Block IPs -->
+    <div class="feature-block-list">
+        <div class="margin-top">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('OPTIN Form Blocked IPs'); ?>                                   
+            </h3>
+        </div>
+        <div class='optin_form_view'>
+            <table id="optin_form_blocked_ips" class="table display responsive nowrap content-white-bkg" style="width:100%">
+                <thead>
+                    <tr class="border-grey">
+                        <th><?php echo __('UID'); ?></th>
+                        <th><?php echo __('IP'); ?></th>                                                                
+                        <th><?php echo __('Created At'); ?></th>                                        
+                        <th><?php echo __('Action'); ?></th>                                        
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Referrer Wellcome Email Template Phonebook -->
+                        <div class="feature-block-list">
+                            <div class="margin-top">
+                                <h3 class="title-editor no-border-radius title-feature-indent">
+                                    <?php echo __('OPTIN Form Referrer Welcome Email Template'); ?>                                   
+                                </h3>
+                                <div id="toggel-wellcom-email-view"
+                                    class="container-fluid first-row-feature content-feature feature-manage-items">
+                                    <form id="wellcomeemailform"
+                                        action="<?php echo $base_url.'/migareference/application/optinwellcomeemail' ?>"
+                                        method="post"target="_blank" >                                    
+                                        <input type="hidden" name="operation"
+                                            value="<?=(count($pre_settings) ) ? "update" : "create" ; ?>" />
+                                        <input type="hidden" name="migareference_pre_report_settings_id"
+                                            value="<?=(count($pre_settings) ) ? $pre_settings[0]['migareference_pre_report_settings_id'] : 0 ; ?>" />
+                                        <input type="hidden" name="migarefrence_welcome_notification_id"
+                                            value="<?=(count($welcome_push) ) ? $welcome_push[0]['migarefrence_welcome_notification_id'] : "" ; ?>" />
+                                        <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" />
+                                        
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <div class="alert alert-info">
+                                                        <p style="padding-left:15px;">
+                                                            <?php echo __('You can use following custom tags in your Text')." "."@@user_name@@, @@user_email@@, @@user_firstpassword@@, @@agent_name@@, @@app_link@@, @@rd_name@@, @@rd_email@@, @@rd_phone@@, @@rd_calendar_url@@, @@referrer_link@@" ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label for="read_only"><?php echo __('Enable Welcome Email'); ?>
+                                                        *</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <select id="" class="input-flat" name="enable_optin_welcome_email">
+                                                        <option value="1"
+                                                            <?=(count($pre_settings) && $pre_settings[0]['enable_optin_welcome_email']==1) ? "selected" : "" ; ?>>
+                                                            <?php echo __('Yes') ?></option>
+                                                        <option value="2"
+                                                            <?=(count($pre_settings) && $pre_settings[0]['enable_optin_welcome_email']==2) ? "selected" : "" ; ?>>
+                                                            <?php echo __('No') ?></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label for="read_only"><?php echo __('Reply to Email'); ?> </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="referrer_optin_wellcome_email_reply_to" id=""
+                                                        value="<?=(count($pre_settings) && $pre_settings[0]['referrer_optin_wellcome_email_reply_to']!='') ? $pre_settings[0]['referrer_optin_wellcome_email_reply_to'] : "" ; ?>"
+                                                        class="input-flat" placeholder="" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label for="read_only"><?php echo __('BCC to Email'); ?> </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="referrer_optin_wellcome_email_bcc_to" id=""
+                                                        value="<?=(count($pre_settings) && $pre_settings[0]['referrer_optin_wellcome_email_bcc_to']!='') ? $pre_settings[0]['referrer_optin_wellcome_email_bcc_to'] : "" ; ?>"
+                                                        class="input-flat" placeholder="" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label for="read_only"><?php echo __('Email Title'); ?>* </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="referrer_optin_wellcome_email_title" id=""
+                                                        value="<?=(count($pre_settings) && $pre_settings[0]['referrer_optin_wellcome_email_title']!='') ? $pre_settings[0]['referrer_optin_wellcome_email_title'] : "Complimenti a te @@user_name@@ per averci contattato!" ; ?>"
+                                                        class="input-flat" placeholder="" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label for="read_only"><?php echo __('Email Body'); ?> *</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <textarea id="" rows="4" cols="50"
+                                                        class="pin input-flat replace-with-ckeditor"
+                                                        name="referrer_optin_wellcome_email_body"><?=(count($pre_settings) && $pre_settings[0]['referrer_optin_wellcome_email_body']!='' ) ? $pre_settings[0]['referrer_optin_wellcome_email_body'] : "<p>Ciao @@user_name@@,</p>
+                                                        <p>qui &egrave; il Referral Director di della nostra azienda che ti scrive. &Egrave; con grande piacere che ti faccio i complimenti per aver deciso di collaborare con noi.</p>
+                                                        <p>Ti aspettano provvigioni e premi semplicemente segnalandoci un potenziale cliente, al resto pensiamo tutto noi.</p>
+                                                        <p>Nei prossimi giorni ti contatter&ograve; per conoscerci, il mio obiettivo &egrave; creare una rete di partners che si basa sulla fiducia.</p>
+                                                        <p>Entrando nell&#39;esclusivo CLUB della nostra azienda infatti, non solo potrai guadagnare dalle segnalazioni, ma potrai trovare un valido aiuto dalle relazioni che intratteniamo con tutti i partner.</p>
+                                                        <p>Conosciamo tantissime persone e basta solo chiedere per essere messo in contatto con altri nostri partner e magari risolvere brillantemente il tuo problema o raggiungere un risultato.</p>
+                                                        <p>Ora segui questi semplici passi:</p>
+                                                        <p>Scarica la nostra App segnalatore Vincente e registrati. Il link per scaricare l&#39;APP &egrave; questo @@app_link@@<br />
+                                                        Per qualsiasi dubbio o problema rispondi pure a questa email.<br />
+                                                        Se invece vuoi partire subito a farci una segnalazione di un potenziale cliente prima del nostro incontro utilizza l&#39;APP, o rispondi semplicemente a questa email con NOME e COGNOME della persona e numero di telefono. Ti terremo subito aggiornati sull&#39;andamento della segnalazione.</p>
+                                                        <p>Al tuo successo<br />
+                                                        Referral Director</p>" ; ?></textarea>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label for="read_only"><?php echo __('Enable Welcome Email'); ?>
+                                                        *</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <select id="" class="input-flat" name="welcome_push_enable">
+                                                        <option value="1"
+                                                            <?=(count($welcome_push) && $welcome_push[0]['welcome_push_enable']==1) ? "selected" : "" ; ?>>
+                                                            <?php echo __('Yes') ?></option>
+                                                        <option value="2"
+                                                            <?=(count($welcome_push) && $welcome_push[0]['welcome_push_enable']==2) ? "selected" : "" ; ?>>
+                                                            <?php echo __('No') ?></option>
+                                                    </select>
+                                                </div>
+                                            </div>                                           
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label for=""><?php echo __('Push Title'); ?> *</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input id="welcome-push-title" value="<?php echo $welcome_push[0]['welcome_push_title'] ?>" type="text"
+                                                        name="welcome_push_title" class="prz-text required input-flat"
+                                                        placeholder="<?php echo __('Push Title'); ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label for="welcome_push_text"><?php echo __("Push Message") ?> *</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <textarea rows="4" cols="50" id="welcome-push-text" class="welcome_push_text input-flat" name="welcome_push_text" placeholder="<?php echo __('Message'); ?>"><?php echo $welcome_push[0]['welcome_push_text'] ?></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label
+                                                        for="welcome_push_open_feature"><?php echo __("Open a feature or a custom URL") ?></label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <select id="welcome-push-open-feature" name="welcome_push_open_feature"
+                                                        class="no-dk styled-select color-blue">
+                                                        <option value="0"><?php echo __("No") ?></option>
+                                                        <option value="1"><?php echo __("Yes") ?></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="welcome-push-feature-id-container">
+                                                <div class="col-sm-4">
+                                                    <label  for="welcome_push_feature_id"><?php echo __('Choose the features to open'); ?></label>
+                                                </div>
+                                                <div class="col-sm-8 div-all-features">
+                                                    <select id="welcome-push-feature-id" name="welcome_push_feature_id"
+                                                        class="no-dk styled-select color-blue">
+                                                        <?php foreach($features as $feature) : ?>
+                                                        <?php if(!$feature->getIsVisible()) continue; ?>
+                                                        <?php $selected=(count($welcome_push) && $welcome_push[0]['welcome_push_feature_id']==$feature->getId()) ? "selected" : "" ; ?>
+                                                        <option <?php echo $selected ?> value="<?php echo $feature->getId(); ?>">
+                                                            <?php echo $feature->getTabbarName() ?>
+                                                        </option>
+                                                        <?php endforeach ?>
+                                                        <option value="0">
+                                                            <?php echo __('Custom URL?'); ?>
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group welcome_push-custom-url-container " style="display:none"
+                                                id="welcome-push-custom-url-container">
+                                                <div class="col-sm-4">
+                                                    <label for="welcome_push_custom_url"><?php echo __('Custom URL'); ?> *</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input id="welcome_push_custom_url" name="welcome_push_custom_url" value=""
+                                                        class="welcome_push_custom_url required input-flat"
+                                                        placeholder="<?php echo __('Custom URL'); ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4">
+                                                    <label
+                                                        for="welcome_push_migareference_cover"><?php echo __('Upload a cover'); ?></label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <!--[if gte IE 10]><!-->
+                                                    <button id="welcome_push_custom_picture" type="button"
+                                                        class="upload_contact_picture btn color-blue image_left">
+                                                        <i class="icon-camera-retro"></i>
+                                                        <?php echo __('Insert a <span class="bold">cover image</span>'); ?>
+                                                    </button>
+                                                    <!--<![endif]-->
+                                                    <p id="welcome_push_custom_uploader_logo_ie_description" style="display:none">
+                                                        <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
+                                                    </p>
+                                                    <input id="welcome_push_custom_file" class="uploader" style="display:none"
+                                                        type="file" name="files[]"
+                                                        data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">                                                    
+                                                        <img id="welcome_push_custom_cover_img" width="210" height="110"
+                                                        style="<?php if(!count($welcome_push) || empty($welcome_push[0]['welcome_push_custom_file'])) {?> display:none; <?php } ?>"
+                                                        src="<?php if(count($welcome_push) && !empty($welcome_push[0]['welcome_push_custom_file'])) { echo $this->getUrl("images/application")."/".$this->getApplication()->getId()."/features/migareference/".$welcome_push[0]['welcome_push_custom_file']; } ?>"
+                                                        class="cimage" />
+                                                    <a href="javascript:;" style="display:none;"
+                                                        id="remove_welcome_push_custom_cover_img" class="btn color-blue rcimage">
+                                                        <i class="fa fa-times"></i>
+                                                    </a>                                            
+                                                    <input type="hidden" id="welcome_push_custom_migareference_cover_file"
+                                                        name="welcome_push_custom_file" />
+                                                    <input type="hidden" id="welcome_push_c_migareference_cover_file" value="<?php echo $welcome_push[0]['welcome_push_custom_file'] ?>"
+                                                        name="welcome_push_c_migareference_cover_file" />
+                                                    <input type="hidden" id="remove_welcome_push_custom_cover_img_field"
+                                                        name="remove_welcome_push_custom_cover_img_field" value="0" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="save pull-right" style="padding-right:15px;">
+                                                    <button class="button btn bt_save btn color-blue" type="submit">
+                                                        <?php echo __('Save'); ?>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="customize_option_modal" tabindex="-1" role="dialog" aria-labelledby="customizeOptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+			<form id="optin_setting_form" method="post" action="<?php echo $this->getUrl('migareference/optinsetting/save_setting'); ?>">
+     			<input type="hidden" name="app_id" value="<?php echo $app_id; ?>">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="customizeOptionModalLabel"><i class="fa fa-cog"></i> <?php echo __('Customize Optin Form'); ?></h4>
+				</div>
+				<div class="modal-body">
+				<div class="alert alert-info"><?php echo __('If you saved these settings once then all the old settings will be removed and a new style of form will be generated with these settings.'); ?></div>
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th><?php echo __('Label'); ?> *</th>
+								<th><?php echo __('Visibility'); ?></th>
+								<th><?php echo __('Required'); ?>?</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="text" name="customize_option_form[label][birthdate]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['birthdate'] ? $optin_setting_data['label']['birthdate'] : __('Birthdate'); ?>" required></td>
+								<td>
+									<select name="customize_option_form[visibility][birthdate]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Visible") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['visibility']['birthdate'] ? 'selected' : ''; ?>><?php echo __("Hidden") ?></option>
+									</select>   
+								</td>
+								<td>
+									<select name="customize_option_form[required][birthdate]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Yes") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['required']['birthdate'] ? 'selected' : ''; ?>><?php echo __("No") ?></option>
+									</select>   
+								</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="customize_option_form[label][job_id]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['job_id'] ? $optin_setting_data['label']['job_id'] : __('Select Job'); ?>" required></td>
+								<td>
+									<select name="customize_option_form[visibility][job_id]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Visible") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['visibility']['job_id'] ? 'selected' : ''; ?>><?php echo __("Hidden") ?></option>
+									</select>   
+								</td>
+								<td>
+									<select name="customize_option_form[required][job_id]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Yes") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['required']['job_id'] ? 'selected' : ''; ?>><?php echo __("No") ?></option>
+									</select>   
+								</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="customize_option_form[label][profession_id]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['profession_id'] ? $optin_setting_data['label']['profession_id'] : __('Select Sector'); ?>" required></td>
+								<td>
+									<select name="customize_option_form[visibility][profession_id]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Visible") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['visibility']['profession_id'] ? 'selected' : ''; ?>><?php echo __("Hidden") ?></option>
+									</select>   
+								</td>
+								<td>
+									<select name="customize_option_form[required][profession_id]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Yes") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['required']['profession_id'] ? 'selected' : ''; ?>><?php echo __("No") ?></option>
+									</select>   
+								</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="customize_option_form[label][sponsor_id]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['sponsor_id'] ? $optin_setting_data['label']['sponsor_id'] : __('Who invited you to be a referral user?'); ?>" required></td>
+								<td>
+									<select name="customize_option_form[visibility][sponsor_id]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Visible") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['visibility']['sponsor_id'] ? 'selected' : ''; ?>><?php echo __("Hidden") ?></option>
+									</select>   
+								</td>
+								<td>
+									<select name="customize_option_form[required][sponsor_id]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Yes") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['required']['sponsor_id'] ? 'selected' : ''; ?>><?php echo __("No") ?></option>
+									</select>   
+								</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="customize_option_form[label][province_id]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['province_id'] ? $optin_setting_data['label']['province_id'] : __('Residental Province'); ?>" required></td>
+								<td>
+									<select name="customize_option_form[visibility][province_id]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Visible") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['visibility']['province_id'] ? 'selected' : ''; ?>><?php echo __("Hidden") ?></option>
+									</select>   
+								</td>
+								<td>
+									<select name="customize_option_form[required][province_id]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Yes") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['required']['province_id'] ? 'selected' : ''; ?>><?php echo __("No") ?></option>
+									</select>   
+								</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="customize_option_form[label][privacy]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['privacy'] ? $optin_setting_data['label']['privacy'] : __('I accept the Privacy Policy'); ?>" required></td>
+								<td>
+									<select name="customize_option_form[visibility][privacy]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Visible") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['visibility']['privacy'] ? 'selected' : ''; ?>><?php echo __("Hidden") ?></option>
+									</select>   
+								</td>
+								<td>
+									<select name="customize_option_form[required][privacy]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Yes") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['required']['privacy'] ? 'selected' : ''; ?>><?php echo __("No") ?></option>
+									</select>   
+								</td>
+							</tr>
+                            <tr>
+								<td><input type="text" name="customize_option_form[label][gdpr]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['gdpr'] ? $optin_setting_data['label']['gdpr'] : __('GDPR CONSENT'); ?>" required></td>
+								<td>
+									<select name="customize_option_form[visibility][gdpr]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Visible") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['visibility']['gdpr'] ? 'selected' : ''; ?>><?php echo __("Hidden") ?></option>
+									</select>   
+								</td>
+								<td>
+									<select name="customize_option_form[required][gdpr]" class="no-dk styled-select color-blue">                        
+										<option value="1"><?php echo __("Yes") ?></option>
+										<option value="0" <?php echo $optin_setting_data && !$optin_setting_data['required']['gdpr'] ? 'selected' : ''; ?>><?php echo __("No") ?></option>
+									</select>   
+								</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="customize_option_form[label][privacy_text]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['privacy_text'] ? $optin_setting_data['label']['privacy_text'] : ""; ?>" > <small style="font-weight:400"><?php echo __("Non clickable privacy label (Optional)") ?></small></td>
+								<td>
+								</td>
+								<td>									 
+								</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="customize_option_form[label][privacy_link]" class="button_width input-flat" value="<?php echo $optin_setting_data && $optin_setting_data['label']['privacy_link'] ? $optin_setting_data['label']['privacy_link'] : ""; ?>" > <small style="font-weight:400"><?php echo __("Custom privacy link (Optional). Leave empty for default.") ?></small></td>
+								<td> 
+								</td>
+								<td>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="button btn bt_save btn color-blue"><?php echo __('Save'); ?></button>
+				</div>
+			</form>
+        </div>
+    </div>
+</div>
+<script>
+    // Optin form user table
+    data_table_language={
+            "decimal": "",
+            "emptyTable": "<?php echo __js("No data available in table") ?>",
+            "info": "<?php echo __js("Showing _START_ to _END_ of _TOTAL_ entries") ?>",
+            "infoEmpty": "<?php echo __js("Showing 0 to 0 of 0 entries") ?>",
+            "infoFiltered": "<?php echo __js("(filtered from _MAX_ total entries)") ?>",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "<?php echo __js("Show _MENU_ entries") ?>",
+            "loadingRecords": "<?php echo __js("Loading...") ?>",
+            "processing": "<?php echo __js("Processing...") ?>",
+            "search": "<?php echo __js("Search:") ?>",
+            "zeroRecords": "<?php echo __js("No matching records found") ?>",
+            "paginate": {
+                "first": "<?php echo __js("First") ?>",
+                "last": "<?php echo __js("Last") ?>",
+                "next": "<?php echo __js("Next") ?>",
+                "previous": "<?php echo __js("Previous") ?>"
+            },
+            "aria": {
+                "sortAscending": "<?php echo __js(": activate to sort column ascending") ?>",
+                "sortDescending": "<?php echo __js(": activate to sort column descending") ?>"
+            }
+        };
+
+    var data_table_obj = {
+        responsive: true,
+        language: data_table_language,
+        order: [],
+        bLengthChange: false,
+        bFilter: true,
+        sPaginationType: "full_numbers",
+        fnDrawCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            $.each(nRow.aoData, function(i, el) {var tr = $(el.nTr);tr.unbind('click');}.bind(this));
+            $('.paginate_button').addClass('btn color-blue');
+            $('span a.paginate_button').addClass('btn btn-grey');
+        },
+    };
+
+    data_table_obj.order = [[5, 'desc']];
+    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadoptinusers?app_id='.$app_id); ?>';
+    $('#optin_form_user_table').DataTable(data_table_obj);
+
+    // Optin form blocked ips table
+    data_table_obj.order = [[2, 'desc']];
+    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadblockedips?app_id='.$app_id); ?>';
+    $('#optin_form_blocked_ips').DataTable(data_table_obj);
+    
+    // Optin Use deletion
+    function deleteUser(user_id,invoice_id,is_block_ip,ip_address) {
+        var message = '<?php echo __("Are you sure you want to remove this user?"); ?>';
+        if (confirm(message)) {
+            var url = '<?php echo $this->getUrl('migareference/optinsetting/deleteuser'); ?>'+'/user_id/' + user_id+'/invoice_id/'+invoice_id+'/is_block_ip/'+is_block_ip+'/ip_address/'+ip_address+'/app_id/'+'<?php echo $app_id ?>';
+            reload(this, url, true, function(datas) {
+                if (datas.success) {
+                    $("#optin_form_user_table").DataTable().destroy();
+                    data_table_obj.order = [[5, 'desc']];
+                    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadoptinusers?app_id='.$app_id); ?>';
+                    $('#optin_form_user_table').DataTable(data_table_obj);                   
+                    // Optin form blocked ips table
+                    $("#optin_form_blocked_ips").DataTable().destroy();
+                    data_table_obj.order = [[2, 'desc']];
+                    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadblockedips?app_id='.$app_id); ?>';
+                    $('#optin_form_blocked_ips').DataTable(data_table_obj);
+                }
+            });
+        }
+    }
+    // UBlock IP Address
+    function unblockIp(uid) {
+        var message = '<?php echo __("Are you sure you want to un block this IP?"); ?>';
+        if (confirm(message)) {
+            var url = '<?php echo $this->getUrl('migareference/optinsetting/unblockip'); ?>'+'/uid/' + uid;
+            reload(this, url, true, function(datas) {
+                if (datas.success) {
+                    $("#optin_form_blocked_ips").DataTable().destroy();
+                    // Optin form blocked ips table
+                    data_table_obj.order = [[2, 'desc']];
+                    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadblockedips?app_id='.$app_id); ?>';
+                    $('#optin_form_blocked_ips').DataTable(data_table_obj);
+                }
+            });
+        }
+    }
+    $('.replace-with-ckeditor').ckeditor();
+    var coddevalue="";
+    function copyCode() {
+        $('#code').each(function(){
+        var $this = $(this);
+        var t = $this.text();
+        coddevalue=t.replace('&lt','<').replace('&gt', '>');        
+    });        
+       var $temp = $("<textarea>");
+        $("body").append($temp);
+        $temp.val(coddevalue).select();
+        document.execCommand("copy");
+        $temp.remove();
+        $("#code_copied").show().fadeOut(7000);
+    }
+    $('#optinform,#wellcomeemailform').submit(function() {
+        reload(this, this.action, true, function(data) {
+            if (data.success) {
+                page.reload();
+            }
+        });
+        return false;
+    });  
+    $('#bulkuserdeletion').submit(function() {
+        // Remove any existing hidden inputs for selected users
+        $('#bulkuserdeletion input[name="delete_user[]"]').remove();
+        
+        // Append one hidden input per selected user
+        selectedUserIds.forEach(function(userId) {
+            $('#bulkuserdeletion').append('<input type="hidden" name="delete_user[]" value="' + userId + '">');
+        });
+        reload(this, this.action, true, function(data) {
+            if (data.success) {
+                page.reload();
+            }
+        });
+        return false;
+    });  
+    function deleteBulkOptin() {
+        var message = '<?php echo __("Are you sure you want to delete selected users"); ?>'+'?';
+        if (confirm(message)) {
+            // Programaticall submit #bulkuserdeletion form
+            $("#bulkuserdeletion").submit();            
+        }
+    } 
+
+    //
+    
+    // Update the global selectedUserIds array when checkboxes are toggled
+    var selectedUserIds = [];
+    $('#optin_form_user_table').on('change', '.user-checkbox', function() {
+        console.log("User checkbox changed");
+        var userId = $(this).data('id');
+        if (this.checked) {
+            if (!selectedUserIds.includes(userId)) {
+                selectedUserIds.push(userId);
+            }
+        } else {
+            selectedUserIds = selectedUserIds.filter(function(id) {
+                return id !== userId;
+            });
+        }
+        console.log(selectedUserIds);
+    });
+
+    // Re-check checkboxes for rows that are already selected
+    $('#optin_form_user_table').on('draw.dt', function() {
+        console.log("Table redrawn");
+        $('#optin_form_user_table .user-checkbox').each(function() {
+            var userId = $(this).data('id');
+            if (selectedUserIds.includes(userId)) {
+                $(this).prop('checked', true);
+            } else {
+                $(this).prop('checked', false);
+            }
+        });
+    });
+    //
+    loadSettings();
+    function loadSettings() {
+    $.ajax({
+            url: '<?php echo $this->getUrl('migareference/public_optinlanding/loadsettings'); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                app_id: <?php echo  $app_id ?>
+            }
+        })
+        .done(function(data) {
+            console.log("Data is loaded");
+            console.log(data);
+        });
+    }
+
+	$("#customize_option_modal_button").click(function(){
+    	$('#customize_option_modal').modal('show');
+    });
+	$('#optin_setting_form').submit(function() {
+        reload(this, this.action, true, function(data) {
+            if (data.success) {
+				$('#customize_option_modal').modal('toggle');
+                populateOptionForm();
+            }
+        });
+        return false;
+    });      
+    $('#welcome_push_custom_file').fileupload({
+        dataType: 'json',
+        add: function(e, data) {
+            data.submit();
+            img_uploader.showProgressbar();
+        },
+        progressall: function(e, data) {
+            img_uploader.moveProgressbar(data);
+        },
+        done: function(e, data) {
+            if (data.result.error) {
+                img_uploader.showError(data.result.message);
+            }
+            if (data.result.success) {
+                $('#welcome_push_custom_file').fileupload({
+        dataType: 'json',
+        add: function(e, data) {
+            data.submit();
+            img_uploader.showProgressbar();
+        },
+        progressall: function(e, data) {
+            img_uploader.moveProgressbar(data);
+        },
+        done: function(e, data) {
+            if (data.result.error) {
+                img_uploader.showError(data.result.message);
+            }
+            if (data.result.success) {
+                img_uploader.hide();
+                var params = [];
+                params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                params["file"] = data.result.files;
+                params["output_w"] = 530;
+                params["output_h"] = 272;
+                params["output_url"] =
+                    '<?php echo str_replace('/', '$', $this->getUrl('migareference/application/crop')) ?>';
+                params["uploader"] = 'img_uploader';
+                img_uploader.crop(params);
+                img_uploader.callback = function(file) {
+                    var image = iframe.content.find(
+                        '#active_migarefrence_img_<?php echo $value_id ?>');
+                    $('#welcome_push_custom_cover_img').hide().attr('src',
+                        '<?php echo Core_Model_Directory::getTmpDirectory() ?>/' + file).slideDown();
+                    $('#welcome_push_custom_cover_img').show();
+                    $('#remove_welcome_push_custom_cover_img').show();
+                    $('#welcome_push_custom_migareference_cover_file').val(file);
+                    default_active_migarefrence_url = file;
+                }
+            }
+        }
+    });
+    $('#welcome_push_custom_picture').click(function() {
+        $('#welcome_push_custom_file').trigger('click');
+    });
+            }
+        }
+    });
+    $('#welcome_push_custom_picture').click(function() {
+        $('#welcome_push_custom_file').trigger('click');
+    });
+    $('#welcome-push-feature-id').on('change', function() {
+        if (this.value == 0) {
+            $("#welcome-push-custom-url-container").show();
+        } else {
+            $("#welcome-push-custom-url-container").hide();
+        }
+    });  
+    $('#welcome-push-open-feature').on('change', function() {        
+        if (this.value == 1) {
+            $("#welcome-push-feature-id-container").show();
+        } else {
+            $("#welcome-push-feature-id-container").hide();
+        }
+    });
+</script>

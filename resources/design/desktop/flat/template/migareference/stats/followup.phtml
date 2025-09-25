@@ -1,0 +1,834 @@
+<?php
+$application = $this->getApplication();
+$app_id      = $application->getId();
+$migareference  = new Migareference_Model_Migareference();    
+$referral_usrs  = $migareference->get_referral_users($app_id);
+$agents         = $migareference->get_customer_agents($app_id);
+$pre_settings = $migareference->preReportsettigns($app_id);
+$default        = new Core_Model_Default();
+$base_url       = $default->getBaseUrl();
+?>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+<div id="pagecontainer">
+    <div class="application_analytics application content" id="content">
+        <h3 class="title-editor border-blue text-center"><?php echo __("Migareference Followup Stats") ?><span class='filter-time-stamp'></span></h3>
+        <div class="container-fluid subcontent content-color">        
+			<ul class="nav nav-tabs" role="tablist" data-html2canvas-ignore="true" style="margin-bottom:10px;">
+				<li role="presentation">
+                    <a href="<?=$base_url."/migareference/generalstats/general"?>">
+                        <?php echo __("General") ?>
+                    </a>
+                </li>
+				<li role="presentation">
+					<a href="<?=$base_url."/migareference/prospectstats/prospect" ?>">
+                        <?php echo __("Prospecting") ?>
+                    </a>
+                </li>
+				<li role="presentation">
+                    <a href="<?=$base_url."/migareference/reportstats/report" ?>">
+                        <?php echo __("Reports") ?>
+                    </a>
+                </li>
+				<li role="presentation" class="active">
+                    <a href="<?=$base_url."/migareference/followupstats/followup" ?>">
+                        <?php echo __("Followup") ?>
+                    </a>
+                </li>
+				<li role="presentation" >
+                    <a href="<?=$base_url."/migareference/referrerstats/referrer" ?>">
+                        <?php echo __("Referrers") ?>
+                    </a>
+                </li>
+                <!-- <li role="presentation" >
+                    <a href="<?=$base_url."/migareference/adminstats/admin" ?>">
+                        <?php echo __("Agent") ?>
+                    </a>
+                </li>
+                <li role="presentation" >
+                    <a href="<?=$base_url."/migareference/referrerstats/referrer" ?>">
+                        <?php echo __("Referrers") ?>
+                    </a>
+                </li>      -->
+                <li style="float:right;">
+                    <button class="btn color-blue" onclick="printPdf()">
+                        <i class="fa fa-download"></i>
+                        <?php echo __("PDF") ?>
+                        <span style="display:none;" id="pdf_download_loader"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i></span>
+                    </button>
+                </li>               
+            </ul>              
+            <!-- Filter Start -->
+            <div class="row">
+                <div class="col-md-2">
+                    <select onChange="filterType()" id="range_filter" class="input-flat" name="">
+						<option value="6"><?php echo __("ALL") ?></option> 
+						<option value="8"><?php echo __("Past Week") ?></option> 
+                        <option selected value="1"><?php echo __("Last 30 Days") ?></option> 
+						<option value="7"><?php echo __("Past Month") ?></option>                           
+                        <option value="2"><?php echo __("Last 3 Months") ?></option>                            
+                        <option value="3"><?php echo __("Last 6 Months") ?></option>                            
+                        <option value="4"><?php echo __("Current Year") ?></option>                            
+                        <option value="5"><?php echo __("Last Year") ?></option>                               
+                        <option style="font-weight:600" value="100"><?php echo __("Custom Range") ?></option>                            
+                    </select>
+                </div> 
+                <div class="col-md-2">
+					<select id="sponsor_filter" class="input-flat" name="">
+                        <?php if ($pre_settings[0]['enable_mandatory_agent_selection']==2) { ?>
+                        <option value="0"><?php echo __("I dont know") ?></option>
+                        <?php } ?>                                                       
+                        <?php foreach ($agents as $key => $value): ?>
+                        <option value="<?=$value['user_id'] ?>"><?=$value['firstname']." ".$value['lastname'] ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>  
+                </div>
+                <div class="col-md-4" id="custom_date_filter_container" style="display:none;">                
+                    <div id="row_filter_metrics" class="row sb-tour">
+                        <div class="col-md-2 col-sm-6 col-xs-6" style="padding:0">
+                            <label for="from"><?php echo __("From"); ?></label>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-6" style="padding:0">
+                            <input type="text" id="from" name="from" class="input-flat sb-tour">
+                        </div>
+                        <div class="col-md-2 col-sm-6 col-xs-6" style="padding-right:0">
+                            <label for="to"><?php echo __("To"); ?></label>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-6"  style="padding:0">
+                            <input type="text" id="to" name="to" class="input-flat sb-tour">
+                        </div>                    
+                    </div>
+                </div>                             
+                <div class="col-md-2">
+                    <button data-html2canvas-ignore="true" class="btn color-blue" onclick="loadAgentFollowupStats()">                    
+                        <?php echo __("Filter Stats") ?>                    
+                    </button>
+                </div>                    
+            </div>      
+			<!-- Referrers Followup Statistics (Reminders) -->
+            <div class="row first-row-feature" style="padding-top:15px;">
+                <h3 class="fs-titel stat-headings">
+                    <i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i>
+                    <?php echo __("Referrers Followup Statistics (Reminders)") ?>
+                </h3>
+                <div class="row" style="padding-left:20px;padding-right:20px;padding-top:10px;padding-bottom:10px;">
+                    <div class="col-md-12 col-xs-12" style="max-height:348px">
+                        <div style="margin-left:49%;" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo __("Loading..."); ?></div>
+                        <canvas style="border:1px solid #dedddd" id="range_reminders" class="content-white-bkg sb-tour" width="400" height="340"></canvas>
+                    </div>
+                </div>
+				<div class="row stat-count-container">
+					<div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("No. Reminders") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_reminders_all"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_reminders_all">                                            
+                            </p>
+                        </div>
+                    </div>  
+					<div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p> <i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("No. Reminder Done") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_reminders_done"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_reminders_done">                                            
+                            </p>
+                        </div>
+                    </div>    
+					<div class="col-md-2">
+                        <div class="stat-calculate">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("No. Rem. Postponed") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_reminders_postponed"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_reminders_postponed">                                            
+                            </p>
+                        </div>
+                    </div>   
+					<div class="col-md-2">
+                        <div class="stat-calculate">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("No. Rem. Cancelled") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_total_canceled"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_total_canceled">                                            
+                            </p>
+                        </div>
+                    </div> 
+					<div class="col-md-2">
+                        <div class="stat-calculate">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("Total Processed") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_total_processed"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_total_processed">                                            
+                            </p>
+                        </div>
+                    </div>        
+					<div class="col-md-2">
+                        <div class="stat-calculate">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("Total Expired") ?></p>
+                            <h1 class="dfault-0" id="ref_stat_count_range_total_fallback"></h1>
+                            <p class="count_veriation" id="var_ref_stat_count_range_total_fallback">                                            
+                            </p>
+                        </div>
+                    </div>   
+				</div>   
+				<div class="row stat-count-container">
+					<div class="col-md-3"></div>
+					<div class="col-md-2">
+						<div class="stat-calculate" style="background-color:#f8eabb;cursor:pointer; margin-top: 15px;" rel="tooltip" title="<?php echo __('Total reminders handled in the period per working day.') ?>">
+							<p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 1px;"></i>
+							<?php echo __("Avg. / Processed") ?> <i class="fa fa-info-circle" aria-hidden="true" style="padding-left: 1px; color: rgb(129, 133, 137, 0.2);" ></i></p>
+							<h1 class="dfault-0" id="rfs_stats_avg_processed"></h1>
+							<p class="count_veriation" id="var_rfs_stats_avg_processed">                                            
+							</p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="stat-calculate" style="background-color:#f8eabb; margin-top: 15px;">
+							<p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 1px;"></i>
+							<?php echo __("Management Days") ?></p>
+							<h1 class="dfault-0" id="rfs_stats_management_days"></h1>
+							<p class="count_veriation" id="var_rfs_stats_management_days">                                            
+							</p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="stat-calculate" style="background-color:#f8eabb;cursor:pointer; margin-top: 15px;" rel="tooltip" title="<?php echo __('This indicator allows us to understand how many reminders have been discarded and not worked on. The KPI should be as close to 0 as possible.') ?>">
+							<p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 1px;"></i>
+							<?php echo __("KPI Cancelled") ?> <i class="fa fa-info-circle" aria-hidden="true" style="padding-left: 1px; color: rgb(129, 133, 137, 0.2);" ></i></p>
+							<h1 class="dfault-0" id="rfs_stats_kpi_cancelled"></h1>
+							<p class="count_veriation" id="var_rfs_stats_kpi_cancelled">                                            
+							</p>
+						</div>
+					</div>
+					<div class="col-md-3"></div>
+				</div>
+            </div>  
+			<!-- Reports Warnings Statistics (Reminders)-->                 
+			<div class="row first-row-feature" style="padding-top:15px;">
+				<h3 class="fs-titel stat-headings">
+                    <i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i>
+                    <?php echo __("Reports Warnings Statistics (Reminders)") ?>
+                </h3>
+				<div class="row" style="padding-left:20px;padding-right:20px;padding-top:10px;padding-bottom:10px;">
+                    <div class="col-md-12 col-xs-12" style="max-height:348px">
+                        <div style="margin-left:49%;" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo __("Loading..."); ?></div>
+                        <canvas style="border:1px solid #dedddd" id="range_reminders_ref" class="content-white-bkg sb-tour" width="400" height="340"></canvas>
+                    </div>
+                </div>
+				<div class="row stat-count-container">
+					<div class="col-md-2"></div>
+					<div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("No. Warnings") ?></p>
+                            <h1 class="dfault-0" id="range_report_count_reminders_warnings"></h1>
+                            <p class="count_veriation" id="var_range_report_count_reminders_warnings">                                            
+                            </p>
+                        </div>
+                    </div>  
+					<div class="col-md-2">
+                        <div class="stat-calculate" style="">
+                            <p> <i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("No. Reminder Done") ?></p>
+                            <h1 class="dfault-0" id="range_report_count_reminders_done"></h1>
+                            <p class="count_veriation" id="var_range_report_count_reminders_done">                                            
+                            </p>
+                        </div>
+                    </div>    
+					<div class="col-md-2">
+                        <div class="stat-calculate">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("No. Rem. Postponed") ?></p>
+                            <h1 class="dfault-0" id="range_report_count_reminders_postponed"></h1>
+                            <p class="count_veriation" id="var_range_report_count_reminders_postponed">                                            
+                            </p>
+                        </div>
+                    </div>   
+					<!-- <div class="col-md-2">
+                        <div class="stat-calculate">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("No. Rem. Cancelled") ?></p>
+                            <h1 class="dfault-0" id="range_report_count_total_canceled"></h1>
+                            <p class="count_veriation" id="var_range_report_count_total_canceled">                                            
+                            </p>
+                        </div>
+                    </div>  -->
+					<div class="col-md-2">
+                        <div class="stat-calculate">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("Total Processed") ?></p>
+                            <h1 class="dfault-0" id="range_report_count_total_processed"></h1>
+                            <p class="count_veriation" id="var_range_report_count_total_processed">                                            
+                            </p>
+                        </div>
+                    </div>        
+					<!-- <div class="col-md-2">
+                        <div class="stat-calculate">
+                            <p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 7px;"></i><?php echo __("Total Expired") ?></p>
+                            <h1 class="dfault-0" id="range_report_count_total_fallback"></h1>
+                            <p class="count_veriation" id="var_range_report_count_total_fallback">                                            
+                            </p>
+                        </div>
+                    </div>    -->
+					<div class="col-md-2"></div>
+				</div> 
+				<div class="row stat-count-container">
+					<div class="col-md-4"></div>
+					<div class="col-md-2">
+						<div class="stat-calculate" style="background-color:#f8eabb; margin-top: 15px;">
+							<p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 1px;"></i>
+							<?php echo __("Management Days") ?></p>
+							<h1 class="dfault-0" id="range_report_count_reminders_management_days"></h1>
+							<p class="count_veriation" id="var_range_report_count_reminders_management_days">                                            
+							</p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="stat-calculate" style="background-color:#f8eabb;cursor:pointer; margin-top: 15px;" rel="tooltip" title="<?php echo __('This KPI measures total issue reminders on Snoozed References divided by total issues. This KPI should be close to 0.') ?>">
+							<p><i class="fa fa-clock-o" aria-hidden="true" style="padding-right: 1px;"></i>
+							<?php echo __("KPI Postponed") ?> <i class="fa fa-info-circle" aria-hidden="true" style="padding-left: 1px; color: rgb(129, 133, 137, 0.2);" ></i></p>
+							<h1 class="dfault-0" id="range_report_count_reminders_kpi_postponed"></h1>
+							<p class="count_veriation" id="var_range_report_count_reminders_kpi_postponed">                                            
+							</p>
+						</div>
+					</div>
+					<div class="col-md-4"></div>
+				</div>
+			</div>                                                                           
+        </div>
+    </div>
+</div>
+<script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
+    integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script>  
+	$(document).ready(function(){
+		$("[rel=tooltip]").tooltip({ placement: 'top'});
+	}); 
+	// START Date Picker
+	var today = new Date();  // get current date
+	var oneYearAgo = new Date();  // create new date object
+	oneYearAgo.setFullYear(today.getFullYear() - 1);  // set year to previous year
+
+	if ($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+		$.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+	} else {
+		$.datepicker.setDefaults($.datepicker.regional['en']);
+	}
+
+	$("#from").datepicker({
+		changeMonth: true,
+		changeYear: true,
+		numberOfMonths: 3,
+		minDate: oneYearAgo,
+		onClose: function( selectedDate ) {
+			$("#to").datepicker( "option", "minDate", selectedDate );
+		}
+	});
+
+	$("#to").datepicker({
+		changeMonth: true,
+		changeYear: true,
+		numberOfMonths: 3,
+		onClose: function( selectedDate ) {
+			$("#from").datepicker( "option", "maxDate", selectedDate );
+		}
+	});        
+	$("#to").datepicker('setDate', new Date());
+	$("#from").datepicker('setDate', -30);        
+	function computeDateRange() {
+		var start_timestamp = parseInt($.datepicker.formatDate( "@", $("#from").datepicker("getDate"))/1000);
+		var end_timestamp = parseInt($.datepicker.formatDate( "@", $("#to").datepicker("getDate"))/1000);
+		//We go to 23:59
+		end_timestamp = end_timestamp + (60*60*24) - 60;
+		date_range = {
+			"start": start_timestamp,
+			"end": end_timestamp
+		};
+		return date_range;
+	} 
+
+	var date_range_params = '';
+	function filterStats() {
+		if($("#from").val() && $("#to").val()) {
+			date_range_params = computeDateRange();
+			if(date_range_params.start <= date_range_params.end) {                
+				console.log("Done");             
+			} else {
+				var page_message = new AlertMessage("<?php echo __("Start date must be lower than end date."); ?>");
+				page_message.addButton(true);
+				page_message.setTimer(false);
+				page_message.isError(true);
+				page_message.show();
+			}
+		} else {
+			var page_message = new AlertMessage("<?php echo __("You have to chose a start and an end date."); ?>");
+			page_message.addButton(true);
+			page_message.setTimer(false);
+			page_message.isError(true);
+			page_message.show();
+		}
+	}
+	// END Date Picker
+	$(".default-hide").hide(); 
+
+	var range_reminders_ctx = $("#range_reminders");
+	var barChartOptions = {
+		"responsive":true,
+		maintainAspectRatio: false,
+		scales: {
+			y: {
+				min: 0,
+				ticks:{
+					precision:0
+				}                        
+			}
+		}
+	};     
+	var rangeDatasetMetaRem = [
+		{
+			label: '<?php echo __("Total Reminders"); ?>',
+			backgroundColor: "#fbb862",
+			borderColor: "#f59b56",
+			borderWidth: 1,
+			hoverBackgroundColor: "#f59b56",
+			hoverBorderColor: "#fbb862",
+			data: []
+		},
+		{
+			label: '<?php echo __("Rem. Postponed"); ?>',
+			backgroundColor: "#64ad73",
+			borderColor: "#3d9a70",
+			borderWidth: 1,
+			hoverBackgroundColor: "#3d9a70",
+			hoverBorderColor: "#64ad73",
+			data: []
+		},
+		{
+			label: '<?php echo __("Total Cancelled"); ?>',
+			backgroundColor: "#f44336",
+			borderColor: "#c31407",
+			borderWidth: 1,
+			hoverBackgroundColor: "#c31407",
+			hoverBorderColor: "#f44336",
+			data: []
+		}
+	];
+	var barChartConfig3 = {
+                type: 'bar',
+                data: {
+                        labels: [],
+                        datasets: rangeDatasetMetaRem
+                    },
+                options: barChartOptions
+    };  
+	var range_ref_reminders = new Chart(range_reminders_ctx, barChartConfig3);
+
+	var range_reminders_ref_ctx = $("#range_reminders_ref");
+	var range_reminders_ref = new Chart(range_reminders_ref_ctx, barChartConfig3);
+
+	loadAgentFollowupStats();  
+	var is_custome_date_filter = 0;
+	function filterType() {
+		range_filter=$("#range_filter").val();                 
+		if (range_filter==100) {
+			is_custome_date_filter=1;
+			$("#custom_date_filter_container").show();
+		}else{
+			is_custome_date_filter=0;
+			$("#custom_date_filter_container").hide();
+		}  
+	} 
+	var star_filter = 0;
+	function filterStar() {
+		star_filter = parseInt($("#star_filter").val());                 
+		loadAgentFollowupStats();  
+	}
+
+	function loadAgentFollowupStats() {  
+		$(".loader_metrics").show();            
+        range_filter = $("#range_filter").val();                 
+        agent_id = $("#sponsor_filter").val();
+		filterStats();          
+        $(".dfault-0").text(0); //Reset count values to 0   
+		$.ajax({
+			method: "POST",
+			dataType: 'json',
+			url: "/migareference/followupstats/followupstats",
+			data: { app_id: '<?php echo $app_id; ?>', range_filter: range_filter,agent_id:agent_id,date_range_params:date_range_params,is_custome_date_filter:is_custome_date_filter}
+        }).done(function( data ) { 
+			var from_date_param = parseInt(range_filter) == 6 ? '<?php echo __("START") ?>' : data.params.from_date;
+			var to_date_param = parseInt(range_filter) == 6 ? '<?php echo __("END") ?>' : data.params.to_date;
+			$(".filter-time-stamp").text(" ("+'<?php echo __("From") ?>'+": "+from_date_param+" "+'<?php echo __("To") ?>'+": "+to_date_param+")");
+
+			$(".loader_metrics").hide();
+
+			if (true) { // SubSection 6.1 (Range Reminders Chart)                                
+				var range_scussess_labels = [];
+				var total_reminders = [];
+				var canceled = [];
+				var postponed = [];
+				$.each(data.range_graph_reminders, function(ind, elem) {
+					range_scussess_labels.push(elem.labels);
+					total_reminders.push(elem.total_reminders);
+					canceled.push(elem.canceled);
+					postponed.push(elem.postponed);
+				});
+				range_ref_reminders.data.datasets[0].data = total_reminders;
+				range_ref_reminders.data.datasets[1].data = postponed;
+				range_ref_reminders.data.datasets[2].data = canceled;
+				range_ref_reminders.data.labels = range_scussess_labels;
+				range_ref_reminders.update();
+			}
+
+			if (true) { // SubSection 6.2 (Range Reminders COUNT)                                
+				$("#ref_stat_count_range_reminders_all").text(data.range_count_reminders[0].total_reminders);                                                                
+				$("#var_ref_stat_count_range_reminders_all").html("").append(data.var_range_count_reminders[0].var_total_reminders);
+
+				$("#ref_stat_count_range_reminders_warrnings").text(data.range_count_reminders[0].warrnings);                    
+				$("#var_ref_stat_count_range_reminders_warrnings").html("").append(data.var_range_count_reminders[0].var_warrnings);
+
+				$("#ref_stat_count_range_reminders_done").text(data.range_count_reminders[0].done);                    
+				$("#var_ref_stat_count_range_reminders_done").html("").append(data.var_range_count_reminders[0].var_done);
+
+				$("#ref_stat_count_range_total_canceled").text(data.range_count_reminders[0].total_canceled);                                                                
+				$("#var_ref_stat_count_range_total_canceled").html("").append(data.var_range_count_reminders[0].var_total_canceled);
+
+				$("#ref_stat_count_range_total_processed").text(data.range_count_reminders[0].total_processed);                                                                
+				$("#var_ref_stat_count_range_total_processed").html("").append(data.var_range_count_reminders[0].var_total_processed);
+
+				$("#ref_stat_count_range_total_fallback").text(data.range_count_reminders[0].total_fallback);                                                                
+				$("#var_ref_stat_count_range_total_fallback").html("").append(data.var_range_count_reminders[0].var_total_fallback);
+
+				$("#ref_stat_count_range_reminders_postponed").text(data.range_count_reminders[0].potponed);                    
+				$("#var_ref_stat_count_range_reminders_postponed").html("").append(data.var_range_count_reminders[0].var_potponed);
+				
+				$("#rfs_stats_management_days").text(data.range_count_reminders[0].management);                                            
+				$("#var_rfs_stats_management_days").html("").append(data.var_range_count_reminders[0].var_management);                        
+				
+				$("#rfs_stats_kpi_cancelled").text(data.range_count_reminders[0].kpi);                    
+				$("#var_rfs_stats_kpi_cancelled").html("").append(data.var_range_count_reminders[0].var_kpi);                                                
+			}
+
+			if (true) {
+				$("#rfs_stats_avg_processed").text(data.range_count_reminders[0].avg_processed);
+				$("#var_rfs_stats_avg_processed").html("").append(data.var_range_count_reminders[0].var_avg_processed);
+			}
+			
+			if (true) { // Reports Warnings Statistics (Reminders)                              
+				var range_scussess_labels_ref = [];
+				var total_reminders_ref = [];
+				var canceled_ref = [];
+				var postponed_ref = [];
+				$.each(data.range_graph_report_reminders, function(ind, elem) {
+					range_scussess_labels_ref.push(elem.labels);
+					total_reminders_ref.push(elem.total_reminders);
+					canceled_ref.push(elem.canceled);
+					postponed_ref.push(elem.postponed);
+				});
+				range_reminders_ref.data.datasets[0].data = total_reminders_ref;
+				range_reminders_ref.data.datasets[1].data = postponed_ref;
+				range_reminders_ref.data.datasets[2].data = canceled_ref;
+				range_reminders_ref.data.labels = range_scussess_labels_ref;
+				range_reminders_ref.update();
+			}
+			
+			if (true) { // SubSection 6.2 (Range Reminders COUNT)                                
+				$("#range_report_count_reminders_warnings").text(data.range_report_ref_reminders[0].warrnings);
+				$("#var_range_report_count_reminders_warnings").html("").append(data.var_range_report_ref_reminders[0].var_warrnings);
+
+				$("#range_report_count_reminders_warrnings").text(data.range_report_ref_reminders[0].warrnings);                    
+				$("#var_range_report_count_reminders_warrnings").html("").append(data.var_range_report_ref_reminders[0].var_warrnings);
+
+				$("#range_report_count_reminders_done").text(data.range_report_ref_reminders[0].done);                    
+				$("#var_range_report_count_reminders_done").html("").append(data.var_range_report_ref_reminders[0].var_done);
+
+				$("#range_report_count_total_canceled").text(data.range_report_ref_reminders[0].total_canceled);                                                                
+				$("#var_range_report_count_total_canceled").html("").append(data.var_range_report_ref_reminders[0].var_total_canceled);
+
+				$("#range_report_count_total_processed").text(data.range_report_ref_reminders[0].total_processed);                                                                
+				$("#var_range_report_count_total_processed").html("").append(data.var_range_report_ref_reminders[0].var_total_processed);
+
+				$("#range_report_count_total_fallback").text(data.range_report_ref_reminders[0].total_fallback);                                                                
+				$("#var_range_report_count_total_fallback").html("").append(data.var_range_report_ref_reminders[0].var_total_fallback);
+
+				$("#range_report_count_reminders_postponed").text(data.range_report_ref_reminders[0].potponed);                    
+				$("#var_range_report_count_reminders_postponed").html("").append(data.var_range_report_ref_reminders[0].var_potponed);
+				
+				$("#range_report_count_reminders_management_days").text(data.range_report_ref_reminders[0].management);                                            
+				$("#var_range_report_count_reminders_management_days").html("").append(data.var_range_report_ref_reminders[0].var_management);                        
+				
+				$("#range_report_count_reminders_kpi_postponed").text(data.range_report_ref_reminders[0].kpi);                    
+				$("#var_range_report_count_reminders_kpi_postponed").html("").append(data.var_range_report_ref_reminders[0].var_kpi);                                                
+			}
+
+			// Background Print WOrk
+			const divElement = document.getElementById('pagecontainer');
+			console.log("Element is here");
+			console.log(divElement);
+			// Get the innerHTML of the div element
+			const htmlContent = divElement.innerHTML;
+			$("#newcontent").remove();
+			// Create a new element to pass the same data
+			newElement = document.createElement('div');
+			newElement.setAttribute('id', 'newcontent');
+			newElement.style.width = '1284px';
+			newElement.style.marginLeft = '200px';
+			newElement.style.position = "absolute";
+			newElement.style.bottom = "100%";
+			newElement.innerHTML = htmlContent;
+
+			range_filter=$("#range_filter").val();
+			sponsor_filter=$("#sponsor_filter").val();
+			//referrer_filter=$("#referrer_filter").val();
+			duplicateChartCanvas = newElement.querySelector('#range_reminders');
+			duplicateChart = new Chart(duplicateChartCanvas, {
+				type: range_ref_reminders.config.type,
+				data: range_ref_reminders.config.data,
+				options: range_ref_reminders.config.options
+			});
+			duplicateChartCanvas.style.height='348px';
+
+			duplicateChartCanvas = newElement.querySelector('#range_reminders_ref');
+			duplicateChart = new Chart(duplicateChartCanvas, {
+				type: range_reminders_ref.config.type,
+				data: range_reminders_ref.config.data,
+				options: range_reminders_ref.config.options
+			});
+			duplicateChartCanvas.style.height='348px';
+
+			from_date=$("#from").val();
+			to_date=$("#to").val();                              
+			myDropdown = newElement.querySelector('#range_filter');                                                            
+			optionWithValue100 = myDropdown.querySelector(`option[value="${range_filter}"]`);                    
+			optionWithValue100.selected = true;
+			myDropdown = newElement.querySelector('#sponsor_filter');                                                            
+			optionWithValue100 = myDropdown.querySelector(`option[value="${sponsor_filter}"]`);                    
+			optionWithValue100.selected = true;
+			fromInput = newElement.querySelector('#from');
+			console.log(fromInput);
+			fromInput.setAttribute('value', from_date);
+			toInput = newElement.querySelector('#to');
+			toInput.setAttribute('value', to_date);     
+			document.body.appendChild(newElement);
+		}).error(function() {            
+            $(".loader_metrics").hide();
+        });
+	}
+
+	function printPdf() {     
+		$("#pdf_download_loader").show();   
+		const doc = new jsPDF();            
+		html2canvas(newElement.querySelector("#content")).then((canvas) => {
+			var imgData    = canvas.toDataURL();
+			var imgWidth   = 210; 
+			var pageHeight = 295;  
+			var imgHeight  = canvas.height * imgWidth / canvas.width;
+			var heightLeft = imgHeight;        
+			var doc        = new jsPDF('p', 'mm');
+			var position   = 3; // give some top padding to first page
+			doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+			heightLeft -= pageHeight;        
+			while (heightLeft >= 0) {
+			position = heightLeft - imgHeight; // top padding for other pages        
+			doc.addPage();
+			doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+			heightLeft -= pageHeight;
+			}
+			doc.save('REPORT_STATS.pdf');
+			$("#pdf_download_loader").hide();
+		});
+	}
+	function toggleColor(elem, current_value, limit_value) {
+		if (parseFloat(current_value) < limit_value) {
+			$(elem).addClass('text-red');
+		} else {
+			$(elem).removeClass('text-red');
+		}
+	}
+</script>
+<style>
+/* Stat CSS */
+.stat-calculate{
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 7px;
+    background: #f7f7f7;
+    text-align: center;
+    transition: transform .7s;
+}
+.stat-calculate:hover {      
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);    
+    background: #9797974a;
+}
+.stat-calculate h1{
+    font-weight:700;
+    margin-top:18px;
+    margin-bottom:21px;
+    line-height:40px;
+
+}
+.stat-calculate p{
+    font-weight:700;
+    /* font-size:1vw; */
+    line-height:20px;
+    overflow:hidden;
+}
+.count_veriation{
+    font-size:small;
+}
+.count_veriation span{
+    font-size:small;
+    /* font-size:1vw; */
+}
+.var-positive {
+    background: #87d82757;
+    padding: 2px;
+    border-radius: 10px;
+    color: green;
+    font-weight: 700;
+}
+.var-negative {
+    background: #d827272e;
+    padding: 2px;
+    border-radius: 10px;
+    color: #e91e63;
+    font-weight: 700;
+}
+.var-nochange {
+    background: #0000003d;
+    padding: 2px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+.stat-headings{
+    color: white;
+    background-color: #0099C7;
+    padding: 9px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.stat-count-container{
+    border: 1px solid #d0cfcf;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-bottom: 15px;
+    padding-top: 14px;
+}
+/* Pie CHart */
+.pie-chart-legend ul>li span{
+    display: inline-block;    
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+.pie-chart-legend ul>li {
+    display: inline-block;  
+    margin: 4px;  
+}
+
+.pie-chart-legend{
+  height:115px;
+  
+}
+.hidden-pie-label {
+  text-decoration: line-through;
+}
+/* START Data Table  style*/
+.sub_heading{
+        border-bottom: 2px solid #0099c7;
+        padding-bottom: 13px;
+    }
+    .remove_btn{
+        background-color: red;
+    }
+    .emptydataset{
+        text-align: center;
+    }
+table{
+    background-color: white;
+}
+     table.dataTable {
+                margin: 20px 0 10px;
+                width: 100% !important;
+            }
+
+            table.dataTable th {
+                text-align: left;
+            }
+            table.dataTable tbody tr.edit_product {
+                cursor: pointer;
+            }
+
+            .dataTables_info {
+                float: left;
+                padding: 10px;
+            }
+
+            .dataTables_paginate {
+                float: right;
+            }
+
+            .dataTables_paginate a {
+                display: block;
+                float: left;
+                margin-left: 4px;
+                padding: 6px;
+            }
+
+            .dataTables_paginate a.paginate_button_disabled {
+                opacity: 0.3
+            }
+
+            .dataTable tbody tr:last-of-type {
+                border-bottom: 0;
+            }
+
+            #migasms {
+                overflow: auto;
+            }
+            #contantcontainer {
+                border-radius: 0px !important;
+            }
+            #contentheader{
+              background-color: #f3f3f3 !important;
+              padding: 8px !important;
+            }
+            #contentfooter{
+              padding: 5px !important;
+            }
+            .right-side{
+              float: right;
+              margin-right: 5px;
+            }
+            #delbtn{
+              float: right;
+            }
+            #delbtner{
+              float: right;
+            }
+/* END Data Table  style*/
+#row_filter_metrics label{line-height:29px}
+
+</style>

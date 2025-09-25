@@ -1,0 +1,545 @@
+<?php    
+    $value_id      = $this->getValueid();            
+    $app_id        = $this->getApplication()->getId();              
+    $openai_config = (new Migareference_Model_OpenaiConfig())->findAll(['app_id'=> $app_id])->toArray();        
+    if (!COUNT($openai_config)) {
+        (new Migareference_Model_OpenaiConfig())->setDefaultConfig($app_id);
+        $openai_config = (new Migareference_Model_OpenaiConfig())->findAll(['app_id'=> $app_id])->toArray();        
+    }
+    $apikey=$openai_config[0]['openai_apikey'];
+    $openai_models = (new Migareference_Model_OpenaiConfig())->getModels($apikey);
+    
+    $perplexityModels = [
+        [
+            'id' => 'sonar',
+            'name' => 'Sonar',
+            'context' => '128k',
+            'type' => 'Chat Completion'
+        ],
+        [
+            'id' => 'sonar-pro',
+            'name' => 'Sonar Pro',
+            'context' => '200k',
+            'type' => 'Chat Completion'
+        ],
+        [
+            'id' => 'sonar-reasoning',
+            'name' => 'Sonar Reasoning',
+            'context' => '128k',
+            'type' => 'Chat Completion'
+        ],
+        [
+            'id' => 'sonar-reasoning-pro',
+            'name' => 'Sonar Reasoning Pro',
+            'context' => '128k',
+            'type' => 'Chat Completion'
+        ],
+        [
+            'id' => 'sonar-deep-research',
+            'name' => 'Sonar Deep Research',
+            'context' => '128k',
+            'type' => 'Chat Completion'
+        ],
+        [
+            'id' => 'r1-1776',
+            'name' => 'R1 1776',
+            'context' => '128k',
+            'type' => 'Chat Completion'
+        ],
+    ];
+
+    if (count($openai_config) && $openai_config[0]['gpt_api']=='perplexity') {
+        $openai_models = $perplexityModels;
+    }
+    
+?>
+     <div id="open-ai-configuration" class="feature-block-list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('OPEN AI CONFIGURATION'); ?>
+        </h3>   
+        <div  class="content-feature first-row-feature container-fluid">
+            <form id="openaiconfig" action="<?php echo $this->getUrl('migareference/openai/saveconfig') ?>" method="post">
+                <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" />
+                <input type="hidden" name="migareference_openai_config_id" value="<?=(count($openai_config) ) ? $openai_config[0]['migareference_openai_config_id'] : '' ; ?>" />           
+                
+                
+                <!-- added by MALIK start -->
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="gpt_api"><?php echo __('Select to use OpenAi API or Perplexity API'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-7">
+                            <select id="gpt_api" class="input-flat" name="gpt_api">
+                                <option value="openai" <?=(!count($openai_config)) ? "selected" : "" ; ?>
+                                    <?=(count($openai_config) && $openai_config[0]['gpt_api']=='openai') ? "selected" : "" ; ?>>
+                                    <?php echo __('OpenAi') ?></option>
+                                <option value="perplexity"
+                                    <?=(count($openai_config) && $openai_config[0]['gpt_api']=='perplexity') ? "selected" : "" ; ?>>
+                                    <?php echo __('Perplexity') ?></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal perplexity_settings">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="perplexity_apikey"><?php echo __('Perplexity API key'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" name="perplexity_apikey" id=""
+                                value="<?=(count($openai_config)) ? $openai_config[0]['perplexity_apikey'] : "" ; ?>"
+                                class="input-flat" placeholder="" />
+                        </div>
+                    </div>
+                </div> 
+                <!--  added by MALIK END -->
+
+                <div class="form-horizontal openai_settings">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="openai_apikey"><?php echo __('OpenAi API key'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" name="openai_apikey" id=""
+                                value="<?=(count($openai_config)) ? $openai_config[0]['openai_apikey'] : "" ; ?>"
+                                class="input-flat" placeholder="" />
+                        </div>
+                    </div>
+                </div>              
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for=""><?php echo __('Preferred Language'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="matching_preffered_lan" class="input-flat color-blue" name="matching_preffered_lan">
+                                <option value="Italian" <?=(!count($openai_config)) ? "selected" : "" ; ?>
+                                    <?=(count($openai_config) && $openai_config[0]['matching_preffered_lan']=='Italian') ? "selected" : "" ; ?>>
+                                    <?php echo __('Italian') ?>
+                                </option>
+                                <option value="English"
+                                    <?=(count($openai_config) && $openai_config[0]['matching_preffered_lan']=='English') ? "selected" : "" ; ?>>
+                                    <?php echo __('English') ?>
+                                </option>
+                            </select>
+                            <small><?php echo __("Choose your preferred language for AI response"); ?></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="save pull-right">
+                    <button class="button btn bt_save btn color-blue" type="submit">
+                        <?php echo __('Save'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>    
+    </div>
+     <div id="callscript-ai-configuration" class="feature-block-list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('CALL SCRIPT CONFIGURATION'); ?>
+        </h3>  
+        <div  class="content-feature first-row-feature container-fluid">
+            <form id="callscript-ai-configration" action="<?php echo $this->getUrl('migareference/openai/savecallscriptaiconfig') ?>" method="post">
+                <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" />
+                <input type="hidden" name="migareference_openai_config_id" value="<?=(count($openai_config) ) ? $openai_config[0]['migareference_openai_config_id'] : '' ; ?>" />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for=""><?php echo __('Enable Call script API'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="is_api_enabled" class="input-flat color-blue" name="is_api_enabled">
+                                <option value="1" <?=(!count($openai_config)) ? "selected" : "" ; ?>
+                                    <?=(count($openai_config) && $openai_config[0]['is_api_enabled']==1) ? "selected" : "" ; ?>>
+                                    <?php echo __('Yes') ?></option>
+                                <option value="2"
+                                    <?=(count($openai_config) && $openai_config[0]['is_api_enabled']==2) ? "selected" : "" ; ?>>
+                                    <?php echo __('No') ?></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>            
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for=""><?php echo __('Select Model'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="call_script_ai_model" class="input-flat color-blue" name="call_script_ai_model">                                
+                                <?php
+                                    foreach ($openai_models as $key => $value) {
+                                        echo "<option value='".$value['id']."' ".(count($openai_config) && $openai_config[0]['call_script_ai_model']==$value['id'] ? "selected" : "" ).">".$value['id']."</option>";
+                                    }
+                                ?>                               
+                            </select>
+                            <small><?php echo __("Recommended gpt-4o")?></small>
+                        </div>
+                    </div>
+                </div>            
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="twillio_token"><?php echo __('Temperature'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="float" name="openai_temperature" id=""
+                                value="<?=(count($openai_config)) ? $openai_config[0]['openai_temperature'] : "" ; ?>"
+                                class="input-flat" placeholder="" min='0' max='2' />
+                            <small><?php echo __("Temperature value could be between 0 to 2. Recommended value is 1"); ?></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="twillio_token"><?php echo __('Token Limit'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="float" name="openai_token" id=""
+                                value="<?=(count($openai_config)) ? $openai_config[0]['openai_token'] : "" ; ?>"
+                                class="input-flat" placeholder="" min='1' max='4096' />
+                            <small><?php echo __("Token value could be between 1 to 4096. Recommended value is between 300 to 500.")?></small>
+                        </div>
+                    </div>
+                </div>      
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="user_prompt"><?php echo __('Call Script Prompt'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-8">
+                            <textarea rows="15" cols="50" type="text" id="" class="input-flat" name="user_prompt" placeholder="<?php echo __('Type Your Prompt') ?>"><?=(count($openai_config)) ? $openai_config[0]['user_prompt'] : "" ; ?></textarea>
+                            <p> @@referrer_name@@, @@job@@, @@sector@@, @@relational_notes@@, @@reciprocity_notes@@, @@province@@, @@birth_date@@</p>
+                            <br>
+                            <button onclick="openAiTestCall()" 
+                            <?=(count($openai_config)) ? '' : 'disabled="true"' ; ?>
+                            style="background-color:#dea435 !important;color:white;" class="button btn" type="button">
+                                <?php echo __('Send a Test Call'); ?>
+                            </button>
+                            <span style="padding-left:10px;"><sub>
+                                <?php echo __('Note: Please save changes before Test Call'); ?>
+                            </sub></span>                    
+                        </div>
+                        <div class="col-sm-2 ">
+                            
+                        </div>
+                    </div>
+                </div>        
+                <div class="form-horizontal" id="test_container" style='display:none;'>
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="user_prompt"><?php echo __('Response'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-8" style="border:2px solid #f1f1f1">
+                            <p id="prompt_response"></p>
+                        </div>              
+                    </div>
+                </div>        
+                <div class="save pull-right">
+                    <button class="button btn bt_save btn color-blue" type="submit">
+                        <?php echo __('Save'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>     
+    </div>
+    <div id="matching-ai-configuration" class="feature-block-list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('AI MATCHING CONFIGURATION'); ?>
+        </h3>       
+        <div  class="content-feature first-row-feature container-fluid">
+            <form id="matching-ai-configration" action="<?php echo $this->getUrl('migareference/openai/savematchingaiconfig') ?>" method="post">
+                <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" />
+                <input type="hidden" name="migareference_openai_config_id" value="<?=(count($openai_config) ) ? $openai_config[0]['migareference_openai_config_id'] : '' ; ?>" />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for=""><?php echo __('Enable Matching API'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="is_matching_api_enabled" class="input-flat color-blue" name="is_matching_api_enabled">
+                                <option value="1" <?=(!count($openai_config)) ? "selected" : "" ; ?>
+                                    <?=(count($openai_config) && $openai_config[0]['is_matching_api_enabled']==1) ? "selected" : "" ; ?>>
+                                    <?php echo __('Yes') ?></option>
+                                <option value="2"
+                                    <?=(count($openai_config) && $openai_config[0]['is_matching_api_enabled']==2) ? "selected" : "" ; ?>>
+                                    <?php echo __('No') ?></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for=""><?php echo __('Select Model'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="matching_ai_model" class="input-flat color-blue" name="matching_ai_model">                                
+                                <?php
+                                    foreach ($openai_models as $key => $value) {
+                                        echo "<option value='".$value['id']."' ".(count($openai_config) && $openai_config[0]['matching_ai_model']==$value['id'] ? "selected" : "" ).">".$value['id']."</option>";
+                                    }
+                                ?>                               
+                            </select>
+                            <small><?php echo __("Recommended gpt-4o-mini")?></small>
+                        </div>
+                    </div>
+                </div> 
+                <!-- <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for=""><?php echo __('Enable Full Referrer List for Agent'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="is_full_referrer_list_enabled" class="input-flat color-blue" name="is_full_referrer_list_enabled">
+                                <option value="1" <?=(!count($openai_config)) ? "selected" : "" ; ?>
+                                    <?=(count($openai_config) && $openai_config[0]['is_full_referrer_list_enabled']==1) ? "selected" : "" ; ?>>
+                                    <?php echo __('Yes') ?></option>
+                                <option value="2"
+                                    <?=(count($openai_config) && $openai_config[0]['is_full_referrer_list_enabled']==2) ? "selected" : "" ; ?>>
+                                    <?php echo __('No') ?></option>
+                            </select>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="twillio_token"><?php echo __('Maximum Number of Matches'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="float" name="max_matches" id=""
+                                value="<?=(count($openai_config)) ? $openai_config[0]['max_matches'] : "" ; ?>"
+                                class="input-flat" placeholder="" min='1' max='50' />
+                            <small><?php echo __("A Particular referrer will be excluded from the matching pool if (Maximum Number of Matches) already consumed within the given grace period. Value could be between 1 to 50. Recommended value is between 3 to 10.")?></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="twillio_token"><?php echo __('Grace Period'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="float" name="grace_period_matches" id=""
+                                value="<?=(count($openai_config)) ? $openai_config[0]['grace_period_matches'] : "" ; ?>"
+                                class="input-flat" placeholder="" min='1' max='100' />
+                            <small><?php echo __("A Grace Period for the Maximum number of matches.Value could be between 1 to 100. Recommended value is between 30 to 60.")?></small>
+                        </div>
+                    </div>
+                </div>       
+                <div class="save pull-right">
+                    <button class="button btn bt_save btn color-blue" type="submit">
+                        <?php echo __('Save'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="callscript-ai-log" class="feature-block-list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('CALL SCRIPT LOGS (LAST 30)'); ?>
+        </h3>       
+        <div  class="content-feature first-row-feature container-fluid">
+                <div style="overflow-x:auto;">
+                    <table id="callscript-ai-log-table" class="table content-white-bkg">
+                        <thead>
+                            <tr class="border-grey">
+                                <th><?php echo __('UID'); ?></th>
+                                <th><?php echo __('Status'); ?></th>                                
+                                <th><?php echo __('Total Token'); ?></th>
+                                <th><?php echo __('Created At'); ?></th>                                
+                                <th><?php echo __('Action'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+    <div id="matchin-ai-log" class="feature-block-list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('AI MATCHING LOGS (LAST 30)'); ?>
+        </h3>       
+        <div  class="content-feature first-row-feature container-fluid">
+                <div style="overflow-x:auto;">
+                    <table id="matching-ai-log-table" class="table content-white-bkg">
+                        <thead>
+                            <tr class="border-grey">
+                                <th><?php echo __('UID'); ?></th>
+                                <th><?php echo __('Status'); ?></th>                                
+                                <th><?php echo __('Total Token'); ?></th>
+                                <th><?php echo __('Created At'); ?></th>                                
+                                <th><?php echo __('Action'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+        
+    <div id="aiLogsModal" class="modal" style="background:#00000047;">
+        <!-- Modal content -->
+        <div class="modal-content" style="width: 55.5%;left: 15%;top: 20%;height:60%;overflow:auto;">
+            <div class="modal-header" style="padding:0;">
+                <span onClick="closeAiLogsModal()" style="margin-top: -2px;color: red;text-align: center;height: 23px;width: 33px;opacity: 1;"
+                    class="close">&times;</span>
+                <h4 style="text-align:center;"><?php echo __("Log Details") ?></h4>
+            </div>
+            <div class="modal-body" style="padding-left:30px;padding-right:30px;">
+                <div class="row form-group">   
+                    <div class="tab-content-container">
+                       <div class="">
+                            <h3><?php echo __("Prompt") ?></h3>
+                       </div>
+                       <div id="prompt-text"></div>
+                       <div class="">
+                            <h3><?php echo __("AI Response") ?></h3>
+                       </div>
+                       <div id="response-text"></div>
+                    </div>                 
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    // added by MALIK start
+    // Show/Hide Perplexity Settings
+    $(document).ready(function() {
+        $('#gpt_api').change(function() {
+            if ($(this).val() == 'perplexity') {
+                $('.perplexity_settings').show();
+                $('.openai_settings').hide();
+            } else {
+                $('.perplexity_settings').hide();
+                $('.openai_settings').show();
+            }
+        });
+        $('#gpt_api').trigger('change');
+    });
+    // added by MALIK END
+    // Form SUBMISSION
+  $('#openaiconfig').submit(function() {
+    reload(this, this.action, true, function(data) {
+        if (data.success) {
+            page.reload();
+        }
+    });
+    return false;
+  });
+  $('#callscript-ai-configration').submit(function() {
+    reload(this, this.action, true, function(data) {
+        if (data.success) {
+            page.reload();
+        }
+    });
+    return false;
+  });
+  $('#matching-ai-configration').submit(function() {
+    reload(this, this.action, true, function(data) {
+        if (data.success) {
+            page.reload();
+        }
+    });
+    return false;
+  });
+  //OPENAI TEST CALL
+  function openAiTestCall() { 
+    $("#mask").show();     
+    $.ajax({
+        url: '<?php echo $this->getUrl('migareference/openai/testcall'); ?>',
+        type: 'POST',
+        dataType: 'json'                
+    }).done(function(data) {        
+        $('#prompt_response').html(data.response);
+    }).fail(function(data) {
+        console.log("Fail");
+    }).always(function() {
+        console.log("complete");
+        $('#test_container').show();  
+        $("#mask").hide();
+    });
+  }
+// Log Details 
+function closeAiLogsModal() {    
+    var aiModal = document.getElementById("aiLogsModal");  
+    aiModal.style.display = "none";  
+}
+function aiLogsModal(uid,type) { //type=callscript, matching 
+    $("#mask").show();
+    var aiModal = document.getElementById("aiLogsModal");
+    aiModal.style.display = 'block';  
+    // load logs
+    $.ajax({
+        url: '<?php echo $this->getUrl('migareference/openai/ailogsdetails'); ?>',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            uid: uid,
+            type: type
+        }
+    }).done(function(data) {
+        console.log(data);
+        $("#prompt-text").html("").append(data.prompt);        
+        $("#response-text").html("").append(data.response);        
+    }).fail(function(data) {
+        console.log("Fail");
+    }).always(function() {
+        console.log("complete");
+        $("#mask").hide();
+    });
+}
+//   LOGS Loading
+var dt_object= {};
+dt_object.responsive=true;
+dt_object.bLengthChange=false;
+dt_object.bFilter=true;
+dt_object.sPaginationType="full_numbers";
+dt_object.order=[[0, "desc"]];
+dt_object.fnDrawCallback=function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+        $.each(nRow.aoData, function(i, el) {
+            var tr = $(el.nTr);
+            tr.unbind('click');
+        }.bind(this));
+        $('.paginate_button').addClass('btn color-blue');
+        $('span a.paginate_button').addClass('btn btn-grey');
+    };
+dt_object.language={
+        "decimal": "",
+        "emptyTable": "<?php echo __js("No data available in table") ?>",
+        "info": "<?php echo __js("Showing _START_ to _END_ of _TOTAL_ entries") ?>",
+        "infoEmpty": "<?php echo __js("Showing 0 to 0 of 0 entries") ?>",
+        "infoFiltered": "<?php echo __js("(filtered from _MAX_ total entries)") ?>",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "<?php echo __js("Show _MENU_ entries") ?>",
+        "loadingRecords": "<?php echo __js("Loading...") ?>",
+        "processing": "<?php echo __js("Processing...") ?>",
+        "search": "<?php echo __js("Search:") ?>",
+        "zeroRecords": "<?php echo __js("No matching records found") ?>",
+        "paginate": {
+            "first": "<?php echo __js("First") ?>",
+            "last": "<?php echo __js("Last") ?>",
+            "next": "<?php echo __js("Next") ?>",
+            "previous": "<?php echo __js("Previous") ?>"
+        },
+        "aria": {
+            "sortAscending": "<?php echo __js(": activate to sort column ascending") ?>",
+            "sortDescending": "<?php echo __js(": activate to sort column descending") ?>"
+        }
+    };
+    // Call Script Log
+    $("#callscript-ai-log-table").DataTable().destroy()
+    dt_object.ajax ='<?php echo $this->getUrl('migareference/openai/callscriptlogs'); ?>';
+    $('#callscript-ai-log-table').DataTable(dt_object);
+    // AI Matching Log
+    $("#matching-ai-log-table").DataTable().destroy()
+    dt_object.ajax ='<?php echo $this->getUrl('migareference/openai/matchinglogs'); ?>';
+    $('#matching-ai-log-table').DataTable(dt_object);
+</script>

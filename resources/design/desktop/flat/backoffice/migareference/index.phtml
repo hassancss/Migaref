@@ -1,0 +1,120 @@
+<!-- License -->
+<form ng-submit="saveLicense()" class="form-horizontal">
+	<sb-section title="'<?php echo addslashes(__("Your Module License Key")); ?>'" button="button">
+		<div class="alert alert-info" ng-hide="!license.info_message">{{ license.info_message }}</div>
+		<div class="alert alert-success" ng-hide="!license.success_message">{{ license.success_message }}</div>
+		<div class="form-group">
+			<div class="col-md-6">
+				<label for="key"><?php echo addslashes(__("Your Module License Key")); ?></label>
+				<input type="text" id="key" ng-model="license.key" class="form-control" placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+				<sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</sb-section>
+</form>
+<!-- Help -->
+<form ng-submit="saveHelp()" class="form-horizontal">
+	<sb-section title="'<?php echo addslashes(__("Your Module Help URL")); ?>'" button="button">
+		<div class="alert alert-info" ng-hide="!help.info_message">{{ help.info_message }}</div>
+		<div class="alert alert-success" ng-hide="!help.success_message">{{ help.success_message }}</div>
+
+			<div class="col-md-6">
+				<label for="key"><?php echo addslashes(__("Your Module Help URL")); ?></label>
+				<input type="text" id="help_url" ng-model="help.help_url" class="form-control" placeholder="http:// or https://" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+				<sb-loader is_visible="form_loader_help_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</sb-section>
+</form>
+<form ng-hide="!license.success_message" ng-submit="getFilter()" class="form-horizontal">
+	<sb-section title="'<?php echo __("STATS"); ?>'" button="button">
+		<div class="form-group">
+			<div class="col-md-6">
+				<label for="user_name"><?php echo __("From Date *"); ?></label>
+				<input ng-change="loadtablestats()" type="date" id=""  ng-model="tableStateFilter.from_date"  class="form-control" placeholder=""  />
+			</div>
+			<div class="col-md-6">
+				<label for="password"><?php echo addslashes(__("To Date *")); ?></label>
+				<input ng-change="loadtablestats()" type="date" id="" ng-model="tableStateFilter.to_date" class="form-control" placeholder=""  />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+			</div>
+		</div>
+		<div>
+			<button export-to-csv>Download</button>
+		<table class="table">
+      <col width="10%" />
+      <col width="10%" />
+      <col width="20%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+        <thead>
+            <tr>
+                <th><?php echo __("ID"); ?></th>
+                <th><?php echo __("APP Id"); ?></th>
+                <th><?php echo __("APP Name"); ?></th>
+                <th><?php echo __("Installations"); ?></th>
+                <th><?php echo __("Users"); ?></th>
+                <th><?php echo __("Referrer"); ?></th>
+                <th><?php echo __("Active Reports"); ?></th>
+                <th><?php echo __("Closed Reports"); ?></th>
+                <th><?php echo __("Paid Reports"); ?></th>
+                <th><?php echo __("Payable Reports"); ?></th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr ng-repeat="phonebook in tablestats" ng-show="tablestats.length">
+                <td>{{ phonebook.id }}</td>
+                <td>{{ phonebook.app_id }}</td>
+                <td>{{ phonebook.app_name }}</td>
+                <td>{{ phonebook.total_tokens }}</td>
+                <td>{{ phonebook.total_users }}</td>
+                <td>{{ phonebook.net_refreal }}</td>
+                <td>{{ phonebook.active_reports }}</td>
+                <td>{{ phonebook.declined_reports }}</td>
+                <td>{{ phonebook.paid_reports }}</td>
+                <td>{{ phonebook.payable_reports }}</td>
+            </tr>
+            <tr ng-show="!tablestats.length">
+            	<td colspan="6" style="text-align: center;"><?php echo __("No Stats found"); ?></td>
+            </tr>
+        </tbody>
+    </table>
+		</div>
+	</sb-section>
+</form>
+<sb-section ng-hide="!license.success_message" title="'<?php echo __("STATS"); ?>'" button="button">
+	<div ng-show="graphIsLoading"
+			 class="async-loader">
+			<i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+	</div>
+	<canvas ng-show="!graphIsLoading"
+					id="line"
+					class="chart chart-bar"
+					height="420"
+					width="1040"
+					chart-data="graphData"
+					chart-labels="graphLabels"
+					chart-options="graphOptions"
+					chart-series="graphSeries"
+					chart-dataset-override="graphDatasetOverride"
+	</canvas>
+</sb-section>

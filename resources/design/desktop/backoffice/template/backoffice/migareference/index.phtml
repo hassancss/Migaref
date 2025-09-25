@@ -1,0 +1,367 @@
+<!-- License -->
+<form ng-submit="saveLicense()" class="form-horizontal">
+	<sb-section title="'<?php echo addslashes(__("Your Module License Key")); ?>'" button="button">
+		<div class="alert alert-info" ng-hide="!license.info_message">{{ license.info_message }}</div>
+		<div class="alert alert-success" ng-hide="!license.success_message">{{ license.success_message }}</div>
+		<div class="form-group">
+			<div class="col-md-6">
+				<label for="key"><?php echo addslashes(__("Your Module License Key")); ?></label>
+				<input type="text" id="key" ng-model="license.key" class="form-control" placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+				<sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</sb-section>
+</form>
+<!-- Help -->
+<form ng-submit="saveHelp()" class="form-horizontal">
+	<sb-section title="'<?php echo addslashes(__("Your Module Help URL")); ?>'" button="button">
+		<div class="alert alert-info" ng-hide="!help.info_message">{{ help.info_message }}</div>
+		<div class="alert alert-success" ng-hide="!help.success_message">{{ help.success_message }}</div>
+		<div class="form-group">
+			<div class="col-md-6">
+				<label for="key"><?php echo addslashes(__("Your Module Help URL")); ?></label>
+				<input type="text" id="help_url" ng-model="help.help_url" class="form-control" placeholder="http:// or https://" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+				<sb-loader is_visible="form_loader_help_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</sb-section>
+</form>
+<!--- added by imran start -->
+<form ng-hide="!license.success_message" ng-submit="saveMigachainCredentials()" class="form-horizontal">
+	<sb-section title="'<?php echo addslashes(__("Notarization API Settings")); ?>'" button="button">
+		<div class="alert alert-info" ng-hide="!migachain_credentials.info_message">{{ migachain_credentials.info_message }}</div>
+		<div class="alert alert-success" ng-hide="!migachain_credentials.success_message">{{ migachain_credentials.success_message }}</div>
+		<div class="form-group">
+			<div class="col-md-6">
+				<label for="migachain_token"><?php echo addslashes(__("Token")); ?></label>
+				<input type="text" id="migachain_token" ng-model="migachain_credentials.migachain_token" class="form-control" placeholder="<?php echo addslashes(__("Token")); ?>" />
+			</div>
+			<div class="col-md-6">
+				<label for="migachain_client_id"><?php echo addslashes(__("Client ID")); ?></label>
+				<input type="text" id="migachain_client_id" ng-model="migachain_credentials.migachain_client_id" class="form-control" placeholder="<?php echo addslashes(__("Client ID")); ?>" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+				<sb-loader is_visible="form_loader_migachain_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</sb-section>
+</form>
+<!-- <form ng-hide="!license.success_message" ng-submit="svaeSiberianUserTaxid()" class="form-horizontal">
+	<sb-section title="'<?php echo addslashes(__("Default Tax ID")); ?>'" button="button">
+		<div class="alert alert-info" ng-hide="!default_tax.info_message">{{ default_tax.info_message }}</div>
+		<div class="alert alert-success" ng-hide="!default_tax.success_message">{{ default_tax.success_message }}</div>
+		<div class="form-group">
+			<div class="col-md-6">
+				<label for="migachain_token"><?php echo addslashes(__("Tax ID")); ?></label>
+				<input type="text" id="tax_id" ng-model="default_tax.tax_id" class="form-control" placeholder="<?php echo addslashes(__("Tax ID")); ?>" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+				<sb-loader is_visible="form_loader_tax_id_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</sb-section>
+</form>
+ -->
+<sb-section ng-hide="!license.success_message" title="'<?php echo __title("Ledger Cron Logs"); ?>'"
+			button="button">
+	<div class="form-group left">
+		<input type="text"
+				id="filter"
+				class="form-control"
+				ng-model="urlParamsLedgerCron.filter"
+				placeholder="<?php echo __("Search"); ?>" />
+	</div>
+    <div class="clear"></div>
+	<br />
+	<div style="overflow-x:auto;">
+		<table class="table">
+			<thead>
+			<tr>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'ledger_cron_id' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'ledger_cron_id' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'ledger_cron_id'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('Cron Id'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'xml_file_name' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'xml_file_name' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'xml_file_name'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('File'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'response' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'response' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'response'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('Code'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'message' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'message' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'message'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('Message'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'eth_address' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'eth_address' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'eth_address'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('ETH Address'); ?>/<?php echo __('Solana TXT Hash'); ?> <!-- Solana -->
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'ipfs_address' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'ipfs_address' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'ipfs_address'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('IPFS Address'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'eth_sha_hash' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'eth_sha_hash' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'eth_sha_hash'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('ETH SHA Hash'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'eth_address_url' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'eth_address_url' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'eth_address_url'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('ETH SHA Hash'); ?>/<?php echo __('Solana SHA Hash'); ?> <!-- Solana -->
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'started_at' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'started_at' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'started_at'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('Started At'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedgerCron.order == 'ended_at' && urlParamsLedgerCron.by, 'pointer-down': urlParamsLedgerCron.order == 'ended_at' && !urlParamsLedgerCron.by}" ng-click="urlParamsLedgerCron.order = 'ended_at'; urlParamsLedgerCron.by = !urlParamsLedgerCron.by">
+					<?php echo __('Ended At'); ?>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr ng-show="ledger_cron_data.length" class="white-line" ng-repeat="ledger_cron in ledger_cron_data">
+					<td>{{ ledger_cron.ledger_cron_id }}</td>
+					<td ng-show="!ledger_cron.xml_file_name">{{ ledger_cron.xml_file_name }}</td>
+					<td ng-show="ledger_cron.xml_file_name"><a target="_blank" href="<?php echo $this->getUrl("migareference/backoffice_migareference/downloadxml") ?>/ledger_cron_id/{{ ledger_cron.ledger_cron_id }}">{{ ledger_cron.xml_file_name }}</a></td>
+					<td>{{ ledger_cron.response }}</td>
+					<td>{{ ledger_cron.message }}</td>
+					<td ng-show="!ledger_cron.eth_address || ledger_cron.notarization_platform == 'Ethereum'">{{ ledger_cron.eth_address }}</td><!-- Solana -->
+					<td ng-show="ledger_cron.eth_address && ledger_cron.notarization_platform == 'Solana'"><a target="_blank" href="https://explorer.solana.com/tx/{{ ledger_cron.eth_address }}">{{ ledger_cron.eth_address }}</a></td><!-- Solana -->
+					<td ng-show="!ledger_cron.ipfs_address">{{ ledger_cron.ipfs_address }}</td>
+					<td ng-show="ledger_cron.ipfs_address"><a target="_blank" href="{{ ledger_cron.ipfs_address }}">{{ ledger_cron.ipfs_address }}</a></td>
+					<td>{{ ledger_cron.eth_sha_hash }}</td>
+					<td ng-show="!ledger_cron.eth_address_url || ledger_cron.eth_address_url == 'N/A'">{{ ledger_cron.eth_address_url }}</td><!-- Solana -->
+					<td ng-show="ledger_cron.eth_address_url && ledger_cron.eth_address_url != 'N/A'"><a target="_blank" href="{{ ledger_cron.eth_address_url }}">{{ ledger_cron.eth_address_url }}</a></td><!-- Solana -->
+					<td>{{ ledger_cron.started_at }}</td>
+					<td>{{ ledger_cron.ended_at }}</td>
+				</tr>
+				<tr ng-show="!ledger_cron_data.length">
+					<td colspan="10" class="a-center"><?php echo __("You don't have any ledger cron log yet"); ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    <br />
+    <bgf-pagination
+        collection="ledger_cron_data"
+        page="pageLedgerCronData"
+        per-page="perPageLedgerCronData"
+        link-group-size="2"
+        client-limit="clientLimitLedgerCronData"
+        template-url="<?php echo $this->getUrl("/backoffice/paginate/template") ?>"
+        url="'<?php echo $this->getUrl("migareference/backoffice_migareference/ledgercronlogs") ?>'"
+        url-params="urlParamsLedgerCron">
+    </bgf-pagination>
+    <div class="clear"></div>
+</sb-section>
+<sb-section ng-hide="!license.success_message" title="'<?php echo __title("Ledger Logs"); ?>'"
+			button="button">
+	<div class="form-group left">
+		<input type="text"
+				id="filter"
+				class="form-control"
+				ng-model="urlParamsLedger.filter"
+				placeholder="<?php echo __("Search"); ?>" />
+	</div>
+    <div class="clear"></div>
+	<br />
+	<div style="overflow-x:auto;">
+		<table class="table">
+			<thead>
+			<tr>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'ledger_id' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'ledger_id' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'ledger_id'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Ledger Id'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'app_id' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'app_id' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'app_id'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('App Id'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'app_name' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'app_name' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'app_name'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('App Name'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'ledger_cron_id' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'ledger_cron_id' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'ledger_cron_id'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Cron Id'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'report_id' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'report_id' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'report_id'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Report Id'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'report_no' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'report_no' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'report_no'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Report No.'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'referral_name' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'referral_name' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'referral_name'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Referral Name'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'referral_surname' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'referral_surname' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'referral_surname'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Referral Surname'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'owner_name' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'owner_name' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'owner_name'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Prospect Name'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'owner_surname' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'owner_surname' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'owner_surname'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Prospect Surname'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'report_created_at' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'report_created_at' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'report_created_at'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Report Created At'); ?>
+				</th>
+				<th class="pointer" ng-class="{'pointer-up': urlParamsLedger.order == 'created_at' && urlParamsLedger.by, 'pointer-down': urlParamsLedger.order == 'created_at' && !urlParamsLedger.by}" ng-click="urlParamsLedger.order = 'created_at'; urlParamsLedger.by = !urlParamsLedger.by">
+					<?php echo __('Created At'); ?>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr ng-show="ledger_data.length" class="white-line" ng-repeat="ledger in ledger_data">
+					<td>{{ ledger.ledger_id }}</td>
+					<td>{{ ledger.app_id }}</td>
+					<td>{{ ledger.app_name }}</td>
+					<td>{{ ledger.ledger_cron_id }}</td>
+					<td>{{ ledger.report_id }}</td>
+					<td>{{ ledger.report_no }}</td>
+					<td>{{ ledger.referral_name }}</td>
+					<td>{{ ledger.referral_surname }}</td>
+					<td>{{ ledger.owner_name }}</td>
+					<td>{{ ledger.owner_surname }}</td>
+					<td>{{ ledger.report_created_at }}</td>
+					<td>{{ ledger.created_at }}</td>
+				</tr>
+				<tr ng-show="!ledger_data.length">
+					<td colspan="12" class="a-center"><?php echo __("You don't have any ledger log yet"); ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    <br />
+    <bgf-pagination
+        collection="ledger_data"
+        page="pageLedgerData"
+        per-page="perPageLedgerData"
+        link-group-size="2"
+        client-limit="clientLimitLedgerData"
+        template-url="<?php echo $this->getUrl("/backoffice/paginate/template") ?>"
+        url="'<?php echo $this->getUrl("migareference/backoffice_migareference/ledgerlogs") ?>'"
+        url-params="urlParamsLedger">
+    </bgf-pagination>
+    <div class="clear"></div>
+</sb-section>
+<!--- added by imran end -->
+<form ng-hide="!license.success_message" ng-submit="saveShortnercredentials()" class="form-horizontal">
+  <br>
+	<sb-section  title="'<?php echo __("Shortner URL Credentials"); ?>'" button="button">
+		<div class="alert alert-info" ng-hide="!shortner.info_message">{{ shortner.info_message }}</div>
+		<div class="alert alert-success" ng-hide="!shortner.success_message">{{ shortner.success_message }}</div>
+		<div class="form-group">
+			<div class="col-md-6">
+				<label for="bitly_login"><?php echo __("Login *"); ?></label>
+				<input type="text" id="bitly_login"  ng-model="shortnercredentials.bitly_login"  class="form-control" placeholder=""  />
+			</div>
+			<div class="col-md-6">
+				<label for="bitly_key"><?php echo addslashes(__("API Key *")); ?></label>
+				<input type="text" id="bitly_key" ng-model="shortnercredentials.bitly_key" class="form-control" placeholder=""  />
+			</div>
+		</div>
+		<div class="">
+			<div class="col-md-1">
+				<button type="submit"  class="btn btn-primary left"><?php echo __("Save"); ?></button>
+				<sb-loader is_visible="form_loader_help_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+			</div>
+		</div>
+	</sb-section>
+</form>
+<form ng-hide="!license.success_message" ng-submit="getFilter()" class="form-horizontal">
+	<sb-section title="'<?php echo __("STATS"); ?>'" button="button">
+		<div class="form-group">
+			<div class="col-md-2">
+				<label for="from_date"><?php echo __("From Date *"); ?></label>
+			</div>
+			<div class="col-md-3">
+				<input  type="date" id=""  ng-model="tableStateFilter.from_date"  class="form-control" placeholder=""  />
+			</div>
+			<div class="col-md-2">
+				<label for="to_date"><?php echo addslashes(__("To Date *")); ?></label>
+			</div>
+			<div class="col-md-3">
+				<input  type="date" id="" ng-model="tableStateFilter.to_date" class="form-control" placeholder=""  />
+			</div>
+			<div class="col-md-2">
+				<button ng-click="loadtablestats()" type="button" class="btn btn-primary left"><?php echo __("Apply Filter"); ?></button>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+			</div>
+		</div>
+		<div>
+		<button export-to-csv  class="btn btn-success left"><?php echo __("Download CSV"); ?></button>
+		<table id="table" class="table">
+      <col width="5%" />
+      <col width="5%" />
+      <col width="20%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+        <thead>
+            <tr>
+                <th><?php echo __("ID"); ?></th>
+                <th><?php echo __("APP Id"); ?></th>
+                <th><?php echo __("APP Name"); ?></th>
+                <th><?php echo __("Installations"); ?></th>
+                <th><?php echo __("Users"); ?></th>
+                <th><?php echo __("Referrer"); ?></th>
+                <th><?php echo __("Active Reports"); ?></th>
+                <th><?php echo __("Closed Reports"); ?></th>
+                <th><?php echo __("Paid Reports"); ?></th>
+                <th><?php echo __("Payable Reports"); ?></th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr ng-repeat="phonebook in tablestats">
+                <td>{{ phonebook.id }}</td>
+                <td>{{ phonebook.app_id }}</td>
+                <td>{{ phonebook.app_name }}</td>
+                <td>{{ phonebook.total_tokens }}</td>
+                <td>{{ phonebook.total_users }}</td>
+                <td>{{ phonebook.net_refreal }}</td>
+                <td>{{ phonebook.active_reports }}</td>
+                <td>{{ phonebook.declined_reports }}</td>
+                <td>{{ phonebook.paid_reports }}</td>
+                <td>{{ phonebook.payable_reports }}</td>
+            </tr>
+        </tbody>
+    </table>
+			<table class="table">
+				<tr ng-show="!tablestats.length">
+					<td colspan="6" style="text-align: center;"><?php echo __("No Stats found"); ?></td>
+				</tr>
+			</table>
+		</div>
+	</sb-section>
+</form>
+<sb-section ng-hide="!license.success_message" title="'<?php echo __("STATS"); ?>'" button="button">
+	<div ng-show="graphIsLoading"
+			 class="async-loader">
+			<i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+	</div>
+	<canvas ng-show="!graphIsLoading"
+					id="line"
+					class="chart chart-bar"
+					height="420"
+					width="1040"
+					chart-data="graphData"
+					chart-labels="graphLabels"
+					chart-options="graphOptions"
+					chart-series="graphSeries"
+					chart-dataset-override="graphDatasetOverride">
+	</canvas>
+</sb-section>

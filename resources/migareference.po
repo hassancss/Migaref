@@ -1,0 +1,5320 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-01-01T11:41:12+01:00\n"
+"PO-Revision-Date: 2025-01-01T11:41:12+01:00\n"
+"Language: \n"
+
+msgid "% Commission"
+msgstr "Commissione %"
+
+msgid "0-5 Reports"
+msgstr "0-5 Segnalazioni"
+
+msgid "10-30 Reports"
+msgstr "10-30 Segnalazioni"
+
+msgid "3 Star Referrers"
+msgstr "3 Stars"
+
+msgid "3 Stars Referrers"
+msgstr "Segnalatori 3 Stelle"
+
+msgid "30-50 Reports"
+msgstr "30-50 Segnalazioni"
+
+msgid "30-90 Days"
+msgstr "30-90 Giorni"
+
+msgid "4 Star Referrers"
+msgstr "4 Stars"
+
+msgid "4 Stars Referrers"
+msgstr "Segnalatori 4 Stelle"
+
+msgid "4/5 Star KPI"
+msgstr "KPI 4/5 Stelle"
+
+msgid "5 Star Referrers"
+msgstr "5 Stars"
+
+msgid "5 Stars Referrers"
+msgstr "Segnalatori 5 Stelle"
+
+msgid "5-10 Reports"
+msgstr "5-10 Segnalazioni"
+
+msgid "A report still in one state for XX days"
+msgstr "Una referenza non è aggiornata da xx giorni"
+
+msgid "ADD NEW REMINDER TYPE"
+msgstr "AGGIUNGI NUOVO TIPO PROMEMORIA"
+
+msgid "API + WEBHOOK Documentation"
+msgstr "Documentazione API + WEBHOOK"
+
+msgid "API Admin"
+msgstr "Amministratore API"
+
+msgid "API Response"
+msgstr "Risposta API"
+
+msgid "API Token"
+msgstr "Token API"
+
+msgid "API credentials are validated and stored successfully."
+msgstr "Credenziali API validate e salvate correttamente."
+
+msgid "API token and client id not found."
+msgstr "API token and client id non trovati."
+
+msgid "APP Content"
+msgstr "Contenuto APP"
+
+msgid "APP Id"
+msgstr "Id APP"
+
+msgid "APP Name"
+msgstr "Nome APP"
+
+msgid "APP Read Only?"
+msgstr "APP in sola lettura?"
+
+msgid "ATTENTION! IF YOU PROCEED YOU WILL LOSE YOUR CUSTOM STATUSES SETTING"
+msgstr "ATTENZIONE! SE PROCEDI PERDERAI LE IMPOSTAZIONI DEI TUOI STATI PERSONALIZZATI"
+
+msgid "Action"
+msgstr "Azione"
+
+msgid "Activated"
+msgstr "Attivata"
+
+msgid "Active"
+msgstr "Attiva"
+
+msgid "Active Reports"
+msgstr "Segnalazioni attive"
+
+msgid "Add"
+msgstr "Aggiungi"
+
+msgid "Add Commission Fee for Report"
+msgstr "Aggiungi Importo Commissione per Segnalazione"
+
+msgid "Add Credits for Report"
+msgstr "Aggiungi Crediti per Segnalazione"
+
+msgid "Add Custom Credits"
+msgstr "Aggiungi Crediti personalizzati"
+
+msgid "Add How it Works Setings"
+msgstr "Aggiungi Impostazioni Come Funziona"
+
+msgid "Add How it Works Settings"
+msgstr "Aggiungi Impostazioni Come Funziona"
+
+msgid "Add How it Works settings"
+msgstr "Aggiungi le impostazioni pagina Come Funziona"
+
+msgid "Add How to Text"
+msgstr "Aggiungi Testo Come Funziona"
+
+msgid "Add Job"
+msgstr "Aggiungi Professione"
+
+msgid "Add Manual Log"
+msgstr "Aggiungi un log"
+
+msgid "Add Manual log"
+msgstr "Aggiungi registro manuale"
+
+msgid "Add New"
+msgstr "Aggiungere nuova"
+
+msgid "Add New Contact"
+msgstr "Aggiungi Contatto"
+
+msgid "Add New Job"
+msgstr "Aggiungi nuova Professione"
+
+msgid "Add New Phone"
+msgstr "Aggiungi nuovo telefono"
+
+msgid "Add New PhoneBook"
+msgstr "Aggiungi"
+
+msgid "Add New Prize"
+msgstr "Aggiungi Nuovo Premio"
+
+msgid "Add New Property"
+msgstr "Aggiungi Nuova Proprietà"
+
+msgid "Add New Referrer"
+msgstr "Aggiungi un Segnalatore"
+
+msgid "Add New Report"
+msgstr "Aggiungi Nuova Segnalazione"
+
+msgid "Add New User"
+msgstr "Aggiungi nuovo Utente"
+
+msgid "Add Note"
+msgstr "Aggiungi Nota"
+
+msgid "Add Property"
+msgstr "Aggiungi Proprietà"
+
+msgid "Add Reminder"
+msgstr "Aggiungi Promemoria"
+
+msgid "Add Report"
+msgstr "Segnala"
+
+msgid "Add Setings"
+msgstr "Aggiungi Impostazioni"
+
+msgid "Add Settings"
+msgstr "Aggiungi Impostazioni"
+
+msgid "Add Video"
+msgstr "Aggiungi Video"
+
+msgid "Add Video embed source"
+msgstr "Aggiungi codice embed della sorgente video"
+
+msgid "Add WebHook URL"
+msgstr "Aggiungi URL WebHook"
+
+msgid "Add a Note"
+msgstr "Aggiungi una nota"
+
+msgid "Add a valid Site link."
+msgstr "Aggiungi un link al sito web valido."
+
+msgid "Add a valid Video link."
+msgstr "Aggiungi un link valido per il video."
+
+msgid "Add new Address"
+msgstr "Aggiungi nuovo Indirizzo"
+
+msgid "Add new Phone Number"
+msgstr "Aggiungi nuovo Numero di telefono"
+
+msgid "Add new Report"
+msgstr "Aggiungi Notizia/Referenza"
+
+msgid "Add option values separated by @ tag. Ex. Option value@Option value"
+msgstr "Aggiungi le opzioni separate dal tag @. Ad es. Opzione1@Opzione2"
+
+msgid "Add option values separated by @ tag. Ex. Option value@Option value or import options from given list"
+msgstr "Aggiungi valori opzioni separate dal tag @. Es. Opzione1@Opzione2 oppure importa opzioni dalla lista  fornita"
+
+msgid "Add settings"
+msgstr "Aggiungi impostazioni"
+
+msgid "Add the WEBHOOK address (URL) where to receive data"
+msgstr "Aggiungi URL WEBHOOK dove ricevere i dati"
+
+msgid "Address"
+msgstr "Indirizzo"
+
+msgid "Address Grace Period"
+msgstr "Giorni di controllo Indirizzo"
+
+msgid "Address Label"
+msgstr "Etichetta Indirizzo"
+
+msgid "Address cannot be empty."
+msgstr "Indirizzo non può essere vuoto."
+
+msgid "Address successfully saved."
+msgstr "Indirizzo salvato correttamente."
+
+msgid "Address:"
+msgstr "Indirizzo:"
+
+msgid "Admin"
+msgstr "Amministatore"
+
+msgid "Admin Agents Group"
+msgstr "Amministratore Gruppo Agenti"
+
+msgid "Admin List"
+msgstr "Lista Amministratori"
+
+msgid "Admin Name"
+msgstr "Nome Amministratore"
+
+msgid "Admin User cannot Submit Report."
+msgstr "Gli utenti Admin non possono inviare Segnalazioni."
+
+msgid "Admin must setup Terms and Privacy."
+msgstr "Admin deve impostare Termini e Privacy."
+
+msgid "Admins"
+msgstr "Amministratori"
+
+msgid "Affiliate Link"
+msgstr "Genera link Affiliato"
+
+msgid "Age Group"
+msgstr "Età"
+
+msgid "Agent"
+msgstr "Agente"
+
+msgid "Agent Body"
+msgstr "Messaggio Admin"
+
+msgid "Agent CUSTOM ULR cannot be empty."
+msgstr "URL personalizzato Agente non può essere vuoto."
+
+msgid "Agent Email message cannot be empty."
+msgstr "Messaggio email Agente non può essere vuoto."
+
+msgid "Agent Email title cannot be empty."
+msgstr "Titolo Email Agente non può essere vuoto."
+
+msgid "Agent Group"
+msgstr "Gruppo Agente"
+
+msgid "Agent Message"
+msgstr "Messaggio Admin"
+
+msgid "Agent PUSH Title"
+msgstr "Titolo PUSH Admin"
+
+msgid "Agent PUSH message cannot be empty."
+msgstr "Messaggio PUSH Agente non può essere vuoto."
+
+msgid "Agent PUSH title cannot be empty."
+msgstr "Titolo PUSH Agente non può essere vuoto."
+
+msgid "Agent SMS"
+msgstr "SMS Agente"
+
+msgid "Agent Setings"
+msgstr "Impostazioni Agente"
+
+msgid "Agent Settings"
+msgstr "Impostazioni Agente"
+
+msgid "Agent Subject"
+msgstr "Oggetto Admin"
+
+msgid "Agent Title"
+msgstr "Titolo Admin"
+
+msgid "Agent User"
+msgstr "Utente agente"
+
+msgid "Agent User cannot Submit Report."
+msgstr "Utente Agente non può inserire segnalazioni."
+
+msgid "Agent User*"
+msgstr "Utente agente*"
+
+msgid "Agent settings"
+msgstr "Impostazioni Agente"
+
+msgid "Agent/Sponsor Detail"
+msgstr "Dettaglio Agente/Sponsor"
+
+msgid "Agetn/Sponsor Detail"
+msgstr "Dettagli Agente/Sponsor"
+
+msgid "All"
+msgstr "Tutto"
+
+msgid "All Jobs"
+msgstr "Tutte le Professioni"
+
+msgid "All Prospects"
+msgstr "Tutti i Prospect"
+
+msgid "All Reminders"
+msgstr "Tutti i promemoria"
+
+msgid "All users"
+msgstr "Tutti gli utenti"
+
+msgid "Allowed Long Reminder"
+msgstr "Promemoria Esteso Consentito"
+
+msgid "Allowed Short Reminder"
+msgstr "Promemoria Breve Consentito"
+
+msgid "An error occurred during process. Please try again later."
+msgstr "Si è verificato un errore durante il processo. Riprova più tardi."
+
+msgid "An error occurred while deleting the push. Please try again later."
+msgstr "Si è verificato un errore nella cancellazione della push. Riprova più tardi."
+
+msgid "An error occurred while saving. Please try again later."
+msgstr "Si è verificato un errore nel salvataggio. Riprova più tardi."
+
+msgid "Android Store Version"
+msgstr "Versione Store Android"
+
+msgid "App Id"
+msgstr "Id App"
+
+msgid "App Licenses"
+msgstr "Licenze App"
+
+msgid "App Link"
+msgstr "Link App"
+
+msgid "App Name"
+msgstr "Nome App"
+
+msgid "App User Email"
+msgstr "Email Utente App"
+
+msgid "App User Name"
+msgstr "Nome Utente App"
+
+msgid "App User Phone"
+msgstr "Telefono Utente App"
+
+msgid "App User Surname"
+msgstr "Cognome Utente App"
+
+msgid "App id mismatch."
+msgstr "APP ID non corrispondente."
+
+msgid "Applied At"
+msgstr "Applicato dal"
+
+msgid "Applied Date"
+msgstr "Aplicato Data"
+
+msgid "Apply"
+msgstr "Applica"
+
+msgid "Appointments"
+msgstr "Appuntamenti"
+
+msgid "Are you sure you want to Change Sponsor?"
+msgstr "Sei sicuro di voler cambiare Sponsor?"
+
+msgid "Are you sure you want to Disable this user?"
+msgstr "Sei sicuro di voler disabilitare questo utente?"
+
+msgid "Are you sure you want to Done this Reminder?"
+msgstr "Sei sicuro di confermare il promemoria?"
+
+msgid "Are you sure you want to Migrate Mobile NO?"
+msgstr "Sei sicuro di voler migrare il Nr. cellulare?"
+
+msgid "Are you sure you want to Remove Sponsor?"
+msgstr "Sei sicuro di voler rimuovere Sponsor?"
+
+msgid "Are you sure you want to Revert Migration?"
+msgstr "Sei sicuro di voler annullare la Migrazione?"
+
+msgid "Are you sure you want to Revert Setings to default.?"
+msgstr "Sei sicuro di voler ripristinare le Impostazioni predefinite?"
+
+msgid "Are you sure you want to Revert Settings to default.?"
+msgstr "Sei sicuro di voler ripristinare le Impostazioni predefinite?"
+
+msgid "Are you sure you want to Revert settings to default.?"
+msgstr "Sei sicuro di voler ripristinare le impostazioni predefinite?"
+
+msgid "Are you sure you want to activate this user?"
+msgstr "Sei sicuro di voler attivare questo utente?"
+
+msgid "Are you sure you want to active this reminder"
+msgstr "Sei sicuro di voler attivare questo promemoria"
+
+msgid "Are you sure you want to add Manual Log?"
+msgstr "Sei sicuro di voler inserire un log?"
+
+msgid "Are you sure you want to allow FULL PHONEBOOK access?"
+msgstr "Sei sicuro di voler consentire accesso alla RUBRICA COMPLETA?"
+
+msgid "Are you sure you want to cancel this reminder"
+msgstr "Sei sicuro di voler eliminare questo promemoria"
+
+msgid "Are you sure you want to delete this record"
+msgstr "Sei sicuro di voler eliminare questo record"
+
+msgid "Are you sure you want to redeem this prize"
+msgstr "Sei sicuro di voler riscattare questo premio"
+
+msgid "Are you sure you want to remove Status?"
+msgstr "Sei sicuro di voler rimuovere Stato?"
+
+msgid "Are you sure you want to reset reminders?"
+msgstr "Sei sicuro di voler ripristinare i promemoria?"
+
+msgid "Are you sure you want to set this user as an Admin?"
+msgstr "Sei sicuro di voler impostare questo utente come Amministratore?"
+
+msgid "Are you sure you want to set this user as an Agent?"
+msgstr "Sei sicuro di voler impostare questo utente come Agente?"
+
+msgid "Are you sure you want to unset this user as an Admin?"
+msgstr "Sei sicuro di voler impostare questo utente come Admin?"
+
+msgid "Are you sure you want to update status?"
+msgstr "Sei sicuro di voler aggiornare lo Stato?"
+
+msgid "Assign Admin"
+msgstr "Assegna Amministratore"
+
+msgid "Assign provinces"
+msgstr "Assegna province"
+
+msgid "Assigned To"
+msgstr "Assegnato a"
+
+msgid "Attention"
+msgstr "Attenzione"
+
+msgid "Authorized Label"
+msgstr "Etichetta Autorizzato"
+
+msgid "Authorized Label cannot be Empty."
+msgstr "Etichetta Autorizzato non può essere vuota."
+
+msgid "Auto Reminder"
+msgstr "Promemoria automatico"
+
+msgid "Auto credit expire after days"
+msgstr "Credito automatico scade dopo giorni"
+
+msgid "Automation CRON set Time"
+msgstr "Orario CRON Automazione"
+
+msgid "Automation Title"
+msgstr "Titolo Automazione"
+
+msgid "Automation Trigger Log"
+msgstr "Log Innesco Automazione"
+
+msgid "Automations"
+msgstr "Automazioni"
+
+msgid "BCC to Email"
+msgstr "CCN Email"
+
+msgid "Back"
+msgstr "Indietro"
+
+msgid "Background"
+msgstr "Sfondo"
+
+msgid "Background Color"
+msgstr "Colore sfondo"
+
+msgid "Balance"
+msgstr "Saldo"
+
+msgid "Balance Button"
+msgstr "Pulsante Saldo"
+
+msgid "Base url mismatch."
+msgstr "URL di base non corrispondente."
+
+msgid "Before Hours"
+msgstr "Nr. Ore Prima"
+
+msgid "Before sending a contact, it is mandatory that you have spoken to him personally and that he is informed that he will receive a call from the real estate Agent."
+msgstr "Prima di inviare un contatto, è obbligatorio che tu gli abbia parlato personalmente e che sia informato che riceverà una chiamata da un nostro responsabile."
+
+msgid "Below you can add a PHONE NUMBER to receive a test SMS using above Twillio setings."
+msgstr "Di seguito puoi aggiungere un NUMERO DI TELEFONO per ricevere un SMS di prova utilizzando le impostazioni di Twilio sopra indicate."
+
+msgid "Below you can add a PHONE NUMBER to receive a test SMS using above Twillio settings."
+msgstr "Qui puoi inserire il tuo numero di cellulare per effettuare un test di invio SMS"
+
+msgid "Best 10 Jobs"
+msgstr "Top 10 Lavori"
+
+msgid "Best 10 Regions"
+msgstr "Top 10 Regioni"
+
+msgid "Birth Date"
+msgstr "Data di nascita"
+
+msgid "Birth Date cannot be empty."
+msgstr "Data di nascita non può essere vuoto."
+
+msgid "Birthdate"
+msgstr "Data Nascita"
+
+msgid "Bitly Key"
+msgstr "Chiave Bitly"
+
+msgid "Bitly Login"
+msgstr "Login Bitly"
+
+msgid "Blacklist Phone Numbers"
+msgstr "Blacklist Numeri di telefono"
+
+msgid "Blacklist this contact, don't allow new reports"
+msgstr "Metti in blacklist quersto contatto, non permettere altre segnalazioni"
+
+msgid "Block Chain Password cannot be empty."
+msgstr "Password Blockchain non può essere vuota."
+
+msgid "Block Chain public data password"
+msgstr "Password Blockchain Public Data"
+
+msgid "Block Report for unique address"
+msgstr "Blocca Segnalazione per indirizzo univoco"
+
+msgid "BlockChain Certified"
+msgstr "Certificato Blockchain"
+
+msgid "Blockchain Certificate"
+msgstr "Certificato Blockchain"
+
+msgid "Both"
+msgstr "Entrambi"
+
+msgid "Both Email/PUSH"
+msgstr "Sia E-mail/PUSH"
+
+msgid "Both Referral/Agent"
+msgstr "Entrambi Segnalatore/Admin"
+
+msgid "Both Refferal/Agent"
+msgstr "Entrambi Segnalatore/Admin"
+
+msgid "Button Background Color"
+msgstr "Colore bottone"
+
+msgid "Button Label"
+msgstr "Etichetta Bottone"
+
+msgid "Button Text Color"
+msgstr "Colore testo bottone"
+
+msgid "Button Width"
+msgstr "Larghezza bottone"
+
+msgid "By creating a referrer user manually we cannot collect the approval of Term and Condition. Be sure to collect them offline!"
+msgstr "Creando manualmente un Segnalatore non possiamo raccogliere la approvazione dei termini e condizioni. Assicurati di raccoglierli manualmente."
+
+msgid ""
+"By creating a referrer user manually we cannot collect the approval of Term and Condition. Be sure to collect them offline!\r\n"
+"Owner hot Label cannot be Empty.\""
+msgstr "Creando manualmente un utente segnalatore non possiamo raccogliere approvazione di Termini e condizioni. Assicurati di raccoglierli offline!"
+
+msgid "CONTACT PHONEBOOK"
+msgstr "RUBRICA"
+
+msgid "COPY LINK"
+msgstr "COPIA LINK"
+
+msgid "CRM Reports Page"
+msgstr "Pagina dei rapporti CRM"
+
+msgid "CUSTOMER"
+msgstr "CLIENTE"
+
+msgid "Calculate"
+msgstr "Calcola"
+
+msgid "Calculate possible effects of this automation"
+msgstr "Calcola effetti automazione"
+
+msgid "Can agent manage Reminder Automations"
+msgstr "Agente gestisce i promemoria?"
+
+msgid "Can agent manage reports"
+msgstr "Agente può gestire segnalazioni"
+
+msgid "Can agent see reports"
+msgstr "Agente può vedere segnalazioni"
+
+msgid "Can not Share"
+msgstr "No Landing Page"
+
+msgid "Cancel"
+msgstr "Annulla"
+
+msgid "Cancele"
+msgstr "Cancella"
+
+msgid "Canceled"
+msgstr "Annullato"
+
+msgid ""
+"Canceled\r\n"
+"Status\""
+msgstr "Stato Annullato"
+
+msgid "Cannot Remove Standard Status."
+msgstr "Non puoi rimuovere gli Stati standard."
+
+msgid "Cannot delete all admin setings."
+msgstr "Non è possibile eliminare tutti gli Amministratori."
+
+msgid "Cannot delete all admin settings."
+msgstr "Non è possibile cancellare tutte le impostazioni Amministratore."
+
+msgid "Certificate"
+msgstr "Certificato"
+
+msgid "Certified"
+msgstr "Certificato"
+
+msgid "Change Sponsor"
+msgstr "Cambia Sponsor"
+
+msgid "Check App Version?"
+msgstr "Controlla versione app?"
+
+msgid "Choose Agent Type"
+msgstr "Scegli Tipo Agente"
+
+msgid "Choose the features to open"
+msgstr "Scegli la funzione da aprire"
+
+msgid "Choose the list of WebHook tags"
+msgstr "Scegli la lista di tag WebHook"
+
+msgid "City"
+msgstr "Città"
+
+msgid "Click here to download Landing Page Directory"
+msgstr "Clicca qui per scaricare Landing Page Directory"
+
+msgid "Client ID"
+msgstr "ID cliente"
+
+msgid "Close"
+msgstr "Chiudi"
+
+msgid "Closed Reports"
+msgstr "Segnalazioni chiuse"
+
+msgid "Code"
+msgstr "Codice"
+
+msgid "Code Copied"
+msgstr "Codice Copiato"
+
+msgid "Comment"
+msgstr "Commento"
+
+msgid "Comment Required"
+msgstr "Commento obbligatorio"
+
+msgid "Comment fee is Missing"
+msgstr "Manca commento commissione"
+
+msgid "Commision Fee"
+msgstr "Importo Commissione"
+
+msgid "Commission Fee"
+msgstr "Importo Commissione"
+
+msgid "Commission Setup"
+msgstr "Impostazione Commissione"
+
+msgid "Commission Type"
+msgstr "Tipo Commissione"
+
+msgid "Commission fee is Missing"
+msgstr "Manca Importo commissione"
+
+msgid "Commission or Credits (As per setings)"
+msgstr "Commissioni o Crediti (in base alle Impostazioni)"
+
+msgid "Commission or Credits (As per settings)"
+msgstr "Commissioni o Crediti (In base alle impostazioni)"
+
+msgid "Commissions"
+msgstr "Commissioni"
+
+msgid "Communication Logs"
+msgstr "Log Comunicazioni"
+
+msgid "Communication Tracker"
+msgstr "Tracciamento Comunicazioni"
+
+msgid "Company"
+msgstr "Ragione Sociale"
+
+msgid "Company name cannot be empty."
+msgstr "Nome Azienda non può essere vuoto."
+
+msgid "Completed"
+msgstr "Completato"
+
+msgid "Confirm"
+msgstr "Conferma"
+
+msgid "Confirm page message"
+msgstr "Messaggio pagina conferma"
+
+msgid "Confirm page title"
+msgstr "Titolo pagina conferma"
+
+msgid "Confirmation"
+msgstr "Conferma"
+
+msgid "Confirmation message (if Redirect URL not set)"
+msgstr "Messaggio conferma (Se redirect non impostato)"
+
+msgid "Consent"
+msgstr "Consenti"
+
+msgid "Consent Collection Page"
+msgstr "Pagina Raccolta Consenso"
+
+msgid "Consent Collection Page Body"
+msgstr "Corpo pagina raccolta consenso"
+
+msgid "Consent Collection Page Header"
+msgstr "Testata pagina raccolta consenso"
+
+msgid "Consent Collection Page Title"
+msgstr "Titolo pagina raccolta consenso"
+
+msgid "Consent Invitation Message Body"
+msgstr "Corpo del messagio invito consenso"
+
+msgid "Consent Landing Page"
+msgstr "Landing Page Consenso"
+
+msgid "Consent Page Body Content can not be empty"
+msgstr "Contenuto Pagina Consenso non può essere vuoto"
+
+msgid "Consent Page Button (I Agree)"
+msgstr "Bottone Pagina Consenso (Accetto)"
+
+msgid "Consent Page Header can not be empty"
+msgstr "Testata Pagina Consenso non può essere vuoto"
+
+msgid "Consent Page Title can not be empty"
+msgstr "Titolo Pagina Consenso non può essere vuoto"
+
+msgid "Consent Thank Page Body can not be empty"
+msgstr "Contenuto Pagina Ringraziamento non può essere vuoto"
+
+msgid "Consent Thank Page Header can not be empty"
+msgstr "Testata Pagina Ringraziamento non può essere vuoto"
+
+msgid "Consent info Popup Body"
+msgstr "Corpo della popup informativa consenso"
+
+msgid "Consent info Popup Body can not be empty"
+msgstr "Contenuto Popup Info Consenso non può essere vuoto"
+
+msgid "Consent info Popup Title"
+msgstr "Titolo della popup informativa consenso"
+
+msgid "Consent info Popup Title can not be empty"
+msgstr "Titolo Popup Info Consenso non può essere vuoto"
+
+msgid "Conset Thank Page Title can not be empty"
+msgstr "Titolo Pagina Ringraziamento non può essere vuoto"
+
+msgid "Consnet Thank Page Title can not be empty"
+msgstr "Titolo Pagina Consenso non può essere vuoto"
+
+msgid "Contact Detail"
+msgstr "Dettagli del contatto"
+
+msgid "Contact Phonebook"
+msgstr "Rubrica contatti"
+
+msgid "Contact Us Email"
+msgstr "Contatto Email"
+
+msgid "Contacts"
+msgstr "Contatti"
+
+msgid "Copied"
+msgstr "Copiato"
+
+msgid "Copy"
+msgstr "Copia"
+
+msgid "Copy Message"
+msgstr "Copia Messaggio"
+
+msgid "Copy and paste the text in your whatsapp, sms, email... and send it to your prospect"
+msgstr "Copia e incolla il testo nel tuo whatsapp, sms, email... e invialo al tuo Prospect"
+
+msgid "Could not find YouTube API Key."
+msgstr "Chiave API YouTube non trovata."
+
+msgid "Could not find data."
+msgstr "Dati non trovati."
+
+msgid "Could not find default TAX ID"
+msgstr "Codice Fiscale predefinito non trovato."
+
+msgid "Could not found TWILLIO API credentials"
+msgstr "Non trovo credenziali TWILIO API"
+
+msgid "Country"
+msgstr "Nazione"
+
+msgid "Country List"
+msgstr "Lista Nazioni"
+
+msgid "Cover"
+msgstr "Copertina"
+
+msgid "Create Note"
+msgstr "Crea Nota"
+
+msgid "Create Reminder"
+msgstr "Crea Promemoria"
+
+msgid "Create a report in behalf of a REFERRER"
+msgstr "Crea una segnalazione come SEGNALATORE"
+
+msgid "Created At"
+msgstr "Creato il"
+
+msgid "Created at"
+msgstr "Creato a"
+
+msgid "Creation Date"
+msgstr "Data Creazione"
+
+msgid "Credit"
+msgstr "Credito"
+
+msgid "Credit Balance"
+msgstr "Saldo Credito"
+
+msgid "Credit amount is missing or invalid."
+msgstr "Importo Credito mancante o non valido."
+
+msgid "Credit description is missing or invalid."
+msgstr "Descrizione Credito mancante o non valido."
+
+msgid "Credit type is missing or invalid."
+msgstr "Tipo Credito mancante o non valido"
+
+msgid "Credits"
+msgstr "Crediti"
+
+msgid "Credits API"
+msgstr "API Crediti"
+
+msgid "Credits API log"
+msgstr "Log API Crediti"
+
+msgid "Credits Ledger"
+msgstr "Registro Crediti"
+
+msgid "Credits Ledger Statement"
+msgstr "Estratto Conto Crediti"
+
+msgid "Cron Id"
+msgstr "ID Cron"
+
+msgid "Current Year"
+msgstr "Anno Corrente"
+
+msgid "Curretn Year"
+msgstr "Anno Corrente"
+
+msgid "Custom Credits Notifications"
+msgstr "Notifica Crediti personalizzata"
+
+msgid "Custom Tags are not allowed in Automation setings"
+msgstr "Tag personalizzati non permessi nelle Impostazioni Automazione"
+
+msgid "Custom Tags are not allowed in Automation settings"
+msgstr "I tag non sono utilizzabili nelle automazioni"
+
+msgid "Custom URL"
+msgstr "URL personalizzato"
+
+msgid "Custom URL cannot be empty."
+msgstr "URL personalizzato non può essere vuoto."
+
+msgid "Custom URL not valid."
+msgstr "URL personalizzato non valido."
+
+msgid "Custom URL?"
+msgstr "URL personalizzato?"
+
+msgid "Custom date"
+msgstr "Data Personalizzata"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "DETAIL"
+msgstr "DETTAGLI"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Date Stamp"
+msgstr "Timbro Data"
+
+msgid "Day"
+msgstr "Giorno"
+
+msgid "Days"
+msgstr "Giorni"
+
+msgid "Days since last contact"
+msgstr "Giorni da ultimo contatto"
+
+msgid "Deal Closed"
+msgstr "Affari Conclusi"
+
+msgid "Dear"
+msgstr "Caro"
+
+msgid "Debit"
+msgstr "Debito"
+
+msgid "Default Country Code"
+msgstr "Codice Paese predefinito"
+
+msgid "Delay Days"
+msgstr "Ritardo Giorni"
+
+msgid "Delay Hours"
+msgstr "Ritardo Ore"
+
+msgid "Delete"
+msgstr "Cancella"
+
+msgid "Delivered"
+msgstr "Consegnato"
+
+msgid "Description"
+msgstr "Descrizione"
+
+msgid "Detail"
+msgstr "Dettaglio"
+
+msgid "Details"
+msgstr "Dettagli"
+
+msgid "Disable ?"
+msgstr "Disabilita ?"
+
+msgid "Disable CRON?"
+msgstr "Disabilita Cron?"
+
+msgid "Disable Date"
+msgstr "Disabilita Data"
+
+msgid "Disable Phone Grade Period Check"
+msgstr "Disabilita èeriodo di controllo telefono univoco"
+
+msgid "Disabled"
+msgstr "Disabilitato"
+
+msgid "Discard"
+msgstr "Scarta"
+
+msgid "Do you for me"
+msgstr "Fallo tu per me"
+
+msgid "Do you want to show the history of communications or add a new record"
+msgstr "Vuoi visionare il registro comunicazioni oppure aggiungere un log"
+
+msgid "Domain URL"
+msgstr "URL Dominio"
+
+msgid "Download CSV"
+msgstr "Scarica CSV"
+
+msgid "Download Contact DB"
+msgstr "Scarica DB Contatti"
+
+msgid "Download Documentaion"
+msgstr "Scarica la documentazione"
+
+msgid "Download Documentation"
+msgstr "Scarica Documentazione"
+
+msgid "Download PDF"
+msgstr "Scarica PDF"
+
+msgid "Download Prospect DB"
+msgstr "Scarica DB Candidati"
+
+msgid "Download Referrer DB"
+msgstr "Scarica DB Segnalatori"
+
+msgid "Download Reports DB"
+msgstr "Scarica DB Segnalazioni"
+
+msgid "Due Date"
+msgstr "Scadenza"
+
+msgid "EMAIL Notifications Log"
+msgstr "Log Notifiche EMAIL"
+
+msgid "Edit"
+msgstr "Modifica"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Email Before Hours cannot be empty."
+msgstr "Email vuota"
+
+msgid "Email Body"
+msgstr "Corpo Email"
+
+msgid "Email Message"
+msgstr "Messaggio Email"
+
+msgid "Email Message body for Agent cannot be empty."
+msgstr "Messaggio Email per Admin non può essere vuoto."
+
+msgid "Email Message body for Referral cannot be empty."
+msgstr "Messaggio Email per Segnalatore non può essere vuoto."
+
+msgid "Email Notification Setings"
+msgstr "Impostazioni Notifica Email"
+
+msgid "Email Notification Settings"
+msgstr "Impostazioni Notifica Email"
+
+msgid "Email Notification settings"
+msgstr "Impostazioni Notifica Email"
+
+msgid "Email Subject"
+msgstr "Oggetto Email"
+
+msgid "Email Subject for Agent cannot be empty."
+msgstr "Oggetto Email per Admin non può essere vuoto."
+
+msgid "Email Subject for Referral cannot be empty."
+msgstr "Oggetto Email per Segnalatore non può essere vuoto."
+
+msgid "Email Title"
+msgstr "Titolo Email"
+
+msgid "Email or Mobile already exist."
+msgstr "Email o cellulare esiste già."
+
+msgid "Email/Push Notifications"
+msgstr "Notifiche Email/Push"
+
+msgid "Enable Address field"
+msgstr "Abilita campo Indirizzo"
+
+msgid "Enable Android App Version Check?"
+msgstr "Abilita controllo versione app Android?"
+
+msgid "Enable Automation"
+msgstr "Abilita automatismi"
+
+msgid "Enable Automation CRON"
+msgstr "Abilita CRON automazione"
+
+msgid "Enable Birth Date"
+msgstr "Abilita data di nascita"
+
+msgid "Enable Company field"
+msgstr "Abilita campo Ragione Sociale"
+
+msgid "Enable Consent Collection"
+msgstr "Abilita raccolta del consenso"
+
+msgid "Enable Credits API"
+msgstr "Abilita API Crediti"
+
+msgid "Enable Extra 1"
+msgstr "Abilita Extra 1"
+
+msgid "Enable Extra 2"
+msgstr "Abilita Extra 2"
+
+msgid "Enable GDPR"
+msgstr "Abilita GDPR"
+
+msgid "Enable Global Setings"
+msgstr "Abilita Impostazioni Globali"
+
+msgid "Enable Global settings"
+msgstr "Abilita Impostazini Globali"
+
+msgid "Enable IOS App Version Check?"
+msgstr "Abilita controllo versione app iOS?"
+
+msgid "Enable Invite Prospectus"
+msgstr "Abilita Invita Prospect"
+
+msgid "Enable Legal Address field"
+msgstr "Abilita campo Indirizzo"
+
+msgid "Enable Link 1"
+msgstr "Abilita Link 1"
+
+msgid "Enable Link 2"
+msgstr "Abilita Link 2"
+
+msgid "Enable Multiple agent selection"
+msgstr "Abilita seleziona multipla Agente"
+
+msgid "Enable New Referrer WebHook"
+msgstr "Abilita WebHook Nuovi Segnalatori"
+
+msgid "Enable Refrence Level"
+msgstr "Abilita livello Referenza"
+
+msgid "Enable Reminder WebHooks"
+msgstr "Abilita WebHook Promemoria"
+
+msgid "Enable Report API WebHooks"
+msgstr "Abilita WebHook API Segnalazione"
+
+msgid "Enable Report Type"
+msgstr "Abilita Tipo Segnalazione"
+
+msgid "Enable Report for Platform"
+msgstr "Abilita seSegnalazioni  per piattaforma"
+
+msgid "Enable Submit Report"
+msgstr "Abilita Invia Segnalazione"
+
+msgid "Enable Twillio SMS Notifications"
+msgstr "Abilita notifiche SMS"
+
+msgid "Enable Unique Address"
+msgstr "Abilita Indirizzo univoco"
+
+msgid "Enable Welcome Email"
+msgstr "Abilita mail benvenuto"
+
+msgid "Enable mandatory agent selection"
+msgstr "Abilita selezione agente obbligatoria"
+
+msgid "Enable property type"
+msgstr "Abilita tipo proprietà"
+
+msgid "Enable sales expectations"
+msgstr "Abilita aspettative prezzo"
+
+msgid "Enable unique Property owner mobile number"
+msgstr "Abilita il controllo di cellulare univoco del segnalato"
+
+msgid "Enable unique Report owner mobile number"
+msgstr "Abilita cellulare univoco segnalato"
+
+msgid "Enable unique prospect Phone Number"
+msgstr "Abilita telefono univoco Prospect"
+
+msgid "Enabled"
+msgstr "Abilitato"
+
+msgid "Encryption Key"
+msgstr "Chiave di crittografia"
+
+msgid "Encryption key cannot be empty."
+msgstr "Chiave di crittografia non può essere vuoto."
+
+msgid "Ended At"
+msgstr "Terminato alle"
+
+msgid "Engagement"
+msgstr "Coinvolgimento"
+
+msgid "Engagement Level"
+msgstr "Livello di coinvolgimento"
+
+msgid "Enrollment"
+msgstr "Iscrizione"
+
+msgid "Enter the encryption key you set for your reports."
+msgstr "Inserisci chiave di crittografia che hai impostato per le tue segnalazioni."
+
+msgid "Entry Type"
+msgstr "Tipo voce"
+
+msgid "Euro Commision"
+msgstr "Commissione Euro"
+
+msgid "Euro Commission"
+msgstr "Commissione Euro"
+
+msgid "Event Date"
+msgstr "Data Evento"
+
+msgid "Event Type"
+msgstr "Tipo Evento"
+
+msgid "Example API Endpoint URL"
+msgstr "Esempio URL endpoint API"
+
+msgid "Exclude Declined and Paid"
+msgstr "Escludi pagati e annullati"
+
+msgid "Expire At"
+msgstr "Scade il"
+
+msgid "Expire Date"
+msgstr "Data Scadenza"
+
+msgid "Expired"
+msgstr "Scaduta"
+
+msgid "Expiry"
+msgstr "Scadenza"
+
+msgid "External Addresses"
+msgstr "Indirizzi esterni"
+
+msgid "External CRM/Database URL"
+msgstr "URL CRM/Database esterno"
+
+msgid "External Report Note"
+msgstr "Note esterne Segnalazione"
+
+msgid "External URL"
+msgstr "URL esterno"
+
+msgid "Extra Eight"
+msgstr "Extra Otto"
+
+msgid "Extra Five"
+msgstr "Extra Cinque"
+
+msgid "Extra Four"
+msgstr "Extra Quattro"
+
+msgid "Extra Nine"
+msgstr "Extra Nove"
+
+msgid "Extra One"
+msgstr "Extra Uno"
+
+msgid "Extra Seven"
+msgstr "Extra Sette"
+
+msgid "Extra Six"
+msgstr "Extra Sei"
+
+msgid "Extra Ten"
+msgstr "Extra Dieci"
+
+msgid "Extra Three"
+msgstr "Extra Tre"
+
+msgid "Extra Two"
+msgstr "Extra Due"
+
+msgid "Fall Back Automation"
+msgstr "Automazione Fall Back"
+
+msgid "Fallback Comment"
+msgstr "Commento Fallback"
+
+msgid "Fallback Period"
+msgstr "Periodo Fallback"
+
+msgid "Fallback Status"
+msgstr "Stato Fallback"
+
+msgid "Fallback status must need @@comment@@ tag."
+msgstr "Stato Fallback necessita del tag @@comment@@"
+
+msgid "Field Label"
+msgstr "Etichetta Campo"
+
+msgid "File"
+msgstr "File"
+
+msgid "File must be an XML file."
+msgstr "Il file deve essere XML"
+
+msgid "Filed Label"
+msgstr "Etichetta Campo"
+
+msgid "Filter"
+msgstr "Filtro"
+
+msgid "Filter Metrics"
+msgstr "Filtra Metriche"
+
+msgid "Filter PhoneBook"
+msgstr "Filtra Rubrica"
+
+msgid "Filter Phonebook"
+msgstr "Filtra Rubrica"
+
+msgid "Filter Reports"
+msgstr "Filtra rapporti"
+
+msgid "Filter Sponsor Connections"
+msgstr "Filtra Collegamenti Sponsor"
+
+msgid "Filters"
+msgstr "Filtri"
+
+msgid "First Approval"
+msgstr "Prima Approvazione"
+
+msgid "First Name"
+msgstr "Nome"
+
+msgid "First status not allowed to add @@agent_name@@ tag."
+msgstr "Il primo Stato non potrà aggiungere il tag @@agent_name@@"
+
+msgid "First time a Referrer is registered"
+msgstr "Il segnalatore si registra la prima volta"
+
+msgid "First you must Mandate Acquired to make it Payable."
+msgstr "Prima di impostare Pagabile deve essere Mandato Acquisito."
+
+msgid "Fix Commission"
+msgstr "Commissione Fissa"
+
+msgid "Fix Commission Amount"
+msgstr "Importo Commissione Fissa"
+
+msgid "Fix Commission Credits"
+msgstr "Crediti Commissione Fissa"
+
+msgid "Fixed number of pixels"
+msgstr "Numero pixel fisso"
+
+msgid "Flat"
+msgstr "Appartamento"
+
+msgid "For Fix Commission type you must add Fix Credit Points."
+msgstr "Per Commissione fissa devi aggiungere Punti Credito fissi."
+
+msgid "For Fix Commission type you must add Fix amount."
+msgstr "Per Commissione fissa devi aggiungere Importo fisso."
+
+msgid "For Percent Commission type you must add Calculated Amount."
+msgstr "Per Commissione percentuale devi aggiungere  Importo calcolato."
+
+msgid "For Percent Commission type you must add Calculated Credits."
+msgstr "Per Commissione percentuale devi aggiungere  Crediti calcolati."
+
+msgid "Form Background"
+msgstr "Sfondo Form"
+
+msgid "Form Button (Submit)"
+msgstr "Bottone Form (Invia)"
+
+msgid "Form Title"
+msgstr "Titolo Form"
+
+msgid "Frame height"
+msgstr "Altezza frame"
+
+msgid "From 1 to 9999"
+msgstr "Da 1 a 9999"
+
+msgid "From date"
+msgstr "Da data"
+
+msgid "Full Phonebook"
+msgstr "Rubrica completa"
+
+msgid "Future Commission: Not Yet"
+msgstr "Commissioni future: non ancora"
+
+msgid "Future Credits: Not Yet"
+msgstr "Crediti futuri: non ancora"
+
+msgid "GDPR CONSENT"
+msgstr "Consenso per essere richiamato"
+
+msgid "GDPR Consent Landing and Opt-In Landing should have a di!erent GDPR Statement"
+msgstr "Landing Page GDPR e Optin devono avere una diversa dichiarazione GDPR"
+
+msgid "GDPR Consent Landing and Opt-In Landing should have a different GDPR Statement"
+msgstr "Landing page Consenso GDPR e landing page Optin dovrebbero avere una dichiarazione GDPR diversa"
+
+msgid "GDPR LANDING PAGE SETINGS"
+msgstr "IMPOSTAZIONI LANDING PAGE GDPR"
+
+msgid "GDPR LANDING PAGE SETTING"
+msgstr "IMPOSTAZIONI LANDING PAGE GDPR"
+
+msgid "GDPR POPUP SETINGS"
+msgstr "IMPOSTAZIONI POPUP GDPR"
+
+msgid "GDPR POPUP SETTINGS"
+msgstr "IMPOSTAZIONI POPUP GDPR"
+
+msgid "GDPR Popup settings"
+msgstr "Impostazioni Popup GDPR"
+
+msgid "GDPR SHARING TEXTS SETTINGS"
+msgstr "IMPOSTAZIONI TESTI CONDIVISIONE GDPR"
+
+msgid "GDPR STATEMENT FOR PROSPECTS"
+msgstr "DICHIARAZIONE GDPR PER PROSPECT"
+
+msgid "GDPR Setings"
+msgstr "Impostazioni GDPR"
+
+msgid "GDPR Statement can not be empty"
+msgstr "Dichiarazione GDPR non può essere vuoto"
+
+msgid "GDPR Statment Text"
+msgstr "Testo Dichiarazione GDPR"
+
+msgid "GDPR settings"
+msgstr "Impostazioni GDPR"
+
+msgid "GENERATE LINK"
+msgstr "GENERA LINK"
+
+msgid "GENRATE LINK"
+msgstr "Genera link"
+
+msgid "GENRELE SETTINGS"
+msgstr "IMPOSTAZIONI GENERALI"
+
+msgid "General"
+msgstr "Generali"
+
+msgid "General Setings"
+msgstr "Impostazioni Generali"
+
+msgid "General Settings"
+msgstr "Impostazioni Generali"
+
+msgid "General settings"
+msgstr "Impostazioni Generali"
+
+msgid "Generate & Copy Source Code"
+msgstr "Genera e Copia il Sorgente"
+
+msgid "Genrate Affiliate Link"
+msgstr "Genera Link affiliato"
+
+msgid "Get Affiliate Link"
+msgstr "Ricevi link Affiliato"
+
+msgid "Grace Period"
+msgstr "Periodo controllo cellulare univoco"
+
+msgid "Grace Period Action"
+msgstr "Azione Periodo di validità"
+
+msgid "Grace Period Warning Text"
+msgstr "Testo avviso Periodo di validità"
+
+msgid "Header Image"
+msgstr "Immagine Testata"
+
+msgid "Help URL cannot be empty."
+msgstr "URL supporto non può essere vuoto."
+
+msgid "Help URL is not valid."
+msgstr "URL assistenza non valido."
+
+msgid "Help URL updated successfully."
+msgstr "URL assistenza aggiornato correttamente."
+
+msgid "Here"
+msgstr "Qui"
+
+msgid "Hour"
+msgstr "Ora"
+
+msgid "Hours"
+msgstr "Ore"
+
+msgid "How app Works"
+msgstr "Come funziona la app"
+
+msgid "How hot is the Contact"
+msgstr "Grado di urgenza"
+
+msgid "How hot is the Contact ?"
+msgstr "Livello della referenza?"
+
+msgid "How hot is the Contact?"
+msgstr "Livello della referenza?"
+
+msgid "How hot is the contact? LABEL"
+msgstr "Etichetta Livello della referenza?"
+
+msgid "How it Works"
+msgstr "Come Funziona"
+
+msgid "How works"
+msgstr "Come funziona"
+
+msgid "I Accept"
+msgstr "Accetto"
+
+msgid "I CONFIRM"
+msgstr "CONFERMO"
+
+msgid "I Dont  Accept"
+msgstr "Non accetto"
+
+msgid "I Don’t  Accept"
+msgstr "Non accetto"
+
+msgid "I accept the Privacy Policy"
+msgstr "Accetto la Informativa Privacy"
+
+msgid "I confirm to accept article 2,3,10"
+msgstr "Confermo accettazione articoli 2,3,10"
+
+msgid "I dont know"
+msgstr "Non lo so"
+
+msgid "I don’t know"
+msgstr "Non lo so"
+
+msgid "I have read and accept Privacy Statements"
+msgstr "Ho letto e accetto la Informativa sulla Privacy"
+
+msgid "I have read and accept Terms"
+msgstr "Ho letto e accetto i Termini e Condizioni"
+
+msgid "INVITE YOUR PROSPECT"
+msgstr "INVITA IL TUO PROSPECT"
+
+msgid "IOS Store Version"
+msgstr "Versione Store iOS"
+
+msgid "Icon"
+msgstr "Icona"
+
+msgid "Import CSV File"
+msgstr "Importa file CSV"
+
+msgid "Import Reports from"
+msgstr "Importa Segnalazioni da"
+
+msgid "In the Percentage Commission operating method, this state requires that the app admin enter the commission amount"
+msgstr "Nel metodo operativo Commissione Percentuale, un amministratore della app deve inserire importo commissione."
+
+msgid "Incubation Days"
+msgstr "Giorni Incublazione"
+
+msgid "Info successfully saved."
+msgstr "Informazioni salvate correttamente."
+
+msgid "Insert a"
+msgstr "Inserisci un"
+
+msgid "Installations"
+msgstr "Installazioni"
+
+msgid "Internal Note"
+msgstr "Note interne"
+
+msgid "Internal Report Note"
+msgstr "Note interne Segnalazione"
+
+msgid "Invalid Access"
+msgstr "Accesso non valido"
+
+msgid "Invalid Access."
+msgstr "Accesso non valido."
+
+msgid "Invalid Admin Access"
+msgstr "Accesso Admin non valido"
+
+msgid "Invalid Email."
+msgstr "Email non valida"
+
+msgid "Invalid Phone"
+msgstr "Telefono invalido"
+
+msgid "Invalid Referrer mobile."
+msgstr "Cellulare Segnalatore non valido."
+
+msgid "Invalid Report No"
+msgstr "N Segnalazione non valido"
+
+msgid "Invalid Status ID"
+msgstr "ID Stato non valido"
+
+msgid "Invalid XML file."
+msgstr "File XML non valido."
+
+msgid "Invalid owner phone."
+msgstr "Telefono Segnalato non valido."
+
+msgid "Invite Prospectus Popup"
+msgstr "Popup Invita Prospect"
+
+msgid "Invite Prospectus Text"
+msgstr "Testo Invita Prospect"
+
+msgid "Invite Report Card Title"
+msgstr "Titolo card Invita Segnalazione"
+
+msgid "Invoice Detail"
+msgstr "Dati Amministrativi"
+
+msgid "Invoice Mobile NO Migration"
+msgstr "Migrazione Nr. cellulare"
+
+msgid "Invoice Name cannot be empty."
+msgstr "Nome fattura non può essere vuoto."
+
+msgid "Invoice Surname cannot be empty."
+msgstr "Cognome fattura non può essere vuoto."
+
+msgid "Is Admin"
+msgstr "È Amministratore"
+
+msgid "Is Admin?"
+msgstr "è Admin?"
+
+msgid "Is Agent"
+msgstr "È Agente"
+
+msgid "Is Agent?"
+msgstr "è Agente?"
+
+msgid "Is Blacklist"
+msgstr "È in Blacklist"
+
+msgid "Is Exclude"
+msgstr "È Escluso"
+
+msgid "Is Visible"
+msgstr "È visibile"
+
+msgid "Is required"
+msgstr "È obbligatorio"
+
+msgid "Is this popup active"
+msgstr "Questa popup è attiva"
+
+msgid "Is visible"
+msgstr "È visibile"
+
+msgid "Job"
+msgstr "Professione"
+
+msgid "Job Title"
+msgstr "Titolo Professionale"
+
+msgid "Job successfully saved."
+msgstr "Professione salvata correttamente."
+
+msgid "Jobs"
+msgstr "Professioni"
+
+msgid "Jobs & Sectors"
+msgstr "Professioni e Settori"
+
+msgid "KPI Reliability"
+msgstr "KPI Affidabilità"
+
+msgid "Label Text"
+msgstr "Testo Etichetta"
+
+msgid "Label Text for extra 1"
+msgstr "Etichetta Testo per Extra 1"
+
+msgid "Label Text for extra 2"
+msgstr "Etichetta Testo per Extra 2"
+
+msgid "Label for Agent Type One"
+msgstr "Etichetta per Tipo Agente Uno"
+
+msgid "Label for Agent Type Two"
+msgstr "Etichetta per Tipo Agente Due"
+
+msgid "Landing Page"
+msgstr "Pagina di destinazione"
+
+msgid "Landing Page Directory"
+msgstr "Landing Page"
+
+msgid "Landing Page Header Label"
+msgstr "Etichetta Testata Landing Page"
+
+msgid "Last 3 Months"
+msgstr "Ultimi 3 mesi"
+
+msgid "Last 30 Days"
+msgstr "Ultimi 30 giorni"
+
+msgid "Last 6 Months"
+msgstr "Ultimi 6 mesi"
+
+msgid "Last Contact"
+msgstr "Ultimo contatto"
+
+msgid "Last Modification"
+msgstr "Ultima Modifica"
+
+msgid "Last Modification at"
+msgstr "Ultima modifica il"
+
+msgid "Last Year"
+msgstr "Ultimo Anno"
+
+msgid "Last contact"
+msgstr "Ultimo contatto"
+
+msgid "Last name"
+msgstr "Cognome"
+
+msgid "Latitude"
+msgstr "Latitudine"
+
+msgid "Ledger"
+msgstr "Registro"
+
+msgid "Ledger Cron Logs"
+msgstr "Log Registro Cron"
+
+msgid "Ledger Id"
+msgstr "Id Registro"
+
+msgid "Ledger Logs"
+msgstr "Log Registro"
+
+msgid "Legal Address"
+msgstr "Indirizzo"
+
+msgid "Legal Address cannot be empty."
+msgstr "Indirizzo non può essere vuoto."
+
+msgid "Less Filters"
+msgstr "Meno Filtri"
+
+msgid "Less than 30 Days"
+msgstr "Meno di 30 Giorni"
+
+msgid "License"
+msgstr "Licenza"
+
+msgid "License information is invalid."
+msgstr "Informazioni licenza non valide."
+
+msgid "License key cannot be empty."
+msgstr "Chiave di licenza non può essere vuoto."
+
+msgid "License key is invalid."
+msgstr "Chiave di licenza non valida."
+
+msgid "Life Time Reports"
+msgstr "Segnalazioni illimitate"
+
+msgid "Limit"
+msgstr "Limite"
+
+msgid "Limit cannot be Empty."
+msgstr "Limite non può essere vuoto."
+
+msgid "Link 1 Button text * (Max 9 Characters including space)"
+msgstr "Testo bottone Link 1 *(max 9 caratteri inclusi spazi)"
+
+msgid "Link 1 URL"
+msgstr "URL Link 1"
+
+msgid "Link 2 Button text * (Max 9 Characters including space)"
+msgstr "Testo bottone Link 2 *(max 9 caratteri inclusi spazi)"
+
+msgid "Link 2 URL"
+msgstr "URL Link 2"
+
+msgid "Loading..."
+msgstr "Caricamento in corso..."
+
+msgid "Location"
+msgstr "Luogo"
+
+msgid "Logs"
+msgstr "Registri"
+
+msgid "Long Text"
+msgstr "Testo esteso"
+
+msgid "Longitude"
+msgstr "Longitudine"
+
+msgid "MANAGE OPTIN FORM"
+msgstr "Gestisci modulo Optin"
+
+msgid "MANAGE PHONEBOOK"
+msgstr "GESTISCI RUBRICA"
+
+msgid "MANAGE PROSPECT JOBS"
+msgstr "GESTISCI PROFESSIONI PROSPECT"
+
+msgid "MANAGE TWILLIO API"
+msgstr "GESTISCI TWILLIO API"
+
+msgid "MIGASTONE SUPPORT TEAM."
+msgstr "TEAM MIGASTONE SUPPORT."
+
+msgid "MIGRATE REPORTS FROM MIGAPROPERTY"
+msgstr "MIGRA SEGNALAZIONI DA MIGAPROPERTY"
+
+msgid "Make sure API clients aware about TOKEN reset."
+msgstr "Assicurati che i client API siano a conoscenza del ripristino di TOKEN."
+
+msgid "Make sure you have uploaded Landing Page directory to your domain"
+msgstr "Assicurati di avere caricato la Landing Page directory sul tuo dominio"
+
+msgid "Make sure your API endpoint can handle requests with the mobile number tagged as @@owner_mobile@@. If no response is received from the API endpoint, we will assume the mobile number is not blacklisted, and the report will be posted without further checks."
+msgstr "Assicurati che il tuo endpoint API possa gestire le richieste con il numero di cellulare contrassegnato come @@owner_mobile@@. Se non viene ricevuta alcuna risposta presupporremo che il numero di cellulare non sia nella lista nera e la segnalazione verrà pubblicata senza ulteriori controlli."
+
+msgid "Manage Agent Type"
+msgstr "Gestisci Tipo Agente"
+
+msgid "Manage Jobs"
+msgstr "Gestisci Professioni"
+
+msgid "Manage Optin Form"
+msgstr "Gestisci form Optin"
+
+msgid "Manage PhoneBook"
+msgstr "Gestisci Rubrica"
+
+msgid "Manage Prize"
+msgstr "Gestisci Premio"
+
+msgid "Manage Prizes"
+msgstr "Gestisci Premi"
+
+msgid "Manage Provinces DB"
+msgstr "Gestisci Province DB"
+
+msgid "Manage Provinces Db"
+msgstr "Gestisci Db Province"
+
+msgid "Manage Referrer PhoneBook"
+msgstr "Gestisci Rubrica Segnalatori"
+
+msgid "Manage Reports Externally"
+msgstr "Gestisci i rapporti esternamente"
+
+msgid "Manage Twillio API"
+msgstr "Gestisci API di Twillio"
+
+msgid "Managed By"
+msgstr "gestito da"
+
+msgid "Management Days"
+msgstr "Giorni Gestione"
+
+msgid "Mandate Acquired"
+msgstr "Mandato Acquisito"
+
+msgid "Mandatory Birth Date"
+msgstr "Data di nascita obbligatoria"
+
+msgid "Mandatory Company"
+msgstr "Ragione Sociale obbligatoria"
+
+msgid "Mandatory Extra 1"
+msgstr "Extra 1 obbligatorio"
+
+msgid "Mandatory Extra 2"
+msgstr "Extra 2 obbligatorio"
+
+msgid "Mandatory Legal Address"
+msgstr "Campo Indirizzo obbligatorio"
+
+msgid "Manual"
+msgstr "Manuale"
+
+msgid "Manually add communication log"
+msgstr "Aggiungi manualmente log comunicazioni"
+
+msgid "Message"
+msgstr "Messaggio"
+
+msgid "Message Id"
+msgstr "Id Messaggio"
+
+msgid "Message cannot be empty."
+msgstr "Messaggio non può essere vuoto."
+
+msgid "Message for Agent"
+msgstr "Messaggio per Admin"
+
+msgid "Migachain CRON Failure Notification"
+msgstr "Notifica errore CRON Migachain"
+
+msgid "Migachain CRON has been failed %s times on the platform %s. Following are the CRON ids that you need to check: %s."
+msgstr "Esecuzione CRON Migachain fallita per %s volte sulla piattaforma  %s. Di seguito i CRON id da controllare: %s."
+
+msgid "Migachain client id cannot be empty."
+msgstr "Client Migachain non può essere vuoto."
+
+msgid "Migachain token cannot be empty."
+msgstr "Token Migachain non può essere vuoto."
+
+msgid "Migaproperty Report NO"
+msgstr "Migaproperty Referenza Nr."
+
+msgid "Migareference Agent Stats"
+msgstr "Stastistiche Migareference"
+
+msgid "Migareference Report NO"
+msgstr "Migareferenza Referenza Nr."
+
+msgid "Migrate"
+msgstr "Migra"
+
+msgid "Migrate Reports from Migaproperty"
+msgstr "Migra Segnalazioni da Migaproperty"
+
+msgid "Migrate action will import all reports in Selectd non standard status along with all Reffrel Invoice Settings,Admins,Agents"
+msgstr "La migrazione importerà tutte le segnalazioni nello Stato personalizzato selezionato insieme a tutte le impostazioni delle fatture Segnalatori, Amministratori, Agenti"
+
+msgid "Migrate action will import all reports in Selected non standard status along with all Referral Invoice Setings, Admins, Agents"
+msgstr "La migrazione importerà tutti i report nello stato selezionato non standard insieme a tutte le impostazioni della fattura di riferimento, gli amministratori, gli agenti"
+
+msgid "Migrate action will import all reports in Selected non standard status along with all Referral Invoice Settings, Admins, Agents"
+msgstr "La migrazione importerà tutti i report nello stato non standard selezionato non insieme a tutte le impostazioni di segnalatori, amministratori, agenti"
+
+msgid "Migrate action will import all reports in Selected non standard status along with all Referral Invoice settings, Admins, Agents"
+msgstr "La migrazione importerà tutte le segnalazioni nello stato selezionato non standard insieme a tutte le impostazioni dei segnalatori, amministratori e agenti."
+
+msgid "Migration Log"
+msgstr "Log Migrazione"
+
+msgid "Minutes"
+msgstr "Minuti"
+
+msgid "Missing post data."
+msgstr "Dati inserimento mancanti."
+
+msgid "Mobile"
+msgstr "Cellulare"
+
+msgid "Mobile Phone"
+msgstr "Cellulare"
+
+msgid "Module"
+msgstr "Modulo"
+
+msgid "Module has been activated on the domain %s for %s days from %s to %s."
+msgstr "Il modulo è stato attivato sul dominio %s per %s giorni dal %s al %s."
+
+msgid "Module is active."
+msgstr "Il modulo è attivo."
+
+msgid "Module is expired and license is deleted."
+msgstr "Il modulo è scaduto e la licenza è stata cancellata."
+
+msgid "Monitor Failed Invitations"
+msgstr "Visualizzazione inviti falliti"
+
+msgid "Month"
+msgstr "Mese"
+
+msgid "More Filters"
+msgstr "Più Filtri"
+
+msgid "More Than 50 Reports"
+msgstr "Oltre 50 Segnalazioni"
+
+msgid "More Than 90 Days"
+msgstr "Oltre 90 Giorni"
+
+msgid "Multiple Referrers found."
+msgstr "Trovati più segnalatori."
+
+msgid "My Reminders"
+msgstr "I miei promemoria"
+
+msgid "N/A"
+msgstr "N.D."
+
+msgid "NO"
+msgstr "NO"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "New Notes PUSH / Email Template"
+msgstr "Modello PUSH / Email nuove note"
+
+msgid "New Referrer Webhooks"
+msgstr "WebHook Nuovi Segnalatori"
+
+msgid "New to Old"
+msgstr "Dal più recente al più datato"
+
+msgid "New user not registered as referrers (48h)"
+msgstr "Nuovi utenti non registrati come segnalatori (48h)"
+
+msgid "Next"
+msgstr "Prossimo"
+
+msgid "No"
+msgstr "No"
+
+msgid "No Admin"
+msgstr "Nessun Amministratore"
+
+msgid "No Record Found!"
+msgstr "Nessun record trovato!"
+
+msgid "No Referrers Found"
+msgstr "Nr. Segnalazioni"
+
+msgid "No changes in engagement rating of a referrer in the past XX days"
+msgstr "Nessun cambiamento nelle valutazioni di un segnalatore nei passati xx giorni"
+
+msgid "No data found"
+msgstr "Nessun dato trovato"
+
+msgid "No file uploaded."
+msgstr "Nessun file caricato."
+
+msgid "No items Found"
+msgstr "Nessun articolo trovato"
+
+msgid "No license found for this module."
+msgstr "Non è stata trovata alcuna licenza per questo modulo."
+
+msgid "No matching data found."
+msgstr "Nessun dato corrispondente trovato."
+
+msgid "No new reports found."
+msgstr "Nessuna nuova segnalazione trovata."
+
+msgid "No results!"
+msgstr "Nessun risultato!"
+
+msgid "No token sent."
+msgstr "Nessun token inviato."
+
+msgid "No, go back"
+msgstr "No, torna indietro"
+
+msgid "No. Deal Closed"
+msgstr "Nr. Affari Chiusi"
+
+msgid "No. Done"
+msgstr "No. Fatto"
+
+msgid "No. Invitations"
+msgstr "Nr. Inviti"
+
+msgid "No. Referrers"
+msgstr "Nr. Segnalatori"
+
+msgid "No. Rem. Postponed"
+msgstr "Nr. Prom. posticipati"
+
+msgid "No. Reminders"
+msgstr "Nr. Promemoria"
+
+msgid "No. Reports"
+msgstr "Nr. Segnalazioni"
+
+msgid "No. Visits"
+msgstr "Nr. Visite"
+
+msgid "No. Warnings"
+msgstr "Nr. Avvertimenti"
+
+msgid "No. of Reports"
+msgstr "Nr. Segnalazioni"
+
+msgid "Non classifiable"
+msgstr "Non classificabile"
+
+msgid "Not Available"
+msgstr "Non disponibile"
+
+msgid "Not Validated"
+msgstr "Non validato"
+
+msgid "Notarization API Setings"
+msgstr "Impostazioni Notarization API"
+
+msgid "Notarization API Settings"
+msgstr "Impostazione API Notarizzazione"
+
+msgid "Notarization API settings"
+msgstr "Impostazioni API aut. notarile"
+
+msgid "Note"
+msgstr "Nota"
+
+msgid "Note: You can set or run the cron manually on your own server using this URL %s."
+msgstr "Nota: Puoi impostare cron manualmente sul tuo server utilizzando questo URL %s."
+
+msgid "Notes"
+msgstr "Note"
+
+msgid "Notifaction Type"
+msgstr "Tipo di notifica"
+
+msgid "Notification"
+msgstr "Notifica"
+
+msgid "Notification Type"
+msgstr "Tipo Notifica"
+
+msgid "Notification saved successfully."
+msgstr "Notifica salvata correttamente."
+
+msgid "Notifications Type"
+msgstr "Tipo Notifiche"
+
+msgid "Number of Days cannot be empty."
+msgstr "Il numero giorni è vuoto"
+
+msgid "Number of Reports cannot be empty."
+msgstr "Il numero report è vuoto"
+
+msgid "Number of days"
+msgstr "Numero Giorni"
+
+msgid "Number of reports"
+msgstr "Numero Report"
+
+msgid "OPTIN FORM REFERRER WELCOME EMAIL TEMPLATE"
+msgstr "Mail di Benvenuto per il modulo OPTIN"
+
+msgid "OPTIN Form"
+msgstr "Modulo OPTIN"
+
+msgid "OPTIONAL"
+msgstr "OPZIONALE"
+
+msgid "Old to New"
+msgstr "Dal più vecchio al più recente"
+
+msgid "Only Admin Reminders"
+msgstr "Solo promemoria Amministratore"
+
+msgid "Only Agent"
+msgstr "Solo Admin"
+
+msgid "Only Android"
+msgstr "Solo Android"
+
+msgid "Only Authorized user allowed."
+msgstr "Consentito solo ad utenti autorizzati."
+
+msgid "Only Email"
+msgstr "Solo Email"
+
+msgid "Only IOS"
+msgstr "Solo iOS"
+
+msgid "Only International formate of Phone Numbers is accepted i.e. +39xxxxxxxxxx, 00xxxxxxxxxx"
+msgstr "Solo il formato internazionale è accettato es. +39xxxxxxxxx 00xxxxxxxxx"
+
+msgid "Only My Referrer"
+msgstr "Solo i miei Segnalatori"
+
+msgid "Only PUSH"
+msgstr "Solo PUSH"
+
+msgid "Only Push"
+msgstr "Solo Push"
+
+msgid "Only Referral"
+msgstr "Solo Segnalatore"
+
+msgid "Only Refferal"
+msgstr "Solo Segnalatore"
+
+msgid "Open a feature or a custom URL"
+msgstr "Apri una funzione o URL personalizzato"
+
+msgid "Operation Completed"
+msgstr "Operazione completata"
+
+msgid "Option values"
+msgstr "Opzioni"
+
+msgid "Order"
+msgstr "Ordine"
+
+msgid "Owner"
+msgstr "Segnalato"
+
+msgid "Owner Detail"
+msgstr "Dettagli Segnalato"
+
+msgid "Owner Mobile"
+msgstr "Cellulare Segnalato"
+
+msgid "Owner Mobile Label"
+msgstr "Etichetta Cellulare Segnalato"
+
+msgid "Owner Mobile Number cannot be empty."
+msgstr "Numero Cellulare Segnalato non può essere vuoto."
+
+msgid "Owner Name"
+msgstr "Nome Segnalato"
+
+msgid "Owner Name Label"
+msgstr "Etichetta Nome Segnalato"
+
+msgid "Owner Name cannot be empty."
+msgstr "Nome Segnalato non può essere vuoto."
+
+msgid "Owner Surname"
+msgstr "Cognome Segnalato"
+
+msgid "Owner Surname Label"
+msgstr "Etichetta Cognome Segnalato"
+
+msgid "Owner Surname cannot be empty."
+msgstr "Cognome Segnalato non può essere vuoto."
+
+msgid "Owner detail is missing."
+msgstr "Dettagli Segnalato non inseriti."
+
+msgid "Owner hot Label cannot be Empty."
+msgstr "La selezione urgenza è vuota"
+
+msgid "Owner phone already exist."
+msgstr "Telefono Segnalato già utilizzato."
+
+msgid "PRIVACY GLOBAL SETTINGS"
+msgstr "IMPOSTAZIONI GLOBALI PRIVACY"
+
+msgid "PUSH Before Hours cannot be empty."
+msgstr "Push vuota"
+
+msgid "PUSH Custom URL for Agent cannot be empty."
+msgstr "URL personalizzato PUSH per Admin non può essere vuoto."
+
+msgid "PUSH Custom URL for Agent not valid."
+msgstr "URL personalizzato PUSH per Admin non valido."
+
+msgid "PUSH Message for Agent cannot be empty."
+msgstr "Messaggio PUSH per Admin non può essere vuoto."
+
+msgid "PUSH Message for Referral cannot be empty."
+msgstr "Messaggio PUSH per Segnalatore non può essere vuoto."
+
+msgid "PUSH Notification Setings"
+msgstr "Impostazioni Notifica Push"
+
+msgid "PUSH Notification Settings"
+msgstr "Impostazioni Notifiche PUSH"
+
+msgid "PUSH Notification settings"
+msgstr "Impostazione NOTIFICHE PUSH"
+
+msgid "PUSH Notifications Log"
+msgstr "Log Notifiche PUSH"
+
+msgid "PUSH Status"
+msgstr "Stato PUSH"
+
+msgid "PUSH Title for Agent cannot be empty."
+msgstr "Titolo PUSH per Admin non può essere vuoto."
+
+msgid "PUSH Title for Referral cannot be empty."
+msgstr "Titolo PUSH per Segnalatore non può essere vuoto."
+
+msgid "Page Background"
+msgstr "Sfondo Pagina"
+
+msgid "Page Color"
+msgstr "Colore Pagina"
+
+msgid "Page Title"
+msgstr "Titolo Pagina"
+
+msgid "Paid Reports"
+msgstr "Segnalazioni pagate"
+
+msgid "Password should be at least 8 characters in length and should include at least one upper case letter and one number."
+msgstr "La password deve essere di almeno 8 caratteri ed includere almeno una maiuscola e un numero."
+
+msgid "Past 12 Months"
+msgstr "Ultimi 12 mesi"
+
+msgid "Past 3 Months"
+msgstr "Ultimi 3 mesi"
+
+msgid "Past 30 Days"
+msgstr "Ultimi 30 giorni"
+
+msgid "Past 6 Months"
+msgstr "Ultimi 6 mesi"
+
+msgid "Past 7 Days"
+msgstr "Ultimi 7 giorni"
+
+msgid "Payable Reports"
+msgstr "Segnalazioni pagabili"
+
+msgid "Pending"
+msgstr "In attesa"
+
+msgid "Percent Commission"
+msgstr "Commissione Percentuale"
+
+msgid "Percent Credits"
+msgstr "Crediti Percentuali"
+
+msgid "Percent value should be in between 1 to 100"
+msgstr "La percentuale deve esserew tra 1 e 100"
+
+msgid "Percentage (%) of the screen height"
+msgstr "Percentuale (%) altezza schermo"
+
+msgid "Percentage of failed invitations"
+msgstr "Percentuale di inviti falliti"
+
+msgid "Phone"
+msgstr "Telefono"
+
+msgid "Phone Call"
+msgstr "Chiamata telefonica"
+
+msgid "Phone Number"
+msgstr "Numero di telefono"
+
+msgid "Phone Number Grace Period"
+msgstr "Giorni di controllo Numero di telefono"
+
+msgid "Phone Number successfully saved."
+msgstr "Numero di telefono salvato correttamente."
+
+msgid "Phone number is not correct. Please add a phone between 10-14 digits with 00 or + international country code at beginning"
+msgstr "Numero di telefono non valido. Inserisci un numero tra 10 e 14 cifre con 00 o + per il codice internazionale del Paese"
+
+msgid "Phone prospect already present"
+msgstr "Telefono prospect già presente"
+
+msgid "PhoneBook"
+msgstr "Rubrica telefonica"
+
+msgid "Phonebook"
+msgstr "Anagrafica"
+
+msgid "Pld to New"
+msgstr "Dal più datato al più recente"
+
+msgid "Please Add a Valid Mobil Number."
+msgstr "Inserisci un numero di cellulare valido."
+
+msgid "Please add Note content."
+msgstr "Aggiungi contenuto Nota."
+
+msgid "Please add a Valid Phone Number."
+msgstr "Aggiungi un Numero di telefono valido."
+
+msgid "Please add a valid Email"
+msgstr "Inserisci una email valida"
+
+msgid "Please add a valid Email."
+msgstr "Inserisci una email valida."
+
+msgid "Please add a valid Job Title."
+msgstr "Inserisci un Titolo Professionale valido."
+
+msgid "Please add a valid Label."
+msgstr "Inserisci Etichetta Campouna Etichetta valida."
+
+msgid "Please add a valid Mobile or Phone Number."
+msgstr "Aggiungi un numero di cellulare valido."
+
+msgid "Please add a valid Owner Name."
+msgstr "Aggiungi un Nome Segnalato valido."
+
+msgid "Please add a valid Owner Surname."
+msgstr "Aggiungi un Cognome Segnalato valido."
+
+msgid "Please add a valid YouTube Link."
+msgstr "Aggiungi un link YouTube valido."
+
+msgid "Please add a valid address."
+msgstr "Aggiungi un indirizzo valido."
+
+msgid "Please add a valid mobile or Phone Number"
+msgstr "Aggiungi un numero di telefono valido"
+
+msgid "Please add a valid phone number."
+msgstr "Aggiungi un Numero di telefono valido."
+
+msgid "Please add credits."
+msgstr "Aggiungi crediti."
+
+msgid "Please add description"
+msgstr "Aggiungi descrizione"
+
+msgid "Please add user Mobile"
+msgstr "Inserisci Cellulare Utente"
+
+msgid "Please add user Name"
+msgstr "Inserisci Nome Utente"
+
+msgid "Please add user Surname"
+msgstr "Inserisci Cognome Utente"
+
+msgid "Please add valid Options."
+msgstr "Inserici Opzioni valide."
+
+msgid "Please add valid Phone and Message body"
+msgstr "Aggiungi un numero valido e un messaggio testo"
+
+msgid "Please be aware that performing the reset action will permanently remove all selected reminders. Additionally, this action will update the statistics data accordingly. Once deleted, this information could not be recovered."
+msgstr "Tieni presente che eseguendo la azione di ripristino rimuoverai permanentemente tutti i promemoria selezionati. Inoltre questa azione aggiornerà di conseguenza i dati statistici. Una volta cancellate queste informazioni non possono essere recuperate."
+
+msgid "Please select consent day"
+msgstr "Seleziona giorno consenso"
+
+msgid "Please select consent hour"
+msgstr "Seleziona ora consenso"
+
+msgid "Please select consent minuet"
+msgstr "Seleziona minuti consenso"
+
+msgid "Please select consent minute"
+msgstr "Seleziona minuto consenso"
+
+msgid "Please select consent month"
+msgstr "Seleziona mese consenso"
+
+msgid "Please select consent year"
+msgstr "Seleziona anno consenso"
+
+msgid "Please select event day"
+msgstr "Seleziona giorno evento"
+
+msgid "Please select event hour"
+msgstr "Seleziona ora evento"
+
+msgid "Please select event minuet"
+msgstr "Seleziona minuti evento"
+
+msgid "Please select event minute"
+msgstr "Seleziona minuto evento"
+
+msgid "Please select event month"
+msgstr "Seleziona mese evento"
+
+msgid "Please select event type"
+msgstr "Seleziona tipo evento"
+
+msgid "Please select event year"
+msgstr "Seleziona anno evento"
+
+msgid "Please select notification type."
+msgstr "Seleziona tipo notifica."
+
+msgid "Please select reminder time"
+msgstr "Seleziona ora promemoria"
+
+msgid "Please select trigger"
+msgstr "Seleziona innesto"
+
+msgid "Please select user."
+msgstr "Seleziona utente."
+
+msgid "Please update your app"
+msgstr "Aggiorna la tua app"
+
+msgid "Popup Button (Discard)"
+msgstr "Bottone Popup (Annulla)"
+
+msgid "Popup Button (Do you for me)"
+msgstr "Bottone popup (fallo tu per me)"
+
+msgid "Popup Button (Type One)"
+msgstr "Bottone Popup (Tipo Uno)"
+
+msgid "Popup Button (Type Two)"
+msgstr "Bottone Popup (Tipo Due)"
+
+msgid "Popup Button (Understood)"
+msgstr "Bottone Popup (Ho capito)"
+
+msgid "Popup Button (Yes, I Proceed)"
+msgstr "Bottone Popup (Si, procedo)"
+
+msgid "Popup Description"
+msgstr "Descrizione Popup"
+
+msgid "Popup Title"
+msgstr "Titolo Popup"
+
+msgid "Postpone"
+msgstr "Posponi"
+
+msgid "Powered By Migastone International Ltd."
+msgstr "Creato da Migastone"
+
+msgid "Previous"
+msgstr "Precedente"
+
+msgid "Price Range"
+msgstr "Intervallo prezzi"
+
+msgid "Price Range From"
+msgstr "Intervallo prezzi Da"
+
+msgid "Price Range To"
+msgstr "Intervallo prezzi A"
+
+msgid "Privacy"
+msgstr "Privacy"
+
+msgid "Privacy Label"
+msgstr "Etichetta Privacy"
+
+msgid "Privacy Link"
+msgstr "Link Informativa Privacy"
+
+msgid "Privacy Policy"
+msgstr "Informativa Privacy"
+
+msgid "Privacy cannot be Empty."
+msgstr "Privacy non può essere vuoto."
+
+msgid "Prize Balance Button"
+msgstr "Pulsante Saldo Premi"
+
+msgid "Prize Credits"
+msgstr "Crediti Premio"
+
+msgid "Prize Credits cannot be empty."
+msgstr "Crediti Premio non può essere vuoto."
+
+msgid "Prize Description"
+msgstr "Descrizione Premio"
+
+msgid "Prize Detail"
+msgstr "Dettaglio Premio"
+
+msgid "Prize Expire date cannot be empty."
+msgstr "Scadenza Premio non può essere vuoto."
+
+msgid "Prize Image"
+msgstr "Immagine Premio"
+
+msgid "Prize Image cannot be empty."
+msgstr "Immagine Premio non può essere vuoto."
+
+msgid "Prize Link 1 Button Text cannot be empty"
+msgstr "Testo bottone Prize Link 1 non può essere vuoto"
+
+msgid "Prize Link 1 URL cannot be empty"
+msgstr "Prize Link 1 non può essere vuoto"
+
+msgid "Prize Link 2 Button Text cannot be empty"
+msgstr "Testo bottone Prize Link 2 non può essere vuoto"
+
+msgid "Prize Link 2 URL cannot be empty"
+msgstr "Prize Link 2 non può essere vuoto"
+
+msgid "Prize List"
+msgstr "Lista Premi"
+
+msgid "Prize Name"
+msgstr "Nome Premio"
+
+msgid "Prize Name cannot be empty."
+msgstr "Nome Premio non può essere vuoto."
+
+msgid "Prize Start date cannot be empty."
+msgstr "Inizio Premio non può essere vuoto."
+
+msgid "Prize description cannot be empty."
+msgstr "Descrizione Premio non può essere vuoto."
+
+msgid "Prizes"
+msgstr "Premi"
+
+msgid "Prizes Notifaction"
+msgstr "Notifica premi"
+
+msgid "Prizes Notification"
+msgstr "Notifica Premi"
+
+msgid "Prizes Shop"
+msgstr "Premi"
+
+msgid "Property"
+msgstr "Proprietà"
+
+msgid "Property Owner"
+msgstr "Segnalato"
+
+msgid "Property Owner Details"
+msgstr "Dettagli Segnalato"
+
+msgid "Property Status"
+msgstr "Stato Proprietà"
+
+msgid "Property Type"
+msgstr "Tipo Proprietà"
+
+msgid "Property Type Label"
+msgstr "Etichetta Tipo Proprietà"
+
+msgid "Prospect"
+msgstr "Prospect"
+
+msgid "Prospect DB"
+msgstr "DB Prospect"
+
+msgid "Prospect Name"
+msgstr "Nome Prospect"
+
+msgid "Prospect Surname"
+msgstr "Cognome Prospect"
+
+msgid "Prospects Phonebook"
+msgstr "Rubrica Prospect"
+
+msgid "Province"
+msgstr "Provincia"
+
+msgid "Provinces DB"
+msgstr "Data Base Province"
+
+msgid "Provinces Db"
+msgstr "Db Province"
+
+msgid "Push Message"
+msgstr "Messaggio Push"
+
+msgid "Push Notification can not contain @@app_link@@,@@app_name@@ tags."
+msgstr "Le notifiche push posso contenere i tag @@app_link@@,@@app_name@@"
+
+msgid "Push Title"
+msgstr "Titolo Push"
+
+msgid "Push successfully saved data."
+msgstr "Dati salvati correttamente."
+
+msgid "REFERRAL USERS DETAIL"
+msgstr "DETTAGLIO UTENTI SEGNALATORI"
+
+msgid "REFERRER WELCOME EMAIL TEMPLATE"
+msgstr "TEMPLATE EMAIL DI BENVENUTO SEGNALATORE"
+
+msgid "REMINDER AUTOMATION"
+msgstr "AUTOMAZIONE PROMEMORIA"
+
+msgid "REMINDER CUSTOM NOTIFACTION"
+msgstr "PROMEMORIA NOTIFICHE PERSONALIZZATE"
+
+msgid "REMINDER TYPES"
+msgstr "TIPI PROMEMORIA"
+
+msgid "REPORT GDPR Popup"
+msgstr "POPUP GDPR SEGNALAZIONI"
+
+msgid "REPORT REMINDERS"
+msgstr "REPORT PROMEMROIA"
+
+msgid "RESET AS DEFAULT"
+msgstr "RESET COME PREDEFINITO"
+
+msgid "Range"
+msgstr "Intervallo"
+
+msgid "Range values must be a positive number."
+msgstr "Intervallo dei valori deve essere un numero positivo."
+
+msgid "Rating High to Low"
+msgstr "Valutazione dalla più alta alla più bassa"
+
+msgid "Rating Low to High"
+msgstr "Valutazione dalla più bassa alla più alta"
+
+msgid "Rating Star Color"
+msgstr "Colore stelline profilazione"
+
+msgid "Rating Up To"
+msgstr "Valutazione fino a"
+
+msgid "Reciprocity Notes"
+msgstr "Note reciprocità"
+
+msgid "Recomended"
+msgstr "Raccomandato"
+
+msgid "Recommended"
+msgstr "Raccomandato"
+
+msgid "Redeem"
+msgstr "Riscatta"
+
+msgid "Redeem Prizes"
+msgstr "Premi Riscattati"
+
+msgid "Redeemed"
+msgstr "Riscattato"
+
+msgid "Redeemed At:"
+msgstr "Riscattato a"
+
+msgid "Redeemed once"
+msgstr "Riscattato una sola volta"
+
+msgid "Redirect URL (optional)"
+msgstr "URL di Redirect (opzionale)"
+
+msgid "Reference Level"
+msgstr "Livello Referenza"
+
+msgid "Referral"
+msgstr "Segnalatore"
+
+msgid "Referral Body"
+msgstr "Messaggio Segnalatore"
+
+msgid "Referral CUSTOM ULR cannot be empty."
+msgstr "URL Personalizzato Segnalatore non può essere vuoto."
+
+msgid "Referral Detail"
+msgstr "Dettagli  Segnalatore"
+
+msgid "Referral Email"
+msgstr "Email Segnalatore"
+
+msgid "Referral Email message cannot be empty."
+msgstr "Messaggio Email Segnalatore non può essere vuoto."
+
+msgid "Referral Email title cannot be empty."
+msgstr "Titolo Email Segnalatore non può essere vuoto."
+
+msgid "Referral Message"
+msgstr "Messaggio Segnalatore"
+
+msgid "Referral Mobile"
+msgstr "Cellulare Segnalatore"
+
+msgid "Referral Name"
+msgstr "Nome Segnalatore"
+
+msgid "Referral PUSH Title"
+msgstr "Titolo PUSH Segnalatore"
+
+msgid "Referral PUSH message cannot be empty."
+msgstr "Messaggio PUSH Segnalatore non può essere vuoto."
+
+msgid "Referral PUSH title cannot be empty."
+msgstr "Titolo PUSH Segnalatore non può essere vuoto."
+
+msgid "Referral Phone"
+msgstr "Telefono Segnalatore"
+
+msgid "Referral SMS"
+msgstr "SMS Segnalatore"
+
+msgid "Referral Subject"
+msgstr "Oggetto Segnalatore"
+
+msgid "Referral Sur Name"
+msgstr "Cognome Segnalatore"
+
+msgid "Referral Surname"
+msgstr "Cognome Segnalatore"
+
+msgid "Referral Title"
+msgstr "Titolo Segnalatore"
+
+msgid "Referral User"
+msgstr "Utente Segnalatore"
+
+msgid "Referral Users"
+msgstr "Utenti Segnalatori"
+
+msgid "Referrer"
+msgstr "Segnalatore"
+
+msgid "Referrer Credits"
+msgstr "Crediti Segnalatore"
+
+msgid "Referrer DB"
+msgstr "DB Segnalatori"
+
+msgid "Referrer DETAIL"
+msgstr "DETTAGLIO Segnalatore"
+
+msgid "Referrer Detail"
+msgstr "Dettagli Segnalatore"
+
+msgid "Referrer Email can not be empty."
+msgstr "Email Segnalatore non può essere vuoto."
+
+msgid "Referrer Email is Missing."
+msgstr "Email Segnalatore non inserita."
+
+msgid "Referrer Email or Mobile is required."
+msgstr "Email o cellulare Segnalatore obbligatorio."
+
+msgid "Referrer Name"
+msgstr "Nome Segnalatore"
+
+msgid "Referrer Name and Surname can not be empty."
+msgstr "Nome e Cognome Segnalatore non può essere vuoto."
+
+msgid "Referrer Name,Surname is Missing to create account."
+msgstr "Mancano Nome e Cognome Segnalatore per creare account."
+
+msgid "Referrer Phonebook"
+msgstr "Rubrica Segnalatori"
+
+msgid "Referrer Phonebook Detail"
+msgstr "Dettagli Rubrica Segnalatori"
+
+msgid "Referrer Report"
+msgstr "Segnalazioni Segnalatore"
+
+msgid "Referrer Reports"
+msgstr "Segnalazioni Segnalatore"
+
+msgid "Referrer Setings"
+msgstr "Impostazioni Segnalatore"
+
+msgid "Referrer Settings"
+msgstr "Impostazioni Segnalatore"
+
+msgid "Referrer User"
+msgstr "Utente di riferimento"
+
+msgid "Referrer User*"
+msgstr "Utente di riferimento*"
+
+msgid "Referrer Users"
+msgstr "Segnalatori"
+
+msgid "Referrer Welcome Email Template"
+msgstr "Template Email Benvenuto Segnalatore"
+
+msgid "Referrer birthday"
+msgstr "Compleanno Segnalatore"
+
+msgid "Referrer did not accept T&C"
+msgstr "Il Segnalazione non ha accettato le T&C"
+
+msgid "Referrer not called since XX days"
+msgstr "Segnalatore non contattato da xx giorni"
+
+msgid "Referrer not found."
+msgstr "Segnalatore non trovato."
+
+msgid "Referrer opens the APP one or more time in the past XX days"
+msgstr "Il segnalatore ha aperto la APP una o più volte nei xx giorni scorsi"
+
+msgid "Referrer posted a certain number of reports"
+msgstr "Il segnalatore ha inviato un certo numero di referenze"
+
+msgid "Referrer settings"
+msgstr "Impostazioni Segnalatore"
+
+msgid "Referrers"
+msgstr "Segnalatori"
+
+msgid "Referrers Chart"
+msgstr "Classifica Segnalatori"
+
+msgid "Referrers not accepted T&C (48h)"
+msgstr "Segnalatori che non hanno accettato T e C (48h)"
+
+msgid "Refferal Body"
+msgstr "Messaggio Segnalatore"
+
+msgid "Refferal Message"
+msgstr "Messaggio Segnalatore"
+
+msgid "Refferal PUSH Title"
+msgstr "Titolo PUSH Segnalatore"
+
+msgid "Refferal Subject"
+msgstr "Oggetto Segnalatore"
+
+msgid "Refferal Title"
+msgstr "Titolo Segnalatore"
+
+msgid "Refused"
+msgstr "Rifiutato"
+
+msgid "Relational Notes"
+msgstr "Note relazionali"
+
+msgid "Rem. Postponed"
+msgstr "Prom. Posticipati"
+
+msgid "Remidner Badge"
+msgstr "Badge Promemoria"
+
+msgid "Remind at"
+msgstr "Ricorda il"
+
+msgid "Reminder"
+msgstr "Promemoria"
+
+msgid "Reminder Automation"
+msgstr "Automazione dei promemoria"
+
+msgid "Reminder Automation + Webhooks"
+msgstr "Automazione Promemoria + WebHook"
+
+msgid "Reminder Automation Setings"
+msgstr "Impostazioni Automazione Reminder"
+
+msgid "Reminder Automation Settings"
+msgstr "Impostazione Automatistmi promemoria"
+
+msgid "Reminder Automation settings"
+msgstr "Impostazioni Automazione Promemoria"
+
+msgid "Reminder Badge"
+msgstr "Badge Promemoria"
+
+msgid "Reminder Before Time"
+msgstr "Promemoria prima orario"
+
+msgid "Reminder Custom Notifications"
+msgstr "Notifica Personalizzata Promemoria"
+
+msgid "Reminder Date"
+msgstr "Data Promemoria"
+
+msgid "Reminder Email Message body for Agent cannot be empty."
+msgstr "Messaggio Email Promemoria per Admin non può essere vuoto."
+
+msgid "Reminder Email Message body for Referral cannot be empty."
+msgstr "Messaggio Email Promemoria per Segnalatore non può essere vuoto."
+
+msgid "Reminder Email Notification Setings"
+msgstr "Impostazioni Notifica Email Reminder"
+
+msgid "Reminder Email Notification Settings"
+msgstr "Impostazioni Notifica Email Promemoria"
+
+msgid "Reminder Email Notification settings"
+msgstr "Impostazioni della Email di promemoria"
+
+msgid "Reminder Email Subject for Agent cannot be empty."
+msgstr "Oggetto Email Promemoria per Admin non può essere vuoto."
+
+msgid "Reminder Email Subject for Referral cannot be empty."
+msgstr "Oggetto Email Promemoria per Segnalatore non può essere vuoto."
+
+msgid "Reminder First status not allowed to add @@agent_name@@ tag."
+msgstr "Promemoria Il primo Stato non potrà aggiungere il tag @@agent_name@@"
+
+msgid "Reminder Grace Days"
+msgstr "Giorni di controllo Promemoria"
+
+msgid "Reminder ICON cannot be empty."
+msgstr "Icona Promemoria Vuota"
+
+msgid "Reminder Icon"
+msgstr "Icona Promemoria"
+
+msgid "Reminder List"
+msgstr "Lista Promemoria"
+
+msgid "Reminder PUSH Custom URL for Agent cannot be empty."
+msgstr "URL personalizzato PUSH promemoria per Admin non può essere vuoto."
+
+msgid "Reminder PUSH Custom URL for Agent not valid."
+msgstr "URL personalizzato PUSH promemoria per Admin non valido."
+
+msgid "Reminder PUSH Message for Agent cannot be empty."
+msgstr "Messaggio PUSH promemoria per Admin non può essere vuoto."
+
+msgid "Reminder PUSH Message for Referral cannot be empty."
+msgstr "Messaggio PUSH promemoria per Segnalatore non può essere vuoto."
+
+msgid "Reminder PUSH Notification Setings"
+msgstr "Impostazioni Notifica Push Reminder"
+
+msgid "Reminder PUSH Notification Settings"
+msgstr "Impostazioni Notifica PUSH Promemoria"
+
+msgid "Reminder PUSH Notification settings"
+msgstr "Impostazioni della Push di promemoria"
+
+msgid "Reminder PUSH Title for Agent cannot be empty."
+msgstr "Titolo PUSH promemoria per Admin non può essere vuoto."
+
+msgid "Reminder PUSH Title for Referral cannot be empty."
+msgstr "Titolo PUSH promemoria per Segnalatore non può essere vuoto."
+
+msgid "Reminder Report closing status must need @@comment@@ tag."
+msgstr "Reminder Lo stato di chiusura della segnalazione necessita del tag  @@comment@@"
+
+msgid "Reminder Reset Logs"
+msgstr "Log Reset Promemoria"
+
+msgid "Reminder Status"
+msgstr "Stato Promemoria"
+
+msgid "Reminder Time"
+msgstr "Orario Promemoria"
+
+msgid "Reminder Title"
+msgstr "Titolo Promemoria"
+
+msgid "Reminder Title cannot be empty."
+msgstr "Il titolo è vuoto"
+
+msgid "Reminder Types"
+msgstr "Tipi Promemoria"
+
+msgid "Reminder UID"
+msgstr "UID Promemoria"
+
+msgid "Reminders"
+msgstr "Promemoria"
+
+msgid "Reminders Statistics"
+msgstr "Statistiche Promemoria"
+
+msgid "Reply to Email"
+msgstr "Rispondi a email"
+
+msgid "Report & Credit API"
+msgstr "API Segnalazioni e Crediti"
+
+msgid "Report Addresses"
+msgstr "Indirizzi Segnalazioni"
+
+msgid "Report Created At"
+msgstr "Segnalazione Creata alle"
+
+msgid "Report Detail"
+msgstr "Dettagli Segnalazione"
+
+msgid "Report Details"
+msgstr "Dettagli del rapporto"
+
+msgid "Report Id"
+msgstr "Id Segnalazione"
+
+msgid "Report Invite Button"
+msgstr "Bottone Invita Segnalazione"
+
+msgid "Report Landing Page"
+msgstr "Landing Page Segnalazione"
+
+msgid "Report Ledgers"
+msgstr "Registro Segnalazioni"
+
+msgid "Report NO"
+msgstr "Report N"
+
+msgid "Report No."
+msgstr "Segnalazione N."
+
+msgid "Report Owner"
+msgstr "Segnalato"
+
+msgid "Report Owner Details"
+msgstr "Dettagli Segnalato"
+
+msgid "Report Page"
+msgstr "Pagina Report Web"
+
+msgid "Report Phone Numbers"
+msgstr "Numeri di telefono Segnalazione"
+
+msgid "Report Reminders"
+msgstr "Segnala promemoria"
+
+msgid "Report Save Button"
+msgstr "Bottone Salva Segnalazione"
+
+msgid "Report Source"
+msgstr "Sorgente Report"
+
+msgid "Report Status"
+msgstr "Stato Segnalazione"
+
+msgid "Report Type"
+msgstr "Tipo Segnalazione"
+
+msgid "Report Type Label"
+msgstr "Etichetta Tipo Segnalazione"
+
+msgid "Report Type Popup"
+msgstr "Popup Tipo Segnalazione"
+
+msgid "Report Type:"
+msgstr "Tipo di rapporto:"
+
+msgid "Report closing status must need @@comment@@ tag."
+msgstr "Lo stato di chiusura della segnalazione necessita del tag  @@comment@@"
+
+msgid "Report extra fields"
+msgstr "Campi extra Segnalazione"
+
+msgid "Report fields"
+msgstr "Campi Segnalazione"
+
+msgid "Reports"
+msgstr "Segnalazioni"
+
+msgid "Reports KPI"
+msgstr "KPI Segnalazioni"
+
+msgid "Reports Statistics"
+msgstr "Statistiche Segnalazioni"
+
+msgid "Request IP"
+msgstr "PI richiesta"
+
+msgid "Reset"
+msgstr "Ripristina"
+
+msgid "Reset Admin"
+msgstr "Reimposta amministratore"
+
+msgid "Reset Filter"
+msgstr "Reset filtro"
+
+msgid "Reset Reminders"
+msgstr "Ripristina Promemoria"
+
+msgid "Reset Token"
+msgstr "Reimposta token"
+
+msgid "Residental Province"
+msgstr "Provincia di Residenza"
+
+msgid "Response"
+msgstr "Risposta"
+
+msgid "Response Type"
+msgstr "Tipo risposta"
+
+msgid "Revert Back"
+msgstr "Annulla"
+
+msgid "Reward Type"
+msgstr "Tipo Ricompensa"
+
+msgid "SETTINGS PAGE"
+msgstr "PAGINA IMPOSTAZIONI"
+
+msgid "SHARE"
+msgstr "CONDIVIDI"
+
+msgid "SMS Notification Setings"
+msgstr "Impostazioni Notifica SMS"
+
+msgid "SMS Notification Settings"
+msgstr "Impostazioni Notifiche SMS"
+
+msgid "SMS Notification settings"
+msgstr "Impostazioni Notifica SMS"
+
+msgid "SMS Text"
+msgstr "Testo SMS"
+
+msgid "SORRY! WE CANNOT PROCEED, ONE OR MORE REPORTS ARE ASSIGNED TO CUSTOM STATUSES, PLEASE MOVE THEM ON ANY OF DEFAULT STATUS BEFORE PROCEED!"
+msgstr "ATTENZIONE! NON POSSIAMO PROCEDERE, UNA O PIÙ SEGNALAZIONI SONO ASSEGNATE A STATI PERSONALIZZATI, OCCORRE ASSEGNARE A QUESTE UNO DEGLI STATI PREDEFINITI PRIMA DI PROCEDERE!"
+
+msgid "SOURCE CODE FOR LANDING PAGE"
+msgstr "Codice Sorgente Landing Page"
+
+msgid "STATS"
+msgstr "STATISTICHE"
+
+msgid "Sales Expectation Label"
+msgstr "Etichetta Aspettative di vendita"
+
+msgid "Sales Expectations"
+msgstr "Aspettativa prezzo (€)"
+
+msgid "Sales of Expectations"
+msgstr "Aspettativa prezzo (€)"
+
+msgid "Sample XML"
+msgstr "Esempio XML"
+
+msgid "Save"
+msgstr "Salva"
+
+msgid "Save and View changes"
+msgstr "Salva e vedi le modifiche"
+
+msgid "Search"
+msgstr "Ricerca"
+
+msgid "Sector"
+msgstr "Settore"
+
+msgid "Sector successfully saved."
+msgstr "Settore salvato correttamente"
+
+msgid "Select Admin/Agent"
+msgstr "Seleziona Amministratore o/Agente"
+
+msgid "Select All"
+msgstr "Seleziona tutto"
+
+msgid "Select CSV File"
+msgstr "Seleziona File CSV"
+
+msgid "Select Consent Date"
+msgstr "Seleziona Data consenso"
+
+msgid "Select Consent Time"
+msgstr "Seleziona Ora consenso"
+
+msgid "Select Country"
+msgstr "Seleziona il paese"
+
+msgid "Select Event Date:"
+msgstr "Seleziona Data Evento:"
+
+msgid "Select Event Time:"
+msgstr "Seleziona Ora Evento:"
+
+msgid "Select Field Type"
+msgstr "Seleziona Tipo Campo"
+
+msgid "Select Filed Type"
+msgstr "Seleziona Tipo Campo"
+
+msgid "Select Grace Period Database"
+msgstr "Seleziona Database Periodo di validità"
+
+msgid "Select Job"
+msgstr "Seleziona Professione"
+
+msgid "Select Popup"
+msgstr "Seleziona Popup"
+
+msgid "Select Province"
+msgstr "Seleziona Provincia"
+
+msgid "Select Remidner"
+msgstr "Seleziona Promemoria"
+
+msgid "Select Reminder"
+msgstr "Seleziona Promemoria"
+
+msgid "Select Reminder Date:"
+msgstr "Seleziona Data Reminder:"
+
+msgid "Select Reminder Time:"
+msgstr "Seleziona Ora Reminder:"
+
+msgid "Select Reminder type"
+msgstr "Seleziona tipo promemoria"
+
+msgid "Select Sector"
+msgstr "Seleziona Settore"
+
+msgid "Select Sponsor"
+msgstr "Seleziona Sponsor"
+
+msgid "Select Status"
+msgstr "Seleziona stato"
+
+msgid "Select Trigger"
+msgstr "Seleziona Innesco"
+
+msgid "Select Zip File"
+msgstr "Seleziona File Zip"
+
+msgid "Select all avaible provinces"
+msgstr "Seleziona tutte le province disponibili"
+
+msgid "Select phone type"
+msgstr "Seleziona tipo telefono"
+
+msgid "Select province"
+msgstr "Seleziona provincia"
+
+msgid "Select reports to migrate"
+msgstr "Seleziona segnalazioni da migrare"
+
+msgid "Select type of Agent"
+msgstr "Seleziona Tipo Agente"
+
+msgid "Send To"
+msgstr "Invia A"
+
+msgid "Send a Test Call"
+msgstr "Invia una chiamata test"
+
+msgid "Set CRON Time"
+msgstr "Imposta orario CRON"
+
+msgid "Settings"
+msgstr "Impostazioni"
+
+msgid "Settings Page"
+msgstr "Impostazioni Pagina"
+
+msgid "Settings successfully saved."
+msgstr "Impostazioni salvate correttamente."
+
+msgid "Share"
+msgstr "Condividi"
+
+msgid "Share Message"
+msgstr "Condividi Messaggio"
+
+msgid "Sharing Text"
+msgstr "Testo condivisione"
+
+msgid "Sharing Text for Report GDPR"
+msgstr "Testo condivisione GDPR Segnalazioni"
+
+msgid "Sharing Texts for Invite Prospectus"
+msgstr "Testo condivisione per Invito Prospect"
+
+msgid "Show All"
+msgstr "Mostra tutto"
+
+msgid "Show before"
+msgstr "Mostra prima di"
+
+msgid "Showing"
+msgstr "Mostra"
+
+msgid "Site Link"
+msgstr "Link sito web"
+
+msgid "Something went wrong please try again!"
+msgstr "Qualcosa è andato storto riprova più tardi!"
+
+msgid "Something went wrong, Please try again later!"
+msgstr "Qualcosa è andato storto, riprova più tardi!"
+
+msgid "Something went wrong, Please try again later."
+msgstr "Qualcosa è andato storto, riprova più tardi."
+
+msgid "Sorry Insufficient credits for this prize."
+msgstr "Crediti insufficienti per questo premio."
+
+msgid "Sorry, there was an error uploading your file."
+msgstr "Si è verificato un errore caricando il tuo file"
+
+msgid "Source Code For Landing Page"
+msgstr "Codice sorgente per Landing Page"
+
+msgid "Special Terms"
+msgstr "Termini Speciali"
+
+msgid "Sponsor Agent"
+msgstr "Agente Sponsor"
+
+msgid "Sponsor Name"
+msgstr "Nome Sponsor"
+
+msgid "Sponsor Type"
+msgstr "Tipo di sponsor"
+
+msgid "Standard"
+msgstr "Standard"
+
+msgid "Standard Status"
+msgstr "Stati standard"
+
+msgid "Started At"
+msgstr "Iniziato alle"
+
+msgid "Statistics"
+msgstr "Statistiche"
+
+msgid "Status"
+msgstr "Stato"
+
+msgid "Status ID"
+msgstr "ID Stato"
+
+msgid "Status Icon"
+msgstr "Icona Stato"
+
+msgid "Status Setings"
+msgstr "Impostazioni Stati"
+
+msgid "Status Settings"
+msgstr "Impostazioni stato"
+
+msgid "Status Successfully saved."
+msgstr "Stato salvato correttamente."
+
+msgid "Status Title"
+msgstr "Titolo stato"
+
+msgid "Status setings Missed. Please contact to admin."
+msgstr "Impostazioni Stati mancanti. Contattare un Amministratore."
+
+msgid "Status settings"
+msgstr "Impostazioni Stato"
+
+msgid "Status settings Missed. Please contact to admin."
+msgstr "Stato segnalazione non presente. Prego contattare un Amministratore."
+
+msgid "Status should not have any Connected Reports."
+msgstr "Stato non dovrebbe avere nessuna segnalazione connessa."
+
+msgid "Status title cannot be empty."
+msgstr "Titolo Stato non può essere vuoto."
+
+msgid "Street"
+msgstr "Via"
+
+msgid "Subject"
+msgstr "Oggetto"
+
+msgid "Submit"
+msgstr "Invia"
+
+msgid "Submit Report"
+msgstr "Invia Segnalazione"
+
+msgid "Subscribe"
+msgstr "Invia il modulo"
+
+msgid "Successfully GDPR applied."
+msgstr "GDPR applicata correttamente."
+
+msgid "Successfully Imported"
+msgstr "Importato correttamente"
+
+msgid "Successfully Job saved."
+msgstr "Tipo Lavoro Salvato"
+
+msgid "Successfully Log deleted."
+msgstr "Log Cancellato"
+
+msgid "Successfully Log saved."
+msgstr "Log salvato correttamente."
+
+msgid "Successfully Migrate Mobile NO."
+msgstr "Nr. cellulare migrato con successo"
+
+msgid "Successfully Note saved."
+msgstr "Nota salvata correttamente."
+
+msgid "Successfully Phone Number Removed."
+msgstr "Numero di telefono eliminato con successo."
+
+msgid "Successfully Redeemed."
+msgstr "Riscattato correttamente."
+
+msgid "Successfully Removed Status."
+msgstr "Stato rimosso correttamente."
+
+msgid "Successfully Report saved."
+msgstr "Segnalazione salvata correttamente."
+
+msgid "Successfully Report update."
+msgstr "Segnalazione aggiornata correttamente."
+
+msgid "Successfully Reset Reminders."
+msgstr "Ripristino Promemoria effettuato."
+
+msgid "Successfully Revert Setings."
+msgstr "Impostazioni ripristinate correttamente."
+
+msgid "Successfully Revert Settings."
+msgstr "Impostazioni ripristinate correttamente."
+
+msgid "Successfully Revert settings."
+msgstr "Impostazioni ripristinate correttamente."
+
+msgid "Successfully Setings saved."
+msgstr "Impostazioni salvate correttamente."
+
+msgid "Successfully Settings saved."
+msgstr "Impostazioni salvate correttamente."
+
+msgid "Successfully Updated"
+msgstr "Aggiornato correttamente"
+
+msgid "Successfully User Created"
+msgstr "Utento creato correttamente"
+
+msgid "Successfully delete Note."
+msgstr "Nota eliminata correttamente."
+
+msgid "Successfully delete Reminder."
+msgstr "Promemoria eliminato correttamente."
+
+msgid "Successfully item Saved."
+msgstr "Elemento salvato"
+
+msgid "Successfully saved data."
+msgstr "Dati salvati correttamente."
+
+msgid "Successfully send test SMS."
+msgstr "SMS inviato correttamente"
+
+msgid "Successfully settings saved."
+msgstr "Impostazioni salvate correttamente."
+
+msgid "Successfully status update."
+msgstr "Stato aggiornato correttamente."
+
+msgid "Successfully update Reminder."
+msgstr "Promemoria aggiornato correttamente."
+
+msgid "Successfully update field setings."
+msgstr "Impostazione dei campi aggiornata correttamente."
+
+msgid "Successfully update field settings."
+msgstr "Impostazioni Campo aggiornate correttamente."
+
+msgid "Sur Name"
+msgstr "Cognome"
+
+msgid "Surname"
+msgstr "Cognome"
+
+msgid "TWILLIO API"
+msgstr "TWILLIP API"
+
+msgid "TWILLIO LOGS(LAST 7 DAYS)"
+msgstr "LOG TWILIO (ULTIMI 7 GIORNI)"
+
+msgid "Target User"
+msgstr "Utente Target"
+
+msgid "Tax ID"
+msgstr "Codice Fiscale"
+
+msgid "Tax ID can not be empty."
+msgstr "Codice Fiscale non può essere vuoto."
+
+msgid "Tax ID cannot be empty."
+msgstr "Codice Fiscale non può essere vuoto."
+
+msgid "Tax ID successfully saved."
+msgstr "Codice Fiscale salvato correttamente."
+
+msgid "Tax_ID"
+msgstr "P.Iva/Cod.Fisc."
+
+msgid "Terms"
+msgstr "Termini"
+
+msgid "Terms Accepted"
+msgstr "Termini Accettati"
+
+msgid "Terms cannot be Empty."
+msgstr "Termini non può essere vuoto."
+
+msgid "Text"
+msgstr "Testo"
+
+msgid "Text Color"
+msgstr "Colore testo"
+
+msgid "Thank You Page"
+msgstr "Pagina Ringraziamento"
+
+msgid "Thank You Page Body"
+msgstr "Corpo pagina conferma invio"
+
+msgid "Thank You Page Title"
+msgstr "Titolo pagina conferma invio"
+
+msgid "Thank You Page Title Header"
+msgstr "Testata pagina di conferma"
+
+msgid "The Order of Status should be higher than the status from where you import."
+msgstr "Lo stato deve essere superiore a quello da cui importi."
+
+msgid "The Webhook method is set up to be triggered whenever there is a NEW REFERRER created or existing referrer updated."
+msgstr "Il metodo WebHook è impostato per essere innescato per ogni Segnalatore creato o aggiornato."
+
+msgid "The Webhook method will be triggerd any time a NEW REPORT is ADDED or MODIFIED."
+msgstr "Il metodo WebHook verrà innescato ogni volta che una nuova segnalazione verrà aggiunta o modificata."
+
+msgid "The Webhook method will be triggerd for every new NEW Referrer registration."
+msgstr "Il metodo WebHook verrà innescato per ogni nuovo Segnalatore registrato."
+
+msgid "The Webhook method will be triggered whenever a corresponding Reminder Triger is fired."
+msgstr "Il metodo WebHook verrà innescato ogni volta che un corrispondente innesco di Promemoria verrà lanciato."
+
+msgid "Their is no Admin user exist."
+msgstr "Non esiste nessun Utente Amministratore."
+
+msgid "These reports cannot update."
+msgstr "Queste segnalazioni non possono essere aggiornate."
+
+msgid "This API is not enabled."
+msgstr "API non abilitata."
+
+msgid "This Mobile Number already exists."
+msgstr "Questo numero di cellulare esiste già."
+
+msgid "This Mobile Number found in Blacklist."
+msgstr "Questo Numero di telefono è in Blacklist."
+
+msgid "This Mobile Number has been Blacklisted."
+msgstr "Questo numero cellulare è stato messo in blacklist."
+
+msgid "This Option is only readable. Please contact to App Owner for new reports."
+msgstr "Questa opzione è in sola lettura. Contatta il proprietario della app per nuove segnalazioni."
+
+msgid "This XML decryption tool can be use decrypt the XML that is notarized and downloaded from block chain. You can use your key to decrypt only your data and rest will remain encrypted."
+msgstr "Questo strumento di XML Decription può essere utilizzato per decrittare XML che viene autenticato e scaricato dalla Blockchain. Puoi utilizzare la tua chiave per decrittare solo i tuoi dati e il resto rimarrà criptato."
+
+msgid "This feature is disable on WebView!"
+msgstr "Questa funzione è disabilitata in modalità WebView!"
+
+msgid "This feature is disable on WebView."
+msgstr "Questa funzione è disabilitata in modalità WebView."
+
+msgid "This status is specifically for % commission to acquire the commission amount from agent."
+msgstr "Questo stato è specifico per commissione %  per acquisire importo commissione agente."
+
+msgid "This user already exist."
+msgstr "Questo utente esiste già."
+
+msgid "This will be first status for any new generated Report."
+msgstr "Questo sarà il primo stato di ogni nuova segnalazione."
+
+msgid "This will be last or closing status for any Report."
+msgstr "Questo sarà utilizzato come ultimo o stato di chiusura per ogni Segnalazione."
+
+msgid "Time Range Invite Prospectus"
+msgstr "Statistiche Inviti Prospect"
+
+msgid "Time Range Referrers"
+msgstr "Statistiche Segnalatori nel periodo"
+
+msgid "Time Range Reminder Statistics"
+msgstr "Statistiche Promemoria nel periodo"
+
+msgid "Time Range Reports Statistics"
+msgstr "Statistiche Segnalazioni nel periodo"
+
+msgid "Time Stamp"
+msgstr "Timbro Ora"
+
+msgid "Title"
+msgstr "Titolo"
+
+msgid "Title cannot be empty."
+msgstr "Titolo non può essere vuoto."
+
+msgid "To"
+msgstr "A"
+
+msgid "To date"
+msgstr "A data"
+
+msgid "To enable the mandatory selection of an agent during registration, you must have codified at least one agent in the system."
+msgstr "Per abilitare la selezione obbligatoria di un agente durante la registrazione, devi aver definito almeno un agente nel sistema."
+
+msgid "To setup any new status first you have to setup all"
+msgstr "Per impostare qualsiasi nuovo stato devi prima impostare tutto"
+
+msgid "Token"
+msgstr "Gettone"
+
+msgid "Token Mismatch"
+msgstr "Token non corrispondente"
+
+msgid "Token Mismatched"
+msgstr "Token non corrispondente"
+
+msgid "Total Earned"
+msgstr "Totale Guadagnato"
+
+msgid "Total Reminders"
+msgstr "Totale Promemoria"
+
+msgid "Total Reports"
+msgstr "Totale Segnalazioni"
+
+msgid "Total Reset Reminder Count"
+msgstr "Conteggio totale Reset Promemoria"
+
+msgid "Total Warnings"
+msgstr "Tot. Avvertimenti"
+
+msgid "Tranfer to Referrer"
+msgstr "Trasferimento a Referrer"
+
+msgid "Transfer"
+msgstr "Trasferimento"
+
+msgid "Transfer To Referrer"
+msgstr "Converti in Segnalatore"
+
+msgid "Trigger"
+msgstr "Innesco"
+
+msgid "Trigger Action"
+msgstr "Azione Innesco"
+
+msgid "Trigger count"
+msgstr "Conteggio inneschi"
+
+msgid "Twillio Logs(Last 7 Days)"
+msgstr "Registri di Twilio (ultimi 7 giorni)"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Type Title"
+msgstr "Titolo Tipo"
+
+msgid "Type of Property"
+msgstr "Tipo Proprietà"
+
+msgid "Type of Report"
+msgstr "Tipo di Segnalazione"
+
+msgid "URL"
+msgstr "Url"
+
+msgid "URL cannot be empty."
+msgstr "Url mancante"
+
+msgid "Unable to Connect API"
+msgstr "Connessione API Twillio fallita"
+
+msgid "Unable to connect to the license server."
+msgstr "Non è stato possibile connettersi al server delle licenze."
+
+msgid "Under this action we will automatically disabled the mandatory selection of an agent because there is no agent codified in the system"
+msgstr "Con questa azione disabiliteremo automaticamente la selezione obbligatoria di un agente perché non ci sono agenti definiti nel sistema"
+
+msgid "Update Report"
+msgstr "Aggiorna Report"
+
+msgid "Updated at"
+msgstr "Aggiornato a"
+
+msgid "Upload"
+msgstr "Carica"
+
+msgid "Upload & Decrypt"
+msgstr "Carica e Decripta"
+
+msgid "Upload XML with Key"
+msgstr "Carica XML con Chiave"
+
+msgid "Upload a cover"
+msgstr "Carica una copertina"
+
+msgid "Upload the XML file downloaded from IPFS."
+msgstr "Carica il file XML scaricato da IPFS."
+
+msgid "User"
+msgstr "Utente"
+
+msgid "User Id"
+msgstr "Id Utente"
+
+msgid "User Name"
+msgstr "Nome Utente"
+
+msgid "User status has been updated successfully."
+msgstr "Stato utente è stato aggiornato correttamente."
+
+msgid "Users"
+msgstr "Utenti"
+
+msgid "Users List"
+msgstr "Lista Utenti"
+
+msgid "Value"
+msgstr "Valore"
+
+msgid "Vat ID"
+msgstr "Partita Iva"
+
+msgid "Vat Id"
+msgstr "Partita Iva"
+
+msgid "View Report"
+msgstr "Vedi Segnalazione"
+
+msgid "Villa"
+msgstr "Villa"
+
+msgid "WEBHOOK Fields Label"
+msgstr "Etichetta Campi WEBHOOK"
+
+msgid "WELCOME ADMIN"
+msgstr "BENVENUTO ADMIN"
+
+msgid "WELLCOME ADMIN"
+msgstr "BENVENUTO ADMIN"
+
+msgid "Warning"
+msgstr "Attenzione"
+
+msgid "Warning! Address already used in another report. Please be aware that it is possible someone else already submitted the same report."
+msgstr "Attenzione! Indirizzo già usato in altra segnalazione. È possibile che qualcun altro  abbia già inviato la stessa segnalazione."
+
+msgid "Warning! The Admin is not set, the module is now in READ ONLY mode. Please go in Admins tab and set the User Admin"
+msgstr "Attenzione! Amministratore non impostato, il modulo è ora in modalità SOLO LETTURA. Accedere alla tab Amministratori per impostarlo."
+
+msgid "Warning! This user has not accepted the T&C, do you want to activate it and place the report in his name?"
+msgstr "Attenzione! Questo utente non ha accettato i termini e condizioni, vuoi attivarlo e inviare una segnalazione a suo nome?"
+
+msgid "Warning! You accept the terms and conditions of the referrers program on behalf of the referrer. Are you sure you have collected his/her consent offline?"
+msgstr "Attenzione! Stai accettando i Termini e Condizioni per conto del segnalatore. Hai raccolto il suo consenso offline?"
+
+msgid "Welcome to GDPR oblivion feature. If you select one of the user from the list and click ACTION, the system will delete all the data related to this user."
+msgstr "Benvenuto nella funzione di oblio GDPR. Se selezioni uno degli utenti in elenco e fai clic su AZIONE, il sistema cancellerà tutti i dati relativi a questo utente."
+
+msgid "Who invited you to be a referral user?"
+msgstr "Chi ti ha invitato ad essere Segnalatore?"
+
+msgid "Working Days Count (Exclude Weekends)"
+msgstr "Conteggio Giorni (Escludi weekend)"
+
+msgid "Wrong data format"
+msgstr "Formato data errato"
+
+msgid "XML File"
+msgstr "File XML"
+
+msgid "Year"
+msgstr "Anno"
+
+msgid "Yes"
+msgstr "Si"
+
+msgid "Yes I, proceed"
+msgstr "Si, procedo"
+
+msgid "Yes, I Proceed"
+msgstr "Sì, procedo"
+
+msgid "Yes, Reset!"
+msgstr "Si, ripristina!"
+
+msgid "Yes, do it"
+msgstr "Si, procedi"
+
+msgid "You are not allowed to add @@agent_name@@ tag in Referral notification for Standard 1 or New Report Status."
+msgstr "Non puoi aggiungere il tag @@agent_name@@ in Notifica Segnalatore per gli stati Standard 1 o Nuova Segnalazione."
+
+msgid "You are not allowed to add @@agent_name@@ tag in Refferal notification for Standard 1 or New Report Status."
+msgstr "Non sei abilitato ad aggiungere il tag @@agent_name@@ nella Notifica per il Segnalatore per Standard 1 o Stato Nuova Segnalazione."
+
+msgid "You are not allowed to see any report."
+msgstr "Non sei abilitato a vedere nessuna segnalazione."
+
+msgid "You are using default help URL"
+msgstr "Stai utilizzando URL supporto predefinito"
+
+msgid "You are using your custom help URL."
+msgstr "Stai utilizzando un URL personalizzato per il supporto."
+
+msgid "You can only move to SUPERIOR status"
+msgstr "Puoi aggiornare solo verso uno stato SUPERIORE"
+
+msgid "You can use following custom tags in your Email Title and Text"
+msgstr "Puoi susare questi tag nel titolo e testo email"
+
+msgid "You can use following custom tags in your PUSH Title and Text"
+msgstr "Puoi susare questi tag nel titolo e testo push"
+
+msgid "You can use following custom tags in your Text"
+msgstr "Puoi usare i seguenti tag nel tuo testo"
+
+msgid "You can use following custom tags in your Text @@agent_name@@, @@landing_link@@"
+msgstr "Puoi utilizzare i tag seguenti nel touo testo @@agent_name@@, @@landing_link@@"
+
+msgid "You can use following custom tags in your Text @@user_name@@, @@user_email@@, @@user_firstpassword@@, @@agent_name@@"
+msgstr "Puoi usare questi tag nel testo @@user_name@@, @@user_email@@, @@user_firstpassword@@, @@agent_name@@"
+
+msgid "You can use following custom tags in your Title and Text"
+msgstr "Puoi usare i seguenti tag nei tuoi Titoli e Messaggi"
+
+msgid "You can use following custom tags in your Title and Text @@report_no@@, @@referral_name@@, @@property_owner@@, @@property_owner_phone@@, @@comment@@, @@commission@@, @@agent_name@@"
+msgstr "Puoi utilizzare i seguenti tag personalizzati nel Titolo e nel Testo @@report_no@@, @@referral_name@@, @@property_owner@@, @@property_owner_phone@@, @@comment@@, @@commission@@, @@agent_name@@"
+
+msgid "You don't have any ledger cron log yet"
+msgstr "Non hai ancora nessun log registro cron"
+
+msgid "You don't have any ledger log yet"
+msgstr "Non hai ancora nessun registro log"
+
+msgid "You must Accept Privacy Article and conditions to save setings."
+msgstr "Devi accettare tutti i termini della Privacy per salvare le Impostazioni."
+
+msgid "You must Accept Privacy Article and conditions to save settings."
+msgstr "Devi accettare i Termini specifici per salvare le impostazioni."
+
+msgid "You must Accept Privacy conditions to save setings."
+msgstr "Devi accettare la Informativa Privacy per salvare le Impostazioni."
+
+msgid "You must Accept Privacy conditions to save settings."
+msgstr "Devi accettare la Politica sulla Privacy per salvare le impostazioni."
+
+msgid "You must Accept Privacy statement."
+msgstr "Devi accettare Informativa Privacy."
+
+msgid "You must Accept Term conditions to save setings."
+msgstr "Devi accettare i Termini e Condizioni per salvare le Impostazioni."
+
+msgid "You must Accept Term conditions to save settings."
+msgstr "Devi accettare Termini e Condizioni per salvare le impostazioni."
+
+msgid "You must Accept Terms Article and conditions to save setings."
+msgstr "Devi accettare tutti i Termini e Condizioni per salvare le Impostazioni."
+
+msgid "You must Accept Terms Article and conditions to save settings."
+msgstr "Devi accettare i Termini specifici per salvare le impostazioni."
+
+msgid "You must add Android Store Version"
+msgstr "Devi inserire Versione store Android"
+
+msgid "You must add Comment for Referral."
+msgstr "Devi aggiungere Commento per Segnalatore"
+
+msgid "You must add Decline Period Days and comment to set up Declined Status."
+msgstr "Devi aggiungere numero giorni limite e comment per salvare lo stato Declinato."
+
+msgid "You must add Declined grace days."
+msgstr "Devi aggiungere giorni di controllo segnalazione Declinata."
+
+msgid "You must add Fallback Comment."
+msgstr "Devi aggiungere Commento Fallback."
+
+msgid "You must add Grace Days to set Unique Mobile Number."
+msgstr "Devi inserire giorni di controllo per impostare Cellulare univoco."
+
+msgid "You must add IOS Store Version"
+msgstr "Devi inserire Versione store iOS"
+
+msgid "You must add Reminder Grace days."
+msgstr "Devi inserire Promemoria per giorni di controllo cellulare Segnalatore."
+
+msgid "You must add Title for Landing Page."
+msgstr "Devi inserire un Titolo per la Landing Page."
+
+msgid "You must add city."
+msgstr "Devi aggiungere una città"
+
+msgid "You must add commission fee."
+msgstr "Devi aggiungere importo commissione."
+
+msgid "You must add credit expire limit."
+msgstr "Devi aggiungere limite scadenza credito."
+
+msgid "You must add domain URL while allow to INVITE PROSPECTUS."
+msgstr "Devi aggiungere URL dominio per abilitare INVITA CANDIDATI"
+
+msgid "You must add label for ADD PROPERTY BUTTON."
+msgstr "Devi inserire una etichetta per il bottone AGGIUNGI PROPRIETÀ"
+
+msgid "You must add label for Add Report BUTTON."
+msgstr "Devi inserire una etichetta per il bottone SEGNALA."
+
+msgid "You must add label for Extra 1"
+msgstr "Devi inserire Etichetta per Extra 1"
+
+msgid "You must add label for Extra 2"
+msgstr "Devi inserire Etichetta per Extra 2"
+
+msgid "You must add label for HOW IT WORKS BUTTON."
+msgstr "Devi inserire una etichetta per il bottone COME FUNZIONA."
+
+msgid "You must add label for PHONEBOOK BUTTON."
+msgstr "Devi inserire etichetta per il BOTTONE RUBRICA."
+
+msgid "You must add label for PRIZE BUTTON."
+msgstr "Devi inserire una etichetta per il bottone PREMIO."
+
+msgid "You must add label for REPORT STATUS BUTTON."
+msgstr "Devi inserire una etichetta per il bottone STATO SEGNALAZIONI."
+
+msgid "You must add label for SETTINGS BUTTON."
+msgstr "Devi inserire una etichetta per il bottone IMPOSTAZIONI."
+
+msgid "You must add label for STATISTICS BUTTON."
+msgstr "Devi inserire etichetta per il BOTTONE STATISTICHE."
+
+msgid "You must add price Range."
+msgstr "Devi aggiungere Intervallo prezzi"
+
+msgid "You must add sharing Text while allow to INVITE PROSPECTUS."
+msgstr "Devi aggiungere Testo condiviso per abilitare INVITA CANDIDATI"
+
+msgid "You must add street address."
+msgstr "Devi aggiungere un indirizzo"
+
+msgid "You must add valid value for"
+msgstr "Devi inserire un valore per"
+
+msgid "You must add zip code."
+msgstr "Devi aggiungere un CAP"
+
+msgid "You must answer sponsor rule."
+msgstr "Devi selezionare un Agente Sponsor."
+
+msgid "You must authorized to allow for commercial purpose."
+msgstr "Devi autorizzare per consentire comunicazioni commerciali."
+
+msgid "You must select Declined status."
+msgstr "Devi selezionare stato Declinato."
+
+msgid "You must select Notification Type."
+msgstr "Devi selezionare Tipo Notifica."
+
+msgid "You must select Property Type."
+msgstr "Devi selezionare Tipo Proprietà."
+
+msgid "You must select Report Type."
+msgstr "Devi selezionare Tipo Segnalazione."
+
+msgid "You must select address country."
+msgstr "Devi selezionare una nazione"
+
+msgid "You must select address province."
+msgstr "Devi selezionare una provincia"
+
+msgid "You must select province."
+msgstr "Devi selezionare provincia."
+
+msgid "You must select your Job."
+msgstr "Devi selezionare il tuo lavoro."
+
+msgid "You must setup seting first"
+msgstr "Devi effettuare prima le Impostazioni"
+
+msgid "You must setup setings before to setup Status."
+msgstr "Devi effettuare le Impostazioni prima di impostare gli Stati."
+
+msgid "You must setup setting first"
+msgstr "Devi prima effettuare le Impostazioni."
+
+msgid "You must setup settings before to setup Status."
+msgstr "Devi completare le impostazioni prima di impostare gli stati."
+
+msgid "You need to add valid token and client id in order to enable notarization of your reports."
+msgstr "Devi aggiungere token and client id validi per abilitare autenticazione delle tue segnalazioni."
+
+msgid "You need to first accept the terms in Setings area."
+msgstr "È necessario accettare prima i Termini e Condizioni nella pagina Impostazioni o Profilo."
+
+msgid "You need to first accept the terms in Settings area."
+msgstr "Devi prima accettare i Termini nella sezione Impostazioni o Profilo."
+
+msgid "You need to first accept the terms in settings area."
+msgstr "Devi prima accettare i termini nella sezione Impostazioni o Profilo."
+
+msgid "You should fill all mandatory fields."
+msgstr "Devi riempire tutti i campi obbligatori."
+
+msgid "Your Commission for each Report"
+msgstr "La tua commissione per ogni Segnalazione"
+
+msgid "Your Commission is"
+msgstr "La tua commissione è"
+
+msgid "Your Credits are:"
+msgstr "Il tuo compenso in crediti è :"
+
+msgid "Your Credits for each Report"
+msgstr "Ogni pre-parere validato genera un compenso di € :"
+
+msgid "Your Earning max Limit meet. You must setup the VAT-ID in setings to proceed farther."
+msgstr "Il tuo limite massimo di guadagni come privato è stato raggiunto. È necessario inserire la partita IVA nella pagina  Impostazioni o Profilo per procedere ulteriormente."
+
+msgid "Your Earning max Limit meet. You must setup the VAT-ID in settings to proceed farther."
+msgstr "Hai raggiunto il tuo limite massimo di guadagno. È necessario configurare la partita IVA nelle impostazioni per procedere oltre."
+
+msgid "Your Earnings:"
+msgstr "I tuoi guadagni:"
+
+msgid "Your Module Automation Reminder CRON Setings"
+msgstr "Impostazioni CRON Automazione Reminder"
+
+msgid "Your Module Automation Reminder CRON Settings"
+msgstr "Impostazioni CRON modulo Automazione Promemoria"
+
+msgid "Your Module Automation Reminder CRON settings"
+msgstr "Impostazioni CRON Promemoria"
+
+msgid "Your Module Help URL"
+msgstr "URL assistenza del tuo modulo"
+
+msgid "Your Module License Key"
+msgstr "Chiave di licenza del tuo modulo"
+
+msgid "Your Prizes"
+msgstr "I tuoi Premi"
+
+msgid "Your XML"
+msgstr "Il tuo XML"
+
+msgid "Your account is out of balance"
+msgstr "Il tuo account Tiwlio è senza credito"
+
+msgid "Your license has been expired on"
+msgstr "La tua licenza è scaduta il"
+
+msgid "Your license is active on the domain %s for %s days from %s to %s."
+msgstr "La tua licenza è attiva sul dominio %s per %s giorni dal %s al %s."
+
+msgid "Zip Code"
+msgstr "CAP"
+
+msgid "of"
+msgstr "di"
+
+msgid "ou must add Android Store Version"
+msgstr "Devi inserire Versione store Android"
+
+msgid "owner Name can not be empty."
+msgstr "Nome Segnalato non può essere vuoto."
+
+msgid "owner Phone can not be empty."
+msgstr "Telefono Segnalato non può essere vuoto."
+
+msgid "owner Surname can not be empty."
+msgstr "Cognome Segnalato non può essere vuoto."
+
+msgid "standard status."
+msgstr "stati standard"
+
+msgid "successfully data saved."
+msgstr "Salvato"
+
+msgid "Just in Time"
+msgstr "Appena in tempo"
+
+msgid "before 15 mins"
+msgstr "prima di 15 minuti"
+
+msgid "before 30 mins"
+msgstr "prima di 30 minuti"
+
+msgid "before 45 mins"
+msgstr "prima di 45 minuti"
+
+msgid "before 1 hour"
+msgstr "prima di 1 ora"
+
+msgid "before 2 hours"
+msgstr "prima di 2 ore"
+
+msgid "before 6 hours"
+msgstr "prima di 6 ore"
+
+msgid "before 1 day"
+msgstr "prima di 1 giorno"
+
+msgid "Report Notes"
+msgstr "Note del Rapporto"
+
+msgid "UID"
+msgstr "UID"
+
+msgid "Event At"
+msgstr "Evento a"
+
+msgid "Custom Text"
+msgstr "Testo Personalizzato"
+
+msgid "This text will be displayed just above the Privacy Label and right below your last form field."
+msgstr "Questo testo sarà visualizzato appena sopra l'Etichetta Privacy e subito sotto l'ultimo campo del modulo."
+
+msgid "Customize Optin Form"
+msgstr "Personalizza Modulo Optin"
+
+msgid "Label"
+msgstr "Etichetta"
+
+msgid "Visibility"
+msgstr "Visibilità"
+
+msgid "Required"
+msgstr "Obbligatorio"
+
+msgid "Visible"
+msgstr "Visibile"
+
+msgid "Hidden"
+msgstr "Nascosto"
+
+msgid "If you saved these settings once then all the old settings will be removed and a new style of form will be generated with these settings."
+msgstr "Se salvi queste impostazioni, tutte le vecchie configurazioni saranno rimosse e verrà generato un nuovo stile di modulo con queste impostazioni."
+
+msgid "Siberian App Privacy Statement"
+msgstr "Informativa sulla Privacy dell'App Siberian"
+
+msgid "External Link"
+msgstr "Link Esterno"
+
+msgid "Custom Privacy Statement"
+msgstr "Informativa sulla Privacy Personalizzata"
+
+msgid "Show in Status Report"
+msgstr "Mostra nel Rapporto di Stato"
+
+msgid "Privacy label cannot be empty"
+msgstr "L'etichetta della privacy non può essere vuota"
+
+msgid "Privacy link cannot be empty"
+msgstr "Il link della privacy non può essere vuoto"
+
+msgid "Privacy link is not a valid URL"
+msgstr "Il link della privacy non è un URL valido"
+
+msgid "You must add valid value for"
+msgstr "Devi aggiungere un valore valido per"
+
+msgid "must contain only Alphanumeric characters"
+msgstr "deve contenere solo caratteri alfanumerici"
+
+msgid "must contain only Numbers"
+msgstr "deve contenere solo numeri"
+
+msgid "contains potential SQL injection."
+msgstr "contiene un potenziale SQL injection."
+
+msgid "The API token received directly from the Admin."
+msgstr "Il token API ricevuto direttamente dall'Amministratore."
+
+msgid "The first name of the Prospect."
+msgstr "Il nome del Potenziale Cliente."
+
+msgid "The last name of the Prospect Owner."
+msgstr "Il cognome del Proprietario del Potenziale Cliente."
+
+msgid "The mobile number of the Prospect Owner."
+msgstr "Il numero di cellulare del Proprietario del Potenziale Cliente."
+
+msgid "This is a sample note."
+msgstr "Questa è una nota di esempio."
+
+msgid "A descriptive note about the prospect."
+msgstr "Una nota descrittiva sul potenziale cliente."
+
+msgid "Email valid format (e.g., example@example.com)"
+msgstr "Formato email valido (esempio: esempio@esempio.com)"
+
+msgid "The Referrer Email serves as a Unique identifier for the Referrer user within the database."
+msgstr "L'Email del Segnalatore funge da Identificatore Unico per l'utente Segnalatore all'interno del database."
+
+msgid "Alphabetic characters (a-z, A-Z)"
+msgstr "Caratteri alfabetici (a-z, A-Z)"
+
+
+msgid "The first name of the Referrer. Required when creating a new Referrer."
+msgstr "Il nome del Segnalatore. Obbligatorio durante la creazione di un nuovo Segnalatore."
+
+msgid "The last name of the Referrer. Required when creating a new Referrer."
+msgstr "Il cognome del Segnalatore. Obbligatorio durante la creazione di un nuovo Segnalatore."
+
+msgid "The mobile number of the Referrer. Required when creating a new Referrer."
+msgstr "Il numero di cellulare del Segnalatore. Obbligatorio durante la creazione di un nuovo Segnalatore."
+
+msgid "Specify whether the consent is collected or not."
+msgstr "Specifica se il consenso è stato raccolto o meno."
+
+msgid "Disabled or Not Configured"
+msgstr "Disabilitato o Non Configurato"
+
+msgid "This field is disabled or not configured."
+msgstr "Questo campo è disabilitato o non configurato."
+
+msgid "Enter a numeric value corresponding to the option labels provided by the administrator, starting from 1."
+msgstr "Inserisci un valore numerico corrispondente alle etichette delle opzioni fornite dall'amministratore, a partire da 1."
+
+msgid "Enter the UID (Unique Identifier) of the country as per the provided list."
+msgstr "Inserisci l'UID (Identificatore Unico) del paese come da elenco fornito."
+
+msgid "Enter the UID (Unique Identifier) of the province as per the provided list."
+msgstr "Inserisci l'UID (Identificatore Unico) della provincia come da elenco fornito."
+
+msgid "Commercial Consent Enabled"
+msgstr "Consenso Commerciale Abilitato"
+
+msgid "Name is missing or invalid. Please provide a valid name containing only letters."
+msgstr "Il nome è mancante o non valido. Fornisci un nome valido contenente solo lettere."
+
+msgid "Surname is missing or invalid. Please provide a valid surname containing only letters."
+msgstr "Il cognome è mancante o non valido. Fornisci un cognome valido contenente solo lettere."
+
+msgid "Email is missing or invalid. Please provide a valid email address."
+msgstr "L'email è mancante o non valida. Fornisci un indirizzo email valido."
+
+msgid "Sponsor UID must be a numeric value."
+msgstr "L'UID dello Sponsor deve essere un valore numerico."
+
+msgid "Sponsor UID does not exist or is not valid."
+msgstr "L'UID dello Sponsor non esiste o non è valido."
+
+msgid "Rating must be a numeric value between 1 and 5."
+msgstr "Il punteggio deve essere un valore numerico compreso tra 1 e 5."
+
+msgid "Job UID must be a numeric value."
+msgstr "L'UID del lavoro deve essere un valore numerico."
+
+msgid "Job UID does not exist or is not valid."
+msgstr "L'UID del lavoro non esiste o non è valido."
+
+msgid "Sector UID must be a numeric value."
+msgstr "L'UID del settore deve essere un valore numerico."
+
+msgid "Sector UID does not exist or is not valid."
+msgstr "L'UID del settore non esiste o non è valido."
+
+msgid "Birth Date format is invalid. Please provide a valid date."
+msgstr "Il formato della data di nascita non è valido. Fornisci una data valida."
+
+msgid "Country UID must be a numeric value."
+msgstr "L'UID del paese deve essere un valore numerico."
+
+msgid "Country UID does not exist or is not valid."
+msgstr "L'UID del paese non esiste o non è valido."
+
+msgid "Province UID must be a numeric value."
+msgstr "L'UID della provincia deve essere un valore numerico."
+
+msgid "Province UID does not exist or is not valid."
+msgstr "L'UID della provincia non esiste o non è valido."
+
+msgid "Invalid characters detected in relational note."
+msgstr "Caratteri non validi rilevati nella nota relazionale."
+
+msgid "Invalid characters detected in reciprocity note."
+msgstr "Caratteri non validi rilevati nella nota di reciprocità."
+
+msgid "Tax ID must be a maximum of 6 characters."
+msgstr "Il codice fiscale deve essere lungo al massimo 6 caratteri."
+
+msgid "Blockchain Password must be a maximum of 10 characters."
+msgstr "La password Blockchain deve essere lunga al massimo 10 caratteri."
+
+msgid "First Password must be a maximum of 10 characters."
+msgstr "La prima password deve essere lunga al massimo 10 caratteri."
+
+msgid "Successfully Referrer created."
+msgstr "Segnalatore creato con successo."
+
+msgid "Update"
+msgstr "Aggiorna"
+
+msgid "Create"
+msgstr "Crea"
+
+msgid "Countries & Provinces"
+msgstr "Paesi e Province"
+
+msgid "Manage Countries & Provinces"
+msgstr "Gestisci Paesi e Province"
+
+msgid "Commission Label"
+msgstr "Etichetta Commissione"
+
+msgid "Recruitment quality indicator. Good recruitment must produce at least 0.15 (15%) good Referrers."
+msgstr "Indicatore di qualità del reclutamento. Un buon reclutamento deve produrre almeno 0,15 (15%) di buoni Segnalatori."
+
+msgid "Past Month"
+msgstr "Mese Precedente"
+
+msgid "Sector"
+msgstr "Settore"
+
+msgid "Report Performances Overview"
+msgstr "Panoramica delle Prestazioni del Rapporto"
+
+msgid "Agents Chart"
+msgstr "Grafico Agenti"
+
+msgid "Referrers Chart"
+msgstr "Grafico Segnalatori"
+
+msgid "Reminder Webhook Logs and Failure Notification Template"
+msgstr "Log dei Webhook Promemoria e Modello di Notifica degli Errori"
+
+msgid "Reminder UID"
+msgstr "UID Promemoria"
+
+msgid "Report quality indicator. If the conversion into sales falls below 0.20 (20%) it means that the Referrers are not referring target people."
+msgstr "Indicatore di qualità del rapporto. Se la conversione in vendite scende sotto 0,20 (20%), significa che i Segnalatori non stanno riferendo persone target."
+
+msgid "Prospecting"
+msgstr "Prospezione"
+
+msgid "Migareference Prospecting Stats"
+msgstr "Statistiche di Prospezione Migareference"
+
+msgid "Prospecting Quality"
+msgstr "Qualità della Prospezione"
+
+msgid "Qualifying Performance"
+msgstr "Performance di Qualificazione"
+
+msgid "1st Time Proc."
+msgstr "1° Proc. Volta"
+
+msgid "Avg.Processed/Day"
+msgstr "Media Elaborati/Giorno"
+
+msgid "Qualifying and knowing potential referrers is very important. The minimum average daily number must not fall below 2."
+msgstr "Qualificare e conoscere i potenziali segnalatori è molto importante. La media minima giornaliera non deve scendere sotto il 2."
+
+msgid "1st Time Proc. KPI"
+msgstr "KPI 1° Proc. Volta"
+
+
+msgid "Knowing and qualifying your referrers is essential. This KPI tells you how many people in your club you managed to get to know and profile."
+msgstr "Conoscere e qualificare i tuoi segnalatori è essenziale. Questo KPI ti dice quante persone nel tuo club sei riuscito a conoscere e profilare."
+
+msgid "Past Week"
+msgstr "Settimana Scorsa"
+
+msgid "Current 1st Time Proc."
+msgstr "1 Proc. Volta Attuale"
+
+msgid "Previous 1st Time Proc."
+msgstr "1 Proc. Volta Precedente"
+
+msgid "Migareference Report Stats"
+msgstr "Statistiche Rapporti Migareference"
+
+msgid "Referrers Report Statistics & Prediction"
+msgstr "Statistiche e Previsioni Rapporti Segnalatori"
+
+msgid "Total Referrers 3*"
+msgstr "Totale Segnalatori 3*"
+
+msgid "4 STARS STATISTICS"
+msgstr "Statistiche 4 Stelle"
+
+msgid "Total Referrers 4*"
+msgstr "Totale Segnalatori 4*"
+
+msgid "5 STARS STATISTICS"
+msgstr "Statistiche 5 Stelle"
+
+msgid "Total Referrers 5*"
+msgstr "Totale Segnalatori 5*"
+
+msgid "ALL REFERRERS"
+msgstr "TUTTI I SEGNALATORI"
+
+msgid "All Referrers"
+msgstr "Tutti i Segnalatori"
+
+msgid "Rep. Succ./Total"
+msgstr "Rapporti Succ./Totale"
+
+
+msgid "Report quality indicator. If the conversion into sales falls below 0.20 (20%) it means that the Referrers are not referring target people."
+msgstr "Indicatore di qualità del rapporto. Se la conversione in vendite scende sotto 0,20 (20%), significa che i Segnalatori non stanno riferendo persone target."
+
+msgid "The incubation time tells us how long on average a report takes to conclude with a sale."
+msgstr "Il tempo di incubazione ci indica quanto tempo impiega in media un rapporto a concludersi con una vendita."
+
+msgid "Total Deal Closed"
+msgstr "Totale Accordi Conclusi"
+
+msgid "Star"
+msgstr "Stella"
+
+msgid "Stars"
+msgstr "Stelle"
+
+msgid "Success"
+msgstr "Successo"
+
+msgid "Select Profession"
+msgstr "Seleziona Professione"
+
+msgid "Commissions Paid"
+msgstr "Commissioni Pagate"
+
+msgid "Migareference Followup Stats"
+msgstr "Statistiche di Follow-up Migareference"
+
+msgid "Referrers Followup Statistics (Reminders)"
+msgstr "Statistiche di Follow-up dei Segnalatori (Promemoria)"
+
+msgid "No. Reminder Done"
+msgstr "N. Promemoria Completati"
+
+msgid "No. Rem. Postponed"
+msgstr "N. Prom. Rinviati"
+
+msgid "Total Cancelled"
+msgstr "Totale Annullati"
+
+msgid "No. Rem. Cancelled"
+msgstr "N. Prom. Annullati"
+
+msgid "Total Processed"
+msgstr "Totale Elaborati"
+
+msgid "Total Expired"
+msgstr "Totale Scaduti"
+
+msgid "Avg. / Processed"
+msgstr "Media / Elaborati"
+
+msgid "Total reminders handled in the period per working day."
+msgstr "Totale promemoria gestiti nel periodo per giorno lavorativo."
+
+msgid "KPI Cancelled"
+msgstr "KPI Annullati"
+
+msgid "This indicator allows us to understand how many reminders have been discarded and not worked on. The KPI should be as close to 0 as possible."
+msgstr "Questo indicatore ci consente di capire quanti promemoria sono stati scartati e non gestiti. Il KPI dovrebbe essere il più vicino possibile a 0."
+
+msgid "Reports Warnings Statistics (Reminders)"
+msgstr "Statistiche di Avvisi sui Rapporti (Promemoria)"
+
+msgid "No. Warnings"
+msgstr "N. Avvisi"
+
+msgid "This KPI measures total issue reminders on Snoozed References divided by total issues. This KPI should be close to 0."
+msgstr "Questo KPI misura il totale degli avvisi sui riferimenti rimandati diviso per il totale degli avvisi. Questo KPI dovrebbe essere vicino a 0."
+
+msgid "KPI Postponed"
+msgstr "KPI Rinviati"
+
+msgid "AI Integration"
+msgstr "Integrazione AI"
+
+msgid "Manage Call Script"
+msgstr "Gestisci Script di Chiamata"
+
+msgid "Enable API"
+msgstr "Abilita API"
+
+msgid "Agent Assignment"
+msgstr "Assegnazione Agente"
+
+msgid "Select one or more referrers to assign a new agent or remove the current agent."
+msgstr "Seleziona uno o più segnalatori per assegnare un nuovo agente o rimuovere l'agente attuale."
+
+msgid "Choose Action"
+msgstr "Scegli Azione"
+
+msgid "Remove Agent"
+msgstr "Rimuovi Agente"
+
+msgid "Assign New Agent"
+msgstr "Assegna Nuovo Agente"
+
+msgid "Filter By"
+msgstr "Filtra Per"
+
+msgid "Total Selected"
+msgstr "Totale Selezionati"
+
+msgid "Enable event"
+msgstr "Abilita Evento"
+
+msgid "Please add valid First Name"
+msgstr "Si prega di aggiungere un nome valido"
+
+msgid "Please add valid Surname"
+msgstr "Si prega di aggiungere un cognome valido"
+
+msgid "Please add valid Email"
+msgstr "Si prega di aggiungere un'email valida"
+
+msgid "Please add valid Mobile"
+msgstr "Si prega di aggiungere un numero di cellulare valido"
+
+msgid "Invalid Phone"
+msgstr "Telefono Non Valido"
+
+msgid "Something went wrong. Please try again later."
+msgstr "Qualcosa è andato storto. Riprova più tardi."
+
+msgid "Please select a job"
+msgstr "Si prega di selezionare un lavoro"
+
+msgid "Please select a profession"
+msgstr "Si prega di selezionare una professione"
+
+msgid "Please select an agent"
+msgstr "Si prega di selezionare un agente"
+
+msgid "Please select a province"
+msgstr "Si prega di selezionare una provincia"
+
+msgid "Please add a valid Birthdate"
+msgstr "Si prega di aggiungere una data di nascita valida"
+
+msgid "Non clickable privacy label (Optional)"
+msgstr "Etichetta privacy non cliccabile (Opzionale)"
+
+msgid "Custom privacy link (Optional). Leave empty for default."
+msgstr "Link privacy personalizzato (Opzionale). Lascia vuoto per il valore predefinito."
+
+msgid "Please accept privacy policy"
+msgstr "Si prega di accettare la politica sulla privacy"
+
+msgid "Please accept consent"
+msgstr "Si prega di accettare il consenso"
+
+msgid "Success"
+msgstr "Successo"
+
+msgid "Report Performances Statistics"
+msgstr "Statistiche sulle Prestazioni dei Rapporti"
+
+msgid "No. Deals Closed"
+msgstr "N. Accordi Conclusi"
+
+msgid "Deals Closed"
+msgstr "Accordi Conclusi"
+
+msgid "START"
+msgstr "INIZIO"
+
+msgid "END"
+msgstr "FINE"
+
+msgid "Total Reports 3*"
+msgstr "Totale Rapporti 3*"
+
+msgid "Total Reports 4*"
+msgstr "Totale Rapporti 4*"
+
+msgid "Total Reports 5*"
+msgstr "Totale Rapporti 5*"
+
+msgid "Average number of days between the registration of a Referrer and the sending of the first report. This KPI measures the effectiveness of training and quality of Referrers."
+msgstr "Numero medio di giorni tra la registrazione di un Segnalatore e l'invio del primo rapporto. Questo KPI misura l'efficacia della formazione e la qualità dei Segnalatori."
+
+msgid "KPI Report Conv."
+msgstr "KPI Conv. Rapporto"
+
+msgid "This KPI measures how many of our Referrers make a first-time report. The value should always be greater than 0.15. This KPI measures the e! effectiveness of training and the quality of Referrers."
+msgstr "Questo KPI misura quanti dei nostri Segnalatori fanno un rapporto per la prima volta. Il valore dovrebbe essere sempre maggiore di 0,15. Questo KPI misura l'efficacia della formazione e la qualità dei Segnalatori."
+
+msgid "KPI Active Ref."
+msgstr "KPI Ref. Attivi"
+
+msgid "Avg Rep. x Active Ref."
+msgstr "Media Rapporti x Ref. Attivi"
+
+msgid "Expected Reports"
+msgstr "Rapporti Previsti"
+
+msgid "Customize Referrer Button Text"
+msgstr "Personalizza Testo Pulsante Segnalatore"
+
+msgid "Customize Referrer Button Background"
+msgstr "Personalizza Sfondo Pulsante Segnalatore"
+
+msgid "Invalid action type."
+msgstr "Tipo di azione non valido."
+
+
+msgid "CALL SCRIPT CONFIGURATION"
+msgstr "CONFIGURAZIONE SCRIPT DI CHIAMATA"
+
+msgid "Token value could be between 1 to 4096. Recommended value is between 300 to 500."
+msgstr "Il valore del token può essere compreso tra 1 e 4096. Il valore raccomandato è tra 300 e 500."
+
+msgid "AI MATCHING CONFIGURATION"
+msgstr "CONFIGURAZIONE ABBINAMENTO AI"
+
+msgid "Select Mode"
+msgstr "Seleziona Modalità"
+
+msgid "CALL SCRIPT LOGS (LAST 30)"
+msgstr "LOG SCRIPT DI CHIAMATA (ULTIMI 30)"
+
+msgid "AI MATCHING LOGS (LAST 30)"
+msgstr "LOG ABBINAMENTO AI (ULTIMI 30)"
+
+msgid "Total Token"
+msgstr "Totale Token"
+
+msgid "Log Details"
+msgstr "Dettagli del Log"
+
+msgid "AI Response"
+msgstr "Risposta AI"
+
+msgid "Referral Link"
+msgstr "Referral Link"
+
+msgid "Link Copied"
+msgstr "Link Copiato"
+
+msgid "Delete All Selected"
+msgstr "Elimina Tutto Selezionato"
+
+msgid "Are you sure you want to delete selected users"
+msgstr "Sei sicuro di voler eliminare gli utenti selezionati?"
+
+msgid "OPTIN Form Referrers"
+msgstr "Modulo OPTIN Segnalatori"
+
+msgid "This table displays the webhook logs for the last 10 days."
+msgstr "Questa tabella visualizza i log dei webhook degli ultimi 10 giorni."
+
+msgid "Token Used"
+msgstr "Token Utilizzati"
+
+msgid "Are you sure you want to proceed"
+msgstr "Sei sicuro di voler procedere?"
+
+msgid "Click the above button to get your first AI Matching list"
+msgstr "Fai clic sul pulsante sopra per ottenere il tuo primo elenco di abbinamenti AI"
+
+msgid "OPEN AI CONFIGURATION"
+msgstr "CONFIGURAZIONE OPEN AI"
+
+msgid "AI Matching System"
+msgstr "Sistema di Abbinamento AI"
+
+msgid "Remove"
+msgstr "Rimuovi"
+
+msgid "Discarded At"
+msgstr "Scartato il"
+
+msgid "Available"
+msgstr "Disponibile"
+
+msgid "Are you sure you want to Remove from discard list"
+msgstr "Sei sicuro di voler rimuovere dalla lista degli scarti"
+
+msgid "Are you sure you want to Match customer"
+msgstr "Sei sicuro di voler abbinare il cliente"
+
+msgid "By refreshing we will discard current referred showed, later you can manage discard in the specific section."
+msgstr "Aggiornando scarteremo il riferito attuale mostrato, successivamente potrai gestire lo scarto nella sezione specifica."
+
+msgid "Yes, Match it!"
+msgstr "Sì, abbinalo!"
+
+msgid "Yes, Refresh it!"
+msgstr "Sì, aggiorna!"
+
+msgid "Yes, Remove it!"
+msgstr "Sì, rimuovilo!"
+
+msgid "Are you sure you want to UnMatch"
+msgstr "Sei sicuro di voler annullare labbinamento"
+
+msgid "Yes, UnMatch it!"
+msgstr "Sì, annulla labbinamento!"
+
+
+msgid "OpenAi API key"
+msgstr "Chiave API OpenAi"
+
+msgid "Temperature"
+msgstr "Temperatura"
+
+msgid "Temperature value could be between 0 to 2. Recommended value is 1"
+msgstr "Il valore della temperatura può essere compreso tra 0 e 2. Il valore raccomandato è 1."
+
+msgid "Token Limit"
+msgstr "Limite Token"
+
+msgid "Temperature value could be between 1 to 4096. Recommended value is between 300 to 500."
+msgstr "Il valore del token può essere compreso tra 1 e 4096. Il valore raccomandato è tra 300 e 500."
+
+msgid "Prompt"
+msgstr "Prompt"
+
+msgid "Send a Test Call"
+msgstr "Invia una Chiamata di Test"
+
+msgid "Note: Please save changes before Test Call"
+msgstr "Nota: Si prega di salvare le modifiche prima della Chiamata di Test"
+
+msgid "Call Script"
+msgstr "Script di Chiamata"
+
+msgid "Email is not correct. Please add a valid email address"
+msgstr "L email non è corretta. Si prega di aggiungere un indirizzo email valido."
+
+msgid "admin"
+msgstr "amministratore"
+
+msgid "agent"
+msgstr "agente"
+
+msgid "ALL"
+msgstr "TUTTI"
+
+msgid "AI Matching"
+msgstr "Abbinamento AI"
+
+msgid "Last Update"
+msgstr "Ultimo Aggiornamento"
+
+msgid "Available Matching"
+msgstr "Abbinamenti Disponibili"
+
+msgid "Matched"
+msgstr "Abbinato"
+
+msgid "Matching Description"
+msgstr "Descrizione dell Abbinamento"
+
+msgid "Match"
+msgstr "Abbinamento"
+
+msgid "UnMatch"
+msgstr "Annulla Abbinamento"
+
+msgid "Are you sure you want to proceed with the match"
+msgstr "Sei sicuro di voler procedere con labbinamento?"
+
+msgid "Are you sure you want to proceed with the unmatch"
+msgstr "Sei sicuro di voler procedere con lannullamento dell abbinamento?"
+
+msgid "Maximum Number of Matches"
+msgstr "Numero Massimo di Abbinamenti"
+
+msgid "A Particular referrer will be excluded from the matching pool if (Maximum Number of Matches) already consumed within the given grace period. Value could be between 1 to 50. Recommended value is between 3 to 10."
+msgstr "Un determinato segnalatore sarà escluso dal pool di abbinamento se il Numero Massimo di Abbinamenti è già stato raggiunto entro il periodo di tolleranza. Il valore può essere compreso tra 1 e 50. Il valore raccomandato è tra 3 e 10."
+
+msgid "Grace Period"
+msgstr "Periodo di Tolleranza"
+
+msgid "A Grace Period for the Maximum number of matches. Value could be between 1 to 100. Recommended value is between 30 to 60."
+msgstr "Un Periodo di Tolleranza per il Numero Massimo di Abbinamenti. Il valore può essere compreso tra 1 e 100. Il valore raccomandato è tra 30 e 60."
+
+msgid "Call Script Prompt"
+msgstr "Prompt dello Script di Chiamata"
+
+msgid "This KPI measures the total number of reports received from referrers in the same group, divided by the total number of referrers who have made at least one report. The KPI measures how active the referrers are over time and therefore the effectiveness of the follow-up."
+msgstr "Questo KPI misura il numero totale di rapporti ricevuti dai segnalatori nello stesso gruppo, diviso per il numero totale di segnalatori che hanno fatto almeno un rapporto. Il KPI misura quanto sono attivi i segnalatori nel tempo e quindi l efficacia del follow-up."
+
+msgid "This KPI tries to predict how many reports we will owe in the near future. The calculation takes into consideration the percentage of Referrers that will be activated, therefore Total referrers are not yet active x the KPI Active Referrers. The calculation only takes into account alerters created between today and twice the average incubation time."
+msgstr "Questo KPI cerca di prevedere quanti rapporti dovremo nel prossimo futuro. Il calcolo tiene conto della percentuale di Segnalatori che saranno attivati, quindi Segnalatori totali non ancora attivi x KPI Ref. Attivi. Il calcolo considera solo gli avvisi creati tra oggi e il doppio del tempo medio di incubazione."
+
+msgid "This will remove the agent from the selected referrer(s). Do you want to continue?"
+msgstr "Questo rimuoverà l agente dai segnalatori selezionati. Vuoi continuare?"
+
+msgid "This will assign the selected agent to the referrer(s). Do you want to continue?"
+msgstr "Questo assegnerà l agente selezionato ai segnalatori. Vuoi continuare?"
+
+msgid "Mobile number format is invalid. Please provide a valid mobile number starting with '00' or '+', and containing 10 to 14 digits."
+msgstr "Il formato del numero di cellulare non è valido. Fornisci un numero di cellulare valido che inizi con 00 o +, e contenga da 10 a 14 cifre."
+
+msgid "All Sectors"
+msgstr "Tutti i Settori"
+
+msgid "Please add a valid Sector Title."
+msgstr "Si prega di aggiungere un titolo di settore valido."
+
+msgid "Ref. Sector Title"
+msgstr "Titolo Settore Rif."
+
+msgid "Sector Title"
+msgstr "Titolo Settore"
+
+msgid "Add New Sector"
+msgstr "Aggiungi Nuovo Settore"
+
+msgid "Manage Jobs & Sectors"
+msgstr "Gestisci Lavori e Settori"
+
+msgid "Add this trigger to Recap Email"
+msgstr "Aggiungi questo trigger all Email di Riepilogo"
+
+msgid "Recap email template"
+msgstr "Modello Email di Riepilogo"
+
+msgid "Enable reminder recap email"
+msgstr "Abilita Email di Riepilogo Promemoria"
+
+msgid "Reminder Recap email bcc recipients"
+msgstr "Destinatari in CCN dell'Email di Riepilogo Promemoria"
+
+msgid "Reminder Recap email Subject"
+msgstr "Oggetto dell'Email di Riepilogo Promemoria"
+
+msgid "Add New Reminder"
+msgstr "Aggiungi Nuovo Promemoria"
+
+
+msgid "Recap email header"
+msgstr "Intestazione Email di Riepilogo"
+
+msgid "Email successfully sent."
+msgstr "Email inviata con successo."
+
+msgid "This is trigger-specific header, and is displayed in the recap email for the corresponding section. Use it to add instructions or context for admins regarding the actions they need to take."
+msgstr "Questa è un'intestazione specifica per il trigger e viene visualizzata nell'email di riepilogo per la sezione corrispondente. Usala per aggiungere istruzioni o contesto per gli amministratori riguardo alle azioni che devono intraprendere."
+
+msgid "Recap Email Preferred Language"
+msgstr "Lingua Preferita per l'Email di Riepilogo"
+
+msgid "NOTE: This will translate only hardcoded labels inside email template. Rest of text will be used as per given configurations inside reminder section."
+msgstr "NOTA: Questo tradurrà solo le etichette codificate nel modello di email. Il resto del testo verrà utilizzato in base alle configurazioni fornite nella sezione promemoria."
+
+msgid "Send Sample Test Email"
+msgstr "Invia Email di Test Campione"
+
+msgid "Send Test Email with Real Data"
+msgstr "Invia Email di Test con Dati Reali"
+
+msgid "This test email will be sent with placeholder (dummy) data and will not use real reminder configurations. It will be delivered to the BCC email set in general settings. Do you want to proceed?"
+msgstr "Questa email di test verrà inviata con dati segnaposto (fittizi) e non utilizzerà le configurazioni reali dei promemoria. Verrà consegnata all email BCC impostata nelle impostazioni generali. Vuoi procedere?"
+
+msgid "This test email will be sent using real customer data and actual reminder configurations. It will be delivered to the BCC email set in general settings. Do you want to proceed?"
+msgstr "Questa email di test verrà inviata utilizzando dati reali dei clienti e configurazioni effettive dei promemoria. Verrà consegnata all email BCC impostata nelle impostazioni generali. Vuoi procedere?"
+
+msgid "Mandatory Sector"
+msgstr "Settore Obbligatorio"
+
+msgid "Mandatory Profession"
+msgstr "Professione Obbligatoria"
+
+msgid "Whatsapp"
+msgstr "Whatsapp"
+
+msgid "SMS"
+msgstr "SMS"
+
+msgid "Referral Director"
+msgstr "Direttore di Riferimento"
+
+msgid "Director full name"
+msgstr "Nome completo del direttore"
+
+msgid "Director email"
+msgstr "Email del direttore"
+
+msgid "Director phone"
+msgstr "Telefono del direttore"
+
+msgid "Director calendar url"
+msgstr "URL del calendario del direttore"
+
+msgid "Source"
+msgstr "Fonte"
+
+msgid "To invite your contact, choose the channel you prefer or copy the invitation message"
+msgstr "Per invitare il tuo contatto, scegli il canale che preferisci oppure copia il messaggio di invito"
+
+msgid "Source"
+msgstr "Sorgente"
+
+msgid "Download File"
+msgstr "Scarica File"
+
+msgid "If the file did not download automatically, click the button below to download manually."
+msgstr "Se il file non si è scaricato automaticamente, fai clic sul pulsante qui sotto per scaricarlo manualmente."
+
+msgid "Download Now"
+msgstr "Scarica Ora"
+
+msgid "Failed to generate the report. Please try again."
+msgstr "Impossibile generare il report. Riprova."
+
+msgid "Director Contact"
+msgstr "Contatto del direttore"
+
+msgid "Calendar URL"
+msgstr "URL del calendario"
+
+msgid "Select to use OpenAi API or Perplexity API"
+msgstr "Seleziona se utilizzare l'API di OpenAI o l'API di Perplexity"
+
+msgid "OpenAi"
+msgstr "OpenAi"
+
+msgid "Perplexity"
+msgstr "Perplexity"
+
+msgid "Perplexity API key"
+msgstr "Chiave API di Perplexity"
+
+msgid "Please select one of the API, OpenAi API or Perplexity API"
+msgstr "Seleziona una delle API, OpenAI o Perplexity"
+
+msgid "Please enter the Perplexity API Key."
+msgstr "Inserisci la chiave API di Perplexity."
+
+msgid "Please enter the OpenAI API Key."
+msgstr "Inserisci la chiave API di OpenAI."
+
+msgid "Daily Report"
+msgstr "Rapporto giornaliero"
+
+msgid "Status successfully updated."
+msgstr "Stato aggiornato con successo."
+
+msgid "All tasks are done, nothing left to do here."
+msgstr "Tutti i compiti sono completati, non c'è più nulla da fare qui."
+
+msgid "BCC Email Receiver"
+msgstr "Destinatario BCC Email"
+
+msgid "Welcome to the world of"
+msgstr "Benvenuto nel mondo di"
+
+msgid "Winning Referral"
+msgstr "Winning Referral"
+
+msgid "On this page you will understand how to"
+msgstr "In questa pagina capirai come"
+
+msgid "earn up to €1,000 and expand your circle of key people"
+msgstr "guadagnare fino a €1.000 ed espandere la tua cerchia di persone chiave"
+
+msgid "you know, by referring potential companies that are looking for new ways to acquire target customers without spending upfront on advertising."
+msgstr "che conosci, segnalando potenziali aziende che cercano nuovi modi per acquisire clienti target senza spendere anticipatamente in pubblicità."
+
+msgid "By helping us, you will not only obtain economic benefits, but also reciprocity. We will share our vast network of people we know to help you achieve your goals and overcome problems and challenges. This is the real strategic wealth that will remain with you forever."
+msgstr "Aiutandoci, non otterrai solo benefici economici, ma anche reciprocità. Condivideremo la nostra vasta rete di conoscenze per aiutarti a raggiungere i tuoi obiettivi e superare problemi e sfide. Questa è la vera ricchezza strategica che rimarrà con te per sempre."
+
+msgid "Before starting, here’s a short 3-minute video that explains what"
+msgstr "Prima di iniziare, ecco un breve video di 3 minuti che spiega cos’è"
+
+msgid "is."
+msgstr "è."
+
+msgid " Manage Qualifications"
+msgstr "Gestisci qualifiche"
+
+msgid "Add Qualification"
+msgstr "Aggiungi qualifica"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Image"
+msgstr "Immagine"
+
+msgid "Min. Credits"
+msgstr "Crediti minimi"
+
+msgid "Referrer List"
+msgstr "Elenco referenti"
+
+msgid "Content Type"
+msgstr "Tipo di contenuto"
+
+msgid "Status"
+msgstr "Stato"
+
+msgid "Action"
+msgstr "Azione"
+
+msgid "Qualification Name"
+msgstr "Nome qualifica"
+
+msgid "Gold"
+msgstr "Oro"
+
+msgid "100"
+msgstr "100"
+
+msgid "Icon/Logo"
+msgstr "Icona/Logo"
+
+msgid "Insert a <span class=\"bold\">Logo/Icon</span>"
+msgstr "Inserisci un <span class=\"bold\">Logo/Icona</span>"
+
+msgid "Active"
+msgstr "Attivo"
+
+msgid "Inactive"
+msgstr "Inattivo"
+
+msgid "Save"
+msgstr "Salva"
+
+msgid "Cancel"
+msgstr "Annulla"
+
+msgid "Qualifications Notifications"
+msgstr "Notifiche qualifiche"
+
+msgid "Webhook"
+msgstr "Webhook"
+
+msgid "https://example.com/webhook"
+msgstr "https://example.com/webhook"
+
+msgid "Email Subject"
+msgstr "Oggetto email"
+
+msgid "Congratulations on your new qualification"
+msgstr "Congratulazioni per la tua nuova qualifica"
+
+msgid "BCC"
+msgstr "CCN"
+
+msgid "Email Body"
+msgstr "Corpo email"
+
+msgid "Hello @@first_name@@, congratulations on achieving @@qualification_title@@."
+msgstr "Ciao @@first_name@@, congratulazioni per aver raggiunto @@qualification_title@@."
+
+msgid "Push Notification Title"
+msgstr "Titolo notifica push"
+
+msgid "New qualification earned!"
+msgstr "Nuova qualifica ottenuta!"
+
+msgid "Push Notification Message"
+msgstr "Messaggio notifica push"
+
+msgid "Congrats John! You achieved Gold status."
+msgstr "Congratulazioni John! Hai raggiunto lo stato Oro."
+
+msgid "Notification Image"
+msgstr "Immagine notifica"
+
+msgid "Upload Image"
+msgstr "Carica immagine"
+
+msgid "Open a feature or a custom URL"
+msgstr "Apri una funzione o un URL personalizzato"
+
+msgid "Yes"
+msgstr "Sì"
+
+msgid "No"
+msgstr "No"
+
+msgid "Choose the features to open"
+msgstr "Scegli le funzioni da aprire"
+
+msgid "Custom URL?"
+msgstr "URL personalizzato?"
+
+msgid "Custom URL"
+msgstr "URL personalizzato"
+
+msgid "https://example.com/page"
+msgstr "https://example.com/page"
+
+msgid "Manage Reserved Section Contents"
+msgstr "Gestisci contenuti sezione riservata"
+
+msgid "Referrer Type: Non customer"
+msgstr "Tipo referente: Non cliente"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "List"
+msgstr "Elenco"
+
+msgid "Referrer Type: Customer"
+msgstr "Tipo referente: Cliente"
+
+msgid "Are you sure?"
+msgstr "Sei sicuro?"
+
+msgid "Do you really want to delete this qualification?"
+msgstr "Vuoi davvero eliminare questa qualifica?"
+
+msgid "Yes, delete it!"
+msgstr "Sì, eliminala!"
+
+msgid "Deleted!"
+msgstr "Eliminata!"
+
+msgid "Error!"
+msgstr "Errore!"
+
+msgid "No Referrer"
+msgstr "Nessun referente"
+
+msgid "No Referrer found."
+msgstr "Nessun referente trovato."
+
+msgid "Error"
+msgstr "Errore"
+
+msgid "Saved"
+msgstr "Salvato"
+
+msgid "Content setting saved successfully."
+msgstr "Impostazioni contenuto salvate con successo."
+
+msgid "Unable to save content setting."
+msgstr "Impossibile salvare le impostazioni del contenuto."
+
+msgid "Request failed."
+msgstr "Richiesta fallita."
+
+msgid "No data available in table"
+msgstr "Nessun dato disponibile nella tabella"
+
+msgid "Showing START to END of TOTAL entries"
+msgstr "Visualizzazione da START a END di TOTAL voci"
+
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Visualizzazione da 0 a 0 di 0 voci"
+
+msgid "(filtered from MAX total entries)"
+msgstr "(filtrato da MAX voci totali)"
+
+msgid "Show MENU entries"
+msgstr "Mostra MENU voci"
+
+msgid "Loading..."
+msgstr "Caricamento..."
+
+msgid "Processing..."
+msgstr "Elaborazione..."
+
+msgid "Search:"
+msgstr "Cerca:"
+
+msgid "No matching records found"
+msgstr "Nessun record corrispondente trovato"
+
+msgid "First"
+msgstr "Primo"
+
+msgid "Last"
+msgstr "Ultimo"
+
+msgid "Next"
+msgstr "Successivo"
+
+msgid "Previous"
+msgstr "Precedente"
+
+msgid ": activate to sort column ascending"
+msgstr ": attiva per ordinare la colonna in ordine crescente"
+
+msgid ": activate to sort column descending"
+msgstr ": attiva per ordinare la colonna in ordine decrescente"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Phone"
+msgstr "Telefono"
+
+msgid "-- Select --"
+msgstr "-- Seleziona --"
+
+msgid "Feature"
+msgstr "Funzione"
+
+msgid "Folder"
+msgstr "Cartella"

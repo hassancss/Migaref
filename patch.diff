@@ -1,0 +1,35 @@
+*** Begin Patch
+*** Update File: controllers/Qualification/NotificationController.php
+@@
+-            $notification = new Migareference_Model_Notification();
+-            $data = $notification->getNotificationByAppId($app_id);
+-
+-            if ($data) {
+-                $html = [
+-                    'success' => true,
+-                    'data'    => $data
+-                ];
++            $notification = new Migareference_Model_Notification();
++            $data = $notification->getNotificationByAppId($app_id);
++
++            if ($data) {
++                // Build full image URL similar to QualificationController
++                $imageUrl = '';
++                if (!empty($data['logo_url'])) {
++                    $logo = $data['logo_url'];
++                    // If already an absolute URL or an image path, keep as-is
++                    if (preg_match('/^https?:\/\//i', $logo) || strpos($logo, '/images/') === 0 || strpos($logo, 'data:') === 0) {
++                        $imageUrl = $logo;
++                    } else {
++                        $default = new Core_Model_Default();
++                        $base_url = $default->getBaseUrl();
++                        $imageUrl = $base_url . '/images/application/' . $app_id . '/features/migareference/' . $logo;
++                    }
++                }
++                $data['image_url'] = $imageUrl;
++
++                $html = [
++                    'success' => true,
++                    'data'    => $data
++                ];
+*** End Patch

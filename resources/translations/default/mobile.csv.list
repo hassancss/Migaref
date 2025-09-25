@@ -1,0 +1,2169 @@
+An error occurred during process. Please try again later.
+An error occurred while saving. Please try again later.
+Info successfully saved.
+Settings successfully saved.
+Your license has been expired on 
+Your license is active on the domain %s for %s days from %s to %s.
+No license found for this module.
+Migalicense
+License key cannot be empty.
+License key is invalid.
+Unable to connect to the license server.
+Module is expired and license is deleted.
+Module is active.
+No token sent.
+You are using your custom help URL.
+You are using default help URL
+Help URL cannot be empty.
+Help URL is not valid.
+Help URL updated successfully.
+Your Module License Key
+Your Module Help URL
+License
+Module
+Base url mismatch.
+App id mismatch.
+Module has been activated on the domain %s for %s days from %s to %s.
+License information is invalid.
+Missing post data.
+App Licenses
+Expired
+App Id
+Activated
+Expiry
+Status
+Invalid Access.
+Title cannot be empty.
+Message cannot be empty.
+Custom URL cannot be empty.
+Custom URL not valid.
+Push successfully saved data.
+Prize Name cannot be empty.
+Prize Credits cannot be empty.
+Prize Start date cannot be empty.
+Prize Expire date cannot be empty.
+Prize description cannot be empty.
+Prize Image cannot be empty.
+Push successfully saved data.
+Status title cannot be empty.
+Email Subject for Referral cannot be empty.
+First status not allowed to add @@agent_name@@ tag.
+Email Message body for Referral cannot be empty.
+First status not allowed to add @@agent_name@@ tag.
+Fallback status must need @@comment@@ tag.
+Email Subject for Agent cannot be empty.
+Email Message body for Agent cannot be empty.
+PUSH Title for Referral cannot be empty.
+First status not allowed to add @@agent_name@@ tag.
+PUSH Message for Referral cannot be empty.
+First status not allowed to add @@agent_name@@ tag.
+Report closing status must need @@comment@@ tag.
+PUSH Title for Agent cannot be empty.
+First status not allowed to add @@agent_name@@ tag.
+PUSH Message for Agent cannot be empty.
+First status not allowed to add @@agent_name@@ tag.
+PUSH Custom URL for Agent cannot be empty.
+PUSH Custom URL for Agent not valid.
+You must add Reminder Grace days.
+Reminder Email Subject for Referral cannot be empty.
+Reminder First status not allowed to add @@agent_name@@ tag.
+Reminder Email Message body for Referral cannot be empty.
+Reminder First status not allowed to add @@agent_name@@ tag.
+Reminder Report closing status must need @@comment@@ tag.
+Reminder Email Subject for Agent cannot be empty.
+Reminder Email Message body for Agent cannot be empty.
+Reminder PUSH Title for Referral cannot be empty.
+Reminder First status not allowed to add @@agent_name@@ tag.
+Reminder PUSH Message for Referral cannot be empty.
+Reminder First status not allowed to add @@agent_name@@ tag.
+Reminder Report closing status must need @@comment@@ tag.
+Reminder PUSH Title for Agent cannot be empty.
+Reminder First status not allowed to add @@agent_name@@ tag.
+Reminder PUSH Message for Agent cannot be empty.
+Reminder First status not allowed to add @@agent_name@@ tag.
+Reminder PUSH Custom URL for Agent cannot be empty.
+Reminder PUSH Custom URL for Agent not valid.
+You must add Declined grace days.
+You must select Declined status.
+You must add Fallback Comment.
+The Order of Status should be higher than the status from where you import.
+Status Successfully saved.
+Successfully saved data.
+Add a valid Video link.
+Please add a valid YouTube Link.
+Add a valid Site link.
+Successfully saved data.
+Please add credits.
+Please add description
+Successfully saved data.
+You must add commission fee.
+You must add Comment for Referral.
+You can only move to SUPERIOR status
+Address cannot be empty.
+Invoice Name cannot be empty.
+Invoice Surname cannot be empty.
+Owner Mobile Number cannot be empty.
+Owner Name cannot be empty.
+Owner Surname cannot be empty.
+Address cannot be empty.
+First you must Mandate Acquired to make it Payable.
+Successfully saved data.
+You must add Comment for Referral.
+These reports cannot update.
+Successfully saved data.
+Limit cannot be Empty.
+For Fix Commission type you must add Fix amount.
+For Fix Commission type you must add Fix Credit Points.
+You must add credit expire limit.
+For Percent Commission type you must add Calculated Amount.
+Percent value should be in between 1 to 100
+For Percent Commission type you must add Calculated Credits.
+Percent value should be in between 1 to 100
+You must add Grace Days to set Unique Mobile Number.
+You must add Decline Period Days and comment to set up Declined Status.
+Privacy cannot be Empty.
+Terms cannot be Empty.
+Successfully saved data.
+You must add label for HOW IT WORKS BUTTON.
+You must add label for Add Report BUTTON.
+You must add label for REPORT STATUS BUTTON.
+You must add label for PRIZE BUTTON.
+You must add label for SETTINGS BUTTON.
+Successfully saved data.
+Yes
+No
+An error occurred during process. Please try again later.
+No data found
+Status should not have any Connected Reports.
+Cannot Remove Standard Status.
+Successfully Removed Status.
+Pending
+User
+Type
+User status has been updated successfully.
+An error occurred while deleting the push. Please try again later.
+User status has been updated successfully.
+An error occurred while deleting the push. Please try again later.
+User status has been updated successfully.
+An error occurred while deleting the push. Please try again later.
+Active
+Disabled
+Detail
+I dont know
+Warning
+Your Earning max Limit meet. You must setup the VAT-ID in settings to proceed farther.
+Only Authorized user allowed.
+This Option is only readable. Please contact to App Owner for new reports.
+You need to first accept the terms in settings area.
+Admin User cannot Submit Report.
+Status settings Missed. Please contact to admin.
+You must select Notification Type.
+You must answer sponsor rule.
+Block Chain Password cannot be empty.
+Password should be at least 8 characters in length and should include at least one upper case letter and one number.
+Invoice Name cannot be empty.
+Invoice Surname cannot be empty.
+Please Add a Valid Mobil Number.
+Legal Address cannot be empty.
+Tax ID cannot be empty.
+You must Accept Term conditions to save settings.
+You must Accept Term conditions to save settings.
+You must Accept Terms Article and conditions to save settings.
+You must Accept Privacy conditions to save settings.
+You must Accept Privacy Article and conditions to save settings.
+Successfully settings saved.
+You must select Report Type.
+Please add a valid address.
+Please add a valid Owner Name.
+Please add a valid Owner Surname.
+Please add a Valid Phone Number.
+This Mobile Number already exists.
+You must setup setting first
+Successfully Report saved.
+You must add commission fee.
+You can only move to SUPERIOR status
+You must add Comment for Referral.
+Address cannot be empty.
+Successfully Report update.
+Successfully Log saved.
+Successfully Redeemed.
+Future Commission: Not Yet
+Future Credits: Not Yet
+WELCOME ADMIN
+Admin must setup Terms and Privacy.
+Could not find data.
+Could not find YouTube API Key.
+How it Works
+Site Link
+Contact Us Email
+Phone Call
+Prize Detail
+Credits
+Redeem
+Credits Ledger
+Description
+Credits
+Balance
+Notification Type
+Block Chain public data password
+Who invited you to be a referral user?
+Invoice Detail
+Surname
+Company
+Legal Address
+Tax ID
+Privacy
+I Accept
+Terms
+I Dont  Accept
+First Approval
+Submit
+Prize Detail
+Credits
+Redeemed At:
+Redeem Prizes
+Redeem Prizes
+Add New Report
+Location
+Report Ledgers
+How app Works
+Prizes
+Ledger
+Background
+Add settings
+Reward Type
+Euro Commission
+Credits
+Commission Type
+% Commission
+Fix Commission
+Percent Commission
+Percent Credits
+Fix Commission Amount
+Fix Commission Credits
+Auto credit expire after days
+Limit
+Allowed Short Reminder
+Allowed Long Reminder
+Enable unique Report owner mobile number
+Grace Period
+APP Read Only?
+Notifications Type
+Email/Push Notifications
+Only Email
+Only Push
+Privacy *
+Terms
+Special Terms
+Label Text
+I confirm to accept article 2,3,10
+Terms
+User Id
+Is Admin
+Is Agent
+Update Report
+Back
+Report Type
+Villa
+Flat
+Sales Expectations
+Commission Fee
+Creation Date
+Last Modification
+Comment
+Report Owner
+Referral User
+Sur Name
+Sponsor Agent
+Referral User
+Mobile Phone
+Address
+Apply
+Comment
+Action
+Last Modification
+Referral User
+Report Owner
+Details
+Report Ledgers
+Referral Detail
+Owner Detail
+Certificate
+APP Content
+Balance Button
+How works
+Add Report
+Your Prizes
+Settings
+Prize Balance Button
+Background Color
+Icon
+Upload
+Text Color
+You must setup settings before to setup Status.
+To setup any new status first you have to setup all
+standard status.
+Standard Status
+This will be first status for any new generated Report.
+Commission or Credits (As per settings)
+This will be last or closing status for any Report.
+This status is specifically for % commission to acquire the commission amount from agent.
+Status Title
+You can use following custom tags in your Title and Text
+You are not allowed to add @@agent_name@@ tag in Referral notification for Standard 1 or New Report Status.
+In the Percentage Commission operating method, this state requires that the app admin enter the commission amount
+Email Notification settings
+Send To
+Both Referral/Agent
+Only Referral
+Only Agent
+Referral Subject
+Subject
+Referral Body
+Message
+Agent Subject
+Agent Body
+Delay Days
+Delay Hours
+PUSH Notification settings
+Send To
+Both Referral/Agent
+Only Referral
+Only Agent
+Referral Title
+Referral PUSH Title
+Referral Message
+Open a feature or a custom URL
+Choose the features to open
+Custom URL?
+Custom URL
+Enabled
+Upload a cover
+Agent Title
+Agent PUSH Title
+Agent Message
+Message for Agent
+Open a feature or a custom URL
+Choose the features to open
+Upload a cover
+Delay Days
+Delay Hours
+Comment Required
+Mandate Acquired
+Fall Back Automation
+Fallback Period
+Fallback Status
+Select Status
+Fallback Comment
+Auto Reminder
+Reminder Grace Days
+Reminder Email Notification settings
+Send To
+Both Referral/Agent
+Only Referral
+Only Agent
+Referral Subject
+Subject
+Referral Body
+Agent Subject
+Agent Body
+Reminder PUSH Notification settings
+Send To
+Both Referral/Agent
+Only Referral
+Only Agent
+Referral Title
+Referral PUSH Title
+Referral Message
+Open a feature or a custom URL
+Choose the features to open
+Upload a cover
+Agent Title
+Agent PUSH Title
+Agent Message
+Message for Agent
+Open a feature or a custom URL
+Choose the features to open
+Upload a cover
+The Order of Status should be higher than the status from where you import.
+Import Reports from
+Select Status
+Status settings
+Status Title
+Reports
+Edit
+Delete
+Order
+OPTIONAL
+PUSH Notifications Log
+Push Title
+Push Message
+Target User
+No Record Found!
+EMAIL Notifications Log
+Message Id
+Email Title
+Email Message
+Target User
+Delivered
+No Record Found!
+User Name
+Email
+Mobile
+Vat ID
+Total Earned
+Credit Balance
+PUSH Status
+Referrer DETAIL
+Entry Type
+Credit
+Debit
+Add Custom Credits
+Terms Accepted
+Description
+Disable Date
+Save
+Created At
+Last Modification
+Report Owner
+Credits Ledger Statement
+Description
+Credits
+Balance
+Add New Prize
+Prize Name
+Prize Credits
+Applied At
+Expire At
+Redeemed once
+Prize Image
+Insert a
+Prize Description
+Prize List
+Prize Name
+Applied Date
+Expire Date
+Credits
+Disable ?
+Add How it Works settings
+Add Video
+Add How to Text
+Site Link
+Are you sure you want to remove Status?
+Are you sure you want to unset this user as an Admin?
+Are you sure you want to Disable this user?
+License
+Your Module License Key
+Enable sales expectations
+Enable Report Type
+Enable Address field
+Price Range
+Price Range To
+Price Range From
+Percent value should be in between 1 to 100
+You must add price Range.
+Range values must be a positive number.
+Your Commission for each Report
+Before sending a contact, it is mandatory that you have spoken to him personally and that he is informed that he will receive a call from the real estate Agent.
+Your Earnings:
+Future Commission: Not Yet
+Your Commission is
+Your Commission for each Report
+Your Credits are:
+Future Credits: Not Yet
+Your Credits for each Report
+Your Commission for each Report
+WELCOME ADMIN
+Admin must setup Terms and Privacy.
+Could not find data.
+Could not find YouTube API Key.
+Your Prizes
+Prizes Shop
+Credits Ledger
+Report Owner Details
+Reminder
+Create Note
+Create Reminder
+Reminder List
+Completed
+Canceled
+Reminders
+Landing Page Directory
+Blockchain
+Certified
+Report NO
+Updated at
+Sponsor Agent
+Owner
+Owner Name
+Owner Surname
+Owner Mobile
+Referral
+Referral Name
+Referral Surname
+Referral Mobile
+Property
+Comment
+Type of Report
+Sales of Expectations
+How hot is the Contact
+How hot is the Contact?
+Address:
+Location
+Discard
+Submit Report
+Notes
+Create Note
+Note
+Add Note
+Close
+Reminder
+Create Reminder
+Add Reminder
+Event Type
+Select Event Date:
+Select Event Time:
+Select Reminder Date:
+Select Reminder Time:
+Please add Note content.
+Successfully Note saved.
+Successfully delete Note.
+Successfully delete Reminder.
+Successfully update Reminder.
+Remind at
+STATS
+ID
+APP Name
+Installations
+Users
+Active Reports
+Closed Reports
+Paid Reports
+Payable Reports
+You must add sharing Text while allow to INVITE PROSPECTUS.
+You must add domain URL while allow to INVITE PROSPECTUS.
+API token and client id not found.
+You need to add valid token and client id in order to enable notarization of your reports.
+Migachain token cannot be empty.
+Migachain client id cannot be empty.
+API credentials are validated and stored successfully.
+Notarization API settings
+Token
+Report Page
+Client ID
+No new reports found.
+Ledger Cron Logs
+Cron Id
+File
+Code
+ETH Address
+IPFS Address
+ETH SHA Hash
+ETH Address URL
+Started At
+Ended At
+You don't have any ledger cron log yet
+Ledger Logs
+Ledger Id
+Report Id
+Report No.
+Referral Name
+Referral Surname
+Prospect Name
+Prospect Surname
+Report Created At
+You don't have any ledger log yet
+Note: You can set or run the cron manually on your own server using this URL %s.
+XML Decryptor
+This XML decryption tool can be use decrypt the XML that is notarized and downloaded from block chain. You can use your key to decrypt only your data and rest will remain encrypted.
+Powered By Migastone International Ltd.
+Sample XML
+Upload XML with Key
+XML File
+Upload the XML file downloaded from IPFS.
+Encryption Key
+Enter the encryption key you set for your reports.
+Upload & Decrypt
+Your XML
+No file uploaded.
+File must be an XML file.
+Encryption key cannot be empty.
+No matching data found.
+Invalid XML file.
+Sorry, there was an error uploading your file.
+Migachain CRON Failure Notification
+Dear
+Admin
+Migachain CRON has been failed %s times on the platform %s. Following are the CRON ids that you need to check: %s.
+MIGASTONE SUPPORT TEAM.
+INVITE YOUR PROSPECT
+Report Save Button
+Report Invite Button
+Migrate action will import all reports in Selected non standard status along with all Referral Invoice settings, Admins, Agents
+Select reports to migrate
+Migrate
+Revert Back
+Are you sure you want to Revert Migration?
+Cannot delete all admin settings.
+Warning! The Admin is not set, the module is now in READ ONLY mode. Please go in Admins tab and set the User Admin
+Are you sure you want to Revert settings to default.?
+Successfully Revert settings.
+RESET AS DEFAULT
+Admins
+Migrate Reports from Migaproperty
+ATTENTION! IF YOU PROCEED YOU WILL LOSE YOUR CUSTOM STATUSES SETTING
+SORRY! WE CANNOT PROCEED, ONE OR MORE REPORTS ARE ASSIGNED TO CUSTOM STATUSES, PLEASE MOVE THEM ON ANY OF DEFAULT STATUS BEFORE PROCEED!
+Domain URL
+Enable Submit Report
+Report Type Label
+Sales Expectation Label
+Address Label
+Owner Name Label
+Owner Surname Label
+Owner Mobile Label
+Privacy Label
+Privacy Link
+Authorized Label
+Landing Page Header Label
+Internal Report Note
+External Report Note
+Settings Page
+Enable Company field
+Mandatory Company
+Enable Legal Address field
+Mandatory Legal Address
+Enable Extra 1
+Mandatory Extra 1
+Label Text for extra 1
+Enable Extra 2
+Mandatory Extra 2
+Label Text for extra 2
+General settings
+Bitly Login
+Bitly Key
+Invite Prospectus Text
+You can use following custom tags in your Text @@agent_name@@, @@landing_link@@
+Reminder Types
+Reminder Custom Notifications
+Type Title
+Email Subject
+Email Body
+Invoice Mobile NO Migration
+Successfully Migrate Mobile NO.
+Are you sure you want to Migrate Mobile NO?
+Commission Setup
+Next
+Enable Invite Prospectus
+Make sure you have uploaded Landing Page directory to your domain
+Previous
+Can not Share
+Admin List
+Landing Page
+Page Color
+Click here to download Landing Page Directory
+Migration Log
+Migareference Report NO
+Migaproperty Report NO
+Report extra fields
+Select Filed Type
+Filed Label
+Is required
+Is visible
+Show before
+Option values
+Extra One
+Extra Two
+Extra Three
+Extra Four
+Extra Five
+Extra Six
+Extra Seven
+Extra Eight
+Extra Nine
+Extra Ten
+Report Addresses
+Select CSV File
+Download CSV
+Longitude
+Latitude
+External Addresses
+Sponsor Name
+Change Sponsor
+Are you sure you want to Change Sponsor?
+Are you sure you want to Remove Sponsor?
+Agent
+Filter Sponsor Connections
+ADD NEW REMINDER TYPE
+Select Sponsor
+Referral User
+Sponsor Name
+Warning! This user has not accepted the T&C, do you want to activate it and place the report in his name?
+Could not find default TAX ID
+Tax ID can not be empty.
+Tax ID successfully saved.
+Add a Note
+Report Phone Numbers
+Phone Number
+Blacklist Phone Numbers
+Add new Phone Number
+Please add a valid phone number.
+Address successfully saved.
+Phone Number successfully saved.
+Successfully Phone Number Removed.
+Is Visible
+Select Field Type
+Successfully update field settings.
+Please add a valid Label.
+Please add valid Options.
+You must add valid value for
+Field Label
+Long Text
+Add New User
+Successfully User Created
+Please add user Name
+Please add user Surname
+Please add a valid Email
+This user already exist.
+Please add user Mobile
+Please select user.
+This Mobile Number found in Blacklist.
+Last Modification at
+Referrer Users
+Add Credits for Report
+Add Commission Fee for Report
+Referral Sur Name
+Can agent see reports
+Can agent manage reports
+Status Icon
+All
+Report fields
+Add new Address
+Before sending a contact, it is mandatory that you have spoken to him personally and that he is informed that he will receive a call from the real estate Agent.
+I CONFIRM
+This feature is disable on WebView.
+Something went wrong, Please try again later.
+Are you sure you want to delete this record
+Are you sure you want to redeem this prize
+Confirm
+Sorry Insufficient credits for this prize.
+Are you sure you want to cancel this reminder
+Are you sure you want to active this reminder
+Are you sure you want to delete this record
+Warning
+You should fill all mandatory fields.
+Show All
+Phone Number Grace Period
+Enable Unique Address
+Address Grace Period
+Are you sure you want to set this user as an Agent?
+Are you sure you want to set this user as an Admin?
+Are you sure you want to activate this user?
+Referrer Report
+Push Notification can not contain @@app_link@@,@@app_name@@ tags.
+App Link
+Page Title
+You must add Title for Landing Page.
+Something went wrong, Please try again later!
+This feature is disable on WebView!
+Something went wrong please try again!
+Confirm page title
+Confirm page message
+You must authorized to allow for commercial purpose.
+You must Accept Privacy statement.
+Here
+Manage Prizes
+Prizes Notification
+Redeemed
+Refused
+Delivered
+Referrer settings
+Agent settings
+Are you sure you want to update status?
+Successfully status update.
+Please select notification type.
+Referral Email title cannot be empty.
+Referral Email message cannot be empty.
+Referral PUSH title cannot be empty.
+Referral PUSH message cannot be empty.
+Referral CUSTOM ULR cannot be empty.
+Agent Email title cannot be empty.
+Agent Email message cannot be empty.
+Agent PUSH title cannot be empty.
+Agent PUSH message cannot be empty.
+Agent CUSTOM ULR cannot be empty.
+Notification saved successfully.
+You can use following custom tags in your Text
+Select Zip File
+Users List
+GDPR
+Successfully GDPR applied.
+Welcome to GDPR oblivion feature. If you select one of the user from the list and click ACTION, the system will delete all the data related to this user.
+You must add label for PHONEBOOK BUTTON.
+You must add label for STATISTICS BUTTON.
+Phonebook
+Statistics
+Prospect
+MANAGE PROSPECT JOBS
+All Prospects
+Job
+Add Job
+Job successfully saved.
+Select Job
+Not Available
+Jobs
+Manage Jobs
+All Jobs
+Add New Job
+Job Title
+Please add a valid Job Title.
+Prospects Phonebook
+MANAGE PHONEBOOK
+Birth Date cannot be empty.
+Birth Date
+Enable Birth Date
+Mandatory Birth Date
+Migareference
+Is Blacklist
+Is Exclude
+This Mobile Number has been Blacklisted.
+This Mobile Number already exists.
+Select phone type
+Prospect
+Referrer
+Phone Number successfully saved.
+Add
+Add New Phone
+Operation Completed
+Successfully Imported
+Successfully Updated
+Not Validated
+Only International formate of Phone Numbers is accepted i.e. +39xxxxxxxxxx, 00xxxxxxxxxx
+Import CSV File
+Please add a valid Email.
+Add Video embed source
+Frame height
+From 1 to 9999
+Frame height
+Percentage (%) of the screen height
+Fixed number of pixels
+I have read and accept Privacy Statements
+I have read and accept Terms
+Block Report for unique address
+Warning! Address already used in another report. Please be aware that it is possible someone else already submitted the same report.
+Blacklist this contact, don't allow new reports
+Disable Phone Grade Period Check
+Provinces DB
+Manage Provinces DB
+Country
+Country List
+Province
+Add option values separated by @ tag. Ex. Option value@Option value or import options from given list
+Enable Report for Platform
+Only IOS
+Only Android
+Both
+Select Province
+Assign provinces
+Afghanistan
+Albania
+Algeria
+Andorra
+Angola
+Antigua and Barbuda
+Argentina
+Armenia
+Australia
+Austria
+Azerbaijan
+Bahamas
+Bahrain
+Bangladesh
+Barbados
+Belarus
+Belgium
+Belize
+Benin
+Bhutan
+Bolivia
+Bosnia and Herzegovina
+Botswana
+Brazil
+Brunei
+Bulgaria
+Burkina Faso
+Burundi
+Côte dIvoire
+Cabo Verde
+Cambodia
+Cameroon
+Canada
+Central African Republic
+Chad
+Chile
+China
+Colombia
+Comoros
+Congo-Brazzaville
+Costa Rica
+Croatia
+Cuba
+Cyprus
+Czech Republic
+Democratic Republic of the Congo
+Denmark
+Djibouti
+Dominica
+Dominican Republic
+Ecuador
+Egypt
+El Salvador
+Equatorial Guinea
+Eritrea
+Estonia
+Swaziland
+Ethiopia
+Fiji
+Finland
+France
+Gabon
+Gambia
+Georgia
+Germany
+Ghana
+Greece
+Grenada
+Guatemala
+Guinea
+Guinea-Bissau
+Guyana
+Haiti
+Holy See
+Honduras
+Hungary
+Iceland
+India
+Indonesia
+Iran
+Iraq
+Ireland
+Israel
+Italy
+Jamaica
+Japan
+Jordan
+Kazakhstan
+Kenya
+Kiribati
+Kuwait
+Kyrgyzstan
+Laos
+Latvia
+Lebanon
+Lesotho
+Liberia
+Libya
+Liechtenstein
+Lithuania
+Luxembourg
+Madagascar
+Malawi
+Malaysia
+Maldives
+Mali
+Malta
+Marshall Islands
+Mauritania
+Mauritius
+Mexico
+Micronesia
+Moldova
+Monaco
+Mongolia
+Montenegro
+Morocco
+Mozambique
+Myanma
+Namibia
+Nauru
+Nepal
+Netherlands
+New Zealand
+Nicaragua
+Niger
+Nigeria
+North Korea
+North Macedonia
+Norway
+Oman
+Pakistan
+Palau
+Palestine State
+Panama
+Papua New Guinea
+Paraguay
+Peru
+Philippines
+Poland
+Portugal
+Qatar
+Romania
+Russia
+Rwanda
+Saint Kitts and Nevis
+Saint Lucia
+Saint Vincent and the Grenadines
+Samoa
+San Marino
+Sao Tome and Principe
+Saudi Arabia
+Senegal
+Serbia
+Seychelles
+Sierra Leone
+Singapore
+Slovakia
+Slovenia
+Solomon Islands
+Somalia
+South Africa
+South Korea
+South Sudan
+Spain
+Sri Lanka
+Sudan
+Suriname
+Sweden
+Switzerland
+Syria
+Tajikistan
+Tanzania
+Thailand
+Timor-Leste
+Togo
+Tonga
+Trinidad and Tobago
+Tunisia
+Turkey
+Turkmenistan
+Tuvalu
+Uganda
+Ukraine
+United Arab Emirates
+United Kingdom
+United States of America
+Uruguay
+Uzbekistan
+Vanuatu
+Venezuela
+Vietnam
+Yemen
+Zambia
+Zimbabwe
+Padova
+Lodi
+Lecco
+Siena
+Oristano
+Pescara
+Milano
+Pistoia
+Potenza
+Ragusa
+Foggia
+Cuneo
+Matera
+L Aquila
+Rieti
+Salerno
+Napoli
+Catania
+Frosinone
+Cosenza
+Brescia
+Pesaro e Urbino
+Cremona
+Mantova
+Viterbo
+Lecce
+Vibo Valentia
+Ascoli Piceno
+Terni
+Campobasso
+Bari
+Isernia
+Caltanissetta
+Messina
+Alessandria
+Bergamo
+Rovigo
+Verona
+Roma Capitale
+Reggio Calabria
+Piacenza
+Sassari
+Enna
+Asti
+Torino
+Belluno
+Varese
+Monza e Brianza
+Novara
+Agrigento
+Ancona
+Vicenza
+Udine
+Avellino
+Caserta
+Biella
+Benevento
+Imperia
+Trento
+Pavia
+Vercelli
+Savona
+Teramo
+Sondrio
+Parma
+Como
+Catanzaro
+Reggio Emilia
+Trapani
+Bolzano Bozen
+Ravenna
+Palermo
+Valle d Aosta
+Fermo
+Chieti
+Treviso
+Bologna
+Lucca
+La Spezia
+Pordenone
+Barletta-Andria-Trani
+Arezzo
+Venezia
+Verbano Cusio Ossola
+Macerata
+Latina
+Sud Sardegna
+Grosseto
+Genova
+Ferrara
+Nuoro
+Cagliari
+Perugia
+Siracusa
+Massa e Carrara
+Taranto
+Firenze
+ForlÃ Cesena
+Modena
+Rimini
+Crotone
+Livorno
+Pisa
+Brindisi
+Prato
+Gorizia
+Trieste
+Non classifiable
+Enable Consent Collection
+Consent info Popup Body
+No GDPR
+GDPR
+Consent info Popup Title
+Consent info Popup Body
+Consent Invitation Message Body
+Thank You Page Title
+Thank You Page Body
+Consent Collection Page Title
+Consent Collection Page Body
+Select Consent Date
+Select Consent Time
+Check App Version?
+Enable Android App Version Check?
+Enable IOS App Version Check?
+Please update your app
+Consent
+Select Consent Date
+Select Consent Time
+Share
+Please select consent day
+Please select consent month
+Please select consent year
+Please select consent hour
+Please select consent minute
+Consent Collection Page Header
+Thank You Page Title Header
+Here
+Enable Link 1
+Link 1 URL
+Link 1 Button text * (Max 9 Characters including space)
+Prize Link 1 URL cannot be empty
+Prize Link 1 Button Text cannot be empty
+Enable Link 2
+Link 2 URL
+Link 2 Button text * (Max 9 Characters including space)
+Prize Link 2 URL cannot be empty
+Prize Link 2 Button Text cannot be empty
+Yes I, proceed
+Do you for me
+Please add a valid mobile or Phone Number
+Please select event day
+Please select event month
+Please select event year
+Please select event hour
+Please select event minute
+Please select reminder time
+Please select event type
+Date Stamp
+Value
+You are not allowed to see any report.
+Their is no Admin user exist.
+Agent User cannot Submit Report.
+You must select province.
+You must select your Job.
+Company name cannot be empty.
+Email or Mobile already exist.
+Referrers
+All users
+Day
+Days
+Month
+Year
+Minutes
+Hours
+Hour
+More Filters
+From date
+To date
+Less Filters
+API
+API Token
+Make sure API clients aware about TOKEN reset.
+Token Mismatch
+Referrer Email can not be empty.
+Referrer Name and Surname can not be empty.
+owner Name can not be empty.
+owner Surname can not be empty.
+owner Phone can not be empty.
+Please add a valid Mobile or Phone Number.
+Phone prospect already present
+Wrong data format
+Status ID
+Reset Token
+API Admin
+Reset Admin
+Token Mismatch
+Referrer Email is Missing.
+Invalid Email.
+Referrer Name,Surname is Missing to create account.
+Owner detail is missing.
+Invalid owner phone.
+Owner phone already exist.
+Invalid Status ID
+Invalid Report No
+You must add commission fee.
+Commission fee is Missing
+Comment fee is Missing
+Invalid Admin Access
+Phone number is not correct. Please add a phone between 10-14 digits with 00 or + international country code at beginning
+IOS Store Version
+Android Store Version
+Report API
+Twillio API
+Engagement Level
+Filter
+By creating a referrer user manually we cannot collect the approval of Term and Condition. Be sure to collect them offline!
+Owner hot Label cannot be Empty.
+Authorized Label cannot be Empty.
+You must add IOS Store Version
+You must add Android Store Version
+You must add label for Extra 2
+You must add label for Extra 1
+Reminder Title
+Notification
+Reminder Badge
+Reminder Icon
+Before Hours
+Reminder Title cannot be empty.
+Email Before Hours cannot be empty.
+PUSH Before Hours cannot be empty.
+Reminder ICON cannot be empty.
+Communication Logs
+Manual
+Enrollment
+Communication Tracker
+Logs
+Add
+Do you want to show the history of communications or add a new record
+Last contact
+Successfully Log deleted.
+Last Contact
+Add Manual Log
+Are you sure you want to add Manual Log?
+Successfully item Saved.
+Time Stamp
+Manual
+Enrollment
+REMINDER AUTOMATION
+Trigger
+Trigger count
+Select Trigger
+Automation Title
+Trigger Action
+Select Reminder
+Rating Up To
+Number of reports
+Number of days
+Referrer posted a certain number of reports
+Referrer opens the APP one or more time in the past XX days
+First time a Referrer is registered
+A report still in one state for XX days
+Referrer birthday
+Referrer not called since XX days
+No changes in engagement rating of a referrer in the past XX days
+Engagement
+Title cannot be empty.
+Number of Reports cannot be empty.
+Number of Days cannot be empty.
+Exclude Declined and Paid
+Reminder Automation settings
+Enable Invite Prospectus
+Enable Automation
+Are you sure you want to Done this Reminder?
+REPORT REMINDERS
+Select Reminder type
+Reminder Date
+Reminder Time
+Reminder Before Time
+Automation Trigger Log
+Automation CRON set Time
+Enable Automation CRON
+Your Module Automation Reminder CRON settings
+Disable CRON?
+Set CRON Time
+Automations
+Appointments
+All Reminders
+Filter Phonebook
+Reference Level
+successfully data saved.
+Sponsor
+Event Date
+Cancel
+Due Date
+Postpone
+Prospect
+Calculate
+Calculate possible effects of this automation
+Please select trigger
+Add New Contact
+Add New PhoneBook
+CONTACT PHONEBOOK
+Transfer To Referrer
+REFERRER WELCOME EMAIL TEMPLATE
+You can use following custom tags in your Text
+Enable Welcome Email
+Warning! You accept the terms and conditions of the referrers program on behalf of the referrer. Are you sure you have collected his/her consent offline?
+Blockchain Certificate
+N/A
+You can use following custom tags in your PUSH Title and Text
+You can use following custom tags in your Email Title and Text
+Custom Tags are not allowed in Automation settings
+Tax_ID
+Can agent manage Reminder Automations
+Managed By
+Enable Refrence Level
+MANAGE TWILLIO API
+TWILLIO API
+Enable Twillio SMS Notifications
+Twillio SID
+Twillio Token
+Twillio sim id
+Default Country Code
+TWILLIO LOGS(LAST 7 DAYS)
+Response
+Yes, I Proceed
+Invalid Access
+External URL
+Manage Reports Externally
+Reset
+Reset Filter
+Link
+PhoneBook
+Manage Twillio API
+Filter Reports
+Report Details
+Sponsor Type
+Standard
+Manage Prize
+Prizes Notifaction
+Notifaction Type
+Both Email/PUSH
+Only PUSH
+CRM Reports Page
+Manage PhoneBook
+Referrer Phonebook
+Contact Phonebook
+Tranfer to Referrer
+Referrer Welcome Email Template
+Reminder Automation
+Report Reminders
+Twillio Logs(Last 7 Days)
+Report Type:
+No items Found
+No results!
+GDPR settings
+Select Country
+Add New
+Add Manual log
+Contact Detail
+Contacts
+Search
+Filter PhoneBook
+Transfer
+Only Admin Reminders
+My Reminders
+Referrer User
+Agent User
+Street
+Zip Code
+City
+Select Country
+You must select address country.
+You must select address province.
+You must add street address.
+You must add city.
+You must add zip code.
+Test
+Below you can add a PHONE NUMBER to receive a test SMS using above Twillio settings.
+Text
+Successfully send test SMS.
+Could not found TWILLIO API credentials
+Invalid Phone
+Your account is out of balance
+Unable to Connect API
+Please add valid Phone and Message body
+Could not found TWILLIO API credentials
+SMS Notification settings
+Referral SMS
+Agent SMS
+SMS Text
+API Response
+Referrer Name
+Get Affiliate Link
+Genrate Affiliate Link
+URL
+URL cannot be empty.
+GENERATE LINK
+Affiliate Link
+COPY LINK
+Copied
+OPTIN Form
+Manage Optin Form
+Source Code For Landing Page
+Button Text Color
+Button Background Color
+Redirect URL (optional)
+Confirmation message (if Redirect URL not set)
+Save and View changes
+First Name
+Last name
+I accept the Privacy Policy
+GDPR CONSENT
+Subscribe
+Generate & Copy Source Code
+OPTIN FORM REFERRER WELCOME EMAIL TEMPLATE
+Code Copied
+Reply to Email
+Button Label
+Residental Province
+Button Width
+Birthdate
+Working Days Count (Exclude Weekends)
+Solana TXT Hash
+Solana SHA Hash
+Referrer did not accept T&C
+Add New Job
+Rating Star Color
+Select Admin/Agent
+Copy
+Prospect DB
+Download Contact DB
+Referrer DB
+Privacy Policy
+PRIVACY GLOBAL SETTINGS
+Enable Global settings
+GDPR Popup settings
+Select Popup
+Is this popup active
+Popup Button (Do you for me)
+Popup Title
+Popup Description
+GDPR SHARING TEXTS SETTINGS
+Sharing Text
+GDPR LANDING PAGE SETTING
+Consent Page Title can not be empty
+Consent Page Header can not be empty
+Consent Page Body Content can not be empty
+Consnet Thank Page Title can not be empty
+Consent Thank Page Header can not be empty
+Consent Thank Page Body can not be empty
+GDPR STATEMENT FOR PROSPECTS
+GDPR Consent Landing and Opt-In Landing should have a different GDPR Statement
+GDPR Statment Text
+Referrer Phonebook Detail
+Referrer Reports
+Manually add communication log
+Sharing Text for Report GDPR
+GDPR LANDING PAGE SETTING
+Sharing Texts for Invite Prospectus
+REPORT GDPR Popup
+Invite Prospectus Popup
+Consent info Popup Title can not be empty
+Consent info Popup Body can not be empty
+Consent info Popup Title can not be empty
+Consent info Popup Body can not be empty
+GDPR Statement can not be empty
+Report Landing Page
+Consent Landing Page
+Thank You Page
+Consent Collection Page
+Consent Page Button (I Agree)
+Popup Button (Yes, I Proceed)
+Popup Button (Do you for me)
+Popup Button (Understood)
+Popup Button (Discard)
+Page Title
+Form Title
+Header Image
+Page Background
+Form Background
+Form Button (Submit)
+Recommended
+Percentage of failed invitations
+Monitor Failed Invitations
+Migareference Agent Stats
+General
+Referrers
+Last 30 Days
+Last 3 Months
+Last 6 Months
+Current Year
+Last Year
+Download PDF
+Referrers
+No. Referrers
+5 Stars Referrers
+4 Stars Referrers
+3 Stars Referrers
+3/4/5 Star KPI
+Best 10 Jobs
+Age Group
+Best 10 Regions
+Time Range Referrers
+Loading...
+Reports Statistics
+No. of Reports
+No. Deal Closed
+Incubation Days
+Commissions
+Reports KPI
+Time Range Reports Statistics
+Reminders Statistics
+No. Reminders
+No. Warnings
+No. Rem. Postponed
+Management Days
+KPI Reliability
+Time Range Reminder Statistics
+Referrers Chart
+Date
+Name
+Phone
+No. Reports
+Total Reports
+Deal Closed
+Rem. Postponed
+Total Warnings
+Total Reminders
+Rem. Postponed
+Total Warnings
+To
+Time Range Invite Prospectus
+No. Invitations
+No. Visits
+No Referrers Found
+Add New Referrer
+Successfully Job saved.
+Report Detail             
+Agent/Sponsor Detail
+Referrer Detail 
+Report Status  
+Invite Report Card Title              
+Filter Metrics
+PDF
+No. Done
+Filters
+Download Reports DB
+New user not registered as referrers (48h)
+Assign Admin
+No Admin
+Enable GDPR
+Admin Agents Group
+Assign Admin
+No Admin
+Referrers not accepted T&C (48h)
+BCC to Email
+Create a report in behalf of a REFERRER
+Add WebHook URL
+Choose the list of WebHook tags
+Referral Email
+Referral Phone
+App User Name
+App User Surname
+App User Email
+App User Phone
+Reminder UID
+Enable Reminder WebHooks
+Agent Group
+Job Title
+Engagement Level
+Life Time Reports
+Days since last contact
+0-5 Reports
+5-10 Reports
+10-30 Reports
+30-50 Reports
+More Than 50 Reports
+Less than 30 Days
+30-90 Days
+More Than 90 Days
+Referrer Webhooks
+The Webhook method will be triggerd for every new NEW Referrer registration.
+Enable Referrer WebHook
+The Webhook method will be triggerd any time a NEW REPORT is ADDED or MODIFIED.
+Enable Report API WebHooks
+API + WEBHOOK Documentation
+The Webhook method is set up to be triggered whenever there is a NEW REFERRER created or existing referrer updated.
+WEBHOOK Fields Label
+Enable Report API WebHooks
+Add the WEBHOOK address (URL) where to receive data
+The Webhook method is set up to be triggered whenever there is a NEW REFERRER created or existing referrer updated.
+Reminder Automation + Webhooks
+The Webhook method will be triggered whenever a corresponding Reminder Triger is fired.
+Province 2 Later Code
+Send a Test Call
+Confirmation
+Under this action we will automatically disabled the mandatory selection of an agent because there is no agent codified in the system
+Yes, do it
+No, go back
+Attention
+To enable the mandatory selection of an agent during registration, you must have codified at least one agent in the system.
+Enable mandatory agent selection
+Referrer Credits
+Manage Referrer PhoneBook
+CUSTOMER
+PARTNER
+Customer
+Partner
+Manage Agent Type
+Select type of Agent
+Enable Report Type
+Enable Multiple agent selection
+Report Type Popup
+Cover
+Popup Button (Type One)
+Popup Button (Type Two)
+Share Message
+Copy Message
+Copy and paste the text in your whatsapp, sms, email... and send it to your prospect
+Enable unique prospect Phone Number
+Grace Period Action
+Grace Period Warning Text
+Select Grace Period Database
+Make sure your API endpoint can handle requests with the mobile number tagged as @@owner_mobile@@. If no response is received from the API endpoint, we will assume the mobile number is not blacklisted, and the report will be posted without further checks.
+Example API Endpoint URL
+External CRM/Database URL
+Label for Agent Type One
+Label for Agent Type Two
+Choose Agent Type
+Select all avaible provinces
+Internal Note
+Token Mismatched
+This API is not enabled.
+Referrer Email or Mobile is required.
+Invalid Email.
+Referrer not found.
+Invalid Referrer mobile.      
+Referrer not found.
+Multiple Referrers found.
+Credit type is missing or invalid.
+Credit amount is missing or invalid.
+Credit description is missing or invalid.
+Invalid Admin Access
+Credits API
+Enable Credits API
+Credits API log
+Request IP
+Response Type
+Description
+Created At
+Custom Credits Notifications
+Report & Credit API
+Jobs & Sectors
+Sector
+Select Sector
+Sector successfully saved.
+Reminder Status
+Assigned To
+Range
+Past 7 Days
+Past 30 Days
+Past 3 Months
+Past 6 Months
+Past 12 Months
+New to Old
+Pld to New
+Rating High to Low
+Rating Low to High
+Showing
+of
+View Report
+Cancele
+Select All
+Reset Reminders
+Please be aware that performing the reset action will permanently remove all selected reminders. Additionally, this action will update the statistics data accordingly. Once deleted, this information could not be recovered.
+Reminder Reset Logs
+Admin Name
+Total Reset Reminder Count
+Are you sure you want to reset reminders?
+Yes, Reset!
+Successfully Reset Reminders.
+Full Phonebook
+Are you sure you want to allow FULL PHONEBOOK access?
+Relational Notes
+Reciprocity Notes
+Only My Referrer
+Report Notes
+New Notes PUSH / Email Template
+UID
+Event At
+Custom Text
+This text will be displayed just above the Privacy Label and right below your last form field.
+Customize Optin Form
+Label
+Visibility
+Required
+Visible
+Hidden
+If you saved these settings once then all the old settings will be removed and a new style of form will be generated with these settings.
+Siberian App Privacy Statement
+External Link
+Custom Privacy Statement
+Show in Status Report
+Privacy label cannot be empty
+Privacy link cannot be empty
+Privacy link is not a valid URL
+You must add valid value for
+must contain only Alphanumeric characters
+must contain only Numbers
+must contain only Numbers
+contains potential SQL injection.
+The API token received directly from the Admin.
+The first name of the Prospect.
+The last name of the Prospect Owner.
+The mobile number of the Prospect Owner.
+This is a sample note.
+A descriptive note about the prospect.
+Email valid format (e.g., example@example.com)
+The Referrer Email serves as a Unique identifier for the Referrer user within the database.
+Alphabetic characters (a-z, A-Z)
+The first name of the Referrer. Required when creating a new Referrer.
+Alphabetic characters (a-z, A-Z)
+The last name of the Referrer. Required when creating a new Referrer.
+The mobile number of the Referrer. Required when creating a new Referrer.
+Specify whether the consent is collected or not.
+Disabled or Not Configured
+This field is disabled or not configured.
+Enter a numeric value corresponding to the option labels provided by the administrator, starting from 1.
+Enter the UID (Unique Identifier) of the country as per the provided list.
+Enter the UID (Unique Identifier) of the province as per the provided list.
+Commercial Consent Enabled      
+Name is missing or invalid. Please provide a valid name containing only letters.
+Surname is missing or invalid. Please provide a valid surname containing only letters.
+Email is missing or invalid. Please provide a valid email address.
+Mobile number format is invalid. Please provide a valid mobile number starting with '00' or '+', and containing 10 to 14 digits.
+Sponsor UID must be a numeric value.
+Sponsor UID does not exist or is not valid.
+Rating must be a numeric value between 1 and 5.
+Job UID must be a numeric value.
+Job UID does not exist or is not valid.
+Sector UID must be a numeric value.
+Sector UID does not exist or is not valid.
+Birth Date format is invalid. Please provide a valid date.
+Country UID must be a numeric value.
+Country UID does not exist or is not valid.
+Province UID must be a numeric value.
+Province UID does not exist or is not valid.
+Invalid characters detected in relational note.
+Invalid characters detected in reciprocity note.
+Tax ID must be a maximum of 6 characters.
+Blockchain Password must be a maximum of 10 characters.
+First Password must be a maximum of 10 characters.
+Successfully Referrer created.  
+Update   
+Create
+Countries & Provinces
+Manage Countries & Provinces
+Commission Label
+Recruitment quality indicator. Good recruitment must produce at least 0.15 (15%) good Referrers.
+Past Month
+Sector
+Report Performances Overview
+Agents Chart
+Referrers Chart
+Reminder Webhook Logs and Failure Notification Template
+Reminder UID
+Report quality indicator. If the conversion into sales falls below 0.20 (20%) it means that the Referrers are not referring target people.
+Prospecting
+Migareference Prospecting Stats
+Prospecting Quality
+Qualifying Performance
+1st Time Proc.
+Avg.Processed/Day
+Qualifying and knowing potential referrers is very important. The minimum average daily number must not fall below 2.
+1st Time Proc. KPI
+Knowing and qualifying your referrers is essential. This KPI tells you how many people in your club you managed to get to know and profile.
+Past Week
+Current 1st Time Proc.
+Previous 1st Time Proc.
+Migareference Report Stats
+Referrers Report Statistics & Prediction
+Total Referrers 3*
+4 STARS STATISTICS
+Total Referrers 4*
+5 STARS STATISTICS
+Total Referrers 5*
+ALL REFERRERS
+All Referrers
+Total Reports 3*
+Total Reports 4*
+Total Reports 5*
+Average number of days between the registration of a Referrer and the sending of the first report. This KPI measures the effectiveness of training and quality of Referrers.
+KPI Report Conv.
+This KPI measures how many of our Referrers make a first-time report. The value should always be greater than 0.15. This KPI measures the e! effectiveness of training and the quality of Referrers.
+KPI Active Ref.
+Avg Rep. x Active Ref.
+This KPI measures the total number of reports received from referrers in the same group, divided by the total number of referrers who have made at least one report. The KPI measures how active the referrers are over time and therefore the effectiveness of the follow-up.
+This KPI tries to predict how many reports we will owe in the near future. The calculation takes into consideration the percentage of Referrers that will be activated, therefore Total referrers are not yet active x the KPI Active Referrers. The calculation only takes into account alerters created between today and twice the average incubation time.
+Expected Reports
+Customize Referrer Button Text
+Customize Referrer Button Background
+Invalid action type.
+This will remove the agent from the selected referrer(s). Do you want to continue?
+This will assign the selected agent to the referrer(s). Do you want to continue?
+Agent Assignment
+Select one or more referrers to assign a new agent or remove the current agent.
+Choose Action
+Remove Agent
+Assign New Agent
+Filter By
+Total Selected
+Enable event
+Please add valid First Name
+Please add valid Surname
+Please add valid Email
+Please add valid Mobile
+Invalid Phone
+Something went wrong. Please try again later.
+Please select a job
+Please select a profession
+Please select an agent
+Please select a province
+Please add a valid Birthdate
+Non clickable privacy label (Optional)
+Custom privacy link (Optional). Leave empty for default.
+Please accept privacy policy
+Please accept consent
+Success
+Report Performances Statistics
+No. Deals Closed
+Deals Closed
+START
+END
+Report quality indicator. If the conversion into sales falls below 0.20 (20%) it means that the Referrers are not referring target people.
+Rep. Succ./Total
+The incubation time tells us how long on average a report takes to conclude with a sale.
+Total Deal Closed
+Star
+Stars
+Success
+Select Profession
+Commissions Paid
+Migareference Followup Stats
+Referrers Followup Statistics (Reminders)
+No. Reminder Done
+No. Rem. Postponed
+Total Cancelled
+No. Rem. Cancelled
+Total Processed
+Total Expired
+Avg. / Processed
+Total reminders handled in the period per working day.
+KPI Cancelled
+This indicator allows us to understand how many reminders have been discarded and not worked on. The KPI should be as close to 0 as possible.
+Reports Warnings Statistics (Reminders)
+No. Warnings
+This KPI measures total issue reminders on Snoozed References divided by total issues. This KPI should be close to 0.
+KPI Postponed
+AI Integration
+Manage Call Script
+Enable API
+OpenAi API key
+Temperature
+Temperature value could be between 0 to 2. Recommended value is 1
+Token Limit
+Temperature value could be between 1 to 4096. Recommended value is between 300 to 500.
+Prompt
+Send a Test Call
+Note: Please save changes before Test Call
+Call Script
+Email is not correct. Please add a valid email address
+admin
+agent
+ALL
+AI Matching
+Last Update
+Available Matching
+Matched
+Matching Description
+Match
+UnMatch
+Are you sure you want to proceed with the match
+Are you sure you want to proceed with the unmatch
+Maximum Number of Matches
+A Particular referrer will be excluded from the matching pool if (Maximum Number of Matches) already consumed within the given grace period. Value could be between 1 to 50. Recommended value is between 3 to 10.
+Grace Period
+A Grace Period for the Maximum number of matches.Value could be between 1 to 100. Recommended value is between 30 to 60.
+Call Script Prompt
+AI Matching System
+Remove
+Discarded At
+Available
+Are you sure you want to Match customer
+Yes, Match it!
+By refreshing we will discard current referred showed, later you can manage discard in the specific section.
+Yes, Refresh it!
+Are you sure you want to Remove from discard list
+Yes, Remove it!
+Are you sure you want to UnMatch
+Yes, UnMatch it!
+Token Used
+Are you sure you want to proceed
+Click the above button to get your first AI Matching list
+OPEN AI CONFIGURATION
+CALL SCRIPT CONFIGURATION
+Token value could be between 1 to 4096. Recommended value is between 300 to 500.
+AI MATCHING CONFIGURATION
+Select Mode
+CALL SCRIPT LOGS (LAST 30)
+AI MATCHING LOGS (LAST 30)
+Total Token
+Log Details
+AI Response
+Referral Link
+Link Copied
+Delete All Selected
+Are you sure you want to delete selected users
+OPTIN Form Referrers
+This table displays the webhook logs for the last 10 days.
+Custom date
+DETAIL
+SHARE
+Old to New
+BlockChain Certified
+Report Source
+Just in Time
+before 15 mins
+before 30 mins
+before 45 mins
+before 1 hour
+before 2 hours
+before 6 hours
+before 1 day
+All Sectors
+Please add a valid Sector Title.
+Ref. Sector Title
+Sector Title
+Add New Sector
+Manage Jobs & Sectors
+Add this trigger to Recap Email
+Recap email template
+Enable reminder recap email
+Reminder Recap email bcc receipents
+Reminder Recap email Subject
+Add New Reminder
+Recap email header
+Email successfully sent.
+This is trigger-specific header, and is displayed in the recap email for the corresponding section. Use it to add instructions or context for admins regarding the actions they need to take.
+Recap Email Preferred Language
+NOTE: This will translate only hardcoded labels inside email template. Rest of text will be used as per given configurations inside reminder section.
+Send Sample Test Email
+Send Test Email with Real Data
+This test email will be sent with placeholder (dummy) data and will not use real reminder configurations. It will be delivered to the BCC email set in general settings. Do you want to proceed?
+This test email will be sent using real customer data and actual reminder configurations. It will be delivered to the BCC email set in general settings. Do you want to proceed?
+Mandatory Sector
+Mandatory Profession
+Whatsapp
+SMS
+Referral Director
+Director full name
+Director email
+Director phone
+Director calendar url
+To invite your contact, choose the channel you prefer or copy the invitation message
+Source
+Download File
+If the file did not download automatically, click the button below to download manually.
+Download Now
+Failed to generate the report. Please try again.
+Director Contact
+Calendar URL
+Select to use OpenAi API or Perplexity API
+OpenAi
+Perplexity
+Perplexity API key
+Please select one of the API, OpenAi API or Perplexity API
+Please enter the Perplexity API Key.
+Please enter the OpenAI API Key.
+Daily Report
+Status successfully updated.
+All tasks are done, nothing left to do here.
+BCC Email Receiver
+
+Welcome to the world of
+Winning Referral
+On this page you will understand how to
+earn up to €1,000 and expand your circle of key people
+you know, by referring potential companies that are looking for new ways to acquire target customers without spending upfront on advertising.
+By helping us, you will not only obtain economic benefits, but also reciprocity. We will share our vast network of people we know to help you achieve your goals and overcome problems and challenges. This is the real strategic wealth that will remain with you forever.
+Before starting, here’s a short 3-minute video that explains what
+is.  
+Name
+Email
+Phone
+Date
+Manage Qualifications
+Add Qualification
+ID
+Date
+Name
+Image
+Min. Credits
+Referrer List
+Content Type
+Status
+Action
+Qualification Name
+Gold
+Icon/Logo
+Insert a
+Active
+Inactive
+Save
+Cancel
+Qualifications Notifications
+
+Webhook
+
+Email Subject
+
+Congratulations on your new qualification
+
+BCC
+
+Email Body
+
+Hello @@first_name@@, congratulations on achieving @@qualification_title@@.
+
+Push Notification Title
+
+New qualification earned!
+
+Push Notification Message
+
+Congrats John! You achieved Gold status.
+
+Notification Image
+
+Upload Image
+
+Open a feature or a custom URL
+
+Yes
+
+No
+
+Choose the features to open
+
+Custom URL?
+
+Custom URL
+
+Manage Reserved Section Contents
+
+Referrer Type: Non customer
+
+Type
+
+List
+
+Referrer Type: Customer
+Are you sure?
+
+Do you really want to delete this qualification?
+
+Yes, delete it!
+
+Deleted!
+
+Error!
+
+No Referrer
+
+No Referrer found.
+
+Error
+
+Saved
+
+Content setting saved successfully.
+
+Unable to save content setting.
+
+Request failed.
+No data available in table
+
+Showing _START_ to _END_ of _TOTAL_ entries
+
+Showing 0 to 0 of 0 entries
+
+(filtered from _MAX_ total entries)
+
+Show _MENU_ entries
+Search:
+No matching records found
+First
+Last
+Next
+Previous
+: activate to sort column ascending
+: activate to sort column descending
+Referrer Type: Non customer
+Type
+Feature
+Folder
+List
+Referrer Type: Customer

@@ -1,0 +1,620 @@
+<?php
+$app_id       = $this->getApplication()->getId();
+$features     = $this->getApplication()->getOptions();
+$value_id     = $this->getValueid();   
+?>
+<div class='prize-notification-contianer container-fluid content-feature pt30'>
+    <!-- Notifiaction List -->
+    <div id="priz-notification-list-container">
+        <table id="priz-notification-list" class="table display responsive nowrap content-white-bkg" style="width:100%">
+            <thead>
+                <tr class="border-grey">
+                    <th><?php echo __('UID'); ?></th>
+                    <th><?php echo __('Trigger'); ?></th>                                                
+                    <th><?php echo __('Sent to'); ?></th>                                                
+                    <th><?php echo __('Notification Type'); ?></th>                                                                        
+                    <th><?php echo __('Action'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table> 
+    </div>
+    <!-- Notification Form -->
+    <form id='prize-notification-form' style='display:none;' action="<?php echo $this->getUrl('migareference/prize_notification/saveprizenotification') ?>" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-12">                  
+                        <div class="form-horizontal">
+                            <input type="hidden" name="app_id" value="<?=$app_id ?>">
+                            <input id="prz-notification-operation" type="hidden" name="operation" value="create">
+                            <input id="migarefrence_prizes_notification_id" type="hidden" name="migarefrence_prizes_notification_id" value="">                            
+                            <!--Prize Notifaction settings -->
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="alert alert-info">
+                                        <p style="padding-left:15px;">
+                                            <?php echo __('You can use following custom tags in your Text') ?>
+                                            <?php echo __('@@prize_title@@, @@prize_credits@@, @@user_credits@@, @@referral_name@@, @@agent_name@@, @@app_link@@, @@app_name@@, @@rd_name@@, @@rd_email@@, @@rd_phone@@, @@rd_calendar_url@@') ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>                           
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="prz-notification-to-user"><?php echo __('Send To'); ?> *</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select id="prz-notification-to-user" class="input-flat"
+                                        name="prz_notification_to_user">
+                                        <option value="1"><?php echo __('Both Referral/Agent') ?></option>
+                                        <option value="2"><?php echo __('Only Referral') ?></option>
+                                        <option value="3"><?php echo __('Only Agent') ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="" id="prz_refferral_notification">
+                                <h4><?php echo __("Referrer settings") ?> :</h4>
+                                <!--Agent Prize Email -->
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="ref-prz-notification-type"><?php echo __('Notifaction Type'); ?>
+                                            *</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select id="ref-prz-notification-type" class="input-flat"
+                                            name="ref_prz_notification_type">
+                                            <option value="1"><?php echo __('Both Email/PUSH') ?></option>
+                                            <option value="2"><?php echo __('Only Email') ?></option>
+                                            <option value="3"><?php echo __('Only PUSH') ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="ref-prz-email-settings" class="">
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for=""><?php echo __('Email Subject'); ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input value="" type="text" name="ref_prz_email_title"
+                                                id="ref-prz-email-title" class="prz-text required input-flat"
+                                                placeholder="<?php echo __('Subject'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for=""><?php echo __("Email Body") ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <textarea rows="4" cols="50" type="text" id="ref-prz-email-text" class="prz-text replace-with-ckeditor input-flat" name="ref_prz_email_text" placeholder="<?php echo __('Message') ?>"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Refreer Prize PUSH -->
+                                <div id="ref-prz-push-settings" class="">
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for=""><?php echo __('Push Title'); ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input id="ref-prz-push-title" value="" type="text"
+                                                name="ref_prz_push_title" class="prz-text required input-flat"
+                                                placeholder="<?php echo __('Push Title'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="ref_prz_push_text"><?php echo __("Push Message") ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <textarea rows="4" cols="50" id="ref-prz-push-text" class="prz-text ref_prz_push_text input-flat" name="ref_prz_push_text" placeholder="<?php echo __('Message'); ?>"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label
+                                                for="ref_prz_open_feature"><?php echo __("Open a feature or a custom URL") ?></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="ref-prz-open-feature" name="ref_prz_open_feature"
+                                                class="no-dk styled-select color-blue">
+                                                <option value="0"><?php echo __("No") ?></option>
+                                                <option value="1"><?php echo __("Yes") ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="ref-prz-feature-id-container">
+                                        <div class="col-sm-4">
+                                            <label  for="ref_prz_feature_id"><?php echo __('Choose the features to open'); ?></label>
+                                        </div>
+                                        <div class="col-sm-8 div-all-features">
+                                            <select id="ref-prz-feature-id" name="ref_prz_feature_id"
+                                                class="no-dk styled-select color-blue">
+                                                <?php foreach($features as $feature) : ?>
+                                                <?php if(!$feature->getIsVisible()) continue; ?>
+                                                <option value="<?php echo $feature->getId(); ?>">
+                                                    <?php echo $feature->getTabbarName() ?>
+                                                </option>
+                                                <?php endforeach ?>
+                                                <option value="0">
+                                                    <?php echo __('Custom URL?'); ?>
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group ref_prz-custom-url-container " style="display:none"
+                                        id="ref-prz-custom-url-container">
+                                        <div class="col-sm-4">
+                                            <label for="ref_prz_custom_url"><?php echo __('Custom URL'); ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input id="ref_prz_custom_url" name="ref_prz_custom_url" value=""
+                                                class="ref_prz_custom_url required input-flat"
+                                                placeholder="<?php echo __('Custom URL'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label
+                                                for="ref_prz_migareference_cover"><?php echo __('Upload a cover'); ?></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <!--[if gte IE 10]><!-->
+                                            <button id="ref_prz_custom_picture" type="button"
+                                                class="upload_contact_picture btn color-blue image_left">
+                                                <i class="icon-camera-retro"></i>
+                                                <?php echo __('Insert a <span class="bold">cover image</span>'); ?>
+                                            </button>
+                                            <!--<![endif]-->
+                                            <p id="ref_prz_custom_uploader_logo_ie_description" style="display:none">
+                                                <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
+                                            </p>
+                                            <input id="ref_prz_custom_file" class="uploader" style="display:none"
+                                                type="file" name="files[]"
+                                                data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                            <img id="ref_prz_custom_cover_img" style="display:none" width="210"
+                                                height="110" src="" class="cimage" />
+                                            <a href="javascript:;" style="display:none;"
+                                                id="remove_ref_prz_custom_cover_img" class="btn color-blue rcimage">
+                                                <i class="fa fa-times"></i>
+                                            </a>                                            
+                                            <input type="hidden" id="ref_prz_custom_migareference_cover_file"
+                                                name="ref_prz_custom_file" />
+                                            <input type="hidden" id="remove_ref_prz_custom_cover_img_field"
+                                                name="remove_ref_prz_custom_cover_img_field" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END Referrer Prize PUSH -->
+                            </div>
+                            <div class="" id="prz_agent_notification">
+                                <!--Agent Prize Email -->
+                                <h4><?php echo __("Agent settings") ?> :</h4>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="agt-prz-notification-type"><?php echo __('Notifaction Type'); ?>
+                                            *</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select id="agt-prz-notification-type" class="input-flat"
+                                            name="agt_prz_notification_type">
+                                            <option value="1"><?php echo __('Both Email/PUSH') ?></option>
+                                            <option value="2"><?php echo __('Only Email') ?></option>
+                                            <option value="3"><?php echo __('Only PUSH') ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="agt-prz-email-settings" class="">
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="agt_prz_email_bcc"><?php echo __('BCC Email Receiver'); ?>
+                                                *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input value="" type="text" name="agt_prz_email_bcc"
+                                                id="agt-prz-email-bcc" class="agt_prz_email_bcc required input-flat"
+                                                placeholder="<?php echo __('BCC'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="agt_prz_email_title"><?php echo __('Email Subject'); ?>
+                                                *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input value="" type="text" name="agt_prz_email_title"
+                                                id="agt-prz-email-title" class="agt_prz_email_title required input-flat"
+                                                placeholder="<?php echo __('Subject'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="agt_prz_email_text"><?php echo __("Email Body") ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <textarea rows="4" cols="50" type="text" id="agt-prz-email-text" class="replace-with-ckeditor input-flat agt_prz_email_text" name="agt_prz_email_text" placeholder="<?php echo __('Message') ?>"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Agent Prize PUSH -->
+                                <div id="agt-prz-push-settings" class="">
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="agt_prz_push_title"><?php echo __('Push Title'); ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input id="agt-prz-push-title" value="" type="text"
+                                                name="agt_prz_push_title" class="agt_prz_push_title required input-flat"
+                                                placeholder="<?php echo __('Push Title'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="agt_prz_push_text"><?php echo __("Push Message") ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <textarea rows="4" cols="50" id="agt-prz-push-text" rows="4" cols="50"
+                                                class="agt_prz_push_text input-flat" name="agt_prz_push_text"
+                                                placeholder="<?php echo __('Message'); ?>"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label
+                                                for="agt_prz_open_feature"><?php echo __("Open a feature or a custom URL") ?></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="agt-prz-open-feature" name="agt_prz_open_feature"
+                                                class="no-dk styled-select color-blue agt_prz_open_feature">
+                                                <option value="0"><?php echo __("No") ?></option>
+                                                <option value="1"><?php echo __("Yes") ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="agt-prz-feature-id-container">
+                                        <div class="col-sm-4">
+                                            <label
+                                                for="agt_prz_feature_id"><?php echo __('Choose the features to open'); ?></label>
+                                        </div>
+                                        <div class="col-sm-8 div-all-features">
+                                            <select id="agt-prz-feature-id" name="agt_prz_feature_id"
+                                                class="no-dk styled-select color-blue agt_prz_feature_id">
+                                                <?php foreach($features as $feature) : ?>
+                                                <?php if(!$feature->getIsVisible()) continue; ?>
+                                                <option value="<?php echo $feature->getId(); ?>">
+                                                    <?php echo $feature->getTabbarName() ?>
+                                                </option>
+                                                <?php endforeach ?>
+                                                <option value="0">
+                                                    <?php echo __('Custom URL?'); ?>
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group agt-prz-custom-url-container "
+                                        id="agt-prz-custom-url-container" style="display:none;">
+                                        <div class="col-sm-4">
+                                            <label for="agt_prz_custom_url"><?php echo __('Custom URL'); ?> *</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input id="agt_prz_custom_url" name="agt_prz_custom_url" value=""
+                                                class="agt_prz_custom_url required input-flat"
+                                                placeholder="<?php echo __('Custom URL'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label
+                                                for="agt_prz_migareference_cover"><?php echo __('Upload a cover'); ?></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <!--[if gte IE 10]><!-->
+                                            <button id="agt_prz_custom_picture" type="button"
+                                                class="upload_contact_picture btn color-blue image_left">
+                                                <i class="icon-camera-retro"></i>
+                                                <?php echo __('Insert a <span class="bold">cover image</span>'); ?>
+                                            </button>
+                                            <!--<![endif]-->
+                                            <p id="agt_prz_custom_uploader_logo_ie_description" style="display:none">
+                                                <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
+                                            </p>
+                                            <input id="agt_prz_custom_file" class="uploader" style="display:none"
+                                                type="file" name="files[]"
+                                                data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                            <img id="agt_prz_custom_cover_img" style="display:none;" width="210"
+                                                height="110" src="" class="cimage" />
+                                            <a href="javascript:;" style="display:none;"
+                                                id="remove_agt_prz_custom_cover_img" class="btn color-blue rcimage">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                            <!-- <input type="hidden" id="agt_prz_custom_c_cover_file"
+                                                    name="agt_prz_custom_c_cover_file"
+                                                    value="" /> -->
+                                            <input type="hidden" id="agt_prz_custom_migareference_cover_file"
+                                                name="agt_prz_custom_file" />
+                                            <input type="hidden" id="remove_agt_prz_custom_cover_img_field"
+                                                name="remove_agt_prz_custom_cover_img_field" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END Agent Prize PUSH -->
+                            </div>
+                            <div class="form-group">
+                                <div class="save pull-right">
+                                    <button class="button btn bt_save btn color-blue" type="submit">
+                                        <?php echo __('Save'); ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $('.replace-with-ckeditor').ckeditor();
+    //Datable Object
+    var dt_object = {
+        responsive: true,
+        language: {
+            "decimal": "",
+            "emptyTable": "<?php echo __js("No data available in table") ?>",
+            "info": "<?php echo __js("Showing _START_ to _END_ of _TOTAL_ entries") ?>",
+            "infoEmpty": "<?php echo __js("Showing 0 to 0 of 0 entries") ?>",
+            "infoFiltered": "<?php echo __js("(filtered from _MAX_ total entries)") ?>",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "<?php echo __js("Show _MENU_ entries") ?>",
+            "loadingRecords": "<?php echo __js("Loading...") ?>",
+            "processing": "<?php echo __js("Processing...") ?>",
+            "search": "<?php echo __js("Search:") ?>",
+            "zeroRecords": "<?php echo __js("No matching records found") ?>",
+            "paginate": {
+                "first": "<?php echo __js("First") ?>",
+                "last": "<?php echo __js("Last") ?>",
+                "next": "<?php echo __js("Next") ?>",
+                "previous": "<?php echo __js("Previous") ?>"
+            },
+            "aria": {
+                "sortAscending": "<?php echo __js(": activate to sort column ascending") ?>",
+                "sortDescending": "<?php echo __js(": activate to sort column descending") ?>"
+            }
+        },        
+        bLengthChange: false,
+        bFilter: true,
+        sPaginationType: "full_numbers",
+        fnDrawCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            $.each(nRow.aoData, function(i, el) {
+                var tr = $(el.nTr);
+                tr.unbind('click');
+            }.bind(this));
+            $('.paginate_button').addClass('btn color-blue');
+            $('span a.paginate_button').addClass('btn btn-grey');
+        },
+    }; 
+    //Load Prize Notification List
+    dt_object.ajax ='<?php echo $this->getUrl('migareference/prize_notification/getnotifications?app_id='.$app_id); ?>';
+    $('#priz-notification-list').DataTable(dt_object);
+    //Edit Notification    
+    function editNotification(id) {
+        // Toggle display Table to form
+        $('#priz-notification-list-container').hide();
+        $('#prize-notification-form').show();
+        $('#back-to-prize-notification-list').show();
+        var url = '<?php echo $this->getUrl('migareference/prize_notification/editnotification?app_id='.$app_id.'&id='); ?>' + id;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+            data = JSON.parse(data);
+            $("#prz-notification-operation").val("update");
+            console.log(data);            
+            console.log(data.data);
+            $("#ref-prz-email-title").val(data.data.ref_prz_email_title);
+            $("#ref-prz-email-text").val(data.data.ref_prz_email_text);
+            $("#ref-prz-push-title").val(data.data.ref_prz_push_title);
+            $("#ref-prz-push-text").val(data.data.ref_prz_push_text);
+            $("#migarefrence_prizes_notification_id").val(data.data
+                .migarefrence_prizes_notification_id);
+            $("#prz-notification-to-user option[value=" + data.data.prz_notification_to_user + "]")
+                .prop("selected", true);
+            $("#ref-prz-notification-type option[value=" + data.data.ref_prz_notification_type + "]")
+                .prop("selected", true);
+            $("#agt-prz-notification-type option[value=" + data.data.agt_prz_notification_type + "]")
+                .prop("selected", true);
+            ref_prz_notification_type_view(data.data.ref_prz_notification_type);
+            agt_prz_notification_type_view(data.data.agt_prz_notification_type);
+            notification_to_user(data.data.prz_notification_to_user);
+            if (data.data.ref_prz_open_feature == 1) {
+                $("#ref-prz-open-feature option[value=1]").prop("selected", true);
+                $("#ref-prz-feature-id option[value=" + data.data.ref_prz_feature_id + "]").prop(
+                    "selected", true);
+                if (data.data.ref_prz_feature_id == 0) {
+                    $("#ref_prz_custom_url").val(data.data.ref_prz_custom_url).show();
+                }
+            }
+            if (data.data.ref_prz_custom_file != "") {
+                $('#ref_prz_custom_cover_img').show();
+                $('#remove_ref_prz_custom_cover_img').show();
+                $('#ref_prz_custom_cover_img').attr('src', data.data.ref_prz_custom_file_url);
+                $('#ref_prz_custom_migareference_cover_file').val(data.data.ref_prz_custom_file);
+            }else{
+                $('#ref_prz_custom_cover_img').hide();
+                $('#remove_ref_prz_custom_cover_img').hide();
+            }
+            $("#agt-prz-email-title").val(data.data.agt_prz_email_title);
+            $("#agt-prz-email-bcc").val(data.data.agt_prz_email_bcc);
+            $("#agt-prz-email-text").val(data.data.agt_prz_email_text);
+            $("#agt-prz-push-title").val(data.data.agt_prz_push_title);
+            $("#agt-prz-push-text").val(data.data.agt_prz_push_text);
+            if (data.data.agt_prz_open_feature == 1) {
+                $("#agt-prz-open-feature option[value=1]").prop("selected", true);
+                $("#agt-prz-feature-id option[value=" + data.data.agt_prz_feature_id + "]").prop(
+                    "selected", true);
+                if (data.data.agt_prz_feature_id == 0) {
+                    $("#agt_prz_custom_url").val(data.data.agt_prz_custom_url);
+                    $("#agt-prz-custom-url-container").show();
+                }
+            }
+            if (data.data.agt_prz_custom_file != "") {
+                $('#agt_prz_custom_cover_img').show();
+                $('#remove_agt_prz_custom_cover_img').show();
+                $('#agt_prz_custom_cover_img').attr('src', data.data.agt_prz_custom_file_url);
+                $('#agt_prz_custom_migareference_cover_file').val(data.data.agt_prz_custom_file);
+            }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching notification:', error);
+            }
+        });        
+    }
+
+    //Submit form:
+    $('#prize-notification-form')
+    .submit(function() {
+        reload(this, this.action, true, function(data) {
+            if (data.success) {
+                page.reload();
+            }
+        });
+        return false;
+    });
+
+    // Manage Email Prize Notifaction fileds per Selection
+function notification_to_user(value) {
+    console.log(notification_to_user);
+    if (value == 1) {
+        $("#prz_agent_notification").show();
+        $("#prz_refferral_notification").show();
+    } else if (value == 2) {
+        $("#prz_refferral_notification").show();
+        $("#prz_agent_notification").hide();
+    } else if (value == 3) {
+        $("#prz_refferral_notification").hide();
+        $("#prz_agent_notification").show();
+    }
+}
+$('#prz-notification-to-user').on('change', function() {
+    notification_to_user(this.value);
+});
+$('#agt-prz-notification-type').on('change', function() {
+    agt_prz_notification_type_view(this.value);
+});
+
+function agt_prz_notification_type_view(value) {
+    if (value == 1) {
+        $("#agt-prz-email-settings").show();
+        $("#agt-prz-push-settings").show();
+    } else if (value == 2) {
+        $("#agt-prz-email-settings").show();
+        $("#agt-prz-push-settings").hide();
+    } else if (value == 3) {
+        $("#agt-prz-email-settings").hide();
+        $("#agt-prz-push-settings").show();
+    }
+}
+$('#ref-prz-notification-type').on('change', function() {
+    ref_prz_notification_type_view(this.value);
+});
+
+function ref_prz_notification_type_view(value) {
+    if (value == 1) {
+        $("#ref-prz-email-settings").show();
+        $("#ref-prz-push-settings").show();
+    } else if (value == 2) {
+        $("#ref-prz-email-settings").show();
+        $("#ref-prz-push-settings").hide();
+    } else if (value == 3) {
+        $("#ref-prz-email-settings").hide();
+        $("#ref-prz-push-settings").show();
+    }
+}
+
+// Manage Agent PUSH image file
+$('#agt_prz_custom_file').fileupload({
+    dataType: 'json',
+    add: function(e, data) {
+        data.submit();
+        img_uploader.showProgressbar();
+    },
+    progressall: function(e, data) {
+        img_uploader.moveProgressbar(data);
+    },
+    done: function(e, data) {
+        if (data.result.error) {
+            img_uploader.showError(data.result.message);
+        }
+        if (data.result.success) {
+            img_uploader.hide();
+            var params = [];
+            params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+            params["file"] = data.result.files;
+            params["output_w"] = 530;
+            params["output_h"] = 272;
+            params["output_url"] ='<?php echo str_replace('/', '$', $this->getUrl('migareference/application/crop')) ?>';
+            params["uploader"] = 'img_uploader';
+            img_uploader.crop(params);
+            img_uploader.callback = function(file) { 
+                var image = iframe.content.find('#active_migarefrence_img_<?php echo $value_id; ?>');
+                $('#agt_prz_custom_cover_img').hide().attr('src','<?php echo Core_Model_Directory::getTmpDirectory() ?>/' + file).slideDown();               
+                $('#agt_prz_custom_cover_img').show();
+                $('#remove_agt_prz_custom_cover_img').show();
+                $('#agt_prz_custom_migareference_cover_file').val(file);
+                default_active_migarefrence_url = file;
+            }
+        }
+    }
+});
+$('#agt_prz_custom_picture').click(function() {
+    $('#agt_prz_custom_file').trigger('click');
+});
+$('#ref_prz_custom_file').fileupload({
+    dataType: 'json',
+    add: function(e, data) {
+        data.submit();
+        img_uploader.showProgressbar();
+    },
+    progressall: function(e, data) {
+        img_uploader.moveProgressbar(data);
+    },
+    done: function(e, data) {
+        if (data.result.error) {
+            img_uploader.showError(data.result.message);
+        }
+        if (data.result.success) {
+            img_uploader.hide();
+            var params = [];
+            params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+            params["file"] = data.result.files;
+            params["output_w"] = 530;
+            params["output_h"] = 272;
+            params["output_url"] =
+                '<?php echo str_replace('/', '$', $this->getUrl('migareference/application/crop')) ?>';
+            params["uploader"] = 'img_uploader';
+            img_uploader.crop(params);
+            img_uploader.callback = function(file) {
+                var image = iframe.content.find(
+                    '#active_migarefrence_img_<?php echo $value_id; ?>');
+                $('#ref_prz_custom_cover_img').hide().attr('src',
+                    '<?php echo Core_Model_Directory::getTmpDirectory() ?>/' + file).slideDown();
+                $('#ref_prz_custom_cover_img').show();
+                $('#remove_ref_prz_custom_cover_img').show();
+                $('#ref_prz_custom_migareference_cover_file').val(file);
+                default_active_migarefrence_url = file;
+            }
+        }
+    }
+});
+$('#ref_prz_custom_picture').click(function() {
+    console.log('ref_prz_custom_picture');
+    $('#ref_prz_custom_file').trigger('click');
+});
+</script>

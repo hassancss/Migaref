@@ -1,0 +1,8 @@
+
+<?php
+    $option = $this->getOptionValue();
+    $application = $this->getApplication();
+    echo $app_id = $application->getId();
+    $migareference      = new Migareference_Model_Migareference();
+    $license = Siberian_Json::decode(file_get_contents($this->getUrl('migareference/public_license/validateapplicense?app_id='.$app_id)));
+?>

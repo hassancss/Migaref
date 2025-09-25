@@ -1,0 +1,143 @@
+<?php 
+$value_id      = $this->getValueid();            
+$app_id        = $this->getApplication()->getId();              
+$migareference = new Migareference_Model_Migareference();        
+$how_to_app_data = $migareference->gethowto($app_id);
+?>
+<div class="form-horizontal">
+    <form id="howitworksform" action="<?php echo $this->getUrl('migareference/application/addhowto') ?>" method="post">
+        <input type="hidden" name="app_id" value="<?=$app_id ?>">
+        <input type="hidden" name="operation" value="<?=(count($how_to_app_data) && !is_null($how_to_app_data[0]['app_id'])) ? "edit" : "create" ; ?>">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="how_to_text"><?php echo __('Add Video embed source'); ?><sup></sup></label>
+            </div>
+            <div class="col-sm-9">
+                <textarea name="how_to_video_source" id="" is_form_horizontal="1" color="color-blue" class="input-flat" rows="6" cols="80"> <?=(count($how_to_app_data) && !is_null($how_to_app_data[0]['how_to_video_source'])) ? $how_to_app_data[0]['how_to_video_source'] :  "" ; ?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="frame_height"><?php echo __('Frame height'); ?><sup>*</sup></label>
+            </div>
+            <div class="col-sm-9">
+                <input id="frame_height" type="number" min="1" max="9999" step="1" name="frame_height"
+                    value="<?=(count($how_to_app_data) && !is_null($how_to_app_data[0]['frame_height'])) ? $how_to_app_data[0]['frame_height'] :  1 ; ?>"
+                    class="pin input-flat">
+                <p><?php echo __("From 1 to 9999") ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="how_to_source_unit"><?php echo __('Frame height'); ?><sup>*</sup></label>
+            </div>
+            <div class="col-sm-9">
+                <select name="how_to_source_unit" id="how_to_source_unit" color="color-blue"
+                    class="sb-select styled-select color-blue form-control">
+                    <option
+                        <?=(count($how_to_app_data) && $how_to_app_data[0]['how_to_source_unit']=="vh") ? "selected" : "" ; ?>
+                        value="vh"><?php echo __("Percentage (%) of the screen height") ?></option>
+                    <option
+                        <?=(count($how_to_app_data) && $how_to_app_data[0]['how_to_source_unit']=="px") ? "selected" : "" ; ?>
+                        value="px"><?php echo __("Fixed number of pixels") ?></option>
+                </select>
+            </div>
+        </div>                      
+        <div class="form-group">
+            <div class="col-sm-12">
+                <label for="how_to_text"><?php echo __('Add How to Text'); ?><sup></sup></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <textarea id="how-to-text" class="pin input-flat replace-with-ckeditor" name="how_to_text" rows="10" cols="80"><?=(count($how_to_app_data) && !is_null($how_to_app_data[0]['how_to_text'])) ? $how_to_app_data[0]['how_to_text'] : "" ; ?></textarea>
+            </div>
+        </div>            
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="contact-us-link"><?php echo __('Site Link'); ?><sup></sup></label>
+            </div>
+            <div class="col-sm-9">
+                <input id="site-link" type="text" name="site_link" class="pin input-flat"
+                    value="<?=(count($how_to_app_data) && !is_null($how_to_app_data[0]['site_link'])) ? $how_to_app_data[0]['site_link'] : "" ; ?>" />
+            </div>
+        </div>            
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="contact-us-email"><?php echo __('Email'); ?><sup></sup></label>
+            </div>
+            <div class="col-sm-9">
+                <input id="contact-us-email" type="text" name="contact_us_email" class="pin input-flat"
+                    placeholder="example@gamil.com"
+                    value="<?=(count($how_to_app_data) && !is_null($how_to_app_data[0]['contact_us_email'])) ? $how_to_app_data[0]['contact_us_email'] : "" ; ?>" />
+            </div>
+        </div>            
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="contact-us-phone"><?php echo __('Phone'); ?><sup></sup></label>
+            </div>
+            <div class="col-sm-9">
+                <input id="contact-us-phone" type="text" name="contact_us_phone" class="pin input-flat"
+                    placeholder="+393421234567"
+                    value="<?=(count($how_to_app_data) && !is_null($how_to_app_data[0]['contact_us_phone'])) ? $how_to_app_data[0]['contact_us_phone'] : "+39" ; ?>" />
+            </div>
+        </div> 
+        <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label for="read_only"><?php echo __('Director full name'); ?> *</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" name="director_name" id="director-name"
+                                        value="<?=(count($how_to_app_data)) ? $how_to_app_data[0]['director_name'] : "" ; ?>"
+                                        class="input-flat" placeholder="" />                                   
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label for="read_only"><?php echo __('Director email'); ?> *</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" name="director_email" id="director-email"
+                                        value="<?=(count($how_to_app_data)) ? $how_to_app_data[0]['director_email'] : "" ; ?>"
+                                        class="input-flat" placeholder="" />                                   
+                                </div>
+                            </div>                                                 
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label for="read_only"><?php echo __('Director phone'); ?> *</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" name="director_phone" id="director-phone"
+                                        value="<?=(count($how_to_app_data)) ? $how_to_app_data[0]['director_phone'] : "" ; ?>"
+                                        class="input-flat" placeholder="" />                                   
+                                </div>
+                            </div>                                                 
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label for="read_only"><?php echo __('Director calendar url'); ?> *</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" name="director_calendar_url" id="director-calendar-url"
+                                        value="<?=(count($how_to_app_data)) ? $how_to_app_data[0]['director_calendar_url'] : "" ; ?>"
+                                        class="input-flat" placeholder="" />                                   
+                                </div>
+                            </div>           
+        <div class="form-group">
+            <div class="save pull-right" style="padding-right:15px;">
+                <button class="button btn bt_save btn color-blue" type="submit">
+                    <?php echo __('Save'); ?>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $('.replace-with-ckeditor').ckeditor();
+    $('#howitworksform').submit(function() {
+        reload(this, this.action, true, function(data) {
+            if (data.success) {                
+            }
+        });
+        return false;
+    });
+</script>
