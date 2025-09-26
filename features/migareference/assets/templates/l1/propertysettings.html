@@ -74,7 +74,7 @@
             value=""
           />
           <select
-            ng-options="item.name for item in agentList track by item.id"
+            ng-options="item.name for item in sortedAgentList track by item.id"
             style="
               width: 100%;
               padding: 8px;
@@ -95,7 +95,7 @@
           >
           <br />          
           <select
-            ng-options="item.name for item in partneragentList track by item.id"
+            ng-options="item.name for item in sortedPartneragentList track by item.id"
             style="
               width: 100%;
               padding: 8px;
