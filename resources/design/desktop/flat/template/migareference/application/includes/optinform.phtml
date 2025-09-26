@@ -532,12 +532,82 @@
                            $("#profession_id").html("").append(data.profession_list);
                            $("#c-img-con").html("").append(data.c_img);
                            $("#track_id").val(data.track_id);
-						   <?php if (!$optin_setting_data) : ?>
+                                                   <?php if (!$optin_setting_data) : ?>
                            $(".sponsor_list").css("display", data.sponsor_display);
                            $(".province_list").css("display", data.province_display);
-						   <?php endif; ?> 
-                           const urlParams = new URLSearchParams(window.location.search);                               
-                           $("#sponsord_by").val(urlParams.get('agval'));
+                                                   <?php endif; ?>
+                           const urlParams = new URLSearchParams(window.location.search);
+                           const sponsorIdParam = (urlParams.get('sponsor_id') || '').trim();
+                           const sponsorEmailParam = (urlParams.get('sponsor_email') || '').trim();
+                           const agvalParam = urlParams.get('agval');
+                           $("#sponsord_by").val(agvalParam);
+                           const $sponsorSelect = $("#sponsor_id");
+                           const $form = $("#ref_form");
+
+                           function lockSponsor(agentId, agentLabel) {
+                               if (!$sponsorSelect.length) {
+                                   return;
+                               }
+                               const optionValue = agentId !== null && agentId !== undefined ? String(agentId) : '';
+                               if (!optionValue) {
+                                   return;
+                               }
+                               const resolvedLabel = agentLabel !== undefined && agentLabel !== null ? String(agentLabel).trim() : '';
+                               const labelText = resolvedLabel !== '' ? resolvedLabel : optionValue;
+                               if (!$sponsorSelect.find('option[value="' + optionValue + '"]').length) {
+                                   const option = new Option(labelText, optionValue, true, true);
+                                   $sponsorSelect.append(option);
+                               }
+                               if ($sponsorSelect.find('option[value="' + optionValue + '"]').length) {
+                                   $sponsorSelect.val(optionValue);
+                                   $sponsorSelect.prop('disabled', true);
+                                   if ($form.length) {
+                                       let $hidden = $("#locked_sponsor_id");
+                                       if (!$hidden.length) {
+                                           $hidden = $('<input>', { type: 'hidden', id: 'locked_sponsor_id', name: 'sponsor_id' });
+                                           $form.append($hidden);
+                                       }
+                                       $hidden.val(optionValue);
+                                   }
+                                   $("#sponsord_by").val(optionValue);
+                               }
+                           }
+
+                           function resolveSponsorByEmail(email) {
+                               if (!email) {
+                                   return;
+                               }
+                               $.ajax({
+                                   url: '<?php echo $this->getUrl('migareference/public_optinlanding/resolvesponsorbyemail'); ?>',
+                                   type: 'POST',
+                                   dataType: 'json',
+                                   data: {
+                                       app_id: <?php echo  $app_id ?>,
+                                       email: email
+                                   }
+                               }).done(function(response) {
+                                   if (response && response.success && response.count > 0 && response.data && response.data[0]) {
+                                       const agent = response.data[0];
+                                       const labelParts = [];
+                                       if (agent.firstname) { labelParts.push(agent.firstname); }
+                                       if (agent.lastname) { labelParts.push(agent.lastname); }
+                                       let label = labelParts.join(' ').trim();
+                                       if (!label) {
+                                           label = agent.email || email;
+                                       }
+                                       lockSponsor(agent.user_id, label);
+                                   }
+                               });
+                           }
+
+                           if (sponsorIdParam) {
+                               lockSponsor(sponsorIdParam);
+                           } else if (sponsorEmailParam) {
+                               resolveSponsorByEmail(sponsorEmailParam);
+                           } else {
+                               $sponsorSelect.prop('disabled', false);
+                               $("#locked_sponsor_id").remove();
+                           }
                         });
                     }
                 &lt;/script&gt;
@@ -1151,6 +1221,11 @@
         });
     });
     //
+    const urlParams = new URLSearchParams(window.location.search);
+    const sponsorIdParam = (urlParams.get('sponsor_id') || '').trim();
+    const sponsorEmailParam = (urlParams.get('sponsor_email') || '').trim();
+    const agvalParam = urlParams.get('agval');
+
     loadSettings();
     function loadSettings() {
     $.ajax({
@@ -1162,8 +1237,85 @@
             }
         })
         .done(function(data) {
-            console.log("Data is loaded");
-            console.log(data);
+            $("#sponsor_id").html("").append(data.agent_option);
+            $("#province_id").html("").append(data.province_list);
+            $("#job_id").html("").append(data.job_list);
+            $("#profession_id").html("").append(data.profession_list);
+            $("#profession_id").html("").append(data.profession_list);
+            $("#c-img-con").html("").append(data.c_img);
+            $("#track_id").val(data.track_id);
+                            <?php if (!$optin_setting_data) : ?>
+            $(".sponsor_list").css("display", data.sponsor_display);
+            $(".province_list").css("display", data.province_display);
+                            <?php endif; ?>
+            $("#sponsord_by").val(agvalParam);
+            const $sponsorSelect = $("#sponsor_id");
+            const $form = $("#ref_form");
+
+            function lockSponsor(agentId, agentLabel) {
+                if (!$sponsorSelect.length) {
+                    return;
+                }
+                const optionValue = agentId !== null && agentId !== undefined ? String(agentId) : '';
+                if (!optionValue) {
+                    return;
+                }
+                const resolvedLabel = agentLabel !== undefined && agentLabel !== null ? String(agentLabel).trim() : '';
+                const labelText = resolvedLabel !== '' ? resolvedLabel : optionValue;
+                if (!$sponsorSelect.find('option[value="' + optionValue + '"]').length) {
+                    const option = new Option(labelText, optionValue, true, true);
+                    $sponsorSelect.append(option);
+                }
+                if ($sponsorSelect.find('option[value="' + optionValue + '"]').length) {
+                    $sponsorSelect.val(optionValue);
+                    $sponsorSelect.prop('disabled', true);
+                    if ($form.length) {
+                        let $hidden = $("#locked_sponsor_id");
+                        if (!$hidden.length) {
+                            $hidden = $('<input>', { type: 'hidden', id: 'locked_sponsor_id', name: 'sponsor_id' });
+                            $form.append($hidden);
+                        }
+                        $hidden.val(optionValue);
+                    }
+                    $("#sponsord_by").val(optionValue);
+                }
+            }
+
+            function resolveSponsorByEmail(email) {
+                if (!email) {
+                    return;
+                }
+                $.ajax({
+                    url: '<?php echo $this->getUrl('migareference/public_optinlanding/resolvesponsorbyemail'); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        app_id: <?php echo  $app_id ?>,
+                        email: email
+                    }
+                }).done(function(response) {
+                    if (response && response.success && response.count > 0 && response.data && response.data[0]) {
+                        const agent = response.data[0];
+                        const labelParts = [];
+                        if (agent.firstname) { labelParts.push(agent.firstname); }
+                        if (agent.lastname) { labelParts.push(agent.lastname); }
+                        let label = labelParts.join(' ').trim();
+                        if (!label) {
+                            label = agent.email || email;
+                        }
+                        lockSponsor(agent.user_id, label);
+                    }
+                });
+            }
+
+            if (sponsorIdParam) {
+                lockSponsor(sponsorIdParam);
+            } else if (sponsorEmailParam) {
+                resolveSponsorByEmail(sponsorEmailParam);
+            } else {
+                $sponsorSelect.prop('disabled', false);
+                $("#locked_sponsor_id").remove();
+            }
         });
     }
 
