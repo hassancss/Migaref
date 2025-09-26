@@ -120,6 +120,8 @@ angular
       }
       $scope.itemList = [];
       $scope.agentList = [];
+      $scope.sortedAgentList = [];
+      $scope.sortedPartneragentList = [];
       $scope.blisterPackTemplates = [
         { id: 1, name: "Email/PUSH" },
         { id: 2, name: "Only Email" },
@@ -194,6 +196,33 @@ angular
         }
       };
 
+      function sortAgentCollection(collection) {
+        if (!collection) {
+          return [];
+        }
+        var list = collection;
+        if (!angular.isArray(list) && typeof list === "object") {
+          list = Object.keys(list)
+            .sort()
+            .map(function (key) {
+              return list[key];
+            });
+        }
+        return list
+          .slice()
+          .sort(function (first, second) {
+            var firstName = (first && first.name ? first.name : "").toString().toLowerCase();
+            var secondName = (second && second.name ? second.name : "").toString().toLowerCase();
+            if (firstName < secondName) {
+              return -1;
+            }
+            if (firstName > secondName) {
+              return 1;
+            }
+            return 0;
+          });
+      }
+
       $scope.getPropertysettings = function () {
         $scope.is_loading = true;
         Loader.show();
@@ -209,7 +238,17 @@ angular
             $scope.is_agent_list = data.is_agent_list;
             $scope.agentList = data.agent_list;
             $scope.partneragentList = data.partner_agent_list;
-            $scope.migareferenceformchange.sponsor_id = $scope.agentList[0];
+            $scope.sortedAgentList = sortAgentCollection(data.agent_list);
+            $scope.sortedPartneragentList = sortAgentCollection(
+              data.partner_agent_list
+            );
+            if (
+              typeof $scope.migareferenceformchange.sponsor_id === "undefined" &&
+              $scope.sortedAgentList.length > 0
+            ) {
+              $scope.migareferenceformchange.sponsor_id =
+                $scope.sortedAgentList[0];
+            }
             $scope.agnet_province_list = data.agnet_province_list;
             $scope.countries_count = data.countries_count;
             if (data.countries_count < 2) {
