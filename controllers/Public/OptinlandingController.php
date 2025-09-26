@@ -45,7 +45,22 @@ class Migareference_Public_OptinlandingController extends Migareference_Controll
     $app_id               = $data['app_id'];
       
     $pre_settings   = $migareference->preReportsettigns($app_id);    
-    $agents         = $migareference->get_customer_agents($app_id);   
+    $agents         = $migareference->get_customer_agents($app_id);
+    if (is_array($agents) && !empty($agents)) {
+      usort($agents, function ($first, $second) {
+        $firstLastname  = isset($first['lastname']) ? mb_strtolower($first['lastname']) : '';
+        $secondLastname = isset($second['lastname']) ? mb_strtolower($second['lastname']) : '';
+        $lastNameSort   = strcmp($firstLastname, $secondLastname);
+        if ($lastNameSort !== 0) {
+          return $lastNameSort;
+        }
+
+        $firstFirstname  = isset($first['firstname']) ? mb_strtolower($first['firstname']) : '';
+        $secondFirstname = isset($second['firstname']) ? mb_strtolower($second['firstname']) : '';
+
+        return strcmp($firstFirstname, $secondFirstname);
+      });
+    }   
     $agentProvinces = $migareference->getGeoCountrieProvinces($app_id,0);
     $all_jobs       = $migareference->getJobs($app_id);
     $all_professions= $migareference->getProfessions($app_id);
@@ -82,7 +97,10 @@ class Migareference_Public_OptinlandingController extends Migareference_Controll
       $agent_option="<option value='-1'>".__("Scegli")."</option>";
     }
     foreach ($agents as $key => $value) {
-      $agent_option.="<option value='".$value['user_id']."' >".$value['firstname']." ".$value['lastname']."</option>";
+      $lastname  = isset($value['lastname']) ? trim($value['lastname']) : '';
+      $firstname = isset($value['firstname']) ? trim($value['firstname']) : '';
+      $agent_name = trim($lastname . ' ' . $firstname);
+      $agent_option.="<option value='".$value['user_id']."' >".htmlspecialchars($agent_name, ENT_QUOTES, 'UTF-8')."</option>";
     }
 
     foreach ($agentProvinces as $prov_key => $prove_value) {

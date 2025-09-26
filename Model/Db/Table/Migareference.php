@@ -209,11 +209,475 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
                             ];
             return $notificationTags;
       }
+        /**
+       * Persist a single qualification change into the historical log table.
+       *
+       * @param int         $app_id        The current application identifier.
+       * @param int         $referrer_id   The referrer whose qualification changed.
+       * @param int|null    $previous_id   Previously assigned qualification ID.
+       * @param int|null    $new_id        Newly assigned qualification ID.
+       * @param float|int   $total_credits Credits that triggered the change.
+       * @param int         $value_id      Linked option value identifier (if available).
+       * @param string      $action        Action keyword describing the transition.
+       *
+       * @return void
+       */
+      protected function logQualificationChange($app_id = 0,$referrer_id = 0,$previous_id = null,$new_id = null,$total_credits = 0,$value_id = 0,$action = '')
+      {
+        if (!$app_id || !$referrer_id || empty($action)) {
+          return;
+        }
+
+        // Prepare a normalized row payload that captures the before/after state
+        // alongside the total credits that justified the change for later audits.
+        $data = [
+          'app_id'                    => $app_id,
+          'referrer_id'               => $referrer_id,
+          'previous_qualification_id' => $previous_id ? intval($previous_id) : null,
+          'new_qualification_id'      => $new_id ? intval($new_id) : null,
+          'value_id'                  => intval($value_id),
+          'total_credits'             => round(floatval($total_credits), 2),
+          'action'                    => $action,
+          'created_at'                => date('Y-m-d H:i:s'),
+        ];
+
+        $this->_db->insert('migareference_qualification_logs', $data);
+      }
+      /**
+       * Load referrer credit totals that are relevant for qualification evaluation.
+       *
+       * The query keeps administrators out of the result set, optionally restricts
+       * the ledger window to a rolling period, and can force specific referrers to
+       * be returned even if they are below the current qualification thresholds.
+       *
+       * @param int        $app_id            Application identifier.
+       * @param string     $from_date         Optional ledger start date.
+       * @param float|null $minimum_required  Lower bound for total credits.
+       * @param array      $required_referrers Additional referrer IDs to include.
+       *
+       * @return array<int,array<string,mixed>>
+       */
+      protected function fetchQualificationReferrerCredits($app_id = 0,$from_date = '',$minimum_required = null,$required_referrers = [])
+      {
+        if (!$app_id) {
+          return [];
+        }
+
+        $params = [];
+        $sql = "SELECT mis.user_id,
+                       COALESCE(SUM(CASE WHEN le.entry_type = 'C' THEN le.amount ELSE -le.amount END), 0) AS total_credits
+                FROM migareference_invoice_settings AS mis
+                LEFT JOIN migareference_app_admins AS ad ON ad.user_id = mis.user_id
+                LEFT JOIN migarefrence_ledger AS le ON le.user_id = mis.user_id AND le.app_id = mis.app_id";
+
+        if (!empty($from_date)) {
+          // Limit ledger aggregation to the configured rolling window when provided.
+          $sql .= " AND le.created_at >= ?";
+          $params[] = $from_date;
+        }
+
+        $sql .= "
+                WHERE mis.app_id = ?
+                  AND ad.user_id IS NULL
+                GROUP BY mis.user_id";
+        $params[] = $app_id;
+
+        $having_parts = [];
+        $having_params = [];
+
+        if ($minimum_required !== null) {
+          // Apply the lowest active threshold so we can skip obviously ineligible rows.
+          $having_parts[] = "total_credits >= ?";
+          $having_params[] = $minimum_required;
+        }
+
+        if (!empty($required_referrers)) {
+          // Always retain current assignments even when their totals dipped below the minimum.
+          $placeholders = implode(',', array_fill(0, count($required_referrers), '?'));
+          $having_parts[] = "mis.user_id IN ($placeholders)";
+          $having_params = array_merge($having_params, array_map('intval', $required_referrers));
+        }
+
+        if (!empty($having_parts)) {
+          $sql .= " HAVING " . implode(' OR ', $having_parts);
+          $params = array_merge($params, $having_params);
+        }
+
+        $sql .= " ORDER BY total_credits DESC";
+
+        return $this->_db->fetchAll($sql, $params);
+      }
+      /**
+       * Fetch the timestamp of the latest ledger change so idle apps can be skipped.
+       *
+       * @param int $app_id
+       *
+       * @return string|null
+       */
+      protected function getLastLedgerChangeAt($app_id = 0)
+      {
+        if (!$app_id) {
+          return null;
+        }
+
+        return $this->_db->fetchOne(
+          "SELECT MAX(created_at) FROM migarefrence_ledger WHERE app_id = ?",
+          [$app_id]
+        );
+      }
+      /**
+       * Synchronise qualified referrers for a single application.
+       *
+       * @param int $app_id
+       *
+       * @return array<string,mixed>
+       */
+      protected function syncQualificationReferrersForApp($app_id = 0)
+      {
+        $result = [
+          'status'    => 'skipped',
+          'inserted'  => [],
+          'updated'   => [],
+          'removed'   => [],
+          'evaluated' => 0,
+          'assigned'  => 0,
+        ];
+
+        if (!$app_id) {
+          return $result;
+        }
+
+        $pre_settings = $this->preReportsettigns($app_id);
+        if (!count($pre_settings) || intval($pre_settings[0]['enable_qlf']) !== 1) {
+          $result['status'] = 'qualification_disabled';
+          return $result;
+        }
+
+        $qualification_where = "app_id = $app_id AND qlf_status = 1";
+
+        $qualifications = $this->_db->fetchAll("SELECT * FROM migareference_qualifications WHERE $qualification_where ORDER BY qlf_credits DESC");
+        if (!count($qualifications)) {
+          $result['status'] = 'no_active_qualifications';
+          return $result;
+        }
+
+        $qualification_map = [];
+        foreach ($qualifications as $qualification_item) {
+          $qualification_map[$qualification_item['migareference_qualifications_id']] = $qualification_item;
+        }
+
+        $grace_days = isset($pre_settings[0]['qlf_grace_days']) ? intval($pre_settings[0]['qlf_grace_days']) : 0;
+        if ($grace_days === 0) {
+          // Skip busy work when nothing changed recently and no rolling window applies.
+          $idle_cutoff = date('Y-m-d H:i:s', strtotime('-60 minutes'));
+          $last_change = $this->getLastLedgerChangeAt($app_id);
+          if (empty($last_change) || $last_change < $idle_cutoff) {
+            $result['status'] = 'skipped_idle';
+            return $result;
+          }
+        }
+
+        $from_date = '';
+        if ($grace_days > 0) {
+          $from_date = date('Y-m-d H:i:s', strtotime("-{$grace_days} days"));
+        }
+
+        $active_qualification_ids = array_keys($qualification_map);
+        $current_rows = $this->_db->fetchAll("SELECT * FROM migareference_qualifications_referrers WHERE app_id = ?", [$app_id]);
+        $current_by_referrer = [];
+        foreach ($current_rows as $current_row) {
+          $current_by_referrer[intval($current_row['referrer_id'])] = $current_row;
+        }
+
+        $minimum_required = null;
+        foreach ($qualifications as $qualification_item) {
+          $credits_threshold = floatval($qualification_item['qlf_credits']);
+          if ($minimum_required === null || $credits_threshold < $minimum_required) {
+            $minimum_required = $credits_threshold;
+          }
+        }
+        if ($minimum_required !== null && $minimum_required <= 0) {
+          $minimum_required = null;
+        }
+
+        $required_referrers = array_keys($current_by_referrer);
+        $referrer_rows = $this->fetchQualificationReferrerCredits($app_id, $from_date, $minimum_required, $required_referrers);
+        $referrer_map = [];
+        foreach ($referrer_rows as $row) {
+          $referrer_map[intval($row['user_id'])] = $row;
+        }
+        if (!empty($required_referrers)) {
+          $missing_required = array_diff($required_referrers, array_keys($referrer_map));
+          if (!empty($missing_required)) {
+            $extra_rows = $this->fetchQualificationReferrerCredits($app_id, $from_date, null, $missing_required);
+            foreach ($extra_rows as $extra_row) {
+              $referrer_map[intval($extra_row['user_id'])] = $extra_row;
+            }
+          }
+        }
+
+        $referrer_credits = array_values($referrer_map);
+        $result['evaluated'] = count($referrer_credits);
+
+        // Determine the best qualification each referrer currently satisfies.
+        $assignments = [];
+        foreach ($referrer_credits as $ref_item) {
+          $referrer_id = intval($ref_item['user_id']);
+          $total_credits = floatval($ref_item['total_credits']);
+          foreach ($qualifications as $qualification_item) {
+            if ($total_credits >= floatval($qualification_item['qlf_credits'])) {
+              $assignments[$referrer_id] = [
+                'qualification_id' => intval($qualification_item['migareference_qualifications_id']),
+                'value_id'         => intval(isset($qualification_item['value_id']) ? $qualification_item['value_id'] : 0),
+                'total_credits'    => $total_credits,
+              ];
+              break;
+            }
+          }
+        }
+
+        $result['assigned'] = count($assignments);
+
+        $now = date('Y-m-d H:i:s');
+        $notifications_queue = [];
+
+        // Insert or update rows for referrers that qualify for a tier right now.
+        foreach ($assignments as $referrer_id => $assignment) {
+          if (!isset($current_by_referrer[$referrer_id])) {
+            $insert_data = [
+              'app_id'          => $app_id,
+              'value_id'        => $assignment['value_id'],
+              'qualification_id'=> $assignment['qualification_id'],
+              'referrer_id'     => $referrer_id,
+              'created_at'      => $now,
+              'updated_at'      => $now,
+            ];
+            $this->_db->insert("migareference_qualifications_referrers", $insert_data);
+            $result['inserted'][] = $referrer_id;
+            $this->logQualificationChange(
+              $app_id,
+              $referrer_id,
+              null,
+              $assignment['qualification_id'],
+              $assignment['total_credits'],
+              $assignment['value_id'],
+              'qualified'
+            );
+            $notifications_queue[$referrer_id] = [
+              'assignment' => $assignment,
+              'previous_qualification_id' => null,
+            ];
+          } else {
+            $existing_item = $current_by_referrer[$referrer_id];
+            $update_data = [];
+            $needs_update = false;
+
+            if (intval($existing_item['qualification_id']) !== $assignment['qualification_id']) {
+              $update_data['qualification_id'] = $assignment['qualification_id'];
+              $needs_update = true;
+            }
+
+            if (intval($existing_item['value_id']) !== $assignment['value_id']) {
+              $update_data['value_id'] = $assignment['value_id'];
+              $needs_update = true;
+            }
+
+            if ($needs_update) {
+              $update_data['updated_at'] = $now;
+              $this->_db->update(
+                "migareference_qualifications_referrers",
+                $update_data,
+                ['migareference_qualifications_referrers_id = ?' => $existing_item['migareference_qualifications_referrers_id']]
+              );
+              $result['updated'][] = $referrer_id;
+              $previous_id = intval($existing_item['qualification_id']);
+              $action = 'changed';
+              if ($previous_id && $previous_id !== $assignment['qualification_id']) {
+                $previous_credits = isset($qualification_map[$previous_id]) ? floatval($qualification_map[$previous_id]['qlf_credits']) : null;
+                $new_credits = isset($qualification_map[$assignment['qualification_id']]) ? floatval($qualification_map[$assignment['qualification_id']]['qlf_credits']) : null;
+                if ($previous_credits !== null && $new_credits !== null) {
+                  if ($new_credits > $previous_credits) {
+                    $action = 'promoted';
+                  } elseif ($new_credits < $previous_credits) {
+                    $action = 'demoted';
+                  }
+                }
+              }
+              $this->logQualificationChange(
+                $app_id,
+                $referrer_id,
+                $previous_id,
+                $assignment['qualification_id'],
+                $assignment['total_credits'],
+                $assignment['value_id'],
+                $action
+              );
+              $notifications_queue[$referrer_id] = [
+                'assignment' => $assignment,
+                'previous_qualification_id' => intval($existing_item['qualification_id']),
+              ];
+            }
+          }
+        }
+
+        // Remove referrers that no longer reach any of the active qualifications.
+        foreach ($current_by_referrer as $referrer_id => $existing_item) {
+          if (!isset($assignments[$referrer_id])) {
+            $this->_db->delete(
+              "migareference_qualifications_referrers",
+              ['migareference_qualifications_referrers_id = ?' => $existing_item['migareference_qualifications_referrers_id']]
+            );
+            $result['removed'][] = $referrer_id;
+            $total_credits = isset($referrer_map[$referrer_id]) ? floatval($referrer_map[$referrer_id]['total_credits']) : 0;
+            $this->logQualificationChange(
+              $app_id,
+              $referrer_id,
+              intval($existing_item['qualification_id']),
+              null,
+              $total_credits,
+              isset($existing_item['value_id']) ? intval($existing_item['value_id']) : 0,
+              'dequalified'
+            );
+          }
+        }
+
+        if (count($notifications_queue)) {
+          $notification_model = new Migareference_Model_Notification();
+          $notification_settings = $notification_model->getNotificationByAppId($app_id);
+
+          if (!empty($notification_settings)) {
+            $default = new Core_Model_Default();
+            $base_url = $default->getBaseUrl();
+            $application = $this->application($app_id);
+            $app_name = (count($application) && isset($application[0]['name'])) ? $application[0]['name'] : '';
+
+            // Fan out notifications to every referrer whose qualification changed.
+            foreach ($notifications_queue as $referrer_id => $info) {
+              $qualification_id = $info['assignment']['qualification_id'];
+              if (!isset($qualification_map[$qualification_id])) {
+                continue;
+              }
+
+              $qualification = $qualification_map[$qualification_id];
+              $customer = $this->getSingleuser($app_id,$referrer_id);
+              if (!count($customer)) {
+                continue;
+              }
+
+              $customer = $customer[0];
+              $icon_url = '';
+              if (!empty($qualification['qlf_file'])) {
+                $icon_url = $base_url . '/images/application/' . $app_id . '/features/migareference/' . $qualification['qlf_file'];
+              }
+
+              $tags = ['@@first_name@@','@@last_name@@','@@qualification_title@@','@@icon_url@@','@@app_name@@','app@@name@@'];
+              $tag_values = [
+                isset($customer['firstname']) ? $customer['firstname'] : '',
+                isset($customer['lastname']) ? $customer['lastname'] : '',
+                $qualification['qlf_name'],
+                $icon_url,
+                $app_name,
+                $app_name,
+              ];
+
+              if (!empty($notification_settings['email_subject']) && !empty($notification_settings['email_text'])) {
+                $email_data = [
+                  'email_title'     => str_replace($tags, $tag_values, $notification_settings['email_subject']),
+                  'email_text'      => str_replace($tags, $tag_values, $notification_settings['email_text']),
+                  'calling_method'  => 'Qualification',
+                ];
+                if (!empty($notification_settings['bcc'])) {
+                  $email_data['bcc_to_email'] = $notification_settings['bcc'];
+                }
+                $this->sendMail($email_data,$app_id,$referrer_id);
+              }
+
+              if (!empty($notification_settings['push_title']) && !empty($notification_settings['push_text'])) {
+                $push_data = [
+                  'open_feature'   => isset($notification_settings['ref_credits_api_open_feature']) ? intval($notification_settings['ref_credits_api_open_feature']) : 0,
+                  'feature_id'     => isset($notification_settings['ref_credits_api_feature_id']) ? intval($notification_settings['ref_credits_api_feature_id']) : 0,
+                  'custom_url'     => isset($notification_settings['ref_credits_api_custom_url']) ? $notification_settings['ref_credits_api_custom_url'] : '',
+                  'cover_image'    => isset($notification_settings['logo_url']) ? $notification_settings['logo_url'] : '',
+                  'app_id'         => $app_id,
+                  'calling_method' => 'Qualification',
+                  'push_title'     => str_replace($tags, $tag_values, $notification_settings['push_title']),
+                  'push_text'      => str_replace($tags, $tag_values, $notification_settings['push_text']),
+                ];
+                $this->sendPush($push_data,$app_id,$referrer_id);
+              }
+
+              if (!empty($notification_settings['webhook'])) {
+                $query_params = [
+                  'app_id'                    => $app_id,
+                  'referrer_id'               => $referrer_id,
+                  'referrer_firstname'        => isset($customer['firstname']) ? $customer['firstname'] : '',
+                  'referrer_lastname'         => isset($customer['lastname']) ? $customer['lastname'] : '',
+                  'referrer_email'            => isset($customer['email']) ? $customer['email'] : '',
+                  'qualification_id'          => $qualification['migareference_qualifications_id'],
+                  'qualification_title'       => $qualification['qlf_name'],
+                  'total_credits'             => $info['assignment']['total_credits'],
+                  'previous_qualification_id' => $info['previous_qualification_id'],
+                ];
+                $separator = (strpos($notification_settings['webhook'], '?') === false) ? '?' : '&';
+                $webhook_url = $notification_settings['webhook'] . $separator . http_build_query($query_params);
+                $this->triggerWebhook($webhook_url,[
+                  'app_id' => $app_id,
+                  'user_id' => $referrer_id,
+                  'type' => 'qualification',
+                  'calling_method' => 'qualification',
+                ]);
+              }
+            }
+          }
+        }
+
+        $result['status'] = 'success';
+        return $result;
+      }
+      /**
+       * Execute the qualification synchronisation for every eligible application.
+       *
+       * @return array<int,array<string,mixed>>
+       */
+      public function syncQualificationReferrersForAllApps()
+      {
+        $results = [];
+
+        // Load every application that has the qualification feature enabled so we only
+        // process apps that actually expect referrer tiers to be synchronized.
+        $rows = $this->_db->fetchAll(
+          "SELECT app_id FROM migareference_pre_report_settings WHERE enable_qlf = 1"
+        );
+
+        if (!count($rows)) {
+          return $results;
+        }
+
+        // Deduplicate applications in case multiple settings rows exist for the same
+        // app; we only need to run the synchronization routine once per app.
+        $app_ids = [];
+        foreach ($rows as $row) {
+          $app_id = intval($row['app_id']);
+          if ($app_id) {
+            $app_ids[$app_id] = true;
+          }
+        }
+
+        // Execute the per-app synchronization routine for each eligible app and
+        // capture their individual results keyed by app identifier.
+        foreach (array_keys($app_ids) as $app_id) {
+          $results[$app_id] = $this->syncQualificationReferrersForApp($app_id);
+        }
+
+        return $results;
+      }
       public static function automationTriggerscron($callType='')//$callType='test' for testing or '' for live
       {
+        $migareference    = new Migareference_Model_Db_Table_Migareference();        
+        $qualifiaction_result = $migareference->syncQualificationReferrersForAllApps();
+        return $qualifiaction_result;
         $callType= ($callType=='test') ? 'test' : 'live' ;
         // Get Enabled Automation Triggers
-         $migareference    = new Migareference_Model_Db_Table_Migareference();        
          $tempItem         = [];//only for testing
          $hours_now        = date('H');
          $temp_app_id      = 0;
