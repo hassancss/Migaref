@@ -208,7 +208,7 @@ angular
               return list[key];
             });
         }
-        return list
+        var sortedList = list
           .slice()
           .sort(function (first, second) {
             var firstName = (first && first.name ? first.name : "").toString().toLowerCase();
@@ -221,6 +221,27 @@ angular
             }
             return 0;
           });
+
+        var pinnedIndex = -1;
+        for (var index = 0; index < sortedList.length; index++) {
+          var agent = sortedList[index];
+          if (!agent) {
+            continue;
+          }
+
+          var agentId = agent.id;
+          if (agentId === 0 || agentId === "0") {
+            pinnedIndex = index;
+            break;
+          }
+        }
+
+        if (pinnedIndex > -1) {
+          var pinnedAgent = sortedList.splice(pinnedIndex, 1)[0];
+          sortedList.unshift(pinnedAgent);
+        }
+
+        return sortedList;
       }
 
       $scope.getPropertysettings = function () {
