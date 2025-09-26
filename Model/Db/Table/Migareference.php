@@ -4781,15 +4781,23 @@ $query_option_value.=" GROUP BY mis.user_id ORDER BY mis.invoice_surname ASC, mi
             return []; // match is_agent() style
         }
 
-    $query_option = "
-        SELECT *
-        FROM `migareference_app_agents`
-        JOIN `customer` ON `customer`.`customer_id` = `migareference_app_agents`.`user_id`
-        WHERE `migareference_app_agents`.`app_id` = {$app_id}
-          AND `customer`.`email` = " . $this->_db->quote($email);
+        $query_option = "
+            SELECT DISTINCT
+                agents.user_id,
+                agents.agent_type,
+                customer.firstname,
+                customer.lastname,
+                customer.email
+            FROM `migareference_app_agents` AS agents
+            INNER JOIN `customer`
+                ON `customer`.`customer_id` = `agents`.`user_id`
+               AND `customer`.`app_id` = {$app_id}
+            WHERE `agents`.`app_id` = {$app_id}
+              AND `customer`.`email` = " . $this->_db->quote($email) . "
+            ORDER BY customer.lastname, customer.firstname";
 
-            $res_option   = $this->_db->fetchAll($query_option);
-      
+        $res_option   = $this->_db->fetchAll($query_option);
+
         return $res_option; // [] or [0 => row]
     }
 
