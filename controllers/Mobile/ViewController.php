@@ -5458,6 +5458,9 @@ public function getexternallinksAction()
     $admin_data       = $migareference->is_admin($app_id,$user_id);
     $agent_data       = $migareference->is_agent($app_id,$user_id);
     $pre_settings     = $migareference->preReportsettigns($app_id);
+    $optin_setting    = (new Migareference_Model_Optinsetting())->find([
+      'app_id' => $app_id,
+    ]);
     $invoice_settings = $migareference->getpropertysettings($app_id,$user_id);
     $bitly_crede      = $migareference->getBitlycredentails($app_id);
     $total_earn       = $migareference->get_earnings($app_id,$user_id);
@@ -5544,6 +5547,19 @@ public function getexternallinksAction()
         $is_need_vat_id=1;
       }
     }
+    $enrolling_page_url   = '';
+    $enroll_sharing_msg   = '';
+    if ($optin_setting->getId()) {
+      $enrolling_page_url = trim((string) $optin_setting->getEnrollingPageUrl());
+      $enroll_sharing_msg = trim((string) $optin_setting->getEnrollSharingMessage());
+      if ($enrolling_page_url && $enroll_sharing_msg) {
+        $enroll_sharing_msg = str_replace(
+          ['@@app_name@@', '@@enroll_url@@'],
+          [$application->getName(), $enrolling_page_url],
+          $enroll_sharing_msg
+        );
+      }
+    }
     $payload  = [
         'success'           => true,
         'acurruncy'         => $curruncy,
@@ -5560,6 +5576,11 @@ public function getexternallinksAction()
         'reward_type'       => $pre_settings[0]['reward_type'],
         'agent_can_see'     => $pre_settings[0]['agent_can_see'],
         'agent_can_manage'  => $pre_settings[0]['agent_can_manage'],
+        'optin_settings'    => [
+          'enrolling_page_url'    => $enrolling_page_url,
+          'enroll_sharing_message'=> $enroll_sharing_msg,
+        ],
+        'enroll_settings_warning' => __('Enroll URL settings are missing. Please complete the settings to share the message.'),
         'is_howto_data_missing'=> $is_howto_data_missing,
         'is_apikey_missing'    => $is_apikey_missing,
         'is_howto_data_missing_err'=> __('Could not find data.'),

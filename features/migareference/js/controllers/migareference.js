@@ -9,9 +9,11 @@ angular
       Loader,
       Dialog,
       Customer,
+      $rootScope,
       $translate,
       $state,
-      SB
+      SB,
+      Modal
     ) {
       $scope.migareference = { page_title: "" };
       $scope.home_data = null;
@@ -34,6 +36,11 @@ angular
       $scope.isagent = false;
       $scope.enable_report_referrer_behalf = false;
       $scope.presettings_warning = "";
+      $scope.enrollShare = {
+        message: "",
+        url: "",
+      };
+      $scope.is_native_app = true;
       // GO to Home Page
       $scope.goToHomePage = function () {
         $state.go("home");
@@ -295,6 +302,113 @@ angular
             Loader.hide();
           });
       };
+      $scope.shareEnrollUrl = function () {
+        if (!$scope.home_data || !$scope.home_data.optin_settings) {
+          Dialog.alert(
+            $translate.instant("Warning"),
+            $translate.instant(
+              "Enroll URL settings are missing. Please complete the settings to share the message."
+            ),
+            "OK"
+          );
+          return;
+        }
+        var settings = $scope.home_data.optin_settings;
+        var enrollUrl = settings.enrolling_page_url || "";
+        var shareMessage = settings.enroll_sharing_message || "";
+        if (!enrollUrl || !shareMessage) {
+          var warningMessage =
+            $scope.home_data.enroll_settings_warning ||
+            $translate.instant(
+              "Enroll URL settings are missing. Please complete the settings to share the message."
+            );
+          Dialog.alert($translate.instant("Warning"), warningMessage, "OK");
+          return;
+        }
+        $scope.enrollShare = {
+          message: shareMessage,
+          url: enrollUrl,
+        };
+        $scope.is_native_app = !!$rootScope.isNativeApp;
+        if ($scope.enrollModal) {
+          $scope.enrollModal.show();
+          return;
+        }
+        Modal.fromTemplateUrl("enrollshare.html", {
+          scope: $scope,
+        }).then(function (modal) {
+          $scope.enrollModal = modal;
+          $scope.enrollModal.show();
+        });
+      };
+
+      $scope.shareEnrollNative = function () {
+        if (!$rootScope.isNativeApp || !window.plugins || !window.plugins.socialsharing) {
+          Dialog.alert(
+            $translate.instant("Warning"),
+            $translate.instant("This feature is disable on WebView!"),
+            "OK"
+          );
+          return;
+        }
+        window.plugins.socialsharing.share($scope.enrollShare.message);
+        $scope.closeEnrollModal();
+      };
+
+      $scope.shareEnrollSocial = function (share_action_type) {
+        if (share_action_type === "cancel") {
+          $scope.closeEnrollModal();
+          return;
+        }
+        $scope.socialShare(share_action_type, $scope.enrollShare.message);
+        if (share_action_type !== "copy") {
+          $scope.closeEnrollModal();
+        }
+      };
+
+      $scope.socialShare = function (share_action_type, share_message) {
+        switch (share_action_type) {
+          case "whatsapp":
+            var encodedMessage = encodeURIComponent(share_message);
+            var urltrigger = "https://api.whatsapp.com/send?text=" + encodedMessage;
+            window.open(urltrigger, "_system");
+            break;
+          case "email":
+            var subject = encodeURIComponent("");
+            var emailBody = encodeURIComponent(share_message);
+            var mailtoLink = "mailto:?subject=" + subject + "&body=" + emailBody;
+            window.open(mailtoLink, "_system");
+            break;
+          case "sms":
+            var smsMessage = encodeURIComponent(share_message);
+            var smsLink = "sms:?body=" + smsMessage;
+            window.open(smsLink, "_system");
+            break;
+          case "copy":
+            var tempInput = document.createElement("input");
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-1000px";
+            tempInput.value = share_message;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            break;
+        }
+      };
+
+      $scope.closeEnrollModal = function () {
+        if ($scope.enrollModal) {
+          $scope.enrollModal.hide();
+        }
+      };
+
+      $scope.$on("$destroy", function () {
+        if ($scope.enrollModal) {
+          $scope.enrollModal.remove();
+        }
+      });
+
       if ($scope.is_logged_in) {
         $scope.getPropertysettings(1);
       }
