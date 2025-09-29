@@ -36,14 +36,21 @@
     $agent_province_list =  array_map("unserialize", array_unique(array_map("serialize", $agent_province_list)));
     sort($agent_province_list); 
 
-	$optin_setting = (new Migareference_Model_Optinsetting())->find([
-		'app_id' => $app_id
-	]);
+        $optin_setting = (new Migareference_Model_Optinsetting())->find([
+                'app_id' => $app_id
+        ]);
 
-	$optin_setting_data = [];
-	if ($optin_setting->getId()) {
-		$optin_setting_data = unserialize($optin_setting->getoptinSetting());
-	}	    
+        $optin_setting_data = [];
+        if ($optin_setting->getId()) {
+                $optin_setting_data = unserialize($optin_setting->getoptinSetting());
+        }
+
+        $default_enroll_share_message = "Ecco il link per registrarti come partner nell'App @@app_name@@ : @@enroll_url@@";
+        $enrolling_page_url = trim((string) $optin_setting->getEnrollingPageUrl());
+        $enroll_sharing_message = trim((string) $optin_setting->getEnrollSharingMessage());
+        if (empty($enroll_sharing_message)) {
+                $enroll_sharing_message = $default_enroll_share_message;
+        }
 ?>
 <div id="landing_page_managment" class="landing_page_managment">
     <h3 class="title-editor no-border-radius title-feature-indent  ">
@@ -139,6 +146,24 @@
                 <div class="col-sm-6">
                     <input type="text" id="confirmation_message" name="confirmation_message"
                         class="confirmation_message input-flat" value="<?php echo $retVal = (count($optin_settings) && !empty($optin_settings[0]['confirmation_message'])) ? $optin_settings[0]['confirmation_message'] : "" ; ?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="optinform_enrolling_page_url"><?php echo __('Enrolling Page URL'); ?> *</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="url" id="optinform_enrolling_page_url" name="enrolling_page_url"
+                        class="input-flat" value="<?php echo htmlspecialchars($enrolling_page_url, ENT_QUOTES, 'UTF-8'); ?>" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="optinform_enroll_sharing_message"><?php echo __('Enroll Sharing Message'); ?> *</label>
+                </div>
+                <div class="col-sm-6">
+                    <textarea id="optinform_enroll_sharing_message" name="enroll_sharing_message" class="input-flat" rows="3" required><?php echo htmlspecialchars($enroll_sharing_message, ENT_QUOTES, 'UTF-8'); ?></textarea>
+                    <small><?php echo __('Available placeholders: @@app_name@@, @@enroll_url@@'); ?></small>
                 </div>
             </div>
         </div>
@@ -911,17 +936,19 @@
 <div class="modal fade" id="customize_option_modal" tabindex="-1" role="dialog" aria-labelledby="customizeOptionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-			<form id="optin_setting_form" method="post" action="<?php echo $this->getUrl('migareference/optinsetting/save_setting'); ?>">
-     			<input type="hidden" name="app_id" value="<?php echo $app_id; ?>">
+                        <form id="optin_setting_form" method="post" action="<?php echo $this->getUrl('migareference/optinsetting/save_setting'); ?>">
+                        <input type="hidden" name="app_id" value="<?php echo $app_id; ?>">
+                        <input type="hidden" id="optin_setting_enrolling_page_url" name="enrolling_page_url" value="<?php echo htmlspecialchars($enrolling_page_url, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="hidden" id="optin_setting_enroll_sharing_message" name="enroll_sharing_message" value="<?php echo htmlspecialchars($enroll_sharing_message, ENT_QUOTES, 'UTF-8'); ?>">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" id="customizeOptionModalLabel"><i class="fa fa-cog"></i> <?php echo __('Customize Optin Form'); ?></h4>
 				</div>
-				<div class="modal-body">
-				<div class="alert alert-info"><?php echo __('If you saved these settings once then all the old settings will be removed and a new style of form will be generated with these settings.'); ?></div>
-					<table class="table table-striped table-bordered">
-						<thead>
-							<tr>
+                                <div class="modal-body">
+                                <div class="alert alert-info"><?php echo __('If you saved these settings once then all the old settings will be removed and a new style of form will be generated with these settings.'); ?></div>
+                                        <table class="table table-striped table-bordered">
+                                                <thead>
+                                                        <tr>
 								<th><?php echo __('Label'); ?> *</th>
 								<th><?php echo __('Visibility'); ?></th>
 								<th><?php echo __('Required'); ?>?</th>
@@ -1319,13 +1346,33 @@
         });
     }
 
-	$("#customize_option_modal_button").click(function(){
-    	$('#customize_option_modal').modal('show');
+        var $enrollingPageUrlInput = $('#optinform_enrolling_page_url');
+        var $enrollSharingMessageInput = $('#optinform_enroll_sharing_message');
+        var $hiddenEnrollingPageUrl = $('#optin_setting_enrolling_page_url');
+        var $hiddenEnrollSharingMessage = $('#optin_setting_enroll_sharing_message');
+
+        function syncOptinSettingFields() {
+            $hiddenEnrollingPageUrl.val($.trim($enrollingPageUrlInput.val()));
+            $hiddenEnrollSharingMessage.val($.trim($enrollSharingMessageInput.val()));
+        }
+
+        $("#customize_option_modal_button").click(function(){
+        $('#customize_option_modal').modal('show');
     });
-	$('#optin_setting_form').submit(function() {
+        $('#customize_option_modal').on('show.bs.modal', function() {
+            syncOptinSettingFields();
+        });
+
+        $enrollingPageUrlInput.on('input change', syncOptinSettingFields);
+        $enrollSharingMessageInput.on('input change', syncOptinSettingFields);
+
+        syncOptinSettingFields();
+
+        $('#optin_setting_form').submit(function() {
+        syncOptinSettingFields();
         reload(this, this.action, true, function(data) {
             if (data.success) {
-				$('#customize_option_modal').modal('toggle');
+                                $('#customize_option_modal').modal('toggle');
                 populateOptionForm();
             }
         });

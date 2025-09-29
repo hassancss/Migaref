@@ -2,25 +2,44 @@
 
 class Migareference_OptinsettingController extends Application_Controller_Default
 {
-	public function savesettingAction() {
-		if ($data = $this->getRequest()->getPost()) {
-            
-			try {
-				$optin_setting = (new Migareference_Model_Optinsetting())->find([
-					'app_id' => $data['app_id']
-				]);
+    public function savesettingAction()
+    {
+        if ($data = $this->getRequest()->getPost()) {
+            try {
+                $enrolling_page_url = isset($data['enrolling_page_url']) ? trim($data['enrolling_page_url']) : '';
+                $enroll_sharing_message = isset($data['enroll_sharing_message']) ? trim($data['enroll_sharing_message']) : '';
 
-				if ($optin_setting->getId()) {
-					$optin_setting->setData([
-						'migareference_optin_setting_id' => $optin_setting->getId(),
-						'optin_setting' => serialize($data['customize_option_form']),
-					])->save();
-				} else {
-					$optin_setting_save = (new Migareference_Model_Optinsetting())->setData([
-						'app_id' => $data['app_id'], 
-						'optin_setting' => serialize($data['customize_option_form']),
-					])->save();
-				}
+                if (empty($enrolling_page_url)) {
+                    throw new Exception(__('Enrolling Page URL is required.'));
+                }
+
+                if (!filter_var($enrolling_page_url, FILTER_VALIDATE_URL)) {
+                    throw new Exception(__('Please provide a valid Enrolling Page URL.'));
+                }
+
+                if (empty($enroll_sharing_message)) {
+                    throw new Exception(__('Enroll Sharing Message is required.'));
+                }
+
+                $customize_option_form = isset($data['customize_option_form']) ? $data['customize_option_form'] : [];
+
+                $optin_setting = (new Migareference_Model_Optinsetting())->find([
+                    'app_id' => $data['app_id'],
+                ]);
+
+                $payload = [
+                    'enrolling_page_url' => $enrolling_page_url,
+                    'enroll_sharing_message' => $enroll_sharing_message,
+                    'optin_setting' => serialize($customize_option_form),
+                ];
+
+                if ($optin_setting->getId()) {
+                    $payload['migareference_optin_setting_id'] = $optin_setting->getId();
+                    $optin_setting->setData($payload)->save();
+                } else {
+                    $payload['app_id'] = $data['app_id'];
+                    (new Migareference_Model_Optinsetting())->setData($payload)->save();
+                }
 
                 $datas = [
                     'success' => 1,
@@ -33,9 +52,9 @@ class Migareference_OptinsettingController extends Application_Controller_Defaul
                 ];
             }
 
-			$this->_sendJson($datas);
+            $this->_sendJson($datas);
         }
-	}
+    }
 	public function loadoptinusersAction() {
 		if ($data = $this->getRequest()->getQuery()) {
 			try {

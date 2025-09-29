@@ -2977,8 +2977,48 @@ public function getmanageprizeAction() {
   public function saveoptinformAction(){
     if ($data = $this->getRequest()->getPost()) {
         try {
-              $optinform  = new Migareference_Model_Optinform();             
+              $optinform  = new Migareference_Model_Optinform();
               $optin_settings=$optinform->getOptinSettings($data['app_id']);
+
+              $enrolling_page_url = isset($data['enrolling_page_url']) ? trim($data['enrolling_page_url']) : '';
+              $enroll_sharing_message = isset($data['enroll_sharing_message']) ? trim($data['enroll_sharing_message']) : '';
+
+              if (empty($enrolling_page_url)) {
+                throw new Exception(__('Enrolling Page URL is required.'));
+              }
+
+              if (!filter_var($enrolling_page_url, FILTER_VALIDATE_URL)) {
+                throw new Exception(__('Please provide a valid Enrolling Page URL.'));
+              }
+
+              if (empty($enroll_sharing_message)) {
+                throw new Exception(__('Enroll Sharing Message is required.'));
+              }
+
+              $optin_setting_model = new Migareference_Model_Optinsetting();
+              $optin_setting = $optin_setting_model->find([
+                'app_id' => $data['app_id'],
+              ]);
+
+              $optin_setting_payload = [
+                'enrolling_page_url' => $enrolling_page_url,
+                'enroll_sharing_message' => $enroll_sharing_message,
+              ];
+
+              if ($optin_setting->getId()) {
+                $optin_setting_payload['migareference_optin_setting_id'] = $optin_setting->getId();
+                $existingSerializedSettings = $optin_setting->getoptinSetting();
+                if (!is_null($existingSerializedSettings)) {
+                  $optin_setting_payload['optin_setting'] = $existingSerializedSettings;
+                }
+                $optin_setting->setData($optin_setting_payload)->save();
+              } else {
+                $optin_setting_payload['app_id'] = $data['app_id'];
+                $optin_setting_model->setData($optin_setting_payload)->save();
+              }
+
+              unset($data['enrolling_page_url'], $data['enroll_sharing_message']);
+
               if (count($optin_settings)) {
                 $data['migareference_optin_form_id']=$optin_settings[0]['migareference_optin_form_id'];
               }
