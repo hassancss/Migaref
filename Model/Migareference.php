@@ -59,6 +59,10 @@ class Migareference_Model_Migareference extends Core_Model_Default
     {
         return $this->getTable()->reportCsv($app_id);
     }
+    public function default_update_app_content($app_id = 0)
+    {
+        return $this->getTable()->default_update_app_content($app_id);
+    }
     public function reportWebhookStrings($app_id = 0,$report_id=0)
     {
         return $this->getTable()->reportWebhookStrings($app_id,$report_id);

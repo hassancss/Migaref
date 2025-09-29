@@ -82,10 +82,10 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
       $app_content   = $migareference->get_app_content($app_id);
     }
     // // Temp Method 3/25/2021
-    // if (empty($app_content[0]['referre_report_box_label'])) {
-    //   $migareference->temp_upate_app_content($app_id);
-    //   $app_content = $migareference->get_app_content($app_id);
-    // }
+    if (empty($app_content[0]['enroll_url_box_label'])) {
+      $migareference->temp_upate_app_content($app_id);
+      $app_content = $migareference->get_app_content($app_id);
+    }
     // // End Temp
     $applicationBase=$base_url."/images/application/".$app_id."/features/migareference/";
 
