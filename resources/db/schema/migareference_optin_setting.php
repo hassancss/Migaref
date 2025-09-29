@@ -14,7 +14,7 @@ $schemas['migareference_optin_setting'] = [
         'auto_increment' => true,
         'primary' => true,
     ],
-	'app_id' => [
+    'app_id' => [
         'type' => 'int(11) unsigned',
         'foreign_key' => [
             'table' => 'application',
@@ -30,16 +30,30 @@ $schemas['migareference_optin_setting'] = [
             'is_unique' => false,
         ],
     ],
-	'optin_setting' => [
-		'type'    => 'text',
-		'is_null' => true,
-		'charset' => 'utf8',
-		'collation' => 'utf8_unicode_ci'
-	],
+    'enrolling_page_url' => [
+        'type' => 'varchar(255)',
+        'is_null' => false,
+        'default' => '',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'enroll_sharing_message' => [
+        'type' => 'varchar(500)',
+        'is_null' => false,
+        'default' => '',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'optin_setting' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'created_at' => [
-        'type' => 'datetime'
+        'type' => 'datetime',
     ],
     'updated_at' => [
-        'type' => 'datetime'
+        'type' => 'datetime',
     ],
 ];
