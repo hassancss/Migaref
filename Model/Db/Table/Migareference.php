@@ -2762,28 +2762,9 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
       }
       public function temp_upate_app_content($app_id=0)
       {
-        // Copy default APP Icons to server image diracotry as Normal push save
-        // $default_icon[0]['icon']='phonebook.png';
-        // $dir_image = Core_Model_Directory::getBasePathTo("/images/application/" . $app_id);
-        // if (!is_dir($dir_image)) mkdir($dir_image, 0775, true);
-        // if (!is_dir($dir_image . "/features")) mkdir($dir_image . "/features", 0775, true);
-        // if (!is_dir($dir_image . "/features/migareference")) mkdir($dir_image . "/features/migareference", 0775, true);
-        // $default = new Core_Model_Default();
-        // $base_url= $default->getBaseUrl();
-        // foreach ($default_icon as $key => $value) {
-        //   $target_path="";
-        //   $target_path.=$dir_image;
-        //   $target_path .= "/features/migareference/".$value['icon'];
-        //   $default_path=$base_url."/app/local/modules/Migareference/resources/appicons/".$value['icon'];
-        //   copy($default_path,$target_path);
-        // }
-        // $default_content['phonebooks_box_label']="PhoneBook";
-        // $default_content['phonebooks_box_bg_color']="#e0d8bc";
-        // $default_content['phonebooks_box_text_color']="#000000";
-        // $default_content['phonebooks_file']="phonebook.png";
-        // $this->_db->update("migarefrence_app_content", $default_content,['app_id = ?' => $app_id]);
-
-        $default_icon[0]['icon']='add_property_cover_file.gif';
+        
+        //Move enroll image to new folder
+        $default_icon[0]['icon']='enroll.png';
         $dir_image = Core_Model_Directory::getBasePathTo("/images/application/" . $app_id);
         if (!is_dir($dir_image)) mkdir($dir_image, 0775, true);
         if (!is_dir($dir_image . "/features")) mkdir($dir_image . "/features", 0775, true);
@@ -2797,26 +2778,11 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
           $default_path=$base_url."/app/local/modules/Migareference/resources/appicons/".$value['icon'];
           copy($default_path,$target_path);
         }
-        $default_content['add_property_save_card_title']="Segnala Prospect";
-        $default_content['add_property_save_btn_color']="#d6d6d6";
-        $default_content['add_property_save_btn_text']="INVIA REFERENZA";
-        $default_content['add_property_save_btn_text_color']="#000000";
-        $default_content['add_property_invite_btn_text']="INVITA PROSPECT";
-        $default_content['add_property_invite_btn_color']="#2cec6b";
-        $default_content['add_property_invite_card_title']="Invita il Prospect";
-        $default_content['add_property_invite_btn_text_color']="#000000";          
-        $default_content['add_property_cover_file']="add_property_cover_file.gif";
-        $default_content['report_type_pop_title']="Scegli il tuo Prospect";
-        $default_content['report_type_pop_text']="La nostra azienda cerca opportunità su due fronti. Cerchiamo potenziali CLIENTI in target per i nostri prodotti o servizi, oppure cerchiamo COLLABORATORI (agenti, partners). Seleziona il tipo di persona che ci vuoi presentare.";
-        $default_content['report_type_pop_btn_one_text']="POTENZIALE CLIENTE";
-        $default_content['report_type_pop_btn_two_text']="POTENZIALE COLLABORATORE";
-        $this->_db->update("migarefrence_app_content", $default_content,['app_id = ?' => $app_id]);
-        $pre_settings = $this->preReportsettigns($app_id);
-        if ($pre_settings[0]['internal_report_note']=='' || $pre_settings[0]['internal_report_note']=== null) {
-          $pre_settings_data['internal_report_note']="<p>Aggiungi in questo form i dati di contatto del potenziale cliente che vuole essere contattato e di cui hai ricevuto il suo consenso.</p>";
-          $pre_settings_data['external_report_note']="<p><p>Per invitare il tuo contatto, scegli il canale che preferisci oppure copia il messaggio di invito</p></p>";
-          $this->_db->update("migareference_pre_report_settings", $pre_settings_data,['app_id = ?' => $app_id]);
-        }
+        $default_content['enroll_url_box_label']="ENROLL URL";
+        $default_content['enroll_url_box_bg_color']="#f6edd4";
+        $default_content['enroll_url_box_text_color']="#000000";
+        $default_content['enroll_url_cover_file']="enroll.png";
+        $this->_db->update("migarefrence_app_content_two", $default_content,['app_id = ?' => $app_id]);        
 
       }
       public function save_app_content($app_id=0)
@@ -2835,9 +2801,16 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
           $default_icon[10]['icon']='statistics.png';
           $default_icon[11]['icon']='crm_header.png';
           $default_icon[12]['icon']='add_property_cover_file.gif';
+          $default_icon[13]['icon']='enroll.png';
+
           $default_content['app_id']=$app_id;
           $default_content['top_home_header_bg']="#e34242";
           $default_content['top_home_header_text']="#ffffff";
+
+          $default_content['enroll_url_box_label']="ENROLL URL";
+          $default_content['enroll_url_box_bg_color']="#f6edd4";
+          $default_content['enroll_url_box_text_color']="#000000";
+          $default_content['enroll_url_cover_file']="enroll.png";
 
           $default_content['how_it_works_label']="COME FUNZIONA?";
           $default_content['how_it_works_bg_color']="#f6edd4";
