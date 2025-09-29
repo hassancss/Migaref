@@ -74,7 +74,7 @@
         <!-- Add Report -->
         <div
           class="item item-body home-card-body add-report-bg-color"
-          ng-click="getPropertysettings(2)"
+          ng-click="shareEnrollUrl()"
           style="background:{{home_icos.add_property_bg_color }} !important;"
         >
           <img
@@ -511,4 +511,77 @@
     <!--END:Must login Panlae-->
   </ion-content>
   <!--END:Page COntent-->
+  <script id="enrollshare.html" type="text/ng-template">
+    <ion-modal-view style="top:20% !important;background:none !important">
+      <ion-content
+        style="height: fit-content !important;border-radius: 5px;background-color:#f7f7f7 !important"
+      >
+        <div class="card" style="padding:10px;">
+          <div ng-if="is_native_app">
+            <div>
+              <p style="font-weight: 500;color:gray;text-align:center">{{enrollShare.message}}</p>
+              <p style="font-weight: 500;color:#000;text-align:center;word-break:break-all">{{enrollShare.url}}</p>
+            </div>
+            <button
+              class="button button-full button-positive"
+              style="font-weight:600"
+              ng-click="shareEnrollNative()"
+            >
+              {{'Share Message' | translate}}
+            </button>
+            <button
+              class="button button-full button-positive"
+              style="margin-top:40px;font-weight:600"
+              ng-click="closeEnrollModal()"
+            >
+              {{'Cancel' | translate}}
+            </button>
+          </div>
+          <div ng-if="!is_native_app">
+            <div>
+              <p style="font-weight: 500;color:gray;text-align:center">{{enrollShare.message}}</p>
+              <p style="font-weight: 500;color:#000;text-align:center;word-break:break-all">{{enrollShare.url}}</p>
+            </div>
+            <div>
+              <button
+                class="button button-full button-positive"
+                style="font-weight:600"
+                ng-click="shareEnrollSocial('whatsapp')"
+              >
+                <i style="float:left;" class="icon ion-sb-whatsapp-outline"></i>{{'Whatsapp' | translate}}
+              </button>
+              <button
+                class="button button-full button-positive"
+                style="font-weight:600"
+                ng-click="shareEnrollSocial('email')"
+              >
+                <i style="float:left;" class="icon ion-ios-email-outline"></i>{{'Email' | translate}}
+              </button>
+              <button
+                class="button button-full button-positive"
+                style="font-weight:600"
+                ng-click="shareEnrollSocial('sms')"
+              >
+                <i style="float:left;" class="icon ion-ios-chatboxes-outline"></i>{{'SMS' | translate}}
+              </button>
+              <button
+                class="button button-full button-positive"
+                style="font-weight:600"
+                ng-click="shareEnrollSocial('copy')"
+              >
+                <i style="float:left;" class="icon ion-ios-copy-outline"></i>{{'Copy Message' | translate}}
+              </button>
+              <button
+                class="button button-full button-positive"
+                style="margin-top:40px;font-weight:600"
+                ng-click="shareEnrollSocial('cancel')"
+              >
+                {{'Cancel' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
 </ion-view>
