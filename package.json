@@ -2,7 +2,7 @@
   "name": "Migareference",
   "description": "Migareference Module",
   "type": "module",
-  "version": "4.0.26",
+  "version": "4.0.11",
   "dependencies": {
     "system": {
       "type": "SAE",

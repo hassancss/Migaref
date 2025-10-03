@@ -165,43 +165,54 @@ class Migareference_Qualification_QualificationController extends Application_Co
             }
         }
     }
-    public function editqualificationAction()
-    {
-        if ($request = $this->getRequest()->getQuery()) {
-            try {
-                $qualificationModel = new Migareference_Model_Qualification();
+ public function editqualificationAction()
+{
+    if ($request = $this->getRequest()->getQuery()) {
+        try {
+            $qualificationModel = new Migareference_Model_Qualification();
 
-                $id = $request['id'] ?? null;
-                if (!$id) {
-                    throw new Exception("Qualification ID missing");
-                }
-
-                $qualification = $qualificationModel->findAll([
-                    'migareference_qualifications_id' => $id
-                ])->toArray();
-
-                if (!$qualification || !isset($qualification[0])) {
-                    throw new Exception("Qualification not found");
-                }
-
-                $payload = [
-                    "data" => $qualification[0]
-                ];
-            } catch (Exception $e) {
-                $payload = [
-                    'error' => true,
-                    'message' => $e->getMessage()
-                ];
+            $id = $request['id'] ?? null;
+            if (!$id) {
+                throw new Exception("Qualification ID missing");
             }
-        } else {
+
+            $qualification = $qualificationModel->findAll([
+                'migareference_qualifications_id' => $id
+            ])->toArray();
+
+            if (!$qualification || !isset($qualification[0])) {
+                throw new Exception("Qualification not found");
+            }
+
+          
+            $app_id  = $this->getApplication()->getId();
+            $base_url = $this->getUrl(); // ya tumhare system ka base url function
+            $applicationBase = $base_url."/images/application/".$app_id."/features/migareference/";
+
+         
+            if (!empty($qualification[0]['qlf_file'])) {
+                $qualification[0]['qlf_file'] = $applicationBase.$qualification[0]['qlf_file'];
+            }
+
+            $payload = [
+                "data" => $qualification[0]
+            ];
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('Invalid request.')
+                'message' => $e->getMessage()
             ];
         }
-
-        $this->_sendJson($payload);
+    } else {
+        $payload = [
+            'error' => true,
+            'message' => __('Invalid request.')
+        ];
     }
+
+    $this->_sendJson($payload);
+}
+
     public function viewlistAction()
     {
         try {

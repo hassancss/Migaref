@@ -775,39 +775,64 @@ function loadNotificationData(appId) {
 
 
     function editQualification(id) {
-        // Toggle Table → Form
-        $('#qualification-list-container').hide();
-        $('#qualification-form').show();
-        $('#add-qualification-btn').hide();
+    // Toggle Table → Form
+    $('#qualification-list-container').hide();
+    $('#qualification-form').show();
+    $('#add-qualification-btn').hide();
 
-        var url = '<?php echo $this->getUrl('migareference/qualification_qualification/editqualification?id='); ?>' + id;
+    var url = '<?php echo $this->getUrl('migareference/qualification_qualification/editqualification?id='); ?>' + id;
 
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                if (data.error) {
-                    alert(data.message || "Could not fetch qualification data");
-                    return;
-                }
-
-                $("#qualification-form input[name='operation']").val("update");
-                $("#migareference_qualifications_id").val(data.data.migareference_qualifications_id);
-                $("#qlf-name").val(data.data.qlf_name);
-                $("#qlf-credits").val(data.data.qlf_credits);
-                if (data.data.qlf_status == "1") {
-                    $("input[name='qlf_status'][value='1']").prop("checked", true);
-                } else {
-                    $("input[name='qlf_status'][value='0']").prop("checked", true);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching qualification:', error);
-                alert("Error fetching qualification data");
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            if (data.error) {
+                alert(data.message || "Could not fetch qualification data");
+                return;
             }
-        });
+
+            $("#qualification-form input[name='operation']").val("update");
+            $("#migareference_qualifications_id").val(data.data.migareference_qualifications_id);
+            $("#qlf-name").val(data.data.qlf_name);
+            $("#qlf-credits").val(data.data.qlf_credits);
+
+            if (data.data.qlf_status == "1") {
+                $("input[name='qlf_status'][value='1']").prop("checked", true);
+            } else {
+                $("input[name='qlf_status'][value='0']").prop("checked", true);
+            }
+
+            // ✅ Fix: show image preview
+         // ✅ Fix: show image preview
+var imgUrl = data.data.qlf_file || "";
+
+if (imgUrl) {
+    // Clean the URL (remove extra // except after http:)
+    imgUrl = imgUrl.replace(/([^:]\/)\/+/g, "$1");
+
+    // Add timestamp to prevent caching
+    var finalUrl = imgUrl + (imgUrl.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
+
+    // Show preview image
+    if ($('#qualification_custom_cover_img').length) {
+        $('#qualification_custom_cover_img').attr('src', finalUrl).show();
     }
+
+    // Set hidden input value
+    if ($('#qualification_custom_migareference_cover_file').length) {
+        $('#qualification_custom_migareference_cover_file').val(imgUrl);
+    }
+}
+
+        },
+
+        error: function(xhr, status, error) {
+            console.error('Error fetching qualification:', error);
+            alert("Error fetching qualification data");
+        }
+    });
+}
 
     function ViewList(id) {
         var url = '<?php echo $this->getUrl('migareference/qualification_qualification/viewlist?id='); ?>' + id;

@@ -214,7 +214,7 @@ $schemas['migarefrence_app_content_two'] = [
     'collation' => 'utf8_unicode_ci'
   ],
   'enroll_url_box_bg_color' => [
-    'type' => 'varchar(20)',
+    'type' => 'varchar(30)',
     'is_null' => true,
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci'

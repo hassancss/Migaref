@@ -257,5 +257,5 @@
 # 3.8.4 Fix the admin side loading issue. Add the featuer of Referrer auto rating upto 3, in case if he have placed one or more reports.
 
 
-# 4.0.10 Sorted Dropdowns – Agents dropdowns are now sorted on the Opt-in page and the App Side profile page.New Opt-in URL Parameters – Added two new parameters: sponsor_email and sponsor_id. Based on these parameters, the sponsor dropdown will be auto-selected and disabled.Enroll URL Feature – Introduced a new button for Admin and Agents on the App Side: Enroll URL.Allows them to share the Enroll URL message.Added new settings inside the Opt-in Settings page to customize the Enroll URL and message.Added new settings under the App Content section to customize the Enroll URL logo and colors.
+# 4.0.11 Sorted Dropdowns – Agents dropdowns are now sorted on the Opt-in page and the App Side profile page.New Opt-in URL Parameters – Added two new parameters: sponsor_email and sponsor_id. Based on these parameters, the sponsor dropdown will be auto-selected and disabled.Enroll URL Feature – Introduced a new button for Admin and Agents on the App Side: Enroll URL.Allows them to share the Enroll URL message.Added new settings inside the Opt-in Settings page to customize the Enroll URL and message.Added new settings under the App Content section to customize the Enroll URL logo and colors.
 
