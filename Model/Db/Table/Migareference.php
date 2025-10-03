@@ -675,7 +675,7 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
       {
         $migareference    = new Migareference_Model_Db_Table_Migareference();        
         $qualifiaction_result = $migareference->syncQualificationReferrersForAllApps();
-        return $qualifiaction_result;
+        
         $callType= ($callType=='test') ? 'test' : 'live' ;
         // Get Enabled Automation Triggers
          $tempItem         = [];//only for testing
@@ -2764,7 +2764,13 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
       {
         
         //Move enroll image to new folder
-        $default_icon[0]['icon']='enroll.png';
+          $default_icon[0]['icon']='enroll.png';
+          $default_icon[1]['icon']='qualification.png';
+          $default_icon[2]['icon']='level_1_cover.png';
+          $default_icon[3]['icon']='level_2_cover.png';
+          $default_icon[4]['icon']='level_1_btn_one_cover.png';
+          $default_icon[5]['icon']='level_1_btn_two_cover.png';
+
         $dir_image = Core_Model_Directory::getBasePathTo("/images/application/" . $app_id);
         if (!is_dir($dir_image)) mkdir($dir_image, 0775, true);
         if (!is_dir($dir_image . "/features")) mkdir($dir_image . "/features", 0775, true);
@@ -2782,6 +2788,28 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
         $default_content['enroll_url_box_bg_color']="#f6edd4";
         $default_content['enroll_url_box_text_color']="#000000";
         $default_content['enroll_url_cover_file']="enroll.png";
+        //Qualifcation Box and Levals
+          $default_content['qlf_box_label']="SEZIONE A TE RISERVATA";
+          $default_content['qlf_box_bg_color']="#f6edd4";
+          $default_content['qlf_box_text_color']="#000000";
+          $default_content['qlf_cover_file']="qualification.png";
+
+          $default_content['qlf_level_one_title']="Cose ti offriamo";
+          $default_content['qlf_level_one_subtitle']="Scopri tutto su Segnalazioni Facili";
+          $default_content['qlf_level_one_cover']="level_1_cover.png";
+
+          $default_content['qlf_level_one_btn_one_title']="Segnala";
+          $default_content['qlf_level_one_btn_one_subtitle']="Per qualsiasi tipo di azienda";
+          $default_content['qlf_level_one_btn_one_cover']="level_1_btn_one_cover.png";
+
+          $default_content['qlf_level_one_btn_two_title']="Rate Segnalazione";
+          $default_content['qlf_level_one_btn_two_subtitle']="Per qualsiasi tipo di azienda";
+          $default_content['qlf_level_one_btn_two_cover']="level_1_btn_two_cover.png";
+
+          $default_content['qlf_level_two_title']="Segnala e Vinci";
+          $default_content['qlf_level_two_subtitle']="Per qualsiasi tipo di azienda";
+          $default_content['qlf_level_two_cover']="level_2_cover.png";
+
         $this->_db->update("migarefrence_app_content_two", $default_content,['app_id = ?' => $app_id]);        
 
       }
@@ -2802,15 +2830,41 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
           $default_icon[11]['icon']='crm_header.png';
           $default_icon[12]['icon']='add_property_cover_file.gif';
           $default_icon[13]['icon']='enroll.png';
+          $default_icon[14]['icon']='qualification.png';
+          $default_icon[15]['icon']='level_1_cover.png';
+          $default_icon[16]['icon']='level_2_cover.png';
+          $default_icon[17]['icon']='level_1_btn_one_cover.png';
+          $default_icon[18]['icon']='level_1_btn_two_cover.png';
 
           $default_content['app_id']=$app_id;
           $default_content['top_home_header_bg']="#e34242";
           $default_content['top_home_header_text']="#ffffff";
 
-          $default_content['enroll_url_box_label']="ENROLL URL";
+          $default_content['enroll_url_box_label']="RECLUTA SEGNALATORE";
           $default_content['enroll_url_box_bg_color']="#f6edd4";
-          $default_content['enroll_url_box_text_color']="#000000";
+          $default_content['qlf_box_text_color']="#000000";
           $default_content['enroll_url_cover_file']="enroll.png";
+          //Qualifcation Box and Levals
+          $default_content['qlf_box_label']="SEZIONE A TE RISERVATA";
+          $default_content['qlf_box_bg_color']="#f6edd4";
+          $default_content['enroll_url_box_text_color']="#000000";
+          $default_content['qlf_cover_file']="qualification.png";
+
+          $default_content['qlf_level_one_title']="Cose ti offriamo";
+          $default_content['qlf_level_one_subtitle']="Scopri tutto su Segnalazioni Facili";
+          $default_content['qlf_level_one_cover']="level_1_cover.png";
+
+          $default_content['qlf_level_one_btn_one_title']="Segnala";
+          $default_content['qlf_level_one_btn_one_subtitle']="Per qualsiasi tipo di azienda";
+          $default_content['qlf_level_one_btn_one_cover']="level_1_btn_one_cover.png";
+
+          $default_content['qlf_level_one_btn_two_title']="Rate Segnalazione";
+          $default_content['qlf_level_one_btn_two_subtitle']="Per qualsiasi tipo di azienda";
+          $default_content['qlf_level_one_btn_two_cover']="level_1_btn_two_cover.png";
+
+          $default_content['qlf_level_two_title']="Segnala e Vinci";
+          $default_content['qlf_level_two_subtitle']="Per qualsiasi tipo di azienda";
+          $default_content['qlf_level_two_cover']="level_2_cover.png";
 
           $default_content['how_it_works_label']="COME FUNZIONA?";
           $default_content['how_it_works_bg_color']="#f6edd4";
@@ -4735,6 +4789,15 @@ $query_option_value.=" GROUP BY mis.user_id ORDER BY mis.invoice_surname ASC, mi
       public function is_admin($app_id,$user_id)
       {
         $query_option = "SELECT * FROM `migareference_app_admins` WHERE `app_id`=$app_id AND `user_id`=$user_id";
+        $res_option   = $this->_db->fetchAll($query_option);
+        return $res_option;
+      }
+      public function is_qualified($app_id,$user_id)
+      {
+        $query_option = "SELECT * 
+        FROM `migareference_qualifications_referrers` 
+        JOIN migareference_qualifications ON migareference_qualifications.migareference_qualifications_id=migareference_qualifications_referrers.qualification_id
+        WHERE migareference_qualifications_referrers.app_id=$app_id AND `referrer_id`=$user_id";
         $res_option   = $this->_db->fetchAll($query_option);
         return $res_option;
       }

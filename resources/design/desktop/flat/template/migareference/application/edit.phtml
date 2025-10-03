@@ -1213,21 +1213,38 @@
                                 </div>
                             </div>
                            <div class="form-group">
-  <div class="col-sm-4">
-    <label for="qlf_grace_days">
-      <?php echo __('Qualification Grace Days'); ?> *
-    </label>
-  </div>
-  <div class="col-sm-8">
-    <input 
-      type="number" 
-      class="input-flat" 
-      name="qlf_grace_days" 
-      id="qlf_grace_days"
-      value="<?=(count($pre_report_settings)) ? $pre_report_settings[0]['qlf_grace_days'] : '';?>"
-    />
-  </div>
-</div>
+                                <div class="col-sm-4">
+                                    <label for="enable_qlf">
+                                    <?php echo __('Enable qualification feature'); ?> *
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select class="input-flat" name="enable_qlf">
+                                        <option value="1" <?=(!count($pre_report_settings)) ? "selected" : "" ; ?>
+                                            <?=(count($pre_report_settings) && $pre_report_settings[0]['enable_qlf']==1) ? "selected" : "" ; ?>>
+                                            <?php echo __('Yes') ?></option>
+                                        <option value="2"
+                                            <?=(count($pre_report_settings) && $pre_report_settings[0]['enable_qlf']==2) ? "selected" : "" ; ?>>
+                                            <?php echo __('No') ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                           <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="qlf_grace_days">
+                                    <?php echo __('Qualification Grace Days'); ?> *
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input 
+                                    type="number" 
+                                    class="input-flat" 
+                                    name="qlf_grace_days" 
+                                    id="qlf_grace_days"
+                                    value="<?=(count($pre_report_settings)) ? $pre_report_settings[0]['qlf_grace_days'] : '';?>"
+                                    />
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="col-sm-4">
@@ -2963,7 +2980,7 @@
 
                     <!-- Level 1 -->
                     <hr>
-                    <h4><?php echo __("Level 1") ?></h4>
+                    <h4><?php echo __("Level 1 Header") ?></h4>
 
                     <!-- Level 1: Title -->
                     <div class="row" style="margin-bottom:8px;">
@@ -2994,7 +3011,7 @@
                     <!-- Level 1: Icon / Cover -->
                     <div class="row" style="margin-bottom:8px;">
                         <div class="col-sm-4">
-                            <label for="qlf_level_one_cover"><?php echo __('Icon'); ?> *</label>
+                            <label for="qlf_level_one_cover"><?php echo __('Cover'); ?> *</label>
                         </div>
                         <div class="col-sm-7" style="text-align:center;">
                             <button style="width:100%"
@@ -3012,7 +3029,7 @@
                                    type="file" name="files[]"
                                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
                             <img id="migareference_qlf_level_one_cover_img"
-                                 width="60" height="60" style="display:"
+                                 width="200" height="125" style="display:"
                                  src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_one_cover']; ?>"
                                  class="cimage" />
                             <a href="javascript:;" style="display:none"
@@ -3026,7 +3043,7 @@
                         </div>
                     </div>
                     <hr>
-                        <h4><?php echo __("Level 1 to Level 2") ?></h4>
+                        <h4><?php echo __("Level 1 to Level 2 Link") ?></h4>
                     <!-- Level 1 -> Level 2 Button -->
                     <div class="row" style="margin-bottom:8px;">
                         <div class="col-sm-4">
@@ -3084,7 +3101,7 @@
                         </div>
                     </div>
 <hr>
-                        <h4><?php echo __("Level 1 to Multimedia") ?></h4>
+                        <h4><?php echo __("Level 1 to Multimedia Link") ?></h4>
                     <!-- Level 1 -> Multimedia Button -->
                     <div class="row" style="margin-bottom:8px;">
                         <div class="col-sm-4">
@@ -3142,7 +3159,7 @@
                         </div>
                     </div>
 <hr>
-                        <h4><?php echo __("Level 2") ?></h4>
+                        <h4><?php echo __("Level 2 Header") ?></h4>
                     <!-- Level 2 -->
                     <div class="row" style="margin-bottom:8px;">
                         <div class="col-sm-4">
@@ -3172,7 +3189,7 @@
                         <!-- Level 2: Icon / Cover -->
                         <div class="row" style="margin-bottom:8px;">
                         <div class="col-sm-4">
-                            <label for="qlf_level_two_cover"><?php echo __('Icon'); ?> *</label>
+                            <label for="qlf_level_two_cover"><?php echo __('Cover'); ?> *</label>
                         </div>
                         <div class="col-sm-7" style="text-align:center;">
                             <button style="width:100%"
@@ -3192,7 +3209,7 @@
                                 data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
 
                             <img id="migareference_qlf_level_two_cover_img"
-                                width="60" height="60" style="display:"
+                                width="200" height="125" style="display:"
                                 src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_two_cover']; ?>"
                                 class="cimage" />
 
@@ -4605,6 +4622,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                <?php if ($pre_report_settings[0]['enable_qlf']==1) { ?>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="referrer_type"><?php echo __('Referrer type'); ?></label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <select id="referrer_type" class="input-flat" name="referrer_type">
+                                            <option value="1"><?php echo __("Customer") ?></option>                                            
+                                            <option value="2"><?php echo __("Not Customer") ?></option>                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <?php } ?>
                                 <?php if ($pre_report_settings[0]['enable_multi_agent_selection']==2) { ?>
                                 <div class="form-group">
                                     <div class="col-sm-6">
@@ -13537,6 +13567,7 @@ function editProspectJob(phonebook_id, type,terms_accepted,referrer_id,is_profil
                 $("#phonebook_user_id").val(data[0].customer_id);
                 $("#phonebook_profession_id").val(data[0].profession_id);
                 $("#phonebook_report_id").val(data[0].report_id);
+                $("#referrer_type").val(data[0].referrer_type);
                 $("#standard_customer_sponsor_id").val(data[0].customer_sponsor_id);
                 $("#phonebook_customer_sponsor_id").val(data[0].customer_sponsor_id);
                 $("#phonebook_partner_sponsor_id").val(data[0].partner_sponsor_id);

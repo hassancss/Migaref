@@ -82,7 +82,7 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
       $app_content   = $migareference->get_app_content($app_id);
     }
     // // Temp Method 3/25/2021
-    if (empty($app_content[0]['enroll_url_box_label'])) {
+    if (empty($app_content[0]['qlf_box_label'])) {
       $migareference->temp_upate_app_content($app_id);
       $app_content = $migareference->get_app_content($app_id);
     }
@@ -1203,6 +1203,7 @@ public function loadereportdataAction(){
           $partner_agents           = $migareference->get_partner_agents($app_id);
           $admins                   = $migareference->getAdmins($app_id);
           $is_admin                 = $migareference->is_admin($app_id,$user_id);
+          $qualified                = $migareference->is_qualified($app_id,$user_id);
           $standard_status          = $migareference->get_standard($app_id);
           $all_jobs                 = $migareference->getJobs($app_id);
           $all_professions          = $migareference->getProfessions($app_id);
@@ -1353,6 +1354,15 @@ public function loadereportdataAction(){
           }
           $is_no_admin = (count($admins)) ? 0 : 1 ;   //This app any single admin or not       
           $is_admin    = (count($is_admin)) ? true : false ; //The current user is admin or not
+          $is_qualified=false;
+          if(count($qualified)){
+            //build image path of qualified badge
+            $default        = new Core_Model_Default();
+            $base_url       = $default->getBaseUrl();
+            $applicationBase=$base_url."/images/application/".$app_id."/features/migareference/";
+            $qualified[0]['qlf_file'] = $applicationBase . $qualified[0]['qlf_file'];
+            $is_qualified=true;
+          }              
           // Work on LIMIT
           $is_need_vat_id=0;
           if (count($pre_property_settings) && count($property_settings_result)) {
@@ -1408,6 +1418,8 @@ public function loadereportdataAction(){
               'is_standard'         => $is_standard,
               'is_no_admin'         => $is_no_admin,
               'is_admin'            => $is_admin,
+              'is_qualified'        => $is_qualified,
+              'qualified'           => $qualified[0],
               'is_agent_list'       => $is_agent_list,
               'is_geo_list'         => $is_geo_list,
               'is_need_vat_id'      => $is_need_vat_id,
@@ -5451,6 +5463,7 @@ public function getexternallinksAction()
   public function getnotificationsAction(){
     $user_id          = $this->getRequest()->getParam('user_id');
     $migareference    = new Migareference_Model_Migareference();
+    $utilities        = new Migareference_Model_Utilities();
     $application      = $this->getApplication();
     $app_id           = $this->getApplication()->getId();
     $youtube_key      = $application->getYoutubeKey();
@@ -5551,6 +5564,12 @@ public function getexternallinksAction()
     $enroll_sharing_msg   = '';
     if ($optin_setting->getId()) {
       $enrolling_page_url = trim((string) $optin_setting->getEnrollingPageUrl());
+      if ($is_agent && $enrolling_page_url!="") {
+        $enrolling_page_url=$enrolling_page_url."?sponsor_id=".$user_id;
+        if (strpos($enrolling_page_url, 'bit.ly') === false && strpos($enrolling_page_url, 'mssl') === false) {
+          $enrolling_page_url = $utilities->shortLink($enrolling_page_url);
+        }
+      }
       $enroll_sharing_msg = trim((string) $optin_setting->getEnrollSharingMessage());
       if ($enrolling_page_url && $enroll_sharing_msg) {
         $enroll_sharing_msg = str_replace(

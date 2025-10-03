@@ -314,6 +314,7 @@ class Migareference_PhonebookController extends Application_Controller_Default{
                         // Save Invoice
                           $inv_settings['app_id']=$app_id;
                           $inv_settings['user_id']=$user_id;
+                          $inv_settings['referrer_type']=$data['referrer_type']; //1=Customer, 2=Not Customer
                           $inv_settings['blockchain_password']=$this->randomPassword(10);
                           $inv_settings['first_password']=$data['password'];
                           $inv_settings['invoice_name']=$data['name'];

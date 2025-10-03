@@ -30,6 +30,7 @@ angular
       $scope.user_id = 0;
       $scope.if_genrale_user = false;
       $scope.is_presettings = false;
+      $scope.show_qlf_reserved_content = false;
       $scope.is_apikey_missing = false;
       $scope.showprizesmenu = false;
       $scope.isadmin = false;
@@ -252,6 +253,9 @@ angular
         Loader.show();
         Migareference.getPropertysettings(Customer.customer.id)
           .success(function (data) {
+            //Set show_qlf_reserved_content
+            $scope.show_qlf_reserved_content = data.is_qualified;
+            $scope.qualified_badge_path = data.qualified.qlf_file;
             // ON App initiate apply sevral rules as per type of user
             if (data.read_only == 2) {
               // Rules of all users

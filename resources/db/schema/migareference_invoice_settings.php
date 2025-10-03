@@ -167,6 +167,10 @@ $schemas['migareference_invoice_settings'] = [
       'type' => 'int(11) unsigned',
       'default' => '0'
     ],
+    'referrer_type' => [
+      'type' => 'int(11) unsigned',
+      'default' => '2' //1=Customer, 2=Not Customer
+    ],
     'sponsor_two_id' => [
       'type' => 'int(11) unsigned',
       'default' => '0'

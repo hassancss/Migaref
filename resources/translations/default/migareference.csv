@@ -2133,4 +2133,10 @@
 "Folder"
 "List"
 "Referrer Type: Customer"
-
+"Enroll URL"
+"ENROLL URL"
+"Enrolling Page URL"
+"Enrolling Page URL is required."
+"Please provide a valid Enrolling Page URL."
+"Enroll Sharing Message is required."
+"Enroll URL settings are missing. Please complete the settings to share the message."

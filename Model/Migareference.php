@@ -800,6 +800,10 @@ class Migareference_Model_Migareference extends Core_Model_Default
     {
       return $this->getTable()->is_admin($app_id,$user_id);
     }
+    public function is_qualified($app_id=0,$user_id=0)
+    {
+      return $this->getTable()->is_qualified($app_id,$user_id);
+    }
     public function getSponsor($app_id=0,$user_id=0)
     {
       return $this->getTable()->getSponsor($app_id,$user_id);

@@ -28,6 +28,13 @@
           >
             {{ home_data.top_content | translate}}
           </h2>
+          <!-- Qualification badge -->
+           <img
+              style="background: none"
+              ng-if="show_qlf_reserved_content"
+              class="full-image home-image-background home-card-body-icon"
+              ng-src="{{ qualified_badge_path }}"
+            />
           <h2
             ng-if="if_genrale_user"
             class="home-sub-header-text"
@@ -57,6 +64,7 @@
         <div
           class="item item-body home-card-body how-it-bg-color"
           ng-click="goToQlfReservedContent()"
+          ng-if="show_qlf_reserved_content"
           style="height:23%;background:{{home_icos.qlf_box_bg_color}} !important;"
         >
           <img
@@ -74,7 +82,7 @@
         <!-- Add Report -->
         <div
           class="item item-body home-card-body add-report-bg-color"
-          ng-click="shareEnrollUrl()"
+          ng-click="getPropertysettings(2)"
           style="background:{{home_icos.add_property_bg_color }} !important;"
         >
           <img
@@ -290,7 +298,7 @@
         <!-- Enroll URL  -->
         <div
           class="item item-body home-card-body status-report-bg-color"
-          ng-click="getPropertysettings(2)"
+          ng-click="shareEnrollUrl()"
           style="float:right;margin-bottom:2px;height:148px;margin-top:0px;width:49.5%;background:{{home_icos.enroll_url_box_bg_color}} !important;"
         >
           <div>
@@ -512,7 +520,7 @@
   </ion-content>
   <!--END:Page COntent-->
   <script id="enrollshare.html" type="text/ng-template">
-    <ion-modal-view style="top:20% !important;background:none !important">
+    <ion-modal-view style="top:20% !important;left:20% !important;right:20% !important;width: 60%;background:none !important">
       <ion-content
         style="height: fit-content !important;border-radius: 5px;background-color:#f7f7f7 !important"
       >

@@ -152,7 +152,7 @@ $schemas['migarefrence_app_content_two'] = [
     'collation' => 'utf8_unicode_ci'
   ],
   'qlf_level_one_btn_one_cover' => [
-    'type' => 'varchar(20)',
+    'type' => 'varchar(40)',
     'is_null' => true,
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci'
@@ -170,7 +170,7 @@ $schemas['migarefrence_app_content_two'] = [
     'collation' => 'utf8_unicode_ci'
   ],
   'qlf_level_one_btn_two_cover' => [
-    'type' => 'varchar(20)',
+    'type' => 'varchar(40)',
     'is_null' => true,
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci'

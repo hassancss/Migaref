@@ -5318,3 +5318,31 @@ msgstr "Funzione"
 
 msgid "Folder"
 msgstr "Cartella"
+
+msgid "List"
+msgstr "Elenco"
+
+msgid "Referrer Type: Customer"
+msgstr "Tipo di segnalatore: Cliente"
+
+msgid "Enroll URL"
+msgstr "URL di iscrizione"
+
+msgid "ENROLL URL"
+msgstr "URL DI ISCRIZIONE"
+
+msgid "Enrolling Page URL"
+msgstr "URL della pagina di iscrizione"
+
+msgid "Enrolling Page URL is required."
+msgstr "L'URL della pagina di iscrizione è obbligatorio."
+
+msgid "Please provide a valid Enrolling Page URL."
+msgstr "Inserisci un URL valido per la pagina di iscrizione."
+
+msgid "Enroll Sharing Message is required."
+msgstr "Il messaggio di condivisione per l'iscrizione è obbligatorio."
+
+msgid "Enroll URL settings are missing. Please complete the settings to share the message."
+msgstr "Le impostazioni dell'URL di iscrizione mancano. Completa le impostazioni per condividere il messaggio."
+
