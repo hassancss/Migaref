@@ -292,6 +292,7 @@
                   <option
                     ng:repeat="stat in stasuses"
                     value="{{ stat.migareference_report_status_id }}"
+                    ng-disabled="!can_access_paid_status && stat.standard_type == 3 && stat.migareference_report_status_id != migareferenceformchange.currunt_report_status"
                   >
                     {{ stat.status_title }}
                   </option>

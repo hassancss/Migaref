@@ -39,6 +39,7 @@ angular
       $scope.set_commission_fee = false;
       $scope.is_comment = false;
       $scope.notes = null;
+      $scope.can_access_paid_status = true;
       $scope.tabs_css = "";
       $scope.tabs_back = "";
       $scope.tabs_back_detail = "";
@@ -699,7 +700,7 @@ angular
       $scope.loadeReportdata = function (report_id) {
         $scope.is_loading = true;
         Loader.show();
-        Migareference.loadeReportdata(report_id)
+        Migareference.loadeReportdata(report_id, Customer.customer.id)
           .success(function (data) {
             $scope.form_builder = $sce.trustAsHtml(data.form_builder);
             $scope.countryitems = data.geoCountries;
@@ -707,6 +708,7 @@ angular
             $scope.whatsapp_icon = data.whatsapp_icon;
             $scope.proviceitems = data.proviceitems;
             $scope.enable_gdpr = data.enable_gdpr;
+            $scope.can_access_paid_status = data.can_access_paid_status !== false;
             country_modal = data.default_model[0];
             province_modal = data.default_model[1];
             $scope.reports = data;

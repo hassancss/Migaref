@@ -661,13 +661,17 @@ angular
           }
         );
       };
-      factory.loadeReportdata = function (report_id) {
+      factory.loadeReportdata = function (report_id, user_id) {
+        var params = {
+          report_id: report_id,
+          version: factory.app_short_version,
+        };
+        if (user_id) {
+          params.user_id = user_id;
+        }
         return $http({
           method: "GET",
-          url: Url.get("migareference/mobile_view/loadereportdata", {
-            report_id: report_id,
-            version: factory.app_short_version,
-          }),
+          url: Url.get("migareference/mobile_view/loadereportdata", params),
           cache: false,
           responseType: "json",
         });
