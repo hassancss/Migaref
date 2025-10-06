@@ -213,16 +213,8 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
     }else {
       $filter_string.=" AND migareference_report.user_id=".$user_id;
     }
-
-
-    $allow_paid_status = true;
-    if ($is_agent && intval($pre_settings[0]['agent_can_manage']) === 1) {
-      $allow_paid_status = (int)$agent_data[0]['paid_status_access'] === 1;
-    }
-    $statusdata = array_merge([
-      ['migareference_report_status_id' => -2, 'status_title' => __("Exclude Declined and Paid")]
-      ,['migareference_report_status_id' => -1, 'status_title' => __("Show All")]], $status);
-
+    
+    
     if ($filter_string=='' && $data['search']=='' && $is_admin==1) { //it mean this is first call for admin load
       $status_string.=" AND migareference_report_status.standard_type!=3 AND migareference_report_status.standard_type!=4";
     }
@@ -232,7 +224,10 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
     $filter_array['status_string']= $status_string;
     $filter_array['app_id']       = $app_id;        
     $status = $migareference->getReportStatus($app_id);
-    $all_reports  = $migareference->getReportList($filter_array);
+    $all_reports  = $migareference->getReportList($filter_array);    
+    $statusdata = array_merge([
+      ['migareference_report_status_id' => -2, 'status_title' => __("Exclude Declined and Paid")]
+      ,['migareference_report_status_id' => -1, 'status_title' => __("Show All")]], $status);
   
     $now            = time(); // or your date as well
     $tags           = [
@@ -438,8 +433,7 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
             'user_group_ids'    => $user_group_ids,
             'agent_can_see'     => $pre_settings[0]['agent_can_see'],
             'agent_can_manage'  => $pre_settings[0]['agent_can_manage'],
-            'can_access_paid_status' => $allow_paid_status,
-            'all_reports'       => $report_collection,
+            'all_reports'       => $report_collection,                               
             'raw_reports_count'         => COUNT($all_reports),                               
             'raw_reports_list'         => $all_reports,                               
             'filter_array'     => $filter_array,                               
@@ -543,8 +537,13 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
     $report_type_icon_two=$applicationBase.$app_content[0]['report_type_pop_btn_two_icon'];
  
     $enable_gdpr   = ($pre_settings[0]['consent_collection']==1) ? true : false ;
-    //Report Status List for filter
+    //Report Status List for filter  
     $status = $migareference->getReportStatus($app_id);
+    $statusdata = array_merge(
+      [
+        ['migareference_report_status_id' => "-2", 'status_title' => __("Exclude Declined and Paid")],
+        ['migareference_report_status_id' => "-1", 'status_title' => __("Show All")]
+      ], $status);
     //::Report Status List for filter
     /*Set User type */
     $admin_data    = $migareference->is_admin($app_id,$user_id);    
@@ -552,15 +551,6 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
     $is_admin = (!empty($admin_data)) ? 1 : 0 ;
     $is_agent = (!empty($agent_data)) ? 1 : 0 ;
     $is_referrer = (empty($agent_data) && empty($admin_data)) ? 1 : 0 ;
-    $allow_paid_status = true;
-    if ($is_agent && intval($pre_settings[0]['agent_can_manage']) === 1) {
-      $allow_paid_status = (int)$agent_data[0]['paid_status_access'] === 1;
-    }
-    $statusdata = array_merge(
-      [
-        ['migareference_report_status_id' => "-2", 'status_title' => __("Exclude Declined and Paid")],
-        ['migareference_report_status_id' => "-1", 'status_title' => __("Show All")]
-      ], $status);
     /* Status Filter */
     if ($data['status_id']>0) {//Apply specific status
       $filter_string.= ($data['status_id'] && $data['status_id']>0) ? " AND migareference_report.currunt_report_status=".$data['status_id'] : "" ;
@@ -761,8 +751,7 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
             'user_group_ids'    => $user_group_ids,
             'agent_can_see'     => $pre_settings[0]['agent_can_see'],
             'agent_can_manage'  => $pre_settings[0]['agent_can_manage'],
-            'can_access_paid_status' => $allow_paid_status,
-            'all_reports'       => $report_collection,
+            'all_reports'       => $report_collection,                               
             'raw_reports_count' => COUNT($all_reports),                               
             'raw_reports_list'  => $all_reports,                               
             'filter_array'      => $filter_array,                               
@@ -827,14 +816,6 @@ public function loadereportdataAction(){
   $status            = $migareference->getReportStatus($app_id);
   $all_reports       = $migareference->getReportItem($app_id,$report_id);
   $pre_settings      = $migareference->preReportsettigns($app_id);
-  $user_id_param     = $this->getRequest()->getParam('user_id');
-  $allow_paid_status = true;
-  if (!empty($user_id_param)) {
-    $agent_info = $migareference->is_agent($app_id,$user_id_param);
-    if (count($agent_info) && intval($pre_settings[0]['agent_can_manage']) === 1) {
-      $allow_paid_status = (int)$agent_info[0]['paid_status_access'] === 1;
-    }
-  }
   $app_content       = $migareference->get_app_content($app_id);
   $report_collection = [];
   $enable_gdpr       = ($pre_settings[0]['consent_collection']==1) ? true : false ;
@@ -1063,8 +1044,7 @@ public function loadereportdataAction(){
         "proviceitems"  => $provinceCollection,
         "default"       => $df_opt,
         "default_model" => $default_model,
-        "enable_gdpr"   => $enable_gdpr,
-        'can_access_paid_status' => $allow_paid_status
+        "enable_gdpr"   => $enable_gdpr
     ];
     $this->_sendJson($payload);
   }
@@ -2394,11 +2374,6 @@ public function loadereportdataAction(){
             $commision_fee= (empty($data['commission_fee'])) ? "" : $data['commission_fee'] ;
             //*This is user id of Admin who is updating not Referral who is submitting Report in case of agent it will be agent user_id who updating
             $user_id      = $data['user_id'];
-            $agent_details = $migareference->is_agent($app_id,$user_id);
-            $agent_paid_status_allowed = true;
-            if (count($agent_details) && intval($pre_report[0]['agent_can_manage']) === 1) {
-              $agent_paid_status_allowed = (int)$agent_details[0]['paid_status_access'] === 1;
-            }
             unset($data['user_id']);
             if ($data['is_acquired']==1 && $standard_type!=4) {
                 if (empty($data['commission_fee'])) {
@@ -2423,9 +2398,6 @@ public function loadereportdataAction(){
             }
             if ($standard_type==3 && $com_fee_report<1) {
               $errors .= __('You must add commission fee to make it Paid.') . "<br/>";
-            }
-            if ($standard_type==3 && count($agent_details) && intval($pre_report[0]['agent_can_manage']) === 1 && !$agent_paid_status_allowed) {
-              $errors .= __('You are not allowed to update report to Paid status.') . "<br/>";
             }
             $static_fields[1]="property_type";
             $static_fields[2]="sales_expectations";

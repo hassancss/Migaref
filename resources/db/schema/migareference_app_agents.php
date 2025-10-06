@@ -25,10 +25,6 @@ $schemas['migareference_app_agents'] = [
       'type' => 'int(11) unsigned',
       'default' => '0'
     ],
-    'paid_status_access' => [
-      'type' => 'int(11) unsigned',
-      'default' => '1'
-    ],
     'agent_type' => [ //1: Customer Agent, 2: Partner Agent
       'type' => 'int(11) unsigned',
       'default' => '1'

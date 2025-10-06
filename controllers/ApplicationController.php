@@ -3290,8 +3290,7 @@ public function getmanageprizeAction() {
               $agent_array         = [];
               $contact_users_array = [];
               $index               = 1;
-              $socialshares_array  = [];
-              $allow_paid_toggle   = (count($pre_report_settings) && intval($pre_report_settings[0]['agent_can_manage']) === 1);
+              $socialshares_array  = [];                                         
               foreach ($admins as $key => $value) {
                 $admin_array[$index]=$value['user_id'];
                 $index++;               
@@ -3345,39 +3344,33 @@ public function getmanageprizeAction() {
                         if ($is_agent) {
                           $action.='<select  class="input-flat admin-dropdown">';
                           $action.='<option  value="">'.__("Assign Admin").'</option>';
-                          foreach ($admins as $key => $value) {
+                          foreach ($admins as $key => $value) {                            
                             $selected = ($agent_item[0]['admin_user_id']==$value['user_id']) ? 'selected' : '' ;
-                            $action.='<option '.$selected.' value="'.$value['user_id'].'">'.$value['lastname']." ".$value['firstname'].'</option>';
+                            $action.='<option '.$selected.' value="'.$value['user_id'].'">'.$value['lastname']." ".$value['firstname'].'</option>';                
                           }
-                          $action.='<option value="0">'._('No Admin').'</option>';
+                          $action.='<option value="0">'._('No Admin').'</option>';                        
                           $action.='</select>';
 
                           if ($agent_item[0]['agent_type']==1) {
                             $agent_type='<span class="badge" style="background-color:rgba(17, 193, 243, 1);color:white;">'.$pre_report_settings[0]['agent_type_label_one'].'</span>';
                           }else {
                             $agent_type='<span class="badge" style="background-color:rgba(255, 201, 0, 1);color:white;">'.$pre_report_settings[0]['agent_type_label_two'].'</span>';
-                          }
+                          }  
                           $agent_phonebook = '<input id="" class="sb-form-checkbox color-blue full_phonebook height15" type="checkbox" name="full_phonebook" value="1"';
                           if ($agent_item[0]['full_phonebook'] == 1) {
                               $agent_phonebook .= ' checked'; // Checkbox should be checked
                           }
                           $agent_phonebook .= '>';
-                          $paid_status_access = '<input class="sb-form-checkbox color-blue paid_status_access height15" type="checkbox" name="paid_status_access" value="1"';
-                          if ((int)$agent_item[0]['paid_status_access'] === 1) {
-                              $paid_status_access .= ' checked';
-                          }
-                          $paid_status_access .= '>';
                         }else {
                           $action.='<select disabled  class="input-flat admin-dropdown">';
                           $action.='<option  value="">'.__("Assign Admin").'</option>';
-                          foreach ($admins as $key => $value) {
-                            $action.='<option  value="'.$value['user_id'].'">'.$value['lastname']." ".$value['firstname'].'</option>';
+                          foreach ($admins as $key => $value) {                            
+                            $action.='<option  value="'.$value['user_id'].'">'.$value['lastname']." ".$value['firstname'].'</option>';                
                           }
-                          $action.='<option value="0">'._('No Admin').'</option>';
-                          $action.='</select>';
-                          $paid_status_access = ($allow_paid_toggle) ? '<input class="sb-form-checkbox color-blue paid_status_access height15" type="checkbox" disabled>' : '';
+                          $action.='<option value="0">'._('No Admin').'</option>';                        
+                          $action.='</select>';                          
                         }
-
+                      
                       $contact_action = '<button title="'.__('Is referrer').' ?'.'" class="btn btn-danger" onclick="ownerStatus(1,'.$customer->getId().')">'."<i class='fa fa-phone' rel=''></i>".'</button>';
                       if(array_search($customer->getId(),$contact_users_array)) {
                           $is_contact=1;
@@ -3398,28 +3391,15 @@ public function getmanageprizeAction() {
                         continue;
                       }       
                                     
-                      if ($allow_paid_toggle) {
-                        $data[] = [
-                            $admin_action." ".$agetn_action." ".$province_action." ".$affiliate_action." ".$share_action,
-                            $customer->getId(),
-                            $customer->getLastname().' '.$customer->getFirstname(),
-                            $customer->getEmail(),
-                            $agent_type,
-                            $paid_status_access,
-                            $agent_phonebook,
-                            $action
-                        ];
-                      } else {
-                        $data[] = [
-                            $admin_action." ".$agetn_action." ".$province_action." ".$affiliate_action." ".$share_action,
-                            $customer->getId(),
-                            $customer->getLastname().' '.$customer->getFirstname(),
-                            $customer->getEmail(),
-                            $agent_type,
-                            $agent_phonebook,
-                            $action
-                        ];
-                      }
+                      $data[] = [
+                          $admin_action." ".$agetn_action." ".$province_action." ".$affiliate_action." ".$share_action,
+                          $customer->getId(),
+                          $customer->getLastname().' '.$customer->getFirstname(),
+                          $customer->getEmail(),
+                          $agent_type,
+                          $agent_phonebook,
+                          $action
+                      ];
                   }
               }
               $payload = [
@@ -4803,46 +4783,9 @@ public function getmanageprizeAction() {
                 $application     = $this->getApplication();
                 $app_id          = $application->getId();
                 $full_phonebook=$this->getRequest()->getParam('full_phonebook');
-                $agent_id=$this->getRequest()->getParam('agent_id');
-                $data['full_phonebook']=$full_phonebook;
-                $migareference->updateAgent($data,$app_id,$agent_id);
-                $payload = [
-                    'success' => true,
-                    'message' => __('Successfully update.'),
-                    'message_loader' => 0,
-                    'message_button' => 0,
-                    'message_timeout' => 2
-                ];
-          } catch (\Exception $e) {
-              $payload = [
-                  'error' => true,
-                  'message' => __($e->getMessage())
-              ];
-          }
-      } else {
-          $payload = [
-              'error' => true,
-              'message' => __('An error occurred during process. Please try again later.')
-          ];
-      }
-      $this->_sendJson($payload);
-  }
-  public function updatepaidstatusaccessAction() {
-      if ($app_id = $this->getRequest()->getParam('app_id')) {
-          try {
-                $migareference = new Migareference_Model_Migareference();
-                $application     = $this->getApplication();
-                $app_id          = $application->getId();
-                $paid_status_access = $this->getRequest()->getParam('paid_status_access');
-                $agent_id = $this->getRequest()->getParam('agent_id');
-                $pre_settings = $migareference->preReportsettigns($app_id);
-                if (!count($pre_settings) || intval($pre_settings[0]['agent_can_manage']) !== 1) {
-                    throw new \Exception(__('Agent status management is disabled.'));
-                }
-                $data = [
-                    'paid_status_access' => $paid_status_access
-                ];
-                $migareference->updateAgent($data, $app_id, $agent_id);
+                $agent_id=$this->getRequest()->getParam('agent_id');                
+                $data['full_phonebook']=$full_phonebook;               
+                $migareference->updateAgent($data,$app_id,$agent_id);                
                 $payload = [
                     'success' => true,
                     'message' => __('Successfully update.'),
