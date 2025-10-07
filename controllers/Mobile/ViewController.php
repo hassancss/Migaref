@@ -504,7 +504,7 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
   /*
   *Sensitive (In Terms of Optimization or speed) be carefull
   */
-  public function loadactivereportsAction(){
+public function loadactivereportsAction(){
     try {      
       
     $migareference     = new Migareference_Model_Migareference();  
@@ -539,6 +539,20 @@ class Migareference_Mobile_ViewController extends Application_Controller_Mobile_
     $enable_gdpr   = ($pre_settings[0]['consent_collection']==1) ? true : false ;
     //Report Status List for filter  
     $status = $migareference->getReportStatus($app_id);
+    $customerId        = $this->_getCustomerId(false);
+    if (!empty($customerId)) {
+      $agentSettings = $migareference->is_agent($app_id, $customerId);
+      if (!empty($agentSettings)) {
+        $enablePaidStatus = isset($agentSettings[0]['enable_paid_status']) ? (int) $agentSettings[0]['enable_paid_status'] : 1;
+        if ($enablePaidStatus !== 1 && is_array($status)) {
+          $status = array_values(array_filter($status, function ($statusItem) {
+            $title = isset($statusItem['status_title']) ? trim($statusItem['status_title']) : '';
+            $standardType = isset($statusItem['standard_type']) ? (int) $statusItem['standard_type'] : 0;
+            return strcasecmp($title, 'Pagato') !== 0 && $standardType !== 3;
+          }));
+        }
+      }
+    }
     $statusdata = array_merge(
       [
         ['migareference_report_status_id' => "-2", 'status_title' => __("Exclude Declined and Paid")],
@@ -814,6 +828,20 @@ public function loadereportdataAction(){
   $app_id            = $this->getApplication()->getId();
   $base_url          = $default->getBaseUrl();
   $status            = $migareference->getReportStatus($app_id);
+  $customerId        = $this->_getCustomerId(false);
+  if (!empty($customerId)) {
+    $agentSettings = $migareference->is_agent($app_id, $customerId);
+    if (!empty($agentSettings)) {
+      $enablePaidStatus = isset($agentSettings[0]['enable_paid_status']) ? (int) $agentSettings[0]['enable_paid_status'] : 1;
+      if ($enablePaidStatus !== 1 && is_array($status)) {
+        $status = array_values(array_filter($status, function ($statusItem) {
+          $title = isset($statusItem['status_title']) ? trim($statusItem['status_title']) : '';
+          $standardType = isset($statusItem['standard_type']) ? (int) $statusItem['standard_type'] : 0;
+          return strcasecmp($title, 'Pagato') !== 0 && $standardType !== 3;
+        }));
+      }
+    }
+  }
   $all_reports       = $migareference->getReportItem($app_id,$report_id);
   $pre_settings      = $migareference->preReportsettigns($app_id);
   $app_content       = $migareference->get_app_content($app_id);
@@ -1047,9 +1075,8 @@ public function loadereportdataAction(){
         "enable_gdpr"   => $enable_gdpr
     ];
     $this->_sendJson($payload);
-  }
-
-  public function buildmessageAction(){
+  } 
+   public function buildmessageAction(){
     $user_id           = $this->getRequest()->getParam('user_id');
     $agent_id          = $this->getRequest()->getParam('agent_id');
     $type              = $this->getRequest()->getParam('type');//1 Referrer,2 Agnet, 3 Admin

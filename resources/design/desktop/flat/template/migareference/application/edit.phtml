@@ -10932,6 +10932,7 @@
                                 <th><?php echo __('Email'); ?></th>
                                 <th><?php echo __('Agent Type'); ?></th>
                                 <th><?php echo __('Full Phonebook'); ?>?</th>
+                                <th><?php echo __('Enable Paid Status'); ?>?</th>
                                 <th><?php echo __('Assign Admin'); ?></th>
                             </tr>
                         </thead>
@@ -10979,6 +10980,11 @@
     </div>
 </form>
 </div>
+<!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $appKey; ?>&libraries=places"></script>
 <link rel="stylesheet"
     href="<?php echo $this->getUrl("/app/local/modules") . '/Migareference/resources/design/desktop/flat/DataTables/';?>datatables.min.css">
@@ -11898,6 +11904,38 @@ $('#table_appowners').on('change', '.full_phonebook', function(){
             }
         });
     }
+});
+$('#table_appowners').on('change', '.enable_paid_status', function() {
+    var checkbox = $(this);
+    var enable_paid_status = checkbox.prop('checked') ? 1 : 0;
+    var agent_id = checkbox.closest('tr').find('td:eq(1)').text(); // get the user id from the corresponding row
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to update paid status access?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, update it',
+        cancelButtonText: 'No, cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var url = '<?php echo $this->getUrl('migareference/application/updateenablepaidstatus'); ?>/app_id/<?php echo $app_id; ?>/agent_id/' + agent_id + '/enable_paid_status/' + enable_paid_status;
+            reload(checkbox, url, true, function(datas) {
+                if (datas.success) {
+                    Swal.fire('Updated!', 'Paid status access has been updated.', 'success').then(() => {
+                        page.reload();
+                    });
+                } else {
+                    Swal.fire('Error!', 'Something went wrong while updating.', 'error');
+                    // rollback checkbox state if failed
+                    checkbox.prop('checked', !checkbox.prop('checked'));
+                }
+            });
+        } else {
+            // agar cancel press hua to checkbox ko wapis pehle wali state ma set kardo
+            checkbox.prop('checked', !checkbox.prop('checked'));
+        }
+    });
 });
 function fillInAddresstest() {
     var place = autocomplete.getPlace();
@@ -15176,7 +15214,33 @@ function showAutomationEffects() {
     $('#automation_effects_table').DataTable(dt_object);
 }
 
-var dt_admin_object = {
+function getPaidStatusColIndex() {
+    var idx = -1;
+    $('#table_appowners thead th').each(function(i) {
+        // Trim and compare without extra spaces
+        var txt = $(this).text().replace(/\s+/g, ' ').trim().toLowerCase();
+        if (txt === "<?php echo strtolower(__('Enable Paid Status')); ?>?") {
+            idx = i;
+            return false; // break
+        }
+    });
+    return idx;
+}
+
+/** Apply column visibility based on the select value */
+function applyPaidStatusVisibility(dtInstance) {
+    var value = $('select[name="agent_can_manage"]').val(); // "1" = Yes, "2" = No
+    var paidIdx = getPaidStatusColIndex();
+    if (paidIdx === -1) return; // header not found, skip
+
+    // Show if "Yes" (1), hide otherwise
+    var shouldShow = (String(value) === "1");
+    dtInstance.column(paidIdx).visible(shouldShow, false); // false = don't recalc immediately
+    dtInstance.columns.adjust().draw(false);
+}
+
+/** Your existing config, extended slightly */
+var dt_admin_object = { 
     responsive: true,
     language: {
         "decimal": "",
@@ -15207,9 +15271,10 @@ var dt_admin_object = {
     sPaginationType: "full_numbers",
     columnDefs: [
         {
-            targets: 6, // Index of the column to exclude from search
+            targets: 6, // your existing non-searchable column; keep as-is
             searchable: false
         }
+        // NOTE: we don't hard-code the Paid Status column here; we toggle it dynamically.
     ],
     fnDrawCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         $.each(nRow.aoData, function(i, el) {
@@ -15219,30 +15284,71 @@ var dt_admin_object = {
         $('.paginate_button').addClass('btn color-blue');
         $('span a.paginate_button').addClass('btn btn-grey');
     },
+    /** Ensure visibility is applied after the first init and after each ajax reload */
+    initComplete: function() {
+        var api = this.api();
+        applyPaidStatusVisibility(api);
+    }
 };
-adminDefaultData();
+
 function adminDefaultData() {
     dt_admin_object.ajax =
-    '<?php echo $this->getUrl('migareference/application/appadmins?&app_id='.$app_id.'&value_id='.$option->getId()); ?>' +'&filter=default';
-    $('#table_appowners').DataTable(dt_admin_object);
+        '<?php echo $this->getUrl('migareference/application/appadmins?&app_id='.$app_id.'&value_id='.$option->getId()); ?>' + '&filter=default';
+
+    var table = $('#table_appowners').DataTable(dt_admin_object);
+
+    // Style buttons
     $(".admin-filter").addClass("btn-danger").removeClass("btn-info");
     $("#admin_filter_all_user").addClass("color-blue");
+
+    // React to select changes live
+    $('select[name="agent_can_manage"]').off('change._paidToggle').on('change._paidToggle', function(){
+        applyPaidStatusVisibility(table);
+    });
 }
+
 function adminFilter(filter, e) {
     $(".admin-filter").addClass("btn-danger").removeClass("btn-info");
     if (filter!='province') {
         $("#admin_province_filter").removeClass("color-blue");
         $(e).addClass("btn-info").removeClass("btn-danger");
-    }else{
+    } else {
         $(e).addClass("color-blue");
     }
+
     var province_id = $('#admin_province_filter').find(":selected").val();
-    $("#table_appowners").DataTable().destroy();
+
+    // Rebuild table
+    var $tbl = $("#table_appowners");
+    if ($.fn.DataTable.isDataTable($tbl)) {
+        $tbl.DataTable().destroy();
+    }
+
     dt_admin_object.ajax =
         '<?php echo $this->getUrl('migareference/application/appadmins?&app_id='.$app_id.'&value_id='.$option->getId()); ?>' +
-        '&filter=' + filter+'&province_id=' + province_id;
-    var report_table = $('#table_appowners').DataTable(dt_admin_object);
+        '&filter=' + filter + '&province_id=' + province_id;
+
+    var table = $tbl.DataTable(dt_admin_object);
+
+    // Re-apply visibility after filter reinit
+    table.one('draw', function() { applyPaidStatusVisibility(table); });
+
+    // Ensure the handler is bound (in case the DOM was re-rendered)
+    $('select[name="agent_can_manage"]').off('change._paidToggle').on('change._paidToggle', function(){
+        applyPaidStatusVisibility(table);
+    });
 }
+
+/** Boot */
+$(function(){
+    adminDefaultData();
+
+    // In case the select exists before table init and you want immediate effect:
+    $(document).ready(function(){
+        var table = $('#table_appowners').DataTable();
+        if (table) applyPaidStatusVisibility(table);
+    });
+});
 
 dt_object.ajax =
     '<?php echo $this->getUrl('migareference/application/appgdprusers?app_id='.$app_id.'&value_id='.$option->getId()); ?>';

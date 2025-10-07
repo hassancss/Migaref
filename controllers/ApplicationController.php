@@ -3270,7 +3270,7 @@ public function getmanageprizeAction() {
               $this->_sendJson($html);
             }
   }
-  public function appadminsAction() {
+   public function appadminsAction() {
       if ($datas = $this->getRequest()->getQuery()) {
           try {
               $customer      = new Customer_Model_Customer();
@@ -3341,6 +3341,7 @@ public function getmanageprizeAction() {
                         }
                         $action='';
                         $agent_phonebook='';
+                        $enable_paid_status='';
                         if ($is_agent) {
                           $action.='<select  class="input-flat admin-dropdown">';
                           $action.='<option  value="">'.__("Assign Admin").'</option>';
@@ -3361,6 +3362,11 @@ public function getmanageprizeAction() {
                               $agent_phonebook .= ' checked'; // Checkbox should be checked
                           }
                           $agent_phonebook .= '>';
+                          $enable_paid_status = '<input id="" class="sb-form-checkbox color-blue enable_paid_status height15" type="checkbox" name="enable_paid_status" value="1"';
+                          if (!empty($agent_item[0]['enable_paid_status'])) {
+                            $enable_paid_status .= ' checked';
+                          }
+                          $enable_paid_status .= '>';
                         }else {
                           $action.='<select disabled  class="input-flat admin-dropdown">';
                           $action.='<option  value="">'.__("Assign Admin").'</option>';
@@ -3398,6 +3404,7 @@ public function getmanageprizeAction() {
                           $customer->getEmail(),
                           $agent_type,
                           $agent_phonebook,
+                          $enable_paid_status,
                           $action
                       ];
                   }
@@ -4793,6 +4800,40 @@ public function getmanageprizeAction() {
                     'message_button' => 0,
                     'message_timeout' => 2
                 ];
+          } catch (\Exception $e) {
+              $payload = [
+                  'error' => true,
+                  'message' => __($e->getMessage())
+              ];
+          }
+      } else {
+          $payload = [
+              'error' => true,
+              'message' => __('An error occurred during process. Please try again later.')
+          ];
+      }
+      $this->_sendJson($payload);
+  }
+  public function updateenablepaidstatusAction() {
+      if ($app_id = $this->getRequest()->getParam('app_id')) {
+          try {
+              $migareference = new Migareference_Model_Migareference();
+              $application   = $this->getApplication();
+              $app_id        = $application->getId();
+
+              $enable_paid_status = $this->getRequest()->getParam('enable_paid_status');
+              $agent_id           = $this->getRequest()->getParam('agent_id');
+
+              $data['enable_paid_status'] = $enable_paid_status;
+              $migareference->updateAgent($data, $app_id, $agent_id);
+
+              $payload = [
+                  'success' => true,
+                  'message' => __('Successfully update.'),
+                  'message_loader' => 0,
+                  'message_button' => 0,
+                  'message_timeout' => 2
+              ];
           } catch (\Exception $e) {
               $payload = [
                   'error' => true,
