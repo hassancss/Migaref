@@ -11907,8 +11907,22 @@ $('#table_appowners').on('change', '.full_phonebook', function(){
 });
 $('#table_appowners').on('change', '.enable_paid_status', function() {
     var checkbox = $(this);
-    var enable_paid_status = checkbox.prop('checked') ? 1 : 0;
-    var agent_id = checkbox.closest('tr').find('td:eq(1)').text(); // get the user id from the corresponding row
+
+    // Invert: checked -> 0, unchecked -> 1
+    var enable_paid_status = checkbox.prop('checked') ? 0 : 1;
+
+    // Prefer a data attribute on the row or checkbox for reliability
+    // <tr data-agent-id="123">...</tr>  OR  <input class="enable_paid_status" data-agent-id="123">
+    var agent_id = checkbox.data('agent-id') 
+        || checkbox.closest('tr').data('agent-id') 
+        || $.trim(checkbox.closest('tr').find('td:eq(1)').text());
+
+    if (!agent_id) {
+        Swal.fire('Error!', 'Agent id not found in row.', 'error');
+        // rollback UI immediately
+        checkbox.prop('checked', !checkbox.prop('checked'));
+        return;
+    }
 
     Swal.fire({
         title: 'Are you sure?',
@@ -11919,24 +11933,32 @@ $('#table_appowners').on('change', '.enable_paid_status', function() {
         cancelButtonText: 'No, cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            var url = '<?php echo $this->getUrl('migareference/application/updateenablepaidstatus'); ?>/app_id/<?php echo $app_id; ?>/agent_id/' + agent_id + '/enable_paid_status/' + enable_paid_status;
+            var baseUrl = '<?php echo $this->getUrl('migareference/application/updateenablepaidstatus'); ?>';
+   
+            var url = baseUrl 
+                + '/agent_id/' + encodeURIComponent(agent_id) 
+                + '/enable_paid_status/' + encodeURIComponent(enable_paid_status);
+
             reload(checkbox, url, true, function(datas) {
-                if (datas.success) {
+                if (datas && datas.success) {
                     Swal.fire('Updated!', 'Paid status access has been updated.', 'success').then(() => {
-                        page.reload();
+                        if (typeof table !== 'undefined' && table.ajax) {
+                            table.ajax.reload(null, false);
+                        }
                     });
                 } else {
-                    Swal.fire('Error!', 'Something went wrong while updating.', 'error');
-                    // rollback checkbox state if failed
+                    Swal.fire('Error!', (datas && datas.message) ? datas.message : 'Something went wrong while updating.', 'error');
+                    
                     checkbox.prop('checked', !checkbox.prop('checked'));
                 }
             });
         } else {
-            // agar cancel press hua to checkbox ko wapis pehle wali state ma set kardo
+         
             checkbox.prop('checked', !checkbox.prop('checked'));
         }
     });
 });
+
 function fillInAddresstest() {
     var place = autocomplete.getPlace();
     lat = place.geometry.location.lat(),

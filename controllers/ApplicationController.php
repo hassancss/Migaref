@@ -3363,8 +3363,9 @@ public function getmanageprizeAction() {
                           }
                           $agent_phonebook .= '>';
                           $enable_paid_status = '<input id="" class="sb-form-checkbox color-blue enable_paid_status height15" type="checkbox" name="enable_paid_status" value="1"';
-                          if (!empty($agent_item[0]['enable_paid_status'])) {
-                            $enable_paid_status .= ' checked';
+ 
+                          if (empty($agent_item[0]['enable_paid_status']) || $agent_item[0]['enable_paid_status'] == 0) {
+                              $enable_paid_status .= ' checked';
                           }
                           $enable_paid_status .= '>';
                         }else {
@@ -4815,39 +4816,44 @@ public function getmanageprizeAction() {
       $this->_sendJson($payload);
   }
   public function updateenablepaidstatusAction() {
-      if ($app_id = $this->getRequest()->getParam('app_id')) {
-          try {
-              $migareference = new Migareference_Model_Migareference();
-              $application   = $this->getApplication();
-              $app_id        = $application->getId();
+    try {
+         
+        $application = $this->getApplication();
+        if (!$application) {
+            throw new \Exception('Application not found.');
+        }
+        $app_id = (int) $application->getId();
 
-              $enable_paid_status = $this->getRequest()->getParam('enable_paid_status');
-              $agent_id           = $this->getRequest()->getParam('agent_id');
+      
+        $enable_paid_status = (int) $this->getRequest()->getParam('enable_paid_status', 0);
+        $agent_id = (int) $this->getRequest()->getParam('agent_id', 0);
 
-              $data['enable_paid_status'] = $enable_paid_status;
-              $migareference->updateAgent($data, $app_id, $agent_id);
+        if ($agent_id <= 0) {
+            throw new \Exception('Invalid agent id.');
+        }
 
-              $payload = [
-                  'success' => true,
-                  'message' => __('Successfully update.'),
-                  'message_loader' => 0,
-                  'message_button' => 0,
-                  'message_timeout' => 2
-              ];
-          } catch (\Exception $e) {
-              $payload = [
-                  'error' => true,
-                  'message' => __($e->getMessage())
-              ];
-          }
-      } else {
-          $payload = [
-              'error' => true,
-              'message' => __('An error occurred during process. Please try again later.')
-          ];
-      }
-      $this->_sendJson($payload);
-  }
+        $migareference = new Migareference_Model_Migareference();
+        $data = ['enable_paid_status' => $enable_paid_status];
+ 
+        $migareference->updateAgent($data, $app_id, $agent_id);
+
+        $payload = [
+            'success' => true,
+            'message' => __('Successfully update.'),
+            'message_loader' => 0,
+            'message_button' => 0,
+            'message_timeout' => 2,
+        ];
+    } catch (\Exception $e) {
+        $payload = [
+            'error' => true,
+            'message' => __($e->getMessage()),
+        ];
+    }
+
+    $this->_sendJson($payload);
+}
+
   public function updateredeemstatusAction() {
       if ($key = $this->getRequest()->getParam('key')) {
           try {
