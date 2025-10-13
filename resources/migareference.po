@@ -5358,3 +5358,9 @@ msgstr "Intestazione Livello 2"
 
 msgid "Level 1 Header"
 msgstr "Intestazione Livello 1"
+
+msgid "Qualification Grace Days"
+msgstr "Giorni di grazia per la qualifica"
+
+msgid "Enable qualification feature"
+msgstr "Abilita la funzione di qualificazione"

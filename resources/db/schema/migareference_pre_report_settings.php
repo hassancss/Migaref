@@ -122,7 +122,7 @@ $schemas['migareference_pre_report_settings'] = [
      ],
      'qlf_grace_days' => [
       'type' => 'int(11) unsigned',
-      'default' => '2'
+      'default' => '180'
      ],
     'enable_privacy_global_settings' => [
       'type' => 'int(11) unsigned',
