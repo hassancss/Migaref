@@ -569,16 +569,14 @@
                            const $sponsorSelect = $("#sponsor_id");
                            const $form = $("#ref_form");
 
-                           function lockSponsor(agentId, agentLabel) {
+                           function lockSponsor(agentId) {
                                if (!$sponsorSelect.length) {
                                    return;
                                }
                                const optionValue = agentId !== null && agentId !== undefined ? String(agentId) : '';
                                if (!optionValue) {
                                    return;
-                               }
-                               const resolvedLabel = agentLabel !== undefined && agentLabel !== null ? String(agentLabel).trim() : '';
-                               const labelText = resolvedLabel !== '' ? resolvedLabel : optionValue;
+                               }                               
                                if (!$sponsorSelect.find('option[value="' + optionValue + '"]').length) {
                                    const option = new Option(labelText, optionValue, true, true);
                                    $sponsorSelect.append(option);
@@ -620,7 +618,7 @@
                                        if (!label) {
                                            label = agent.email || email;
                                        }
-                                       lockSponsor(agent.user_id, label);
+                                       lockSponsor(agent.user_id);
                                    }
                                });
                            }
@@ -1279,16 +1277,14 @@
             const $sponsorSelect = $("#sponsor_id");
             const $form = $("#ref_form");
 
-            function lockSponsor(agentId, agentLabel) {
+            function lockSponsor(agentId) {
                 if (!$sponsorSelect.length) {
                     return;
                 }
                 const optionValue = agentId !== null && agentId !== undefined ? String(agentId) : '';
                 if (!optionValue) {
                     return;
-                }
-                const resolvedLabel = agentLabel !== undefined && agentLabel !== null ? String(agentLabel).trim() : '';
-                const labelText = resolvedLabel !== '' ? resolvedLabel : optionValue;
+                }                
                 if (!$sponsorSelect.find('option[value="' + optionValue + '"]').length) {
                     const option = new Option(labelText, optionValue, true, true);
                     $sponsorSelect.append(option);
@@ -1330,7 +1326,7 @@
                         if (!label) {
                             label = agent.email || email;
                         }
-                        lockSponsor(agent.user_id, label);
+                        lockSponsor(agent.user_id);
                     }
                 });
             }

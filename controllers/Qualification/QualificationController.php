@@ -381,6 +381,70 @@ public function getcontentsettingAction()
         ]);
     }
 }
+public function loadfeaturesAction()
+{
+    $request = $this->getRequest();
+
+    if (!$request->isPost()) {
+        return $this->_sendJson([
+            'success' => false,
+            'message' => __('Invalid request method.')
+        ]);
+    }
+
+    $app_id = (int) $this->getApplication()->getId();
+
+    $type = $request->getPost('type', 'feature');
+    $key  = ($type === '2' || $type === 2 || $type === 'folder') ? 'folder' : 'feature';
+
+    try {
+        $model   = new Migareference_Model_QualificationContentSetting();
+        $options = [];
+
+        if ($key === 'feature') {
+            $rows = $model->fetchVisibleFeaturesForApp($app_id);
+            $rows = is_array($rows) ? $rows : ($rows ? $rows->toArray() : []);
+            foreach ($rows as $r) {
+                $label = $r['tabbar_name'] ?: ($r['name'] ?? '');
+                if ($label === '' || $label === null) {
+                    $label = $r['code'] ?? ('Feature #' . $r['value_id']);
+                }
+                $options[] = [
+                    'value' => (string) $r['value_id'],
+                    'label' => (string) $label,
+                ];
+            }
+        } else {
+            $rows = $model->fetchFoldersForApp($app_id);
+            $rows = is_array($rows) ? $rows : ($rows ? $rows->toArray() : []);
+            foreach ($rows as $r) {
+                $label = $r['tabbar_name'] ?: ($r['name'] ?? '');
+                if ($label === '' || $label === null) {
+                    $label = $r['code'] ?? ('Folder #' . ($r['value'] ?? ''));
+                }
+                $options[] = [
+                    'value' => (string) ($r['value'] ?? ''),
+                    'label' => (string) $label,
+                ];
+            }
+        }
+
+        return $this->_sendJson([
+            'success' => true,
+            'options' => $options
+        ]);
+
+    } catch (Exception $e) {
+        return $this->_sendJson([
+            'success' => false,
+            'message' => 'Error loading options: ' . $e->getMessage(),
+            'options' => []
+        ]);
+    }
+}
+
+
+
 
 
 

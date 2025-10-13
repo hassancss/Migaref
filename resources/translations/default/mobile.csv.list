@@ -2090,7 +2090,6 @@ No
 Choose the features to open
 Custom URL?
 Custom URL
-https://example.com/page
 Manage Reserved Section Contents
 Referrer Type: Non customer
 Type
@@ -2140,3 +2139,7 @@ Enrolling Page URL is required.
 Please provide a valid Enrolling Page URL.
 Enroll Sharing Message is required.
 Enroll URL settings are missing. Please complete the settings to share the message.
+Level 1 to Level 2 Link
+Level 1 to Multimedia Link
+Level 2 Header
+Level 1 Header

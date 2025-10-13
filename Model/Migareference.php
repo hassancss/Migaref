@@ -816,9 +816,9 @@ class Migareference_Model_Migareference extends Core_Model_Default
     {
       return $this->getTable()->is_agent($app_id,$user_id);
     }
-     public function findAgentByEmail($app_id=0,$email=0)
+     public function findAgentByEmail($app_id=0,$email='')
     {
-      return $this->getTable()->findAgentByEmail($app_id,$email=0);
+      return $this->getTable()->findAgentByEmail($app_id,$email);
     }
 
     public function havereport($app_id=0,$user_id=0)

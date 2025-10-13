@@ -542,13 +542,15 @@ public function loadactivereportsAction(){
     $customerId        = $this->_getCustomerId(false);
     if (!empty($customerId)) {
       $agentSettings = $migareference->is_agent($app_id, $customerId);
+      
       if (!empty($agentSettings)) {
         $enablePaidStatus = isset($agentSettings[0]['enable_paid_status']) ? (int) $agentSettings[0]['enable_paid_status'] : 1;
-        if ($enablePaidStatus !== 1 && is_array($status)) {
-          $status = array_values(array_filter($status, function ($statusItem) {
+        if ($enablePaidStatus && is_array($status)) {
+          // throw new Exception("Error Processing Requestvq".$enablePaidStatus, 1);
+            $status = array_values(array_filter($status, function ($statusItem) {
             $title = isset($statusItem['status_title']) ? trim($statusItem['status_title']) : '';
             $standardType = isset($statusItem['standard_type']) ? (int) $statusItem['standard_type'] : 0;
-            return strcasecmp($title, 'Pagato') !== 0 && $standardType !== 3;
+            return $standardType !== 3;
           }));
         }
       }
@@ -833,11 +835,11 @@ public function loadereportdataAction(){
     $agentSettings = $migareference->is_agent($app_id, $customerId);
     if (!empty($agentSettings)) {
       $enablePaidStatus = isset($agentSettings[0]['enable_paid_status']) ? (int) $agentSettings[0]['enable_paid_status'] : 1;
-      if ($enablePaidStatus !== 1 && is_array($status)) {
+      if ($enablePaidStatus && is_array($status)) {
         $status = array_values(array_filter($status, function ($statusItem) {
           $title = isset($statusItem['status_title']) ? trim($statusItem['status_title']) : '';
           $standardType = isset($statusItem['standard_type']) ? (int) $statusItem['standard_type'] : 0;
-          return strcasecmp($title, 'Pagato') !== 0 && $standardType !== 3;
+          return  $standardType !== 3;
         }));
       }
     }
@@ -1389,6 +1391,9 @@ public function loadereportdataAction(){
             $applicationBase=$base_url."/images/application/".$app_id."/features/migareference/";
             $qualified[0]['qlf_file'] = $applicationBase . $qualified[0]['qlf_file'];
             $is_qualified=true;
+          }else {
+            $qualified[0]['qlf_file'] = "";
+            $is_qualified=false;
           }              
           // Work on LIMIT
           $is_need_vat_id=0;
@@ -5707,9 +5712,4 @@ public function getexternallinksAction()
   	}
   	return null;
   }
-
-  
-     
 }
-
- 

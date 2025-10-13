@@ -60,5 +60,63 @@ class Migareference_Model_Db_Table_QualificationContentSetting extends Core_Mode
 
     return $this->fetchRow($select);
 }
+ 
+
+ 
+public function fetchVisibleFeaturesForApp($appId)
+{
+    $select = $this->select()
+        ->setIntegrityCheck(false)
+        ->from(['aov' => 'application_option_value'], [
+            'value_id'    => 'aov.value_id',
+            'tabbar_name' => 'aov.tabbar_name',
+            'position'    => 'aov.position',
+            'option_id'   => 'aov.option_id',
+        ])
+        ->join(['ao' => 'application_option'], 'ao.option_id = aov.option_id', [
+            'name'       => 'ao.name',    
+            'code'       => 'ao.code',   
+            'is_enabled' => 'ao.is_enabled',
+        ])
+        ->where('aov.app_id = ?', (int) $appId)
+        ->where('aov.is_visible = ?', 1)
+        ->where('ao.is_enabled = ?', 1)
+        ->where('(ao.code IS NULL OR ao.code != ?)', 'folder_v2')
+        ->order('aov.position ASC')
+        ->order('aov.value_id ASC');
+
+    return $this->fetchAll($select);
+}
+
+ 
+public function fetchFoldersForApp($appId)
+{
+    $select = $this->select()
+        ->setIntegrityCheck(false)
+        ->from(['aov' => 'application_option_value'], [
+            'value'       => 'aov.value_id',   
+            'tabbar_name' => 'aov.tabbar_name',
+            'position'    => 'aov.position',
+            'option_id'   => 'aov.option_id',
+            'folder_id'   => 'aov.folder_id',  
+            'is_visible'  => 'aov.is_visible',
+        ])
+        ->join(['ao' => 'application_option'], 'ao.option_id = aov.option_id', [
+            'name'       => 'ao.name',
+            'code'       => 'ao.code',
+            'is_enabled' => 'ao.is_enabled',
+        ])
+        ->where('aov.app_id = ?', (int) $appId)
+        
+        ->where('ao.code = ?', 'folder_v2')
+        
+        ->where('ao.is_enabled = ?', 1)
+        ->where('aov.is_visible = ?', 1)
+        ->order('aov.position ASC')
+        ->order('aov.value_id ASC');
+
+    return $this->fetchAll($select);
+}
+
 
 }

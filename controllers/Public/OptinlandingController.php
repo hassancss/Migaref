@@ -5,8 +5,9 @@
 class Migareference_Public_OptinlandingController extends Migareference_Controller_Default {
    
   
-  public function resolvesponsorbyemailAction()
-  {
+   
+public function resolvesponsorbyemailAction()
+{
     try {
         $req = $this->getRequest();
         if (!$req->isPost()) {
@@ -15,27 +16,42 @@ class Migareference_Public_OptinlandingController extends Migareference_Controll
 
         $data   = $req->getPost();
         $app_id = isset($data['app_id']) ? (int)$data['app_id'] : 0;
-        $email  = isset($data['email']) ? trim($data['email']) : '';
+        $email = isset($data['email']) ? trim($data['email']) : '';
 
-        if (!$app_id || $email === '') {
-            return $this->_sendJson(['success' => false, 'error' => 'Missing app_id or email']);
+  
+        if (empty($app_id) || empty($email)) {
+            return $this->_sendJson(['success' => false, 'error' => 'Missing parameters']);
         }
- 
 
-      $miga   = new Migareference_Model_Migareference();
-      $rows = $miga->findAgentByEmail($app_id, $email);
+        $miga = new Migareference_Model_Migareference();
+        $rows = $miga->findAgentByEmail($app_id, $email);
 
-      return $this->_sendJson([
-          'success' => true,
-          'source'  => 'agent',
-          'count'   => is_array($rows) ? count($rows) : 0,
-          'data'    => $rows,
-      ]);
-        
+        if (!empty($rows)) {
+            $first = $rows[0];
+            $sponsorId = isset($first['user_id']) ? (int)$first['user_id'] : null;
+
+            return $this->_sendJson([
+                'success'    => true,                
+                'source'     => 'agent',
+                'count'      => count($rows),
+                'sponsor_id' => $sponsorId,
+                'data'       => $first
+            ]);
+        }
+
+        return $this->_sendJson([
+            'success'    => true,
+            'source'     => 'agent',
+            'email'    => $email,
+            'rows'    => $rows,
+            'count'      => 0,
+            'sponsor_id' => null
+        ]);
+
     } catch (Exception $e) {
-        return $this->_sendJson(['success' => false, 'error' => 'Server error: '.$e->getMessage()]);
+        return $this->_sendJson(['success' => false, 'error' => $e->getMessage()]);
     }
-  }
+}
 
   public function loadsettingsAction() {
 	  $migareference          = new Migareference_Model_Migareference();

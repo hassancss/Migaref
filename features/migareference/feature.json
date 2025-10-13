@@ -45,13 +45,6 @@
       "cache": false      
     },
     {
-      "state": "migareference-qlfmedia",
-      "controller": "QlfMediaController",
-      "url": "migareference/mobile_iframe/index/value_id/:value_id",
-      "template": "l1/qlfmedia.html",
-      "cache": false      
-    },
-    {
       "state": "submit-prospectsv2",
       "controller": "MigareferencesubmitprospectsController",
       "url": "migareference/mobile_iframe/index/value_id/:value_id",

@@ -3359,14 +3359,13 @@ public function getmanageprizeAction() {
                           }  
                           $agent_phonebook = '<input id="" class="sb-form-checkbox color-blue full_phonebook height15" type="checkbox" name="full_phonebook" value="1"';
                           if ($agent_item[0]['full_phonebook'] == 1) {
-                              $agent_phonebook .= ' checked'; // Checkbox should be checked
+                              $agent_phonebook .= ' checked';  
                           }
                           $agent_phonebook .= '>';
-                          $enable_paid_status = '<input id="" class="sb-form-checkbox color-blue enable_paid_status height15" type="checkbox" name="enable_paid_status" value="1"';
- 
-                          if (empty($agent_item[0]['enable_paid_status']) || $agent_item[0]['enable_paid_status'] == 0) {
-                              $enable_paid_status .= ' checked';
-                          }
+                          $enable_paid_status = '<input data-agent_id="' . $customer->getId() . '" class="sb-form-checkbox color-blue enable_paid_status height15" type="checkbox" name="enable_paid_status" value="1"'; 
+                          if (empty($agent_item[0]['enable_paid_status']) || $agent_item[0]['enable_paid_status'] == 0) { 
+                              $enable_paid_status .= ' checked'; 
+                          } 
                           $enable_paid_status .= '>';
                         }else {
                           $action.='<select disabled  class="input-flat admin-dropdown">';
@@ -3387,7 +3386,7 @@ public function getmanageprizeAction() {
                       if(array_search($customer->getId(),$socialshares_array)) {
                           $share_action = '<button title="'.__("Can Share")." ?".'" class="btn btn-info" onclick="socailshareStatus(2,'.$customer->getId().')">'."<i class='fa fa-share' rel=''></i>".'</button>';
                       }
-                      //Apply Filters
+                       
                       if ($datas['filter']!='default' && $datas['filter']=='admin' && !$is_admin) {
                         continue;
                       }elseif ($datas['filter']!='default' && ($datas['filter']=='agent' || $datas['filter']=='province') && !$is_agent) {

@@ -9,14 +9,13 @@ $value_id = $this->getValueid();
 
 <div class='qualification-qualification-contianer container-fluid content-feature pt30'>
 
-    <!-- Add Qualification Button -->
+   
     <div class="mb-3 text-right">
         <button type="button" id="add-qualification-btn" class="btn btn-info">
             <i class="fa fa-plus"></i> <?php echo __('Add Qualification'); ?>
         </button>
     </div>
 
-    <!-- Qualification List -->
     <div id="qualification-list-container">
         <table id="qualification-list"
             class="table display responsive nowrap content-white-bkg"
@@ -39,18 +38,14 @@ $value_id = $this->getValueid();
         </table>
     </div>
 
-    <!-- Qualification Form -->
     <form id="qualification-form" class="form-horizontal" style="display:none;"
         action="<?php echo $this->getUrl('migareference/qualification_qualification/savequalification') ?>"
         method="post">
 
-        <!-- Hidden Inputs -->
   <input type="hidden" name="app_id" value="<?= $app_id ?>">
   <input type="hidden" name="value_id" value="<?= $value_id ?>">
   <input type="hidden" id="operation" name="operation" value="create">
         <input type="hidden" id="migareference_qualifications_id" name="migareference_qualifications_id" value="">
-
-        <!-- Name -->
         <div class="form-group sb-form-line">
             <label for="qlf-name" class="sb-form-line-title col-sm-3">
                 <?php echo __(' Qualification Name'); ?>
@@ -62,7 +57,7 @@ $value_id = $this->getValueid();
             </div>
         </div>
 
-        <!-- credits -->
+
         <div class="form-group sb-form-line">
             <label for="qlf-credits" class="sb-form-line-title col-sm-3">
                 <?php echo __('Min. Credits'); ?>
@@ -73,8 +68,6 @@ $value_id = $this->getValueid();
                     placeholder="<?php echo __('100'); ?>">
             </div>
         </div>
-
-        <!-- Qualification Logo -->
         <div class="form-group sb-form-line">
             <label for="qlf-credits" class="sb-form-line-title col-sm-3">
                 <?php echo __('Icon/Logo'); ?>
@@ -89,8 +82,6 @@ $value_id = $this->getValueid();
                 <input type="hidden" id="qualification_custom_migareference_cover_file" name="qlf_file" />                
             </div>
         </div>
-
-        <!-- Status -->
         <div class="form-group sb-form-line">
             <label class="sb-form-line-title col-sm-3">
                 <?php echo __('Status'); ?>
@@ -125,20 +116,15 @@ $value_id = $this->getValueid();
 </h3>
 <div class='qualification-qualification-contianer container-fluid content-feature pt30'>
 
-    <!-- Notification Template Form -->
     <form id="notification-form" class="form-horizontal"
         action="<?php echo $this->getUrl('migareference/qualification_notification/savenotification') ?>"
         method="post" enctype="multipart/form-data">
-
-        <!-- Hidden Inputs -->
         <input type="hidden" name="app_id" value="<?= $app_id ?>">
         <input type="hidden" name="value_id" value="<?= $value_id ?>">
         <input type="hidden" name="operation" value="create">
         <input type="hidden" id="migareference_qualificationnotifications_id" name="migareference_qualificationnotifications_id" value="">
 
       
-
-        <!-- Webhook -->
         <div class="form-group sb-form-line">
             <label for="webhook" class="sb-form-line-title col-sm-3">
                 <?php echo __('Webhook'); ?>
@@ -150,7 +136,6 @@ $value_id = $this->getValueid();
             </div>
         </div>
 
-        <!-- Email Subject -->
         <div class="form-group sb-form-line">
             <label for="email_subject" class="sb-form-line-title col-sm-3">
                 <?php echo __('Email Subject'); ?>
@@ -162,7 +147,7 @@ $value_id = $this->getValueid();
             </div>
         </div>
 
-        <!-- BCC -->
+ 
         <div class="form-group sb-form-line">
             <label for="bcc" class="sb-form-line-title col-sm-3">
                 <?php echo __('BCC'); ?>
@@ -175,7 +160,7 @@ $value_id = $this->getValueid();
         </div>
 
 
-        <!-- TAG Info -->
+
         <div class="form-group sb-form-line">
             <label class="sb-form-line-title col-sm-3">
             </label>
@@ -187,7 +172,7 @@ $value_id = $this->getValueid();
         </div>
 
 
-        <!-- Email Text (Rich Text Editor) -->
+ 
         <div class="form-group sb-form-line">
             <label for="email_text" class="sb-form-line-title col-sm-3">
                 <?php echo __('Email Body'); ?>
@@ -199,7 +184,7 @@ $value_id = $this->getValueid();
             </div>
         </div>
 
-        <!-- Push Notification Title -->
+  
         <div class="form-group sb-form-line">
             <label for="push_title" class="sb-form-line-title col-sm-3">
                 <?php echo __('Push Notification Title'); ?>
@@ -211,7 +196,7 @@ $value_id = $this->getValueid();
             </div>
         </div>
 
-        <!-- Push Notification Text -->
+  
         <div class="form-group sb-form-line">
             <label for="push_text" class="sb-form-line-title col-sm-3">
                 <?php echo __('Push Notification Message'); ?>
@@ -223,7 +208,7 @@ $value_id = $this->getValueid();
             </div>
         </div>
 
-        <!-- Notification Image Upload -->
+    
         <div class="form-group sb-form-line">
             <label class="sb-form-line-title col-sm-3">
                 <?php echo __('Notification Image'); ?>
@@ -281,7 +266,6 @@ $value_id = $this->getValueid();
                     placeholder="<?php echo __('https://example.com/page'); ?>">
             </div>
         </div>
-        <!-- Save Button -->
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-7 text-right">
                 <button class="btn color-blue" type="submit">
@@ -295,22 +279,18 @@ $value_id = $this->getValueid();
 
 
 </div>
-<!-- Customer Modal -->
 <div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content shadow-lg border-0 rounded-lg">
-            
-            <!-- Header -->
  
            <div class="modal-header text-white" style="background-color: #52a1c0ff;">
-                 <h5 class="modal-title  " style="font-size: large; text-align: center; color: white;">><?php echo __('Referrers List'); ?></h5> 
+                 <h5 class="modal-title  " style="font-size: large; text-align: center; color: white;"><?php echo __('Referrers List'); ?></h5> 
              
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="margin-bottom: 30px;">
                     <span>&times;</span>
                 </button>
             </div>
 
-            <!-- Body -->
             <div class="modal-body p-1">
                 <div class="table-responsive">
                     <table class="table table-hover table-sm mb-0">
@@ -324,7 +304,6 @@ $value_id = $this->getValueid();
                             </tr>
                         </thead>
                         <tbody id="customerListBody">
-                            <!-- Dynamic Data Load -->
                         </tbody>
                     </table>
                 </div>
@@ -343,13 +322,9 @@ $value_id = $this->getValueid();
         <h5 class="modal-title" style="font-size: large; text-align: center; color: white;">
           <?php echo __('Manage Reserved Section Contents'); ?>
         </h5> 
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span>&times;</span>
-        </button>
       </div>
 
       <div class="modal-body">
-        <!-- Reserved Section Form -->
 <form id="qualification-content-setting-form" class="form-horizontal"
       action="<?php echo $this->getUrl('migareference/qualification_qualification/savecontentsetting') ?>"
       method="post">
@@ -364,7 +339,6 @@ $value_id = $this->getValueid();
   <!-- Non-customer Section -->
 <h6 style="font-size: medium;"><?php echo __('Referrer Type: Non customer'); ?></h6>
 <div class="form-group sb-form-line">
-  <!-- Content Type -->
   <div class="col-sm-6">
     <label for="non_customer_content_type" class="sb-form-line-title">
       <?php echo __('Type'); ?>
@@ -375,15 +349,12 @@ $value_id = $this->getValueid();
       <option value="2"><?php echo __('Folder'); ?></option>
     </select>
   </div>
-
-  <!-- List -->
   <div class="col-sm-6">
     <label for="non_customer_list_id" class="sb-form-line-title">
       <?php echo __('List'); ?>
     </label>
     <select id="non_customer_list_id" name="non_customer_list_id" class="form-control input-flat color-blue">
-      <option value=""><?php echo __('-- Select --'); ?></option>
-      <!-- options load by JS -->
+ 
     </select>
   </div>
 </div>
@@ -391,7 +362,6 @@ $value_id = $this->getValueid();
 <!-- Customer Section -->
 <h6 style="font-size: medium;"><?php echo __('Referrer Type: Customer'); ?></h6>
 <div class="form-group sb-form-line">
-  <!-- Content Type -->
   <div class="col-sm-6">
     <label for="customer_content_type" class="sb-form-line-title">
       <?php echo __('Type'); ?>
@@ -403,42 +373,31 @@ $value_id = $this->getValueid();
     </select>
   </div>
 
-  <!-- List -->
   <div class="col-sm-6">
     <label for="customer_list_id" class="sb-form-line-title">
       <?php echo __('List'); ?>
     </label>
     <select id="customer_list_id" name="customer_list_id" class="form-control input-flat color-blue">
       <option value=""><?php echo __('-- Select --'); ?></option>
-      <!-- options load by JS -->
     </select>
   </div>
 </div>
 
-
-  <!-- Buttons -->
   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-7 text-right">
-      <button class="btn color-blue" type="submit">
+      <button class="btn color-blue" type="submit" style="margin-right: 12px;">
         <?php echo __('Save'); ?>
       </button>
-      <button type="button" id="cancel-btn" class="btn btn-link" data-dismiss="modal">
+      <button type="button" id="cancel-btn" class="btn btn-link color-gray" data-dismiss="modal">
         <?php echo __('Cancel'); ?>
       </button>
     </div>
   </div>
 </form>
 
-
-      </div> <!-- /.modal-body -->
-
     </div>
   </div>
 </div>
-
-
-
-<!-- CSS Fix (remove # before labels/buttons) -->
 <style>
     .sb-form-line-title::before {
         content: none !important;
@@ -456,27 +415,24 @@ $value_id = $this->getValueid();
   border: 1px solid #ccc !important;
   border-radius: 5px;
 }
+@media (min-width: 768px) {
+    .col-sm-offset-3 {
+        margin-left: 37%;
+    }
+}
 
 </style>
-<!-- SweetAlert2 CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-
-<!-- jQuery is expected to be provided by the admin theme/layout. Avoid reloading it here
-     because it can detach Bootstrap/DataTables plugins and break modals. -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-
  
 <script>
     $('.replace-with-ckeditor').ckeditor();
-    // Base URL for building image paths when DB stores only filename
     const BASE_URL = "<?php echo (new Core_Model_Default())->getBaseUrl(); ?>";
     $(document).ready(function() {
         let appId = "<?php echo $this->getApplication()->getId(); ?>";
         if (appId) {
             loadNotificationData(appId);
         }
-        // Open content type modal
         $('#open-content-type-modal').on('click', function(e){
             e.preventDefault();
             initContentTypeOptions();
@@ -492,8 +448,6 @@ function loadNotificationData(appId) {
         success: function(response) {
             if (response.success && response.data) {
                 let data = response.data;
-
-                // Fill form fields
                 $("#migareference_qualificationnotifications_id").val(data.migareference_qualificationnotifications_id);
                 $("input[name='webhook']").val(data.webhook);
                 $("input[name='email_subject']").val(data.email_subject);
@@ -503,15 +457,11 @@ function loadNotificationData(appId) {
                 $("textarea[name='push_text']").val(data.push_text);
 
                 $("#ref-credits-api-open-feature").val(data.ref_credits_api_open_feature);
-                $("#ref-credits-api-feature-ids").val(data.ref_credits_api_feature_id); // fix typo
+                $("#ref-credits-api-feature-ids").val(data.ref_credits_api_feature_id); 
                 $("input[name='ref_credits_api_custom_url']").val(data.ref_credits_api_custom_url);
-
-                // Show logo image if present
                 if (data.logo_url) {
                     var original = data.logo_url;
                     var imgSrc = original;
-
-                    // If the API returns only a filename, build the app image path
                     if (!/^https?:\/\//i.test(imgSrc) && imgSrc.indexOf('/images/') === -1) {
                         imgSrc = BASE_URL + '/images/application/' + appId + '/features/migareference/' + original;
                     }
@@ -519,11 +469,8 @@ function loadNotificationData(appId) {
                     $('#logo_url').val(original);
                     $('#show_logo_img').attr('src', imgSrc).show();
                 }
-
-                // Set operation = update
                 $("input[name='operation']").val("update");
             } else {
-                // No record found, set operation = create
                 $("input[name='operation']").val("create");
             }
         },
@@ -539,7 +486,6 @@ function loadNotificationData(appId) {
 
         $.post(this.action, $(this).serialize(), function(data) {
             if (data.success) {
-                // SweetAlert success
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
@@ -547,13 +493,10 @@ function loadNotificationData(appId) {
                     timer: 2000,
                     showConfirmButton: false
                 });
-
-                // Reload table + close form
                 table.ajax.reload();
                 toggleForm(false);
 
             } else {
-                // SweetAlert error
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -597,8 +540,6 @@ function loadNotificationData(appId) {
                 addBtn.show();
             }
         }
-
-        // Add button → Show form
         addBtn.on("click", function(e) {
             e.preventDefault();
             $("#qualification-form")[0].reset();
@@ -606,14 +547,10 @@ function loadNotificationData(appId) {
             $("#migareference_qualifications_id").val("");
             toggleForm(true);
         });
-
-        // Cancel button → Hide form & show list
         $("#cancel-btn").on("click", function(e) {
             e.preventDefault();
             toggleForm(false);
         });
-
-        // Form submit (Ajax)
       $('#qualification-form').submit(function(e) {
                 e.preventDefault();
 
@@ -626,7 +563,6 @@ function loadNotificationData(appId) {
                             });
 
                         $('#qualification-form')[0].reset();
-                        // Clear uploaded image preview and hidden file value
                         $('#qualification_custom_cover_img').hide().attr('src', '');
                         $('#qualification_custom_migareference_cover_file').val('');
                         $('#qualification_custom_file').val('');
@@ -687,7 +623,6 @@ function loadNotificationData(appId) {
                     data: "created_at",
                     render: function(data, type, row) {
                         if (!data) return "";
-                        // "2025-09-09 13:45:22" => "2025-09-09"
                         return data.split(" ")[0];
                     }
                 },
@@ -775,7 +710,6 @@ function loadNotificationData(appId) {
 
 
     function editQualification(id) {
-    // Toggle Table → Form
     $('#qualification-list-container').hide();
     $('#qualification-form').show();
     $('#add-qualification-btn').hide();
@@ -803,23 +737,16 @@ function loadNotificationData(appId) {
                 $("input[name='qlf_status'][value='0']").prop("checked", true);
             }
 
-            // ✅ Fix: show image preview
-         // ✅ Fix: show image preview
 var imgUrl = data.data.qlf_file || "";
 
 if (imgUrl) {
-    // Clean the URL (remove extra // except after http:)
     imgUrl = imgUrl.replace(/([^:]\/)\/+/g, "$1");
 
-    // Add timestamp to prevent caching
     var finalUrl = imgUrl + (imgUrl.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
 
-    // Show preview image
     if ($('#qualification_custom_cover_img').length) {
         $('#qualification_custom_cover_img').attr('src', finalUrl).show();
     }
-
-    // Set hidden input value
     if ($('#qualification_custom_migareference_cover_file').length) {
         $('#qualification_custom_migareference_cover_file').val(imgUrl);
     }
@@ -844,8 +771,6 @@ if (imgUrl) {
             dataType: 'json',
             success: function(response) {
                 $("#mask").hide();
-
-                // No data or empty list -> SweetAlert info
                 if (response.error || !response.data || !Array.isArray(response.data.customers) || response.data.customers.length === 0) {
                     Swal.fire({
                         icon: 'info',
@@ -872,7 +797,6 @@ if (imgUrl) {
                     });
 
                     $("#customerListBody").html(rows);
-                    // Open modal (support Bootstrap 5, Bootstrap 4, or fallback)
                     (function openCustomerModal() {
                         var modalEl = document.getElementById('customerModal');
                         // Bootstrap 5
@@ -881,19 +805,16 @@ if (imgUrl) {
                             instance.show();
                             return;
                         }
-                        // Bootstrap 4 (jQuery plugin)
                         if (window.jQuery && typeof jQuery.fn.modal === 'function') {
                             jQuery('#customerModal').modal('show');
                             return;
                         }
-                        // Fallback: emulate modal behavior
                         var $modal = jQuery('#customerModal');
                         $modal.addClass('show').css('display', 'block');
                         if (!jQuery('.modal-backdrop').length) {
                             jQuery('body').append('<div class="modal-backdrop fade show"></div>');
                         }
                         jQuery('body').addClass('modal-open');
-                        // Close handlers for fallback
                         $modal.find('[data-dismiss="modal"], .close').off('click.fallback').on('click.fallback', function() {
                             $modal.removeClass('show').css('display', 'none');
                             jQuery('.modal-backdrop').remove();
@@ -997,10 +918,7 @@ $('#upload_logo_btn').on('click', function () {
     $('#tmp_logo_file').trigger('click');
 });
 function initContentTypeOptions(qualificationId) {
-    // modal show
     $('#contentTypeModal').modal('show');
-
-    // reset form
     $('#qualification-content-setting-form')[0].reset();
     $('#migareference_qualification_content_setting_id').val(""); // reset hidden id
     if (qualificationId) {
@@ -1016,13 +934,9 @@ function initContentTypeOptions(qualificationId) {
     console.log("App ID:", appId);
     console.log("Value ID:", valueId);
     console.log("Qualification ID:", qualificationId);
-
-    // default Non-customer
     $("#non_customer_content_type").val("1"); // Feature
     $("#non_customer_list_id").empty();
     loadOptions("1", "non_customer_list_id");
-
-    // default Customer
     $("#customer_content_type").val("1"); // Feature
     $("#customer_list_id").empty();
     loadOptions("1", "customer_list_id");
@@ -1037,13 +951,13 @@ function initContentTypeOptions(qualificationId) {
                 if (response.success && response.data) {
                     var data = response.data;
 
-                    // yahan hidden id set karo
+                    
                     $('#migareference_qualification_content_setting_id')
                         .val(data.migareference_qualification_content_setting_id || "");
-                    // mark as update
+                   
                     $('#operation').val('update');
 
-                    // Non-customer set karo
+                 
                     if (data.non_customer_content_type && data.non_customer_list_id) {
                         $("#non_customer_content_type").val(data.non_customer_content_type);
                         $("#non_customer_list_id").empty();
@@ -1054,7 +968,7 @@ function initContentTypeOptions(qualificationId) {
                         );
                     }
 
-                    // Customer set karo
+                 
                     if (data.customer_content_type && data.customer_list_id) {
                         $("#customer_content_type").val(data.customer_content_type);
                         $("#customer_list_id").empty();
@@ -1067,7 +981,7 @@ function initContentTypeOptions(qualificationId) {
 
                     console.log("Existing data loaded:", data);
                 } else {
-                    // no existing data; ensure create mode
+                   
                     $('#operation').val('create');
                 }
             },
@@ -1077,44 +991,47 @@ function initContentTypeOptions(qualificationId) {
         });
     }
 }
-
 function loadOptions(type, targetId, selectedValue) {
     var $options = $("#" + targetId);
-    $options.empty();
+    $options.empty().append('<option value="">Loading...</option>');
+    var key = 'feature';
+    if (type === '2' || type === 2 || type === 'folder') key = 'folder';
 
-    // Normalize type
-    var key = "";
-    if (type == "1" || type == 1 || type === "feature") {
-        key = "feature";
-    } else if (type == "2" || type == 2 || type === "folder") {
-        key = "folder";
-    }
+    $.ajax({
+        url: "<?php echo $this->getUrl('migareference/qualification_qualification/loadfeatures') ?>",
+        type: "POST",
+        dataType: "json",
+        data: { type: key }, 
+        
+        success: function(resp) {
+            $options.empty().prop('disabled', false);
 
-    if (key === "feature") {
-        $options.append(`<?php 
-            $featureOptions = "";
-            foreach ($features as $feature) {
-                if(!$feature->getIsVisible()) continue;
-                $featureOptions .= "<option value='".$feature->getId()."'>".$feature->getTabbarName()."</option>";
+            if (resp && resp.success && Array.isArray(resp.options)) {
+                if (resp.options.length === 0) {
+                    $options.append('<option value="">-- No items --</option>');
+                } else {
+                    resp.options.forEach(function(opt) {
+                        var v = (opt.value ?? '').toString();
+                        var l = (opt.label ?? '--').toString();
+                        $options.append('<option value="' + v + '">' + l + '</option>');
+                    });
+                }
+                if (selectedValue !== undefined && selectedValue !== null && selectedValue !== '') {
+                    $options.val(String(selectedValue));
+                }
+            } else {
+                $options.append('<option value="">-- Error loading --</option>');
+                console.error('Options API error:', resp && resp.message ? resp.message : resp);
             }
-            echo $featureOptions;
-        ?>`);
-    } 
-    else if (key === "folder") {
-        $options.append('<option value="1">Folder 1</option>');
-        $options.append('<option value="2">Folder 2</option>');
-    } 
-    else {
-        $options.append('<option value="">-- Select --</option>');
-    }
-
-    // agar selected value aya ho to usko select karo
-    if (selectedValue) {
-        $options.val(selectedValue);
-    }
+        },
+        error: function(xhr) {
+            $options.empty().prop('disabled', false)
+                .append('<option value="">-- Network error --</option>');
+            console.error('AJAX failed:', xhr);
+        }
+    });
 }
 
-// events bind
 $("#non_customer_content_type").on("change", function () {
     loadOptions($(this).val(), "non_customer_list_id");
 });
@@ -1123,14 +1040,9 @@ $("#customer_content_type").on("change", function () {
     loadOptions($(this).val(), "customer_list_id");
 });
 
-
-// Bind the submit handler safely
-// form submit
 $(document).off('submit', '#qualification-content-setting-form')
            .on('submit', '#qualification-content-setting-form', function(e) {
     e.preventDefault();
-
-    // agar hidden id filled hai to operations = update warna create
     if ($('#migareference_qualification_content_setting_id').val()) {
         $('#operations').val('update');
     } else {

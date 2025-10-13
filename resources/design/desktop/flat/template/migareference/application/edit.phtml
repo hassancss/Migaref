@@ -11907,19 +11907,11 @@ $('#table_appowners').on('change', '.full_phonebook', function(){
 });
 $('#table_appowners').on('change', '.enable_paid_status', function() {
     var checkbox = $(this);
-
-    // Invert: checked -> 0, unchecked -> 1
     var enable_paid_status = checkbox.prop('checked') ? 0 : 1;
-
-    // Prefer a data attribute on the row or checkbox for reliability
-    // <tr data-agent-id="123">...</tr>  OR  <input class="enable_paid_status" data-agent-id="123">
-    var agent_id = checkbox.data('agent-id') 
-        || checkbox.closest('tr').data('agent-id') 
-        || $.trim(checkbox.closest('tr').find('td:eq(1)').text());
+    var agent_id = $(this).data('agent_id');
 
     if (!agent_id) {
-        Swal.fire('Error!', 'Agent id not found in row.', 'error');
-        // rollback UI immediately
+        Swal.fire('Error!', 'Agent id not found.', 'error');
         checkbox.prop('checked', !checkbox.prop('checked'));
         return;
     }
@@ -11934,7 +11926,6 @@ $('#table_appowners').on('change', '.enable_paid_status', function() {
     }).then((result) => {
         if (result.isConfirmed) {
             var baseUrl = '<?php echo $this->getUrl('migareference/application/updateenablepaidstatus'); ?>';
-   
             var url = baseUrl 
                 + '/agent_id/' + encodeURIComponent(agent_id) 
                 + '/enable_paid_status/' + encodeURIComponent(enable_paid_status);
@@ -11948,16 +11939,15 @@ $('#table_appowners').on('change', '.enable_paid_status', function() {
                     });
                 } else {
                     Swal.fire('Error!', (datas && datas.message) ? datas.message : 'Something went wrong while updating.', 'error');
-                    
                     checkbox.prop('checked', !checkbox.prop('checked'));
                 }
             });
         } else {
-         
             checkbox.prop('checked', !checkbox.prop('checked'));
         }
     });
 });
+
 
 function fillInAddresstest() {
     var place = autocomplete.getPlace();
@@ -11985,7 +11975,7 @@ function setrating(key) {
     $("#phonebook_rating").val(key);
     $("#prospect_rating").val(key);
 }
-//Theme
+ 
 $("div.bhoechie-tab-menu > div.list-group > a").click(function(e) {
     e.preventDefault();
     $(this).siblings('a.active').removeClass("active");

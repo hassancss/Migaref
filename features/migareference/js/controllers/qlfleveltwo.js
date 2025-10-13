@@ -4,11 +4,10 @@ angular
     $scope, $stateParams, Migareference, Loader
   ) {
     $scope.migareference = { page_title: "Level Two" };
-
     $scope.home_icos = null;
+    $scope.is_loading = true; 
 
     $scope.loadHomecontent = function () {
-      $scope.is_loading = true;
       Loader.show();
       Migareference.loadHomecontent()
         .success(function (data) {
@@ -19,7 +18,7 @@ angular
           Loader.hide();
         })
         .finally(function () {
-          $scope.is_loading = false;
+          $scope.is_loading = false; 
           Loader.hide();
         });
     };

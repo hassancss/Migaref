@@ -4808,36 +4808,27 @@ $query_option_value.=" GROUP BY mis.user_id ORDER BY mis.invoice_surname ASC, mi
         return $res_option;
       }
 
-    public function findAgentByEmail($app_id = 0, $email = '')
-    {
-        $app_id = (int) $app_id;
-        $email  = trim((string) $email);
-
-        if (!$app_id || $email === '') {
-            return []; // match is_agent() style
-        }
-
-        $query_option = "
-            SELECT DISTINCT
-                agents.user_id,
-                agents.agent_type,
-                customer.firstname,
-                customer.lastname,
-                customer.email
-            FROM `migareference_app_agents` AS agents
-            INNER JOIN `customer`
-                ON `customer`.`customer_id` = `agents`.`user_id`
-               AND `customer`.`app_id` = {$app_id}
-            WHERE `agents`.`app_id` = {$app_id}
-              AND `customer`.`email` = " . $this->_db->quote($email) . "
-            ORDER BY customer.lastname, customer.firstname";
-
-        $res_option   = $this->_db->fetchAll($query_option);
-
-        return $res_option; // [] or [0 => row]
-    }
-
-
+public function findAgentByEmail($app_id = 0, $email = '')
+{    
+    $query_option = "
+        SELECT
+            c.customer_id,
+            a.user_id,
+            a.agent_type,
+            c.firstname,
+            c.lastname,
+            c.email
+        FROM `customer` AS c
+        JOIN `migareference_app_agents` AS a
+            ON a.`user_id` = c.`customer_id`
+           AND a.`app_id`  = c.`app_id`
+        WHERE c.`app_id` = $app_id
+          AND email = '$email'
+        LIMIT 1
+    ";
+    $result = $this->_db->fetchAll($query_option);
+    return $result ?: [];
+}
       public function getagentProvinces($app_id=0,$country_id=0,$province_id_list=[])
       {
         $ids = join("','",$province_id_list);

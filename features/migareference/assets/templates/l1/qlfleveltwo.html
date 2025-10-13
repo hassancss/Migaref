@@ -6,11 +6,20 @@
   <ion-nav-title>
     {{ (migareference.page_title || 'Level Two') | translate }}
   </ion-nav-title>
-  <ion-content class="has-header">
-    <!-- Single Card -->
-    <div class="card" style="background: {{home_icos.qlf_box_bg_color}}">
-      <!-- Header -->
 
+  <ion-content class="has-header">
+    <!-- Loading Spinner -->
+    <div ng-if="is_loading" style="text-align: center; padding: 50px 0">
+      <ion-spinner></ion-spinner>
+      <p>Loading content...</p>
+    </div>
+
+   
+    <div
+      ng-if="!is_loading && home_icos"
+      class="card"
+      style="background: {{home_icos.qlf_box_bg_color}}"
+    >
       <div
         class="item item-divider card-header"
         style="color: {{home_icos.qlf_box_text_color}}; font-size:22px; text-align:center; font-weight:600; padding: 12px 0;"
@@ -18,7 +27,6 @@
         {{home_icos.qlf_level_two_title}}
       </div>
 
-      <!-- Image -->
       <div
         class="item item-image"
         style="
@@ -35,13 +43,16 @@
         />
       </div>
 
-      <!-- Subtitle -->
       <div class="item item-text-wrap" style="text-align: center; color: #444">
         <p>{{home_icos.qlf_level_two_subtitle}}</p>
       </div>
     </div>
-    <!-- No Data -->
-    <div ng-if="!home_icos">
+
+    <!-- No Data (only show after loading finishes) -->
+    <div
+      ng-if="!is_loading && !home_icos"
+      style="text-align: center; padding: 15px"
+    >
       <p>No content available.</p>
     </div>
   </ion-content>

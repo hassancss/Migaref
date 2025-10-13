@@ -16,16 +16,24 @@ class Migareference_Model_QualificationContentSetting extends Core_Model_Default
       return $this->getTable()->updateContentSetting($id);
     }
     
-    /**
-     * Fetch a single content setting by app/value/qualification.
-     * Controller should call this instead of building joins.
-     */
-  public function getByAppValueQualification($appId, $valueId, $qualificationId)
-{
-    $row = $this->getTable()->getByAppValueQualification($appId, $valueId, $qualificationId);
+   
+    public function getByAppValueQualification($appId, $valueId, $qualificationId)
+    {
+        $row = $this->getTable()->getByAppValueQualification($appId, $valueId, $qualificationId);
 
-    return $row ? $row->toArray() : null;  
-}
+        return $row ? $row->toArray() : null;  
+    }
+    public function fetchVisibleFeaturesForApp($appId)
+    {
+        $rows = $this->getTable()->fetchVisibleFeaturesForApp($appId);
+        return $rows ? $rows->toArray() : [];
+    }
 
+   
+    public function fetchFoldersForApp($appId)
+    {
+        $rows = $this->getTable()->fetchFoldersForApp($appId);
+        return $rows ? $rows->toArray() : [];
+    }
     
 }

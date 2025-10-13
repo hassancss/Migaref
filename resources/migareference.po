@@ -5346,3 +5346,15 @@ msgstr "Il messaggio di condivisione per l'iscrizione è obbligatorio."
 msgid "Enroll URL settings are missing. Please complete the settings to share the message."
 msgstr "Le impostazioni dell'URL di iscrizione mancano. Completa le impostazioni per condividere il messaggio."
 
+
+msgid "Level 1 to Level 2 Link"
+msgstr "Collegamento dal Livello 1 al Livello 2"
+
+msgid "Level 1 to Multimedia Link"
+msgstr "Collegamento dal Livello 1 a Multimedia"
+
+msgid "Level 2 Header"
+msgstr "Intestazione Livello 2"
+
+msgid "Level 1 Header"
+msgstr "Intestazione Livello 1"
