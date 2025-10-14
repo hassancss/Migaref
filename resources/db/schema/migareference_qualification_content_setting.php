@@ -25,7 +25,7 @@ $schemas['migareference_qualification_content_setting'] = [
         'is_null' => false,
     ],
     
- 'operation' => [
+    'operation' => [
         'type' => 'varchar(20)',
         'default' => 'create',
         'charset' => 'utf8',

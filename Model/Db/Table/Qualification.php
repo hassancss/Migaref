@@ -63,4 +63,21 @@ public function updateQualification($data = [])
     {
         return $this->_db->delete('migareference_qualifications', ['migareference_qualifications_id = ?' => $id]);
     }
+    public function getFeatureContent($feature_id,$app_id)
+    {
+        $query_option = "SELECT application_option_value.value_id, application_option.model
+        FROM `application_option_value` 
+        JOIN application_option ON application_option.option_id=application_option_value.option_id 
+        WHERE  `app_id` = $app_id AND application_option_value.`value_id` = $feature_id";
+        return $this->_db->fetchAll($query_option);
+    } 
+    public function getQualificationDetails($user_id)
+    {
+        $query_option = "SELECT * 
+        FROM `migareference_invoice_settings` 
+        JOIN migareference_qualifications_referrers ON migareference_qualifications_referrers.referrer_id=migareference_invoice_settings.user_id 
+        JOIN migareference_qualification_content_setting ON migareference_qualification_content_setting.qualification_id=migareference_qualifications_referrers.qualification_id
+        WHERE `user_id` = $user_id";
+        return $this->_db->fetchAll($query_option);
+    } 
 }

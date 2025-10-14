@@ -181,6 +181,16 @@ angular
           responseType: "json",
         });
       };
+      factory.referrerFeatuerContent = function (user_id) {
+        return $http({
+          method: "GET",
+          url: Url.get("migareference/mobile_qualification/referrerfeaturecontent", {
+            user_id: user_id,
+          }),
+          cache: false,
+          responseType: "json",
+        });
+      };
       factory.loadprovinces = function (country_id) {
         return $http({
           method: "GET",

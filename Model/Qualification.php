@@ -19,5 +19,13 @@ class Migareference_Model_Qualification extends Core_Model_Default
     {
         return $this->getTable()->updateQualification($data);
     }
+       public function getFeatureContent($feature_id,$app_id)
+    {
+        return $this->getTable()->getFeatureContent($feature_id,$app_id);
+    }
+       public function getQualificationDetails($user_id)
+    {
+        return $this->getTable()->getQualificationDetails($user_id);
+    }
 
 }
