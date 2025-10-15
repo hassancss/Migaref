@@ -674,7 +674,7 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
       public static function automationTriggerscron($callType='')//$callType='test' for testing or '' for live
       {
         $migareference    = new Migareference_Model_Db_Table_Migareference();        
-        $qualifiaction_result = $migareference->syncQualificationReferrersForAllApps();
+      
         
         $callType= ($callType=='test') ? 'test' : 'live' ;
         // Get Enabled Automation Triggers
@@ -7000,6 +7000,7 @@ public function findAgentByEmail($app_id = 0, $email = '')
       public static function cronNotification()
       {
          $migareference = new Migareference_Model_Db_Table_Migareference();
+         $qualifiaction_result = $migareference->syncQualificationReferrersForAllApps();
         // START: External method to manage WEBHOOK Error Notification etc.
          $currentMinute = intval(date('i'));
         if ($currentMinute % 5 == 0) {
