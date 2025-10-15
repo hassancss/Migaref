@@ -17,6 +17,9 @@ angular
     ) {
       $scope.migareference = { page_title: "" };
       $scope.home_data = null;
+      $scope.state_name = null;
+      $scope.state_params = null;
+      $scope.is_loading = true;
       $scope.logs_array = {
         app_id: 0,
         user_id: 0,
@@ -413,8 +416,41 @@ angular
         }
       });
 
-      if ($scope.is_logged_in) {
+     
+      //referrerFeatuerContent This method will get dynamic state and parmas goToFeature method
+    $scope.referrerFeatuerContent = function () {
+      Loader.show();
+      Migareference.referrerFeatuerContent(Customer.customer.id)
+        .success(function (data) {
+          $scope.state_name = data.data[0].state;
+          $scope.state_params = data.data[0].params;
+          //from array to object
+          if (data.state_params) {
+            var params = {};
+            for (var i = 0; i < data.state_params.length; i++) {
+              params[data.state_params[i].key] = data.state_params[i].value;
+            }
+            $scope.state_params = params;
+          }
+          console.log($scope.state_name, $scope.state_params);
+          
+        })
+        .error(function () {
+          console.error("Error loading content");
+        })
+        .finally(function () {
+          $scope.is_loading = false; 
+          Loader.hide();
+        });
+    };  
+     $scope.goToFeature = function () {
+      console.log($scope.state_name, $scope.state_params);
+      
+      $state.go($scope.state_name, $scope.state_params);
+    };  
+     if ($scope.is_logged_in) {
         $scope.getPropertysettings(1);
+        $scope.referrerFeatuerContent();
       }
     }
   );
