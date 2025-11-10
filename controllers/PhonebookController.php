@@ -401,6 +401,7 @@ class Migareference_PhonebookController extends Application_Controller_Default{
                       if ($data['type']==1) {                        
                         $invoice_data['invoice_name']=$data['name'];
                         $invoice_data['invoice_surname']=$data['surname'];
+                        $invoice_data['referrer_type']=$data['referrer_type'];
                         $invoice_data['invoice_mobile']=$data['mobile'];
                         $invoice_data['address_country_id']=$data['address_country'];
                         $invoice_data['address_street']=$data['address_street'];

@@ -353,12 +353,13 @@ public function resolvesponsorbyemailAction()
               if (isset($data['customer_sponsor_id']) && !empty($data['customer_sponsor_id']) ) {
                 $agent_user=$migareference->getSingleuser($app_id,$data['customer_sponsor_id']);
               }
+              $app_url=$base_url . "/application/device/check/app_id/" . $app_id ;
               $notificationStrings = [
                 $customer['firstname']." ".$customer['lastname'],
-                $customer['push'],
-                $data['password'],
+                $customer['email'],
+                $password,
                 $agent_user[0]['firstname']." ".$agent_user[0]['lastname'],
-                $app_link
+                $app_url
               ];
               $push_data['push_title'] = str_replace($notificationTags, $notificationStrings,$welcome_push[0]['welcome_push_title']);
               $push_data['push_text']  = str_replace($notificationTags, $notificationStrings,$welcome_push[0]['welcome_push_text']);                          

@@ -2050,7 +2050,7 @@ you know, by referring potential companies that are looking for new ways to acqu
 By helping us, you will not only obtain economic benefits, but also reciprocity. We will share our vast network of people we know to help you achieve your goals and overcome problems and challenges. This is the real strategic wealth that will remain with you forever.
 Before starting, here’s a short 3-minute video that explains what
 is.
- Manage Qualifications
+Manage Qualifications
 Add Qualification
 ID
 Date
@@ -2070,7 +2070,7 @@ Active
 Inactive
 Save
 Cancel
-Qualifications Notifications
+Qualification Notifications
 Webhook
 https://example.com/webhook
 Email Subject
@@ -2145,3 +2145,5 @@ Level 2 Header
 Level 1 Header
 Qualification Grace Days
 Enable qualification feature
+Is Customer
+Qualifications

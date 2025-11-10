@@ -8,8 +8,8 @@ angular
       factory.pre_settings = {};
       factory.app_content = {};
       factory.user_type = {};
-      factory.app_full_version = "4.0.40";
-      factory.app_short_version = "4.40";
+      factory.app_full_version = "4.2.0";
+      factory.app_short_version = "4.2";
       // Promise-based deps loader!
 
       factory.load = function (value_id, platform) {

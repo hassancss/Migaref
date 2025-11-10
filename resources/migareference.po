@@ -5145,7 +5145,7 @@ msgstr "Salva"
 msgid "Cancel"
 msgstr "Annulla"
 
-msgid "Qualifications Notifications"
+msgid "Qualification Notifications"
 msgstr "Notifiche qualifiche"
 
 msgid "Webhook"

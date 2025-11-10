@@ -2977,255 +2977,250 @@
                             <input type="hidden" id="migareference_qlf_remove_cover" name="" value="0" />
                         </div>
                     </div>
-
-                    <!-- Level 1 -->
-                    <hr>
-                    <h4><?php echo __("Level 1 Header") ?></h4>
-
-                    <!-- Level 1: Title -->
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_title"><?php echo __('Title'); ?>*</label>
+                    <div style="display:none">                    
+                        <!-- Level 1 -->
+                        <hr>
+                        <h4><?php echo __("Level 1 Header") ?></h4>
+                        <!-- Level 1: Title -->
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_title"><?php echo __('Title'); ?>*</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="input-flat" type="text"
+                                    name="qlf_level_one_title"
+                                    id="qlf_level_one_title"
+                                    value="<?=$app_content[0]['qlf_level_one_title'] ?>">
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <input class="input-flat" type="text"
-                                   name="qlf_level_one_title"
-                                   id="qlf_level_one_title"
-                                   value="<?=$app_content[0]['qlf_level_one_title'] ?>">
+                        <!-- Level 1: Subtitle -->
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_subtitle"><?php echo __('Subtitle'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="input-flat" type="text"
+                                    name="qlf_level_one_subtitle"
+                                    id="qlf_level_one_subtitle"
+                                    value="<?=$app_content[0]['qlf_level_one_subtitle'] ?>">
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Level 1: Subtitle -->
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_subtitle"><?php echo __('Subtitle'); ?> *</label>
+                        <!-- Level 1: Icon / Cover -->
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_cover"><?php echo __('Cover'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7" style="text-align:center;">
+                                <button style="width:100%"
+                                        id="migareference_qlf_level_one_picture"
+                                        type="button"
+                                        class="upload_contact_picture btn color-blue image_left">
+                                    <i class="icon-camera-retro"></i>
+                                    <?php echo __("Upload") ?>
+                                </button>
+                                <p id="uploader_logo_ie_description" style="display:none">
+                                    <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
+                                </p>
+                                <input id="migareference_qlf_level_one_file_input"
+                                    class="uploader" style="display:none"
+                                    type="file" name="files[]"
+                                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                <img id="migareference_qlf_level_one_cover_img"
+                                    width="200" height="125" style="display:"
+                                    src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_one_cover']; ?>"
+                                    class="cimage" />
+                                <a href="javascript:;" style="display:none"
+                                id="remove_migareference_qlf_level_one_cover_img"
+                                class="btn color-blue rcimage">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                                <input type="hidden" id="c_migareference_qlf_level_one_cover_file" name="" value="" />
+                                <input type="hidden" id="migareference_qlf_level_one_cover_file" name="qlf_level_one_cover" />
+                                <input type="hidden" id="migareference_qlf_level_one_remove_cover" name="" value="0" />
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <input class="input-flat" type="text"
-                                   name="qlf_level_one_subtitle"
-                                   id="qlf_level_one_subtitle"
-                                   value="<?=$app_content[0]['qlf_level_one_subtitle'] ?>">
-                        </div>
-                    </div>
-
-                    <!-- Level 1: Icon / Cover -->
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_cover"><?php echo __('Cover'); ?> *</label>
-                        </div>
-                        <div class="col-sm-7" style="text-align:center;">
-                            <button style="width:100%"
-                                    id="migareference_qlf_level_one_picture"
-                                    type="button"
-                                    class="upload_contact_picture btn color-blue image_left">
-                                <i class="icon-camera-retro"></i>
-                                <?php echo __("Upload") ?>
-                            </button>
-                            <p id="uploader_logo_ie_description" style="display:none">
-                                <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
-                            </p>
-                            <input id="migareference_qlf_level_one_file_input"
-                                   class="uploader" style="display:none"
-                                   type="file" name="files[]"
-                                   data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-                            <img id="migareference_qlf_level_one_cover_img"
-                                 width="200" height="125" style="display:"
-                                 src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_one_cover']; ?>"
-                                 class="cimage" />
-                            <a href="javascript:;" style="display:none"
-                               id="remove_migareference_qlf_level_one_cover_img"
-                               class="btn color-blue rcimage">
-                                <i class="fa fa-times"></i>
-                            </a>
-                            <input type="hidden" id="c_migareference_qlf_level_one_cover_file" name="" value="" />
-                            <input type="hidden" id="migareference_qlf_level_one_cover_file" name="qlf_level_one_cover" />
-                            <input type="hidden" id="migareference_qlf_level_one_remove_cover" name="" value="0" />
-                        </div>
-                    </div>
-                    <hr>
+                        <hr>
                         <h4><?php echo __("Level 1 to Level 2 Link") ?></h4>
-                    <!-- Level 1 -> Level 2 Button -->
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_btn_one_title"><?php echo __('Title'); ?>*</label>
+                        <!-- Level 1 -> Level 2 Button -->
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_btn_one_title"><?php echo __('Title'); ?>*</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="input-flat" type="text"
+                                    name="qlf_level_one_btn_one_title"
+                                    id="qlf_level_one_btn_one_title"
+                                    value="<?=$app_content[0]['qlf_level_one_btn_one_title'] ?>">
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <input class="input-flat" type="text"
-                                   name="qlf_level_one_btn_one_title"
-                                   id="qlf_level_one_btn_one_title"
-                                   value="<?=$app_content[0]['qlf_level_one_btn_one_title'] ?>">
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_btn_one_subtitle"><?php echo __('Subtitle'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="input-flat" type="text"
+                                    name="qlf_level_one_btn_one_subtitle"
+                                    id="qlf_level_one_btn_one_subtitle"
+                                    value="<?=$app_content[0]['qlf_level_one_btn_one_subtitle'] ?>">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_btn_one_subtitle"><?php echo __('Subtitle'); ?> *</label>
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_btn_one_cover"><?php echo __('Icon'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7" style="text-align:center;">
+                                <button style="width:100%"
+                                        id="migareference_qlf_level_one_btn_one_picture"
+                                        type="button"
+                                        class="upload_contact_picture btn color-blue image_left">
+                                    <i class="icon-camera-retro"></i>
+                                    <?php echo __("Upload") ?>
+                                </button>
+                                <p id="uploader_logo_ie_description" style="display:none">
+                                    <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
+                                </p>
+                                <input id="migareference_qlf_level_one_btn_one_file_input"
+                                    class="uploader" style="display:none"
+                                    type="file" name="files[]"
+                                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                <img id="migareference_qlf_level_one_btn_one_cover_img"
+                                    width="60" height="60" style="display:"
+                                    src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_one_btn_one_cover']; ?>"
+                                    class="cimage" />
+                                <a href="javascript:;" style="display:none"
+                                id="remove_migareference_qlf_level_one_btn_one_cover_img"
+                                class="btn color-blue rcimage">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                                <input type="hidden" id="c_migareference_qlf_level_one_btn_one_cover_file" name="" value="" />
+                                <input type="hidden" id="migareference_qlf_level_one_btn_one_cover_file" name="qlf_level_one_btn_one_cover" />
+                                <input type="hidden" id="migareference_qlf_level_one_btn_one_remove_cover" name="" value="0" />
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <input class="input-flat" type="text"
-                                   name="qlf_level_one_btn_one_subtitle"
-                                   id="qlf_level_one_btn_one_subtitle"
-                                   value="<?=$app_content[0]['qlf_level_one_btn_one_subtitle'] ?>">
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_btn_one_cover"><?php echo __('Icon'); ?> *</label>
-                        </div>
-                        <div class="col-sm-7" style="text-align:center;">
-                            <button style="width:100%"
-                                    id="migareference_qlf_level_one_btn_one_picture"
-                                    type="button"
-                                    class="upload_contact_picture btn color-blue image_left">
-                                <i class="icon-camera-retro"></i>
-                                <?php echo __("Upload") ?>
-                            </button>
-                            <p id="uploader_logo_ie_description" style="display:none">
-                                <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
-                            </p>
-                            <input id="migareference_qlf_level_one_btn_one_file_input"
-                                   class="uploader" style="display:none"
-                                   type="file" name="files[]"
-                                   data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-                            <img id="migareference_qlf_level_one_btn_one_cover_img"
-                                 width="60" height="60" style="display:"
-                                 src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_one_btn_one_cover']; ?>"
-                                 class="cimage" />
-                            <a href="javascript:;" style="display:none"
-                               id="remove_migareference_qlf_level_one_btn_one_cover_img"
-                               class="btn color-blue rcimage">
-                                <i class="fa fa-times"></i>
-                            </a>
-                            <input type="hidden" id="c_migareference_qlf_level_one_btn_one_cover_file" name="" value="" />
-                            <input type="hidden" id="migareference_qlf_level_one_btn_one_cover_file" name="qlf_level_one_btn_one_cover" />
-                            <input type="hidden" id="migareference_qlf_level_one_btn_one_remove_cover" name="" value="0" />
-                        </div>
-                    </div>
-<hr>
+                        <hr>
                         <h4><?php echo __("Level 1 to Multimedia Link") ?></h4>
-                    <!-- Level 1 -> Multimedia Button -->
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_btn_two_title"><?php echo __('Title'); ?>*</label>
+                        <!-- Level 1 -> Multimedia Button -->
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_btn_two_title"><?php echo __('Title'); ?>*</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="input-flat" type="text"
+                                    name="qlf_level_one_btn_two_title"
+                                    id="qlf_level_one_btn_two_title"
+                                    value="<?=$app_content[0]['qlf_level_one_btn_two_title'] ?>">
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <input class="input-flat" type="text"
-                                   name="qlf_level_one_btn_two_title"
-                                   id="qlf_level_one_btn_two_title"
-                                   value="<?=$app_content[0]['qlf_level_one_btn_two_title'] ?>">
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_btn_two_subtitle"><?php echo __('Subtitle'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="input-flat" type="text"
+                                    name="qlf_level_one_btn_two_subtitle"
+                                    id="qlf_level_one_btn_two_subtitle"
+                                    value="<?=$app_content[0]['qlf_level_one_btn_two_subtitle'] ?>">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_btn_two_subtitle"><?php echo __('Subtitle'); ?> *</label>
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_one_btn_two_cover"><?php echo __('Icon'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7" style="text-align:center;">
+                                <button style="width:100%"
+                                        id="migareference_qlf_level_one_btn_two_picture"
+                                        type="button"
+                                        class="upload_contact_picture btn color-blue image_left">
+                                    <i class="icon-camera-retro"></i>
+                                    <?php echo __("Upload") ?>
+                                </button>
+                                <p id="uploader_logo_ie_description" style="display:none">
+                                    <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
+                                </p>
+                                <input id="migareference_qlf_level_one_btn_two_file_input"
+                                    class="uploader" style="display:none"
+                                    type="file" name="files[]"
+                                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                <img id="migareference_qlf_level_one_btn_two_cover_img"
+                                    width="60" height="60" style="display:"
+                                    src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_one_btn_two_cover']; ?>"
+                                    class="cimage" />
+                                <a href="javascript:;" style="display:none"
+                                id="remove_migareference_qlf_level_one_btn_two_cover_img"
+                                class="btn color-blue rcimage">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                                <input type="hidden" id="c_migareference_qlf_level_one_btn_two_cover_file" name="" value="" />
+                                <input type="hidden" id="migareference_qlf_level_one_btn_two_cover_file" name="qlf_level_one_btn_two_cover" />
+                                <input type="hidden" id="migareference_qlf_level_one_btn_two_remove_cover" name="" value="0" />
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <input class="input-flat" type="text"
-                                   name="qlf_level_one_btn_two_subtitle"
-                                   id="qlf_level_one_btn_two_subtitle"
-                                   value="<?=$app_content[0]['qlf_level_one_btn_two_subtitle'] ?>">
+                        <hr>
+                        <h4><?php echo __("Level 2 Header") ?></h4>
+                        <!-- Level 2 -->
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_two_title"><?php echo __('Title'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="input-flat" type="text"
+                                    name="qlf_level_two_title"
+                                    id="qlf_level_two_title"
+                                    value="<?=$app_content[0]['qlf_level_two_title'] ?>">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_one_btn_two_cover"><?php echo __('Icon'); ?> *</label>
-                        </div>
-                        <div class="col-sm-7" style="text-align:center;">
-                            <button style="width:100%"
-                                    id="migareference_qlf_level_one_btn_two_picture"
-                                    type="button"
-                                    class="upload_contact_picture btn color-blue image_left">
+                        <!-- Level 2: Subtitle -->
+                        <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_two_subtitle"><?php echo __('Subtitle'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="input-flat" type="text"
+                                    name="qlf_level_two_subtitle"
+                                    id="qlf_level_two_subtitle"
+                                    value="<?=$app_content[0]['qlf_level_two_subtitle'] ?>">
+                            </div>
+                            </div>
+
+                            <!-- Level 2: Icon / Cover -->
+                            <div class="row" style="margin-bottom:8px;">
+                            <div class="col-sm-4">
+                                <label for="qlf_level_two_cover"><?php echo __('Cover'); ?> *</label>
+                            </div>
+                            <div class="col-sm-7" style="text-align:center;">
+                                <button style="width:100%"
+                                        id="migareference_qlf_level_two_picture"
+                                        type="button"
+                                        class="upload_contact_picture btn color-blue image_left">
                                 <i class="icon-camera-retro"></i>
                                 <?php echo __("Upload") ?>
-                            </button>
-                            <p id="uploader_logo_ie_description" style="display:none">
+                                </button>
+                                <p id="uploader_logo_ie_description" style="display:none">
                                 <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
-                            </p>
-                            <input id="migareference_qlf_level_one_btn_two_file_input"
-                                   class="uploader" style="display:none"
-                                   type="file" name="files[]"
-                                   data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-                            <img id="migareference_qlf_level_one_btn_two_cover_img"
-                                 width="60" height="60" style="display:"
-                                 src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_one_btn_two_cover']; ?>"
-                                 class="cimage" />
-                            <a href="javascript:;" style="display:none"
-                               id="remove_migareference_qlf_level_one_btn_two_cover_img"
-                               class="btn color-blue rcimage">
+                                </p>
+
+                                <input id="migareference_qlf_level_two_file_input"
+                                    class="uploader" style="display:none"
+                                    type="file" name="files[]"
+                                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+
+                                <img id="migareference_qlf_level_two_cover_img"
+                                    width="200" height="125" style="display:"
+                                    src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_two_cover']; ?>"
+                                    class="cimage" />
+
+                                <a href="javascript:;" style="display:none"
+                                id="remove_migareference_qlf_level_two_cover_img"
+                                class="btn color-blue rcimage">
                                 <i class="fa fa-times"></i>
-                            </a>
-                            <input type="hidden" id="c_migareference_qlf_level_one_btn_two_cover_file" name="" value="" />
-                            <input type="hidden" id="migareference_qlf_level_one_btn_two_cover_file" name="qlf_level_one_btn_two_cover" />
-                            <input type="hidden" id="migareference_qlf_level_one_btn_two_remove_cover" name="" value="0" />
-                        </div>
-                    </div>
-<hr>
-                        <h4><?php echo __("Level 2 Header") ?></h4>
-                    <!-- Level 2 -->
-                    <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_two_title"><?php echo __('Title'); ?> *</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <input class="input-flat" type="text"
-                                   name="qlf_level_two_title"
-                                   id="qlf_level_two_title"
-                                   value="<?=$app_content[0]['qlf_level_two_title'] ?>">
-                        </div>
-                    </div>
+                                </a>
 
-                    <!-- Level 2: Subtitle -->
-                        <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_two_subtitle"><?php echo __('Subtitle'); ?> *</label>
+                                <input type="hidden" id="c_migareference_qlf_level_two_cover_file" name="" value="" />
+                                <input type="hidden" id="migareference_qlf_level_two_cover_file" name="qlf_level_two_cover" />
+                                <input type="hidden" id="migareference_qlf_level_two_remove_cover" name="" value="0" />
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <input class="input-flat" type="text"
-                                name="qlf_level_two_subtitle"
-                                id="qlf_level_two_subtitle"
-                                value="<?=$app_content[0]['qlf_level_two_subtitle'] ?>">
-                        </div>
-                        </div>
-
-                        <!-- Level 2: Icon / Cover -->
-                        <div class="row" style="margin-bottom:8px;">
-                        <div class="col-sm-4">
-                            <label for="qlf_level_two_cover"><?php echo __('Cover'); ?> *</label>
-                        </div>
-                        <div class="col-sm-7" style="text-align:center;">
-                            <button style="width:100%"
-                                    id="migareference_qlf_level_two_picture"
-                                    type="button"
-                                    class="upload_contact_picture btn color-blue image_left">
-                            <i class="icon-camera-retro"></i>
-                            <?php echo __("Upload") ?>
-                            </button>
-                            <p id="uploader_logo_ie_description" style="display:none">
-                            <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span>
-                            </p>
-
-                            <input id="migareference_qlf_level_two_file_input"
-                                class="uploader" style="display:none"
-                                type="file" name="files[]"
-                                data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-
-                            <img id="migareference_qlf_level_two_cover_img"
-                                width="200" height="125" style="display:"
-                                src="<?=$base_url."/images/application/".$app_id."/features/migareference/".$app_content[0]['qlf_level_two_cover']; ?>"
-                                class="cimage" />
-
-                            <a href="javascript:;" style="display:none"
-                            id="remove_migareference_qlf_level_two_cover_img"
-                            class="btn color-blue rcimage">
-                            <i class="fa fa-times"></i>
-                            </a>
-
-                            <input type="hidden" id="c_migareference_qlf_level_two_cover_file" name="" value="" />
-                            <input type="hidden" id="migareference_qlf_level_two_cover_file" name="qlf_level_two_cover" />
-                            <input type="hidden" id="migareference_qlf_level_two_remove_cover" name="" value="0" />
-                        </div>
-                        </div>
-                     
-
+                    </div> 
                 </div><!-- /.form-group -->
             </div><!-- /.form-horizontal -->
         </div>
@@ -4625,12 +4620,12 @@
                                 <?php if ($pre_report_settings[0]['enable_qlf']==1) { ?>
                                 <div class="form-group">
                                     <div class="col-sm-6">
-                                        <label for="referrer_type"><?php echo __('Referrer type'); ?></label>
+                                        <label for="referrer_type"><?php echo __('Is Customer'); ?>?</label>
                                     </div>
                                     <div class="col-sm-6">
                                         <select id="referrer_type" class="input-flat" name="referrer_type">
-                                            <option value="1"><?php echo __("Customer") ?></option>                                            
-                                            <option value="2"><?php echo __("Not Customer") ?></option>                                            
+                                            <option value="1"><?php echo __("Yes") ?></option>                                            
+                                            <option value="2"><?php echo __("No") ?></option>                                            
                                         </select>
                                     </div>
                                 </div>
@@ -11185,52 +11180,44 @@ table.dataTable.order-column.stripe tbody tr.even>.sorting_1 {
         $('input[name="reminderCheckbox[]"]').prop('checked', sourceCheckbox.checked);
         reminderResetSelection(); // Update the state of the reset button
     }
-    function assignToReferrer(obj,type) {//type could be: Ref or Agt
-        swal({
-            title: '<?php echo __js('Confirmation', "'"); ?>',
-            text: '<?php echo __js('Are you sure you want to assign Reports to this customer?', "'"); ?>',
-            showCancelButton: true,
-            confirmButtonColor: '#0099C7',
-            confirmButtonText: '<?php echo __js('Yes, assign!', "'"); ?>',
-            cancelButtonText: '<?php echo __js('No, go back', "'"); ?>',
-            buttons: true
-        }, function(value) {
-            if (!value) {
-                $(".assign-customer").prop("selected", true);
-                return false;
-            }else{
-                // Get the closest table row (tr) element
-                var closestRow = $(obj).closest('tr');
+    function assignToReferrer(obj, type) { // type could be: Ref or Agt
+    var confirmation = confirm("Are you sure you want to assign Reports to this customer?");
+    if (!confirmation) {
+        $(".assign-customer").prop("selected", true);
+        return false;
+    } else {
+        // Get the closest table row (tr) element
+        var closestRow = $(obj).closest('tr');
 
-                // Get the first cell (td) within the row
-                var firstCell = closestRow.find('td:first');
+        // Get the first cell (td) within the row
+        var firstCell = closestRow.find('td:first');
 
-                // Get the ID value within the first cell
-                var from_user_id = firstCell.text();
-                $.ajax({
-                    url: "<?php echo $this->getUrl('migareference/application/assigntoreferrer?app_id='.$app_id.'&to_user_id='); ?>"+obj.value+'&from_user_id='+from_user_id+'&type='+type,
-                    type: 'get',
-                    contentType: false,
-                    processData: false,
-                }).done(function(response) {
-                    console.log("DOne");
-                    console.log(response);
-                    // $("#mask").hide();
-                    res = JSON.parse(response);
-                    $("#response_message_body").val(res.message);
-                    if (res.success == true) {
-                        $("#response_type").val(1);
-                    } else {
-                        $("#response_type").val(2);
-                    }
-                }).fail(function(response) {
-                    console.log("Done");
-                }).always(function(response) {
-                    $("#submit_response_form").trigger("click");
-                });
+        // Get the ID value within the first cell
+        var from_user_id = firstCell.text();
+
+        $.ajax({
+            url: "<?php echo $this->getUrl('migareference/application/assigntoreferrer?app_id=' . $app_id . '&to_user_id='); ?>" + obj.value + '&from_user_id=' + from_user_id + '&type=' + type,
+            type: 'get',
+            contentType: false,
+            processData: false,
+        }).done(function (response) {
+            console.log("Done");
+            console.log(response);
+            var res = JSON.parse(response);
+            $("#response_message_body").val(res.message);
+            if (res.success == true) {
+                $("#response_type").val(1);
+            } else {
+                $("#response_type").val(2);
             }
+        }).fail(function (response) {
+            console.log("AJAX Failed");
+        }).always(function (response) {
+            $("#submit_response_form").trigger("click");
         });
     }
+}
+
 
     function backToPrizeNotificationList() {
         console.log("backToPrizeNotificationList Called");

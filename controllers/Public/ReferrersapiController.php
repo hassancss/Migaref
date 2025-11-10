@@ -548,6 +548,183 @@ class Migareference_Public_ReferrersapiController extends Migareference_Controll
           ];
         }
         $this->_sendJson($payload);
-      }
+    }
+    public function goldenageagentimportAction(){
+        try {                
+                $migareference = new Migareference_Model_Migareference();
+                $utilities     = new Migareference_Model_Utilities();
+                $data          = Siberian_Json::decode($this->getRequest()->getRawBody());                
+                $base_url      = (new Core_Model_Default())->getBaseUrl();
+                $app_id        = 1; //Golden Age App
+                $pre_report    = $migareference->preReportsettigns($app_id);
+                $user_account_settings = $migareference->useraccountSettings($app_id);                
+                //Here we have to import list of agents from a CSV file and also find how many agents already found and how many was only referrer promoted to agent and how many new agents created
+                $csvFile = 'golden_age_agents.csv';
+                $filePath = APPLICATION_PATH . '/local/modules/Migareference/resources/appicons/' . $csvFile;                
+                // Check existence & readability
+                if (!file_exists($filePath) || !is_readable($filePath)) {
+                    throw new Exception(__("CSV file not found or not readable.") . " " . $filePath);
+                }
+                $file = fopen($filePath, 'r');
+                if ($file === false) {
+                    throw new Exception(__("Unable to open the CSV file."));
+                }
+                $header = fgetcsv($file);
+                $requiredColumns = ['Name', 'Surname', 'E-mail', 'cellulare', 'Password'];
+                foreach ($requiredColumns as $column) {
+                    if (!in_array($column, $header)) {
+                        throw new Exception(__("Missing required column: ") . $column);
+                    }
+                }
+                $importedCount = 0;
+                $promotedCount = 0;
+                $existingCount = 0;
+                $temp=0;
+               $rows = [];
+                while (($row = fgetcsv($file)) !== false) {
+                    // There are total 1062 records in CSV, we will send 220 batches each time this called for the first time 200 and second time 200 to 400 and so on
+                    //Revicsion 1
+                    $temp++;
+                    // if ($temp>200) {
+                    //     break;
+                    // }
+                                          
+                    $rowData = array_combine($header, $row);
+
+                    $referrerCustomer = $migareference->getSingleuserByEmail($app_id, $rowData['E-mail']);
+                    if (count($referrerCustomer)) {
+                        $user_id = $referrerCustomer[0]['customer_id'];
+                        $isAgent = $migareference->is_agent($app_id, $user_id);
+                        //
+                        if (count($isAgent)) {
+                            $status = 'Already_Agent';
+                            $existingCount++;
+                            //No action needed, already an agent
+                        } else {
+                            $status = 'Promoted';
+                            $promotedCount++;
+                            // Promote Referrer to Agent
+                            $agent['app_id']  = $app_id;
+                            $agent['user_id'] = $user_id;
+                            $agent['agent_type'] =1;
+                            $migareference->saveAgent($agent);                           
+                            // End Promote Referrer to Agent
+                        }
+                    } else { // Create new Agent
+                        $status = 'Agent_Created';                        
+                        $importedCount++;
+                        // Add Customer
+                        $customer['app_id']  = $app_id;
+                        $customer['email']   = $rowData['E-mail'];                        
+                        $customer['firstname'] = $rowData['Name'];
+                        $customer['lastname']= $rowData['Surname'];                    
+                        $customer['mobile']= $rowData['cellulare'];                    
+                        $customer['password']= sha1($rowData['Password']);
+                        $user_id             = $migareference->createUser($customer);
+                        // Add Customer to Referrer
+                        $invoice['user_id']=$user_id;
+                        $invoice['blockchain_password'] = $utilities->randomPassword();
+                        $invoice['invoice_name'] = $rowData['Name'];
+                        $invoice['invoice_surname'] = $rowData['Surname'];                
+                        $invoice['invoice_mobile'] = $rowData['cellulare'];
+                        $invoice['first_password']=$rowData['Password'];
+                        $invoice['app_id']=$app_id;                    
+                        $invoice['referrer_source']=6;//6 for Golden Age import
+                        $invoice['terms_accepted']=1;
+                        $invoice['special_terms_accepted']=1;
+                        $invoice['terms_artical_accepted']=1;                    
+                        $invoice['privacy_accepted']=1;
+                        $invoice['privacy_artical_accepted']=1;
+                        $migareference->savePropertysettings($invoice);
+                        // Add Customer to Agent
+                        $agent['app_id']  = $app_id;
+                        $agent['user_id'] = $user_id;
+                        $agent['agent_type'] =1;
+                        $migareference->saveAgent($agent);                       
+                        // End Create new Agent
+                    }
+                     //Send Welcome Email
+                    if ($pre_report[0]['enable_welcome_email']==1
+                        && !empty($pre_report[0]['referrer_wellcome_email_title'])
+                        && !empty($pre_report[0]['referrer_wellcome_email_body']))
+                    {                        
+                        $app_link= "<a href='" . $base_url . "/application/device/check/app_id/" . $app_id . "'>" . __('App Link') . "</a>";
+                        $notificationTags=$migareference->welcomeEmailTags();              
+                        $notificationStrings = [
+                        $rowData['Name']." ".$rowData['Surname'],
+                        $rowData['E-mail'],
+                        $rowData['Password'],
+                        "",
+                        $app_link
+                      ];
+                      $email_data['email_title'] = str_replace($notificationTags, $notificationStrings,$pre_report[0]['referrer_wellcome_email_title']);
+                      $email_data['email_text']  = str_replace($notificationTags, $notificationStrings,$pre_report[0]['referrer_wellcome_email_body']);
+                      $email_data['type']        = 2;//type 2 for wellcome log
+                      $migareference->sendMail($email_data,$app_id,$user_id);
+                      }
+                    // Send Welcome PUSH to referrer
+                    $welcome_push = (new Migareference_Model_Welcomenotificationtemplate())->findAll(['app_id' => $app_id])->toArray(); 
+                    if ($welcome_push[0]['welcome_push_enable']==1 && !empty($welcome_push[0]['welcome_push_title']) && !empty($welcome_push[0]['welcome_push_text']))
+                    {
+                    $notificationTags=$migareference->welcomeEmailTags();                    
+                    $app_url=$base_url . "/application/device/check/app_id/" . $app_id ;
+                    $utilities = new Migareference_Model_Utilities();
+                    $short_link   = $utilities->shortLink($app_url);                  
+                    $notificationStrings = [
+                        $rowData['Name']." ".$rowData['Surname'],
+                        $rowData['E-mail'],
+                        $rowData['Password'],
+                        "",
+                        $short_link
+                    ];
+                    $push_data['push_title'] = str_replace($notificationTags, $notificationStrings,$welcome_push[0]['welcome_push_title']);
+                    $push_data['push_text']  = str_replace($notificationTags, $notificationStrings,$welcome_push[0]['welcome_push_text']);                          
+                    $push_data['open_feature'] = $notification_data['welcome_push_open_feature'];
+                    $push_data['feature_id']   = $notification_data['welcome_push_feature_id'];
+                    $push_data['custom_url']   = $notification_data['welcome_push_custom_url'];
+                    $push_data['cover_image']  = $notification_data['welcome_push_custom_file'];
+                    $push_data['app_id']       = $app_id;
+                    $migareference->sendPush($push_data,$app_id,$user_id);
+                    } 
+                    // Add status column to row
+                    $row[] = $status;
+                    $rows[] = $row;                    
+                }
+                fclose($file);
+
+                // Now rewrite the same file with Status column added
+                $file = fopen($filePath, 'w');
+                $header[] = 'Status'; // add new column name
+                fputcsv($file, $header);
+                foreach ($rows as $r) {
+                    fputcsv($file, $r);
+                }
+                fclose($file);
+                return $this->_sendJson([
+                    'response' => true,
+                    'description' => __('CSV processed successfully. and updated'),
+                    'imported_count' => $importedCount,
+                    'promoted_count' => $promotedCount,
+                    'existing_count' => $existingCount,
+                ]);
+                                
+                          
+              
+              $payload = [
+                  'success' => true,
+                  'message' => __("Settings Successfully saved."),                            
+                  'data'    => $data,
+                  'temp'    => $temp
+                ];
+              } catch (Exception $e) {
+                $payload = [
+                  'success' => false,
+                  'message' => __($e->getMessage()),          
+                  'data'    => $data,
+                  'temp'    => $temp             
+          ];
+        }
+        $this->_sendJson($payload);
+    }
 }
 ?>

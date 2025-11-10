@@ -6999,6 +6999,7 @@ public function findAgentByEmail($app_id = 0, $email = '')
       }
       public static function cronNotification()
       {
+        return "ok";
          $migareference = new Migareference_Model_Db_Table_Migareference();
          $qualifiaction_result = $migareference->syncQualificationReferrersForAllApps();
         // START: External method to manage WEBHOOK Error Notification etc.
