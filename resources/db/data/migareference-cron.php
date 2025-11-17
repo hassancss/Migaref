@@ -18,6 +18,19 @@ Siberian_Feature::installCronjob(
 );
 Siberian_Feature::installCronjob(
     __('Migareference cron job.'),
+    'Migareference_Model_Db_Table_Migareference::syncQualification', // command
+    -1, // minute
+    -1, // hour
+    -1, // month_day
+    -1, // month
+    -1, // week_day
+    true, // is_active
+    100, // priority
+    false, // standalone (only for specific needs)
+    $module->getId() // current module Id
+);
+Siberian_Feature::installCronjob(
+    __('Migareference cron job.'),
     'Migareference_Model_Db_Table_Migareference::refferalUserElimination', // command
     -1, // minute
      23, // hour

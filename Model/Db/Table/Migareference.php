@@ -634,6 +634,10 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
         $result['status'] = 'success';
         return $result;
       }
+      public static function syncQualification(){
+        $migareference = new Migareference_Model_Db_Table_Migareference();
+        $migareference->syncQualificationReferrersForAllApps();
+      }
       /**
        * Execute the qualification synchronisation for every eligible application.
        *
@@ -7000,8 +7004,7 @@ public function findAgentByEmail($app_id = 0, $email = '')
       public static function cronNotification()
       {
         
-         $migareference = new Migareference_Model_Db_Table_Migareference();
-         $qualifiaction_result = $migareference->syncQualificationReferrersForAllApps();
+         $migareference = new Migareference_Model_Db_Table_Migareference();        
         // START: External method to manage WEBHOOK Error Notification etc.
          $currentMinute = intval(date('i'));
         if ($currentMinute % 5 == 0) {
@@ -7012,11 +7015,7 @@ public function findAgentByEmail($app_id = 0, $email = '')
          $base_url         = $default->getBaseUrl();
          $host_name        =  gethostname();
          $host_ip          = shell_exec('nslookup ' . $host_name);
-         /*Merge Invoice table with phonebook
-         *for old there are some entries are not in phonebook that casuse the issue in stats
-          *so we need to merge the phonebook with invoice table
-          */
-          $migareference->mergePhonebookWithInvoice(); 
+        
          // Reminder Notifactions
          $report_remiders = $migareference->getcronReminders();
          $notificationTags= [
@@ -7490,6 +7489,11 @@ public function findAgentByEmail($app_id = 0, $email = '')
       }
       public static function refferalUserElimination(){
         $migareference = new Migareference_Model_Db_Table_Migareference();
+         /*Merge Invoice table with phonebook
+         *for old there are some entries are not in phonebook that casuse the issue in stats
+          *so we need to merge the phonebook with invoice table
+          */
+          $migareference->mergePhonebookWithInvoice(); 
         //04-21-2025 Get all newly created reports (Older than 2 days) whos status is not declined and set their rating to 3 if its less than 3
         $reports=$migareference->getReferrersRating();
         foreach ($reports as $key => $value) {
