@@ -152,156 +152,139 @@ public function resolvesponsorbyemailAction()
       $this->_sendJson($payload);
     }
 
-    // V3 Created at 09-27-2024
-    public function subscribev3Action(){
-      try {
-        $data          = $this->getRequest()->getPost();      
-        $app_id        = $data['app_id'];
-        $migareference = new Migareference_Model_Migareference();
-        $optinform     = new Migareference_Model_Optinform();
-        $pre_settings  = $migareference->preReportsettigns($app_id);
-        $optin_settings=$optinform->getOptinSettings($app_id);   
-        //added by imran start
-        $optin_setting_data = [];
-        $optin_setting = (new Migareference_Model_Optinsetting())->find(['app_id' => $app_id]);
-        if ($optin_setting->getId()) {
-          $optin_setting_data = unserialize($optin_setting->getoptinSetting());
-        }
-        //added by imran end
-        if (!isset($data['firstname']) || empty($data['firstname']) || !preg_match("/^[a-zA-Z-' ]*$/", $data['firstname'])) {
-          $errors['firstname']= __('Please add valid First Name') ;
-        }
-        if (!isset($data['lastname']) || empty($data['lastname']) || !preg_match("/^[a-zA-Z-' ]*$/", $data['lastname'])) {
-          $errors['lastname']= __('Please add valid Surname') ;
-        }
-        if (!isset($data['email']) || empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-          $errors['email']= __('Please add valid Email') ;
-        }            
-        if (!isset($data['mobile'])  || empty($data['mobile']) || preg_match('@[a-z]@', $data['mobile']) || strlen($data['mobile']) < 10 || strlen($data['mobile']) > 14){
-          $errors['mobile']= __('Phone number is not correct. Please add a phone between 10-14 digits with 00 or + international country code at beginning');
-        }
-        if (isset($data['job_id']) && $data['job_id'] == -1) {
-          $errors['job_id']= __("Please select a job") ;
-        }
-        if (isset($data['profession_id']) && $data['profession_id'] == -1) {
-            $errors['profession_id']= __("Please select a profession") ;
-        }
-        if (isset($data['sponsor_id']) && $data['sponsor_id'] == -1) {
-            $errors['sponsor_id']= __("Please select an agent") ;
-        }
-        if (isset($data['province_id']) && $data['province_id'] == -1) {
-            $errors['province_id']= __("Please select a province") ;
-        }
-        if (isset($data['province_id']) && $data['province_id'] == -1) {
-            $errors['province_id']= __("Please select a province") ;
-        }
-        if (!isset($data['privacy'])) {
-            $errors['privacy']= __("Please accept privacy policy") ;
-        }
+        // V3 Created at 09-27-2024
+    public function subscribev3Action() {
+        $errors = [];
+        $logContext = ['log_id' => null, 'payload_summary' => []];
 
-        // START: Custom Captcha validation
-        if (empty($data['track_id'])) {
-          $errors['exception']= __('Something went wrong. Please try again later.') ;
-        }else {          
-          $OptinCaptcha   = new Migareference_Model_Optin_Captcha();          
-          $track_id=$data['track_id'];
-          $captcha_image = $OptinCaptcha->findAll(['image_uid' => $track_id])->toArray();
-          // Verify if the track id is not edited by bot
-          if (COUNT($captcha_image)) {
-            // Verify if the SUM 
-            if ($captcha_image[0]['sum']!=$data['c_img_fi']) {              
-              $errors['exception']= __('Something went wrong. Please try again later.') ;
+        try {
+            $data          = $this->getRequest()->getPost();
+            $logContext    = $this->_createOptinLogContext($data);
+            $app_id        = isset($data['app_id']) ? (int) $data['app_id'] : 0;
+            $migareference = new Migareference_Model_Migareference();
+            $optinform     = new Migareference_Model_Optinform();
+            $pre_settings  = $migareference->preReportsettigns($app_id);
+            $optin_settings= $optinform->getOptinSettings($app_id);
+
+            $optin_setting_data = [];
+            $optin_setting = (new Migareference_Model_Optinsetting())->find(['app_id' => $app_id]);
+            if ($optin_setting->getId()) {
+                $optin_setting_data = unserialize($optin_setting->getoptinSetting());
             }
-          } else {
-            $errors['exception']= __('Something went wrong. Please try again later.') ;
-          }
-        }
+            $optinRequiredSettings = isset($optin_setting_data['required']) ? $optin_setting_data['required'] : [];
 
-        // END: Custom Captcha validation
+            if (!isset($data['firstname']) || empty($data['firstname']) || !preg_match("/^[a-zA-Z-' ]*$/", $data['firstname'])) {
+                $errors['firstname'] = __('Please add valid First Name');
+            }
+            if (!isset($data['lastname']) || empty($data['lastname']) || !preg_match("/^[a-zA-Z-' ]*$/", $data['lastname'])) {
+                $errors['lastname'] = __('Please add valid Surname');
+            }
+            if (!isset($data['email']) || empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = __('Please add valid Email');
+            }
+            if (!isset($data['mobile']) || empty($data['mobile']) || preg_match('@[a-z]@', $data['mobile']) || strlen($data['mobile']) < 10 || strlen($data['mobile']) > 14) {
+                $errors['mobile'] = __('Phone number is not correct. Please add a phone between 10-14 digits with 00 or + international country code at beginning');
+            }
+            if (isset($data['job_id']) && $data['job_id'] == -1) {
+                $errors['job_id'] = __('Please select a job');
+            }
+            if (isset($data['profession_id']) && $data['profession_id'] == -1) {
+                $errors['profession_id'] = __('Please select a profession');
+            }
+            if (isset($data['sponsor_id']) && $data['sponsor_id'] == -1) {
+                $errors['sponsor_id'] = __('Please select an agent');
+            }
+            if (isset($data['province_id']) && $data['province_id'] == -1) {
+                $errors['province_id'] = __('Please select a province');
+            }
+            if (!isset($data['privacy'])) {
+                $errors['privacy'] = __('Please accept privacy policy');
+            }
 
-        //Custom Settings fields
-        if ($optin_setting_data) {//Apply custom settings validation rules
-          if ($optin_setting_data['required']['birthdate']==1 && (empty($data['birthdate']))){
-            $errors['birthdate']= __('Please add a valid Birthdate.') ;
-          }  
-          if ($optin_setting_data['required']['gdpr']==1 && !isset($data['consent'])) {
-            $errors['consent']= __("Please accept consent") ;
-          } 
-        }else { //Apply default validation rules
-          if ($pre_settings[0]['enable_birthdate']==1 && $pre_settings[0]['mandatory_birthdate']==1 && (empty($data['birthdate']))){
-            $errors['birthdate']= __('Please add a valid Birthdate.') ;
-          }   
-          if (!isset($data['consent'])) {
-            $errors['consent']= __("Please accept consent") ;
-          } 
-        }
-        //Custom Settings fields End
-
-        if (isset($data['g-recaptcha-response'])) {
-          $url = 'https://www.google.com/recaptcha/api/siteverify';
-          $datasss = array(
-            'secret' => '6LdMEUApAAAAAPmVhCTuh-k6gvyu_SRXNw6sCO4_',
-            'response' => $data['g-recaptcha-response']
-          );
-          $ch = curl_init($url);
-          curl_setopt($ch, CURLOPT_POST, 1);
-          curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($datasss));
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-          $response = curl_exec($ch);
-          echo curl_error($ch); // Check for cURL errors
-          curl_close($ch);
-          $result = json_decode($response, true);
-          if ($result['success']) {
-            // Validation successful          
-          } else {
-            // Validation failed
-            $errors['exception']= __('Something went wrong. Please try again later. Security') ;
-          }
-        }	 
-        if (!empty($errors)) {               
-          echo json_encode(['success' => false, 'errors' => $errors,'optin_setting_data'=>$optin_setting_data['required']]);
-          exit;
-        } else {                
-            $password   = (new Migareference_Model_Utilities())->randomPassword();    
-            //commneted by imran      
-            /* $birth_date = date('Y-m-d',strtotime($data['birthdate']));
-            $birth_date = strtotime($birth_date);   */   
-            $ipAddress = '';
-            if (isset($_SERVER['HTTP_CLIENT_IP']) && filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)) {
-                $ipAddress = $_SERVER['HTTP_CLIENT_IP'];
-            } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                foreach ($ipList as $ip) {
-                    if (filter_var($ip, FILTER_VALIDATE_IP)) {
-                        $ipAddress = $ip;
-                        break;
+            if (empty($data['track_id'])) {
+                $errors['exception'] = __('Something went wrong. Please try again later.');
+            } else {
+                $OptinCaptcha = new Migareference_Model_Optin_Captcha();
+                $track_id = $data['track_id'];
+                $captcha_image = $OptinCaptcha->findAll(['image_uid' => $track_id])->toArray();
+                if (count($captcha_image)) {
+                    if ($captcha_image[0]['sum'] != $data['c_img_fi']) {
+                        $errors['exception'] = __('Something went wrong. Please try again later.');
                     }
+                } else {
+                    $errors['exception'] = __('Something went wrong. Please try again later.');
                 }
-            } elseif (isset($_SERVER['REMOTE_ADDR']) && filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP)) {
-                $ipAddress = $_SERVER['REMOTE_ADDR'];
             }
-            // Setup sponsor and province id
-            // For geo location use sponsor id          
-            $data['sponsor_id'] = (isset($data['sponsor_id']) && $pre_settings[0]['sponsor_type']==1) ? $data['sponsor_id'] : $data['sponsord_by'] ;                    
-            if ($data['sponsor_id']==null) {$data['sponsor_id']=0;}                    
-            // create Customer
-            $customer['app_id']         = $app_id;
-            $customer['firstname']      = $data['firstname'];
-            $customer['lastname']       = $data['lastname'];
-            $customer['email']          = $data['email'];
-            $customer['mobile']         = $data['mobile'];
-            $customer['birthdate']      = isset($data['birthdate']) && !empty($data['birthdate']) ? strtotime(date('Y-m-d',strtotime($data['birthdate']))) : 0; //updated by imran
-            $customer['password']       = sha1($password);
-            $customer['privacy_policy'] = 1;
-            $user_id=$migareference->createUser($customer);             
-            // Save Invoice
+
+            if ($optin_setting_data) {
+                if ($optin_setting_data['required']['birthdate'] == 1 && (empty($data['birthdate']))) {
+                    $errors['birthdate'] = __('Please add a valid Birthdate.');
+                }
+                if ($optin_setting_data['required']['gdpr'] == 1 && !isset($data['consent'])) {
+                    $errors['consent'] = __('Please accept consent');
+                }
+            } else {
+                if ($pre_settings[0]['enable_birthdate'] == 1 && $pre_settings[0]['mandatory_birthdate'] == 1 && (empty($data['birthdate']))) {
+                    $errors['birthdate'] = __('Please add a valid Birthdate.');
+                }
+                if (!isset($data['consent'])) {
+                    $errors['consent'] = __('Please accept consent');
+                }
+            }
+
+            if (isset($data['g-recaptcha-response'])) {
+                $url = 'https://www.google.com/recaptcha/api/siteverify';
+                $datasss = [
+                    'secret' => '6LdMEUApAAAAAPmVhCTuh-k6gvyu_SRXNw6sCO4_',
+                    'response' => $data['g-recaptcha-response']
+                ];
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($datasss));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                echo curl_error($ch);
+                curl_close($ch);
+                $result = json_decode($response, true);
+                if (empty($result['success'])) {
+                    $errors['exception'] = __('Something went wrong. Please try again later. Security');
+                }
+            }
+
+            if (!empty($errors)) {
+                $this->_updateOptinLogContext($logContext, [
+                    'status' => Migareference_Model_Optinlog::STATUS_VALIDATION_FAILED,
+                    'validation_errors' => $errors,
+                ]);
+                return $this->_sendJson(['success' => false, 'errors' => $errors, 'optin_setting_data' => $optinRequiredSettings]);
+            }
+
+            $password   = (new Migareference_Model_Utilities())->randomPassword();
+            $ipAddress  = $this->_resolveClientIpAddress();
+            $data['sponsor_id'] = (isset($data['sponsor_id']) && $pre_settings[0]['sponsor_type'] == 1) ? $data['sponsor_id'] : $data['sponsord_by'];
+            if ($data['sponsor_id'] == null) {
+                $data['sponsor_id'] = 0;
+            }
+
+            $customer = [
+                'app_id'        => $app_id,
+                'firstname'     => $data['firstname'],
+                'lastname'      => $data['lastname'],
+                'email'         => $data['email'],
+                'mobile'        => $data['mobile'],
+                'birthdate'     => isset($data['birthdate']) && !empty($data['birthdate']) ? strtotime(date('Y-m-d', strtotime($data['birthdate']))) : 0,
+                'password'      => sha1($password),
+                'privacy_policy'=> 1,
+            ];
+            $user_id = $migareference->createUser($customer);
+
             if (isset($data['province_id']) && !empty($data['province_id'])) {
-              $province_data=$migareference->getGeoProvince($data['province_id'],$app_id);
-              if (COUNT($province_data)) {
-                $inv_settings['address_country_id']=$province_data[0]['country_id'];
-              }
-            }          
-            
+                $province_data = $migareference->getGeoProvince($data['province_id'], $app_id);
+                if (count($province_data)) {
+                    $inv_settings['address_country_id'] = $province_data[0]['country_id'];
+                }
+            }
+
             $inv_settings['app_id']                 = $app_id;
             $inv_settings['user_id']                = $user_id;
             $inv_settings['blockchain_password']    = (new Migareference_Model_Utilities())->randomPassword();
@@ -311,217 +294,229 @@ public function resolvesponsorbyemailAction()
             $inv_settings['address_province_id']    = isset($data['province_id']) ? $data['province_id'] : 0;
             $inv_settings['invoice_surname']        = $data['lastname'];
             $inv_settings['invoice_mobile']         = $data['mobile'];
-            $inv_settings['job_id']                 = isset($data['job_id']) ? $data['job_id'] : 0;;
-            $inv_settings['profession_id']          = isset($data['profession_id']) ? $data['profession_id'] : 0;;
+            $inv_settings['job_id']                 = isset($data['job_id']) ? $data['job_id'] : 0;
+            $inv_settings['profession_id']          = isset($data['profession_id']) ? $data['profession_id'] : 0;
             $inv_settings['tax_id']                 = (new Migareference_Model_Utilities())->randomTaxid();
-            $inv_settings['referrer_source']        = 3;//3 for optin form
-            $inv_settings['referrer_ip']            = $ipAddress;//only used to track ip of spam users
+            $inv_settings['referrer_source']        = 3;
+            $inv_settings['referrer_ip']            = $ipAddress;
             $inv_settings['terms_accepted']         = 0;
             $inv_settings['special_terms_accepted'] = 0;
             $inv_settings['privacy_accepted']       = 0;
-            
-            $migareference->savePropertysettings($inv_settings); //This method also save phonebook entry if previously not exist          
-            // Send Welcome Email to referrer
-            if ($pre_settings[0]['enable_optin_welcome_email']==1
+
+            $migareference->savePropertysettings($inv_settings);
+
+            $default  = new Core_Model_Default();
+            $base_url = $default->getBaseUrl();
+
+            $sentWelcomeEmail = false;
+            if ($pre_settings[0]['enable_optin_welcome_email'] == 1
                 && !empty($pre_settings[0]['referrer_optin_wellcome_email_title'])
-                && !empty($pre_settings[0]['referrer_optin_wellcome_email_body']))
-              {
-                $notificationTags=$migareference->welcomeEmailTags();
-                $agent_user=$migareference->getSingleuser($app_id,isset($data['province_id']) ? $data['province_id'] : 0);
-                $default        = new Core_Model_Default();
-                $base_url       = $default->getBaseUrl();
-                $app_link       = "<a href='" . $base_url . "/application/device/check/app_id/" . $app_id . "'>" . __('App Link') . "</a>";
+                && !empty($pre_settings[0]['referrer_optin_wellcome_email_body'])) {
+                $notificationTags   = $migareference->welcomeEmailTags();
+                $agent_user         = $migareference->getSingleuser($app_id, isset($data['province_id']) ? $data['province_id'] : 0);
+                $app_link           = "<a href='" . $base_url . "/application/device/check/app_id/" . $app_id . "'>" . __('App Link') . "</a>";
                 $notificationStrings = [
-                $customer['firstname']." ".$customer['lastname'],
-                $customer['email'],
-                $password,
-                $agent_user[0]['firstname']." ".$agent_user[0]['lastname'],
-                $app_link
-              ];
-              $email_data['email_title'] = str_replace($notificationTags, $notificationStrings,$pre_settings[0]['referrer_optin_wellcome_email_title']);
-              $email_data['email_text']  = str_replace($notificationTags, $notificationStrings,$pre_settings[0]['referrer_optin_wellcome_email_body']);
-              $email_data['reply_to_email']  = $pre_settings[0]['referrer_optin_wellcome_email_reply_to'];
-              $email_data['bcc_to_email']  = $pre_settings[0]['referrer_optin_wellcome_email_bcc_to'];
-              $email_data['type']        = 3;//type 3 for optin wellcome log            
-              $migareference->sendMail($email_data,$app_id,$user_id);            
+                    $customer['firstname'] . " " . $customer['lastname'],
+                    $customer['email'],
+                    $password,
+                    $agent_user[0]['firstname'] . " " . $agent_user[0]['lastname'],
+                    $app_link,
+                ];
+                $email_data['email_title'] = str_replace($notificationTags, $notificationStrings, $pre_settings[0]['referrer_optin_wellcome_email_title']);
+                $email_data['email_text']  = str_replace($notificationTags, $notificationStrings, $pre_settings[0]['referrer_optin_wellcome_email_body']);
+                $email_data['reply_to_email'] = $pre_settings[0]['referrer_optin_wellcome_email_reply_to'];
+                $email_data['bcc_to_email']   = $pre_settings[0]['referrer_optin_wellcome_email_bcc_to'];
+                $email_data['type']           = 3;
+                $migareference->sendMail($email_data, $app_id, $user_id);
+                $sentWelcomeEmail = true;
             }
-            // Send Welcome PUSH to referrer
-            $welcome_push = (new Migareference_Model_Welcomenotificationtemplate())->findAll(['app_id' => $app_id])->toArray(); 
-            if ($welcome_push[0]['welcome_push_enable']==1 && !empty($welcome_push[0]['welcome_push_title']) && !empty($welcome_push[0]['welcome_push_text']))
-              {
-              $notificationTags=$migareference->welcomeEmailTags();
-              if (isset($data['customer_sponsor_id']) && !empty($data['customer_sponsor_id']) ) {
-                $agent_user=$migareference->getSingleuser($app_id,$data['customer_sponsor_id']);
-              }
-              $app_url=$base_url . "/application/device/check/app_id/" . $app_id ;
-              $notificationStrings = [
-                $customer['firstname']." ".$customer['lastname'],
-                $customer['email'],
-                $password,
-                $agent_user[0]['firstname']." ".$agent_user[0]['lastname'],
-                $app_url
-              ];
-              $push_data['push_title'] = str_replace($notificationTags, $notificationStrings,$welcome_push[0]['welcome_push_title']);
-              $push_data['push_text']  = str_replace($notificationTags, $notificationStrings,$welcome_push[0]['welcome_push_text']);                          
-              $push_data['open_feature'] = $notification_data['welcome_push_open_feature'];
-              $push_data['feature_id']   = $notification_data['welcome_push_feature_id'];
-              $push_data['custom_url']   = $notification_data['welcome_push_custom_url'];
-              $push_data['cover_image']  = $notification_data['welcome_push_custom_file'];
-              $push_data['app_id']       = $app_id;
-              $migareference->sendPush($push_data,$app_id,$user_id);
-            }   
-            $keys['app_id']=$app_id;
-            $keys['user_id']=$user_id;
-            $keys['key']=$password;
-            $migareference->savekey($keys);
-            if ($optin_settings[0]['redirect_url']) {                          
-                echo json_encode(['success' => true, 'success_title'=>__("Success"), 'is_redirect' => true, 'redirect_url'=>$optin_settings[0]['redirect_url']]);              
-            }else {
-                $success_message = __("Thank for your submission");
-                if ($optin_settings[0]['confirmation_message']) {
-                  $success_message=$optin_settings[0]['confirmation_message'];
-                }              
-                echo json_encode(['success' => true, 'success_title'=>__("Success"), 'is_redirect' => false, 'success_message'=>$success_message]);                            
-            }
-          }                                 
-      } catch (Exception $e) {
-        $errors['exception']= __('Something went wrong try again later. Exception'.$e->getMessage()) ;
-        echo json_encode(['success' => false, 'errors' => $errors]);      
-      }
-      exit;
-  }
-    public function subscribev2Action(){
-      try {
-        $data          = $this->getRequest()->getPost();      
-        $app_id        = $data['app_id'];
-        $migareference = new Migareference_Model_Migareference();
-        $optinform     = new Migareference_Model_Optinform();
-        $pre_settings  = $migareference->preReportsettigns($app_id);
-        $optin_settings=$optinform->getOptinSettings($app_id);   
-        //added by imran start
-        $optin_setting_data = [];
-        $optin_setting = (new Migareference_Model_Optinsetting())->find(['app_id' => $app_id]);
-        if ($optin_setting->getId()) {
-          $optin_setting_data = unserialize($optin_setting->getoptinSetting());
-        }
-        //added by imran end
-        if (!isset($data['firstname']) || empty($data['firstname']) || !preg_match("/^[a-zA-Z-' ]*$/", $data['firstname'])) {
-          $errors['firstname']= __('Please add valid First Name') ;
-        }
-        if (!isset($data['lastname']) || empty($data['lastname']) || !preg_match("/^[a-zA-Z-' ]*$/", $data['lastname'])) {
-          $errors['lastname']= __('Please add valid Surname') ;
-        }
-        if (!isset($data['email']) || empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-          $errors['email']= __('Please add valid Email') ;
-        }            
-        if (!isset($data['mobile'])  || empty($data['mobile']) || preg_match('@[a-z]@', $data['mobile']) || strlen($data['mobile']) < 10 || strlen($data['mobile']) > 14){
-          $errors['mobile']= __('Phone number is not correct. Please add a phone between 10-14 digits with 00 or + international country code at beginning');
-        }
-        if (isset($data['track_id']) && !empty($data['track_id'])) {
-          $errors['exception']= __('Something went wrong. Please try again later.') ;
-        }
-        if (isset($data['job_id']) && $data['job_id'] == -1) {
-          $errors['job_id']= __("Please select a job") ;
-        }
-        if (isset($data['profession_id']) && $data['profession_id'] == -1) {
-            $errors['profession_id']= __("Please select a profession") ;
-        }
-        if (isset($data['sponsor_id']) && $data['sponsor_id'] == -1) {
-            $errors['sponsor_id']= __("Please select an agent") ;
-        }
-        if (isset($data['province_id']) && $data['province_id'] == -1) {
-            $errors['province_id']= __("Please select a province") ;
-        }
-        if (isset($data['province_id']) && $data['province_id'] == -1) {
-            $errors['province_id']= __("Please select a province") ;
-        }
-        if (!isset($data['privacy'])) {
-            $errors['privacy']= __("Please accept privacy policy") ;
-        }
 
-        //Custom Settings fields
-        if ($optin_setting_data) {//Apply custom settings validation rules
-          if ($optin_setting_data['required']['birthdate']==1 && (empty($data['birthdate']))){
-            $errors['birthdate']= __('Please add a valid Birthdate.') ;
-          }  
-          if ($optin_setting_data['required']['gdpr']==1 && !isset($data['consent'])) {
-            $errors['consent']= __("Please accept consent") ;
-          } 
-        }else { //Apply default validation rules
-          if ($pre_settings[0]['enable_birthdate']==1 && $pre_settings[0]['mandatory_birthdate']==1 && (empty($data['birthdate']))){
-            $errors['birthdate']= __('Please add a valid Birthdate.') ;
-          }   
-          if (!isset($data['consent'])) {
-            $errors['consent']= __("Please accept consent") ;
-          } 
-        }
-        //Custom Settings fields End
-
-        if (isset($data['g-recaptcha-response'])) {
-          $url = 'https://www.google.com/recaptcha/api/siteverify';
-          $datasss = array(
-            'secret' => '6LdMEUApAAAAAPmVhCTuh-k6gvyu_SRXNw6sCO4_',
-            'response' => $data['g-recaptcha-response']
-          );
-          $ch = curl_init($url);
-          curl_setopt($ch, CURLOPT_POST, 1);
-          curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($datasss));
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-          $response = curl_exec($ch);
-          echo curl_error($ch); // Check for cURL errors
-          curl_close($ch);
-          $result = json_decode($response, true);
-          if ($result['success']) {
-            // Validation successful          
-          } else {
-            // Validation failed
-            $errors['exception']= __('Something went wrong. Please try again later. Security') ;
-          }
-        }	 
-        if (!empty($errors)) {               
-          echo json_encode(['success' => false, 'errors' => $errors,'optin_setting_data'=>$optin_setting_data['required']]);
-          exit;
-        } else {                
-            $password   = (new Migareference_Model_Utilities())->randomPassword();    
-            //commneted by imran      
-            /* $birth_date = date('Y-m-d',strtotime($data['birthdate']));
-            $birth_date = strtotime($birth_date);   */   
-            $ipAddress = '';
-            if (isset($_SERVER['HTTP_CLIENT_IP']) && filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)) {
-                $ipAddress = $_SERVER['HTTP_CLIENT_IP'];
-            } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                foreach ($ipList as $ip) {
-                    if (filter_var($ip, FILTER_VALIDATE_IP)) {
-                        $ipAddress = $ip;
-                        break;
-                    }
+            $sentWelcomePush = false;
+            $welcome_push = (new Migareference_Model_Welcomenotificationtemplate())->findAll(['app_id' => $app_id])->toArray();
+            if ($welcome_push[0]['welcome_push_enable'] == 1 && !empty($welcome_push[0]['welcome_push_title']) && !empty($welcome_push[0]['welcome_push_text'])) {
+                $notificationTags = $migareference->welcomeEmailTags();
+                $notification_data = $welcome_push[0];
+                if (isset($data['customer_sponsor_id']) && !empty($data['customer_sponsor_id'])) {
+                    $agent_user = $migareference->getSingleuser($app_id, $data['customer_sponsor_id']);
                 }
-            } elseif (isset($_SERVER['REMOTE_ADDR']) && filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP)) {
-                $ipAddress = $_SERVER['REMOTE_ADDR'];
+                $app_url = $base_url . "/application/device/check/app_id/" . $app_id;
+                $notificationStrings = [
+                    $customer['firstname'] . " " . $customer['lastname'],
+                    $customer['email'],
+                    $password,
+                    $agent_user[0]['firstname'] . " " . $agent_user[0]['lastname'],
+                    $app_url,
+                ];
+                $push_data['push_title']   = str_replace($notificationTags, $notificationStrings, $welcome_push[0]['welcome_push_title']);
+                $push_data['push_text']    = str_replace($notificationTags, $notificationStrings, $welcome_push[0]['welcome_push_text']);
+                $push_data['open_feature'] = $notification_data['welcome_push_open_feature'];
+                $push_data['feature_id']   = $notification_data['welcome_push_feature_id'];
+                $push_data['custom_url']   = $notification_data['welcome_push_custom_url'];
+                $push_data['cover_image']  = $notification_data['welcome_push_custom_file'];
+                $push_data['app_id']       = $app_id;
+                $migareference->sendPush($push_data, $app_id, $user_id);
+                $sentWelcomePush = true;
             }
-            // Setup sponsor and province id
-            // For geo location use sponsor id          
-            $data['sponsor_id'] = (isset($data['sponsor_id']) && $pre_settings[0]['sponsor_type']==1) ? $data['sponsor_id'] : $data['sponsord_by'] ;                    
-            if ($data['sponsor_id']==null) {$data['sponsor_id']=0;}                    
-            // create Customer
-            $customer['app_id']         = $app_id;
-            $customer['firstname']      = $data['firstname'];
-            $customer['lastname']       = $data['lastname'];
-            $customer['email']          = $data['email'];
-            $customer['mobile']         = $data['mobile'];
-            $customer['birthdate']      = isset($data['birthdate']) && !empty($data['birthdate']) ? strtotime(date('Y-m-d',strtotime($data['birthdate']))) : 0; //updated by imran
-            $customer['password']       = sha1($password);
-            $customer['privacy_policy'] = 1;
-            $user_id=$migareference->createUser($customer);             
-            // Save Invoice
+
+            $keys['app_id'] = $app_id;
+            $keys['user_id'] = $user_id;
+            $keys['key']     = $password;
+            $migareference->savekey($keys);
+
+            if ($optin_settings[0]['redirect_url']) {
+                $responsePayload = ['success' => true, 'success_title' => __('Success'), 'is_redirect' => true, 'redirect_url' => $optin_settings[0]['redirect_url']];
+            } else {
+                $success_message = __('Thank for your submission');
+                if ($optin_settings[0]['confirmation_message']) {
+                    $success_message = $optin_settings[0]['confirmation_message'];
+                }
+                $responsePayload = ['success' => true, 'success_title' => __('Success'), 'is_redirect' => false, 'success_message' => $success_message];
+            }
+
+            $this->_updateOptinLogContext($logContext, [
+                'status' => Migareference_Model_Optinlog::STATUS_SUCCESS,
+                'sponsor_id' => $inv_settings['sponsor_id'],
+                'province_id' => $inv_settings['address_province_id'],
+                'downstream_response' => [
+                    'user_id' => $user_id,
+                    'invoice_settings' => $inv_settings,
+                    'welcome_email_sent' => $sentWelcomeEmail,
+                    'welcome_push_sent' => $sentWelcomePush,
+                ],
+            ]);
+
+            return $this->_sendJson($responsePayload);
+        } catch (Exception $e) {
+            $errors['exception'] = __('Something went wrong try again later.') . ' Exception: ' . $e->getMessage();
+            $this->_updateOptinLogContext($logContext, [
+                'status' => Migareference_Model_Optinlog::STATUS_SYSTEM_ERROR,
+                'validation_errors' => $errors,
+                'stack_trace' => $e->getMessage() . PHP_EOL . $e->getTraceAsString(),
+            ]);
+            return $this->_sendJson(['success' => false, 'errors' => $errors]);
+        }
+    }
+
+    public function subscribev2Action() {
+        $errors = [];
+        $logContext = ['log_id' => null, 'payload_summary' => []];
+
+        try {
+            $data          = $this->getRequest()->getPost();
+            $logContext    = $this->_createOptinLogContext($data);
+            $app_id        = isset($data['app_id']) ? (int) $data['app_id'] : 0;
+            $migareference = new Migareference_Model_Migareference();
+            $optinform     = new Migareference_Model_Optinform();
+            $pre_settings  = $migareference->preReportsettigns($app_id);
+            $optin_settings= $optinform->getOptinSettings($app_id);
+
+            $optin_setting_data = [];
+            $optin_setting = (new Migareference_Model_Optinsetting())->find(['app_id' => $app_id]);
+            if ($optin_setting->getId()) {
+                $optin_setting_data = unserialize($optin_setting->getoptinSetting());
+            }
+            $optinRequiredSettings = isset($optin_setting_data['required']) ? $optin_setting_data['required'] : [];
+
+            if (!isset($data['firstname']) || empty($data['firstname']) || !preg_match("/^[a-zA-Z-' ]*$/", $data['firstname'])) {
+                $errors['firstname'] = __('Please add valid First Name');
+            }
+            if (!isset($data['lastname']) || empty($data['lastname']) || !preg_match("/^[a-zA-Z-' ]*$/", $data['lastname'])) {
+                $errors['lastname'] = __('Please add valid Surname');
+            }
+            if (!isset($data['email']) || empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = __('Please add valid Email');
+            }
+            if (!isset($data['mobile']) || empty($data['mobile']) || preg_match('@[a-z]@', $data['mobile']) || strlen($data['mobile']) < 10 || strlen($data['mobile']) > 14) {
+                $errors['mobile'] = __('Phone number is not correct. Please add a phone between 10-14 digits with 00 or + international country code at beginning');
+            }
+            if (isset($data['track_id']) && !empty($data['track_id'])) {
+                $errors['exception'] = __('Something went wrong. Please try again later.');
+            }
+            if (isset($data['job_id']) && $data['job_id'] == -1) {
+                $errors['job_id'] = __('Please select a job');
+            }
+            if (isset($data['profession_id']) && $data['profession_id'] == -1) {
+                $errors['profession_id'] = __('Please select a profession');
+            }
+            if (isset($data['sponsor_id']) && $data['sponsor_id'] == -1) {
+                $errors['sponsor_id'] = __('Please select an agent');
+            }
+            if (isset($data['province_id']) && $data['province_id'] == -1) {
+                $errors['province_id'] = __('Please select a province');
+            }
+            if (!isset($data['privacy'])) {
+                $errors['privacy'] = __('Please accept privacy policy');
+            }
+
+            if ($optin_setting_data) {
+                if ($optin_setting_data['required']['birthdate'] == 1 && (empty($data['birthdate']))) {
+                    $errors['birthdate'] = __('Please add a valid Birthdate.');
+                }
+                if ($optin_setting_data['required']['gdpr'] == 1 && !isset($data['consent'])) {
+                    $errors['consent'] = __('Please accept consent');
+                }
+            } else {
+                if ($pre_settings[0]['enable_birthdate'] == 1 && $pre_settings[0]['mandatory_birthdate'] == 1 && (empty($data['birthdate']))) {
+                    $errors['birthdate'] = __('Please add a valid Birthdate.');
+                }
+                if (!isset($data['consent'])) {
+                    $errors['consent'] = __('Please accept consent');
+                }
+            }
+
+            if (isset($data['g-recaptcha-response'])) {
+                $url = 'https://www.google.com/recaptcha/api/siteverify';
+                $datasss = [
+                    'secret' => '6LdMEUApAAAAAPmVhCTuh-k6gvyu_SRXNw6sCO4_',
+                    'response' => $data['g-recaptcha-response']
+                ];
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($datasss));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                echo curl_error($ch);
+                curl_close($ch);
+                $result = json_decode($response, true);
+                if (empty($result['success'])) {
+                    $errors['exception'] = __('Something went wrong. Please try again later. Security');
+                }
+            }
+
+            if (!empty($errors)) {
+                $this->_updateOptinLogContext($logContext, [
+                    'status' => Migareference_Model_Optinlog::STATUS_VALIDATION_FAILED,
+                    'validation_errors' => $errors,
+                ]);
+                return $this->_sendJson(['success' => false, 'errors' => $errors, 'optin_setting_data' => $optinRequiredSettings]);
+            }
+
+            $password   = (new Migareference_Model_Utilities())->randomPassword();
+            $ipAddress  = $this->_resolveClientIpAddress();
+            $data['sponsor_id'] = (isset($data['sponsor_id']) && $pre_settings[0]['sponsor_type'] == 1) ? $data['sponsor_id'] : $data['sponsord_by'];
+            if ($data['sponsor_id'] == null) {
+                $data['sponsor_id'] = 0;
+            }
+
+            $customer = [
+                'app_id'        => $app_id,
+                'firstname'     => $data['firstname'],
+                'lastname'      => $data['lastname'],
+                'email'         => $data['email'],
+                'mobile'        => $data['mobile'],
+                'birthdate'     => isset($data['birthdate']) && !empty($data['birthdate']) ? strtotime(date('Y-m-d', strtotime($data['birthdate']))) : 0,
+                'password'      => sha1($password),
+                'privacy_policy'=> 1,
+            ];
+            $user_id = $migareference->createUser($customer);
+
             if (isset($data['province_id']) && !empty($data['province_id'])) {
-              $province_data=$migareference->getGeoProvince($data['province_id'],$app_id);
-              if (COUNT($province_data)) {
-                $inv_settings['address_country_id']=$province_data[0]['country_id'];
-              }
-            }          
-            
+                $province_data = $migareference->getGeoProvince($data['province_id'], $app_id);
+                if (count($province_data)) {
+                    $inv_settings['address_country_id'] = $province_data[0]['country_id'];
+                }
+            }
+
             $inv_settings['app_id']                 = $app_id;
             $inv_settings['user_id']                = $user_id;
             $inv_settings['blockchain_password']    = (new Migareference_Model_Utilities())->randomPassword();
@@ -531,84 +526,108 @@ public function resolvesponsorbyemailAction()
             $inv_settings['address_province_id']    = isset($data['province_id']) ? $data['province_id'] : 0;
             $inv_settings['invoice_surname']        = $data['lastname'];
             $inv_settings['invoice_mobile']         = $data['mobile'];
-            $inv_settings['job_id']                 = isset($data['job_id']) ? $data['job_id'] : 0;;
-            $inv_settings['profession_id']          = isset($data['profession_id']) ? $data['profession_id'] : 0;;
+            $inv_settings['job_id']                 = isset($data['job_id']) ? $data['job_id'] : 0;
+            $inv_settings['profession_id']          = isset($data['profession_id']) ? $data['profession_id'] : 0;
             $inv_settings['tax_id']                 = (new Migareference_Model_Utilities())->randomTaxid();
-            $inv_settings['referrer_source']        = 3;//3 for optin form
-            $inv_settings['referrer_ip']            = $ipAddress;//only used to track ip of spam users
+            $inv_settings['referrer_source']        = 3;
+            $inv_settings['referrer_ip']            = $ipAddress;
             $inv_settings['terms_accepted']         = 0;
             $inv_settings['special_terms_accepted'] = 0;
             $inv_settings['privacy_accepted']       = 0;
-            
-            $migareference->savePropertysettings($inv_settings); //This method also save phonebook entry if previously not exist          
-            // Send Welcome Email to referrer
-            if ($pre_settings[0]['enable_optin_welcome_email']==1
+
+            $migareference->savePropertysettings($inv_settings);
+
+            $default  = new Core_Model_Default();
+            $base_url = $default->getBaseUrl();
+
+            $sentWelcomeEmail = false;
+            if ($pre_settings[0]['enable_optin_welcome_email'] == 1
                 && !empty($pre_settings[0]['referrer_optin_wellcome_email_title'])
-                && !empty($pre_settings[0]['referrer_optin_wellcome_email_body']))
-              {
-                $notificationTags=$migareference->welcomeEmailTags();
-                $agent_user=$migareference->getSingleuser($app_id,isset($data['province_id']) ? $data['province_id'] : 0);
-                $default        = new Core_Model_Default();
-                $base_url       = $default->getBaseUrl();
-                $app_link       = "<a href='" . $base_url . "/application/device/check/app_id/" . $app_id . "'>" . __('App Link') . "</a>";
+                && !empty($pre_settings[0]['referrer_optin_wellcome_email_body'])) {
+                $notificationTags   = $migareference->welcomeEmailTags();
+                $agent_user         = $migareference->getSingleuser($app_id, isset($data['province_id']) ? $data['province_id'] : 0);
+                $app_link           = "<a href='" . $base_url . "/application/device/check/app_id/" . $app_id . "'>" . __('App Link') . "</a>";
                 $notificationStrings = [
-                $customer['firstname']." ".$customer['lastname'],
-                $customer['email'],
-                $password,
-                $agent_user[0]['firstname']." ".$agent_user[0]['lastname'],
-                $app_link
-              ];
-              $email_data['email_title'] = str_replace($notificationTags, $notificationStrings,$pre_settings[0]['referrer_optin_wellcome_email_title']);
-              $email_data['email_text']  = str_replace($notificationTags, $notificationStrings,$pre_settings[0]['referrer_optin_wellcome_email_body']);
-              $email_data['reply_to_email']  = $pre_settings[0]['referrer_optin_wellcome_email_reply_to'];
-              $email_data['bcc_to_email']  = $pre_settings[0]['referrer_optin_wellcome_email_bcc_to'];
-              $email_data['type']        = 3;//type 3 for optin wellcome log            
-              $migareference->sendMail($email_data,$app_id,$user_id);            
+                    $customer['firstname'] . " " . $customer['lastname'],
+                    $customer['email'],
+                    $password,
+                    $agent_user[0]['firstname'] . " " . $agent_user[0]['lastname'],
+                    $app_link,
+                ];
+                $email_data['email_title'] = str_replace($notificationTags, $notificationStrings, $pre_settings[0]['referrer_optin_wellcome_email_title']);
+                $email_data['email_text']  = str_replace($notificationTags, $notificationStrings, $pre_settings[0]['referrer_optin_wellcome_email_body']);
+                $email_data['reply_to_email'] = $pre_settings[0]['referrer_optin_wellcome_email_reply_to'];
+                $email_data['bcc_to_email']   = $pre_settings[0]['referrer_optin_wellcome_email_bcc_to'];
+                $email_data['type']           = 3;
+                $migareference->sendMail($email_data, $app_id, $user_id);
+                $sentWelcomeEmail = true;
             }
-            // Send Welcome PUSH to referrer
-            $welcome_push = (new Migareference_Model_Welcomenotificationtemplate())->findAll(['app_id' => $app_id])->toArray(); 
-            if ($welcome_push[0]['welcome_push_enable']==1 && !empty($welcome_push[0]['welcome_push_title']) && !empty($welcome_push[0]['welcome_push_text']))
-              {
-              $notificationTags=$migareference->welcomeEmailTags();
-              if (isset($data['customer_sponsor_id']) && !empty($data['customer_sponsor_id']) ) {
-                $agent_user=$migareference->getSingleuser($app_id,$data['customer_sponsor_id']);
-              }
-              $notificationStrings = [
-                $customer['firstname']." ".$customer['lastname'],
-                $customer['push'],
-                $data['password'],
-                $agent_user[0]['firstname']." ".$agent_user[0]['lastname'],
-                $app_link
-              ];
-              $push_data['push_title'] = str_replace($notificationTags, $notificationStrings,$welcome_push[0]['welcome_push_title']);
-              $push_data['push_text']  = str_replace($notificationTags, $notificationStrings,$welcome_push[0]['welcome_push_text']);                          
-              $push_data['open_feature'] = $notification_data['welcome_push_open_feature'];
-              $push_data['feature_id']   = $notification_data['welcome_push_feature_id'];
-              $push_data['custom_url']   = $notification_data['welcome_push_custom_url'];
-              $push_data['cover_image']  = $notification_data['welcome_push_custom_file'];
-              $push_data['app_id']       = $app_id;
-              $migareference->sendPush($push_data,$app_id,$user_id);
-            }   
-            $keys['app_id']=$app_id;
-            $keys['user_id']=$user_id;
-            $keys['key']=$password;
+
+            $sentWelcomePush = false;
+            $welcome_push = (new Migareference_Model_Welcomenotificationtemplate())->findAll(['app_id' => $app_id])->toArray();
+            if ($welcome_push[0]['welcome_push_enable'] == 1 && !empty($welcome_push[0]['welcome_push_title']) && !empty($welcome_push[0]['welcome_push_text'])) {
+                $notificationTags = $migareference->welcomeEmailTags();
+                if (isset($data['customer_sponsor_id']) && !empty($data['customer_sponsor_id'])) {
+                    $agent_user = $migareference->getSingleuser($app_id, $data['customer_sponsor_id']);
+                }
+                $app_url = $base_url . "/application/device/check/app_id/" . $app_id;
+                $notificationStrings = [
+                    $customer['firstname'] . " " . $customer['lastname'],
+                    $customer['email'],
+                    $password,
+                    $agent_user[0]['firstname'] . " " . $agent_user[0]['lastname'],
+                    $app_url,
+                ];
+                $push_data['push_title']   = str_replace($notificationTags, $notificationStrings, $welcome_push[0]['welcome_push_title']);
+                $push_data['push_text']    = str_replace($notificationTags, $notificationStrings, $welcome_push[0]['welcome_push_text']);
+                $push_data['open_feature'] = $notification_data['welcome_push_open_feature'];
+                $push_data['feature_id']   = $notification_data['welcome_push_feature_id'];
+                $push_data['custom_url']   = $notification_data['welcome_push_custom_url'];
+                $push_data['cover_image']  = $notification_data['welcome_push_custom_file'];
+                $push_data['app_id']       = $app_id;
+                $migareference->sendPush($push_data, $app_id, $user_id);
+                $sentWelcomePush = true;
+            }
+
+            $keys['app_id'] = $app_id;
+            $keys['user_id'] = $user_id;
+            $keys['key']     = $password;
             $migareference->savekey($keys);
-            if ($optin_settings[0]['redirect_url']) {                          
-                echo json_encode(['success' => true, 'success_title'=>__("Success"), 'is_redirect' => true, 'redirect_url'=>$optin_settings[0]['redirect_url']]);              
-            }else {
-                $success_message = __("Thank for your submission");
+
+            if ($optin_settings[0]['redirect_url']) {
+                $responsePayload = ['success' => true, 'success_title' => __('Success'), 'is_redirect' => true, 'redirect_url' => $optin_settings[0]['redirect_url']];
+            } else {
+                $success_message = __('Thank for your submission');
                 if ($optin_settings[0]['confirmation_message']) {
-                  $success_message=$optin_settings[0]['confirmation_message'];
-                }              
-                echo json_encode(['success' => true, 'success_title'=>__("Success"), 'is_redirect' => false, 'success_message'=>$success_message]);                            
+                    $success_message = $optin_settings[0]['confirmation_message'];
+                }
+                $responsePayload = ['success' => true, 'success_title' => __('Success'), 'is_redirect' => false, 'success_message' => $success_message];
             }
-          }                                 
-      } catch (Exception $e) {
-        $errors['exception']= __('Something went wrong try again later. Exception'.$e->getMessage()) ;
-        echo json_encode(['success' => false, 'errors' => $errors]);      
-      }
-      exit;
-  }
+
+            $this->_updateOptinLogContext($logContext, [
+                'status' => Migareference_Model_Optinlog::STATUS_SUCCESS,
+                'sponsor_id' => $inv_settings['sponsor_id'],
+                'province_id' => $inv_settings['address_province_id'],
+                'downstream_response' => [
+                    'user_id' => $user_id,
+                    'invoice_settings' => $inv_settings,
+                    'welcome_email_sent' => $sentWelcomeEmail,
+                    'welcome_push_sent' => $sentWelcomePush,
+                ],
+            ]);
+
+            return $this->_sendJson($responsePayload);
+        } catch (Exception $e) {
+            $errors['exception'] = __('Something went wrong try again later.') . ' Exception: ' . $e->getMessage();
+            $this->_updateOptinLogContext($logContext, [
+                'status' => Migareference_Model_Optinlog::STATUS_SYSTEM_ERROR,
+                'validation_errors' => $errors,
+                'stack_trace' => $e->getMessage() . PHP_EOL . $e->getTraceAsString(),
+            ]);
+            return $this->_sendJson(['success' => false, 'errors' => $errors]);
+        }
+    }
+
   public function subscribeAction(){
     try {
       $data          = $this->getRequest()->getPost();      
@@ -787,12 +806,13 @@ public function resolvesponsorbyemailAction()
           }
           // Send Welcome PUSH to referrer
           $welcome_push = (new Migareference_Model_Welcomenotificationtemplate())->findAll(['app_id' => $app_id])->toArray(); 
-          if ($welcome_push[0]['welcome_push_enable']==1 && !empty($welcome_push[0]['welcome_push_title']) && !empty($welcome_push[0]['welcome_push_text']))
-          {
-            $notificationTags=$migareference->welcomeEmailTags();            
-            if (isset($data['customer_sponsor_id']) && !empty($data['customer_sponsor_id']) ) {
-              $agent_user=$migareference->getSingleuser($app_id,$data['customer_sponsor_id']);
-            }
+            if ($welcome_push[0]['welcome_push_enable']==1 && !empty($welcome_push[0]['welcome_push_title']) && !empty($welcome_push[0]['welcome_push_text']))
+              {
+              $notificationTags=$migareference->welcomeEmailTags();
+              $notification_data = $welcome_push[0];
+              if (isset($data['customer_sponsor_id']) && !empty($data['customer_sponsor_id']) ) {
+                $agent_user=$migareference->getSingleuser($app_id,$data['customer_sponsor_id']);
+              }
             $notificationStrings = [
               $customer['firstname']." ".$customer['lastname'],
               $customer['push'],
@@ -826,11 +846,11 @@ public function resolvesponsorbyemailAction()
           }
         }           
                  
-          $payload = [
+        $payload = [
             'success' => true,
-            'message' => __("Successfully User Created"),            
-            'data' => $inv_settings,            
-            'inv_settings' => $password,            
+            'message' => __("Successfully User Created"),
+            'data' => $inv_settings,
+            'inv_settings' => $password,
           ];
     } catch (Exception $e) {
       $alert = "<script>alert('"."Error : " . $e->getMessage()."')</script>";
@@ -839,4 +859,145 @@ public function resolvesponsorbyemailAction()
     }
         exit;
   }
+
+    protected function _createOptinLogContext(array $payload)
+    {
+        $context = [
+            'log_id' => null,
+            'payload_summary' => $this->_summarizeOptinPayload($payload),
+            'correlation_id' => $this->_generateCorrelationId(),
+            'ip_address' => $this->_resolveClientIpAddress(),
+            'referrer_url' => isset($_SERVER['HTTP_REFERER']) ? substr($_SERVER['HTTP_REFERER'], 0, 255) : null,
+        ];
+
+        try {
+            $logModel = new Migareference_Model_Optinlog();
+            $context['log_id'] = $logModel->createLog([
+                'app_id' => isset($payload['app_id']) ? (int) $payload['app_id'] : 0,
+                'sponsor_id' => isset($payload['sponsor_id']) ? (int) $payload['sponsor_id'] : 0,
+                'province_id' => isset($payload['province_id']) ? (int) $payload['province_id'] : 0,
+                'ip_address' => $context['ip_address'],
+                'referrer_url' => $context['referrer_url'],
+                'correlation_id' => $context['correlation_id'],
+                'request_payload' => $this->_encodeForStorage($context['payload_summary']),
+                'status' => Migareference_Model_Optinlog::STATUS_PENDING,
+            ]);
+        } catch (Exception $e) {
+            $context['log_id'] = null;
+        }
+
+        return $context;
+    }
+
+    protected function _updateOptinLogContext(array &$context, array $updates = [])
+    {
+        if (empty($context['log_id'])) {
+            return;
+        }
+
+        if (!isset($updates['sponsor_id']) && isset($context['payload_summary']['sponsor_id'])) {
+            $updates['sponsor_id'] = (int) $context['payload_summary']['sponsor_id'];
+        }
+        if (!isset($updates['province_id']) && isset($context['payload_summary']['province_id'])) {
+            $updates['province_id'] = (int) $context['payload_summary']['province_id'];
+        }
+
+        if (isset($updates['validation_errors']) && is_array($updates['validation_errors'])) {
+            $updates['validation_errors'] = $this->_encodeForStorage($updates['validation_errors']);
+        }
+        if (isset($updates['downstream_response']) && is_array($updates['downstream_response'])) {
+            $updates['downstream_response'] = $this->_encodeForStorage($updates['downstream_response']);
+        }
+        if (isset($updates['stack_trace']) && is_array($updates['stack_trace'])) {
+            $updates['stack_trace'] = $this->_encodeForStorage($updates['stack_trace']);
+        }
+
+        $mismatch = 0;
+        if (isset($updates['sponsor_id'], $context['payload_summary']['sponsor_id'])) {
+            $requestedSponsor = (int) $context['payload_summary']['sponsor_id'];
+            $finalSponsor = (int) $updates['sponsor_id'];
+            if ($requestedSponsor > 0 && $finalSponsor > 0 && $requestedSponsor !== $finalSponsor) {
+                $mismatch = 1;
+            }
+        }
+        if (isset($updates['province_id'], $context['payload_summary']['province_id'])) {
+            $requestedProvince = (int) $context['payload_summary']['province_id'];
+            $finalProvince = (int) $updates['province_id'];
+            if ($requestedProvince > 0 && $finalProvince > 0 && $requestedProvince !== $finalProvince) {
+                $mismatch = 1;
+            }
+        }
+        if ($mismatch) {
+            $updates['mismatch_flag'] = 1;
+        }
+
+        try {
+            (new Migareference_Model_Optinlog())->updateLog($context['log_id'], $updates);
+        } catch (Exception $e) {
+            // Silent failure
+        }
+    }
+
+    protected function _summarizeOptinPayload(array $payload)
+    {
+        $allowed = [
+            'app_id', 'firstname', 'lastname', 'email', 'mobile', 'job_id', 'profession_id',
+            'sponsor_id', 'sponsord_by', 'province_id', 'customer_sponsor_id', 'track_id'
+        ];
+        $summary = [];
+        foreach ($allowed as $key) {
+            if (isset($payload[$key])) {
+                $summary[$key] = $payload[$key];
+            }
+        }
+
+        return $summary;
+    }
+
+    protected function _encodeForStorage($value)
+    {
+        if (is_string($value)) {
+            return $value;
+        }
+        return json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    }
+
+    protected function _resolveClientIpAddress()
+    {
+        $candidates = [
+            'HTTP_CLIENT_IP',
+            'HTTP_X_FORWARDED_FOR',
+            'REMOTE_ADDR',
+        ];
+
+        foreach ($candidates as $key) {
+            if (!isset($_SERVER[$key])) {
+                continue;
+            }
+
+            $value = $_SERVER[$key];
+            if ($key === 'HTTP_X_FORWARDED_FOR') {
+                $parts = explode(',', $value);
+                foreach ($parts as $part) {
+                    $candidate = trim($part);
+                    if (filter_var($candidate, FILTER_VALIDATE_IP)) {
+                        return $candidate;
+                    }
+                }
+            } elseif (filter_var($value, FILTER_VALIDATE_IP)) {
+                return $value;
+            }
+        }
+
+        return '';
+    }
+
+    protected function _generateCorrelationId()
+    {
+        try {
+            return bin2hex(random_bytes(8));
+        } catch (Exception $e) {
+            return uniqid('optin_', true);
+        }
+    }
 }
