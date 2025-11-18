@@ -45,6 +45,14 @@
                 $optin_setting_data = unserialize($optin_setting->getoptinSetting());
         }
 
+        $log_statuses = [
+                '' => __('All statuses'),
+                Migareference_Model_Optinlog::STATUS_PENDING => __('Pending'),
+                Migareference_Model_Optinlog::STATUS_SUCCESS => __('Success'),
+                Migareference_Model_Optinlog::STATUS_VALIDATION_FAILED => __('Validation failed'),
+                Migareference_Model_Optinlog::STATUS_SYSTEM_ERROR => __('System error'),
+        ];
+
         $default_enroll_share_message = "Ecco il link per registrarti come partner nell'App @@app_name@@ : @@enroll_url@@";
         $enrolling_page_url = trim((string) $optin_setting->getEnrollingPageUrl());
         $enroll_sharing_message = trim((string) $optin_setting->getEnrollSharingMessage());
@@ -653,11 +661,43 @@
             </div>            
         </div>
     </div>
-    <!-- Optin form user List -->    
+    <style>
+        .optin-log-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .optin-log-filters .filter-field {
+            min-width: 160px;
+            flex: 1 1 160px;
+        }
+        .optin-log-filters .filter-field label {
+            display: block;
+            font-weight: 600;
+        }
+        .optin-log-filters .filter-actions {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .optin-log-row--mismatch td {
+            background-color: #fff7e0 !important;
+        }
+        .optin-log-snippet {
+            font-family: monospace;
+            font-size: 12px;
+            display: inline-block;
+            max-width: 280px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+    <!-- Optin form user List -->
     <div class="feature-block-list">
         <div class="margin-top">
             <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo __('OPTIN Form Referrers'); ?>                                   
+                <?php echo __('OPTIN Form Referrers'); ?>
             </h3>
         </div>
         <div class='optin_form_view'>
@@ -684,6 +724,67 @@
                     </tbody>
                 </table>
             </form>
+        </div>
+    </div>
+    <div class="feature-block-list">
+        <div class="margin-top">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('OPTIN Form Request Logs'); ?>
+            </h3>
+        </div>
+        <div class='optin_form_view'>
+            <div class="optin-log-filters">
+                <div class="filter-field">
+                    <label for="optin_log_from"><?php echo __('From'); ?></label>
+                    <input type="date" class="form-control" id="optin_log_from">
+                </div>
+                <div class="filter-field">
+                    <label for="optin_log_to"><?php echo __('To'); ?></label>
+                    <input type="date" class="form-control" id="optin_log_to">
+                </div>
+                <div class="filter-field">
+                    <label for="optin_log_status"><?php echo __('Status'); ?></label>
+                    <select id="optin_log_status" class="form-control">
+                        <?php foreach ($log_statuses as $statusKey => $statusLabel): ?>
+                            <option value="<?php echo htmlspecialchars($statusKey, ENT_QUOTES, 'UTF-8'); ?>"><?php echo $statusLabel; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label>&nbsp;</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="optin_log_mismatch">
+                            <?php echo __('Only mismatches'); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label for="optin_log_search"><?php echo __('Search keyword'); ?></label>
+                    <input type="text" class="form-control" id="optin_log_search" placeholder="<?php echo __('Email, IP, correlation...'); ?>">
+                </div>
+                <div class="filter-actions">
+                    <button type="button" class="btn btn-primary" id="optin_log_filter_btn"><?php echo __('Apply'); ?></button>
+                    <button type="button" class="btn btn-default" id="optin_log_export_btn"><?php echo __('Export CSV'); ?></button>
+                </div>
+            </div>
+            <p class="text-warning"><?php echo __('Rows highlighted in yellow indicate sponsor/province mismatches or system errors.'); ?></p>
+            <table id="optin_form_request_logs" class="table display responsive nowrap content-white-bkg" style="width:100%">
+                <thead>
+                    <tr class="border-grey">
+                        <th><?php echo __('Logged At'); ?></th>
+                        <th><?php echo __('Status'); ?></th>
+                        <th><?php echo __('Correlation ID'); ?></th>
+                        <th><?php echo __('Sponsor'); ?></th>
+                        <th><?php echo __('Province'); ?></th>
+                        <th><?php echo __('IP Address'); ?></th>
+                        <th><?php echo __('Referrer URL'); ?></th>
+                        <th><?php echo __('Validation'); ?></th>
+                        <th><?php echo __('Downstream Responses'); ?></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
     <!-- Optin form Block IPs -->
@@ -1109,7 +1210,7 @@
             }
         };
 
-    var data_table_obj = {
+    var base_data_table_obj = {
         responsive: true,
         language: data_table_language,
         order: [],
@@ -1123,15 +1224,56 @@
         },
     };
 
-    data_table_obj.order = [[5, 'desc']];
-    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadoptinusers?app_id='.$app_id); ?>';
-    $('#optin_form_user_table').DataTable(data_table_obj);
+    var user_table_obj = $.extend(true, {}, base_data_table_obj);
+    user_table_obj.order = [[5, 'desc']];
+    user_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadoptinusers?app_id='.$app_id); ?>';
+    var optinUserTable = $('#optin_form_user_table').DataTable(user_table_obj);
 
-    // Optin form blocked ips table
-    data_table_obj.order = [[2, 'desc']];
-    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadblockedips?app_id='.$app_id); ?>';
-    $('#optin_form_blocked_ips').DataTable(data_table_obj);
+    var blocked_table_obj = $.extend(true, {}, base_data_table_obj);
+    blocked_table_obj.order = [[2, 'desc']];
+    blocked_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadblockedips?app_id='.$app_id); ?>';
+    var optinBlockedIpTable = $('#optin_form_blocked_ips').DataTable(blocked_table_obj);
+
+    var logs_table_obj = $.extend(true, {}, base_data_table_obj);
+    logs_table_obj.order = [[0, 'desc']];
+    logs_table_obj.ajax = {
+        url: '<?php echo $this->getUrl('migareference/optinsetting/loadoptinlogs'); ?>',
+        dataSrc: function(response) {
+            return response && response.data ? response.data : [];
+        },
+        data: function() {
+            return {
+                app_id: <?php echo $app_id; ?>,
+                from: $('#optin_log_from').val(),
+                to: $('#optin_log_to').val(),
+                status: $('#optin_log_status').val(),
+                mismatch_only: $('#optin_log_mismatch').is(':checked') ? 1 : 0,
+                search: $('#optin_log_search').val()
+            };
+        }
+    };
+    var optinLogTable = $('#optin_form_request_logs').DataTable(logs_table_obj);
     
+    $('#optin_log_filter_btn').on('click', function() {
+        optinLogTable.ajax.reload();
+    });
+    $('#optin_log_search').on('keyup', function(e) {
+        if (e.keyCode === 13) {
+            optinLogTable.ajax.reload();
+        }
+    });
+    $('#optin_log_export_btn').on('click', function() {
+        var params = $.param({
+            app_id: <?php echo $app_id; ?>,
+            from: $('#optin_log_from').val(),
+            to: $('#optin_log_to').val(),
+            status: $('#optin_log_status').val(),
+            mismatch_only: $('#optin_log_mismatch').is(':checked') ? 1 : 0,
+            search: $('#optin_log_search').val()
+        });
+        window.location = '<?php echo $this->getUrl('migareference/optinsetting/exportoptinlogs'); ?>?' + params;
+    });
+
     // Optin Use deletion
     function deleteUser(user_id,invoice_id,is_block_ip,ip_address) {
         var message = '<?php echo __("Are you sure you want to remove this user?"); ?>';
@@ -1139,15 +1281,11 @@
             var url = '<?php echo $this->getUrl('migareference/optinsetting/deleteuser'); ?>'+'/user_id/' + user_id+'/invoice_id/'+invoice_id+'/is_block_ip/'+is_block_ip+'/ip_address/'+ip_address+'/app_id/'+'<?php echo $app_id ?>';
             reload(this, url, true, function(datas) {
                 if (datas.success) {
-                    $("#optin_form_user_table").DataTable().destroy();
-                    data_table_obj.order = [[5, 'desc']];
-                    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadoptinusers?app_id='.$app_id); ?>';
-                    $('#optin_form_user_table').DataTable(data_table_obj);                   
-                    // Optin form blocked ips table
-                    $("#optin_form_blocked_ips").DataTable().destroy();
-                    data_table_obj.order = [[2, 'desc']];
-                    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadblockedips?app_id='.$app_id); ?>';
-                    $('#optin_form_blocked_ips').DataTable(data_table_obj);
+                    optinUserTable.destroy();
+                    optinUserTable = $('#optin_form_user_table').DataTable(user_table_obj);
+                    optinBlockedIpTable.destroy();
+                    optinBlockedIpTable = $('#optin_form_blocked_ips').DataTable(blocked_table_obj);
+                    optinLogTable.ajax.reload(null, false);
                 }
             });
         }
@@ -1159,11 +1297,8 @@
             var url = '<?php echo $this->getUrl('migareference/optinsetting/unblockip'); ?>'+'/uid/' + uid;
             reload(this, url, true, function(datas) {
                 if (datas.success) {
-                    $("#optin_form_blocked_ips").DataTable().destroy();
-                    // Optin form blocked ips table
-                    data_table_obj.order = [[2, 'desc']];
-                    data_table_obj.ajax ='<?php echo $this->getUrl('migareference/optinsetting/loadblockedips?app_id='.$app_id); ?>';
-                    $('#optin_form_blocked_ips').DataTable(data_table_obj);
+                    optinBlockedIpTable.destroy();
+                    optinBlockedIpTable = $('#optin_form_blocked_ips').DataTable(blocked_table_obj);
                 }
             });
         }

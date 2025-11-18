@@ -55,10 +55,10 @@ class Migareference_OptinsettingController extends Application_Controller_Defaul
             $this->_sendJson($datas);
         }
     }
-	public function loadoptinusersAction() {
-		if ($data = $this->getRequest()->getQuery()) {
-			try {
-			  $optinForm   = new Migareference_Model_Optinform();
+        public function loadoptinusersAction() {
+                if ($data = $this->getRequest()->getQuery()) {
+                        try {
+                          $optinForm   = new Migareference_Model_Optinform();
 			  $optin_users = $optinForm->getOptinUsers($data['app_id']);                        
 			  $user_collection = [];
 			  foreach ($optin_users as $key => $value) {
@@ -93,11 +93,152 @@ class Migareference_OptinsettingController extends Application_Controller_Defaul
 		} else {
 			$payload = [
 				'error' => true,
-				'message' => __('An error occurred during process. Please try again later.')
-			];
-		}
-		$this->_sendJson($payload);
-	}
+                                'message' => __('An error occurred during process. Please try again later.')
+                        ];
+                }
+                $this->_sendJson($payload);
+        }
+
+        public function loadoptinlogsAction() {
+                if ($data = $this->getRequest()->getQuery()) {
+                        try {
+                                $appId = isset($data['app_id']) ? (int) $data['app_id'] : 0;
+                                if (!$appId) {
+                                        throw new Exception(__('Missing Application ID.'));
+                                }
+
+                                $filters = [
+                                        'status' => isset($data['status']) ? trim($data['status']) : '',
+                                        'from' => isset($data['from']) ? trim($data['from']) : '',
+                                        'to' => isset($data['to']) ? trim($data['to']) : '',
+                                        'search' => isset($data['search']) ? trim($data['search']) : '',
+                                        'mismatch_only' => !empty($data['mismatch_only']),
+                                        'limit' => 300,
+                                ];
+
+                                $logs = (new Migareference_Model_Optinlog())->fetchLogs($appId, $filters);
+                                $rows = [];
+
+                                foreach ($logs as $log) {
+                                        $payloadSummary = [];
+                                        if (!empty($log['request_payload'])) {
+                                                $decoded = json_decode($log['request_payload'], true);
+                                                if (is_array($decoded)) {
+                                                        $payloadSummary = $decoded;
+                                                }
+                                        }
+
+                                        $statusLabel = ucfirst(str_replace('_', ' ', $log['status']));
+                                        $badgeClass = 'label-default';
+                                        if ($log['status'] === Migareference_Model_Optinlog::STATUS_SUCCESS) {
+                                                $badgeClass = 'label-success';
+                                        } elseif ($log['status'] === Migareference_Model_Optinlog::STATUS_VALIDATION_FAILED) {
+                                                $badgeClass = 'label-warning';
+                                        } elseif ($log['status'] === Migareference_Model_Optinlog::STATUS_SYSTEM_ERROR) {
+                                                $badgeClass = 'label-danger';
+                                        } elseif ($log['status'] === Migareference_Model_Optinlog::STATUS_PENDING) {
+                                                $badgeClass = 'label-info';
+                                        }
+
+                                        $statusCell = '<span class="label ' . $badgeClass . '">' . htmlspecialchars($statusLabel, ENT_QUOTES, 'UTF-8') . '</span>';
+                                        $sponsorCell = htmlspecialchars((string) $log['sponsor_id'], ENT_QUOTES, 'UTF-8');
+                                        if (isset($payloadSummary['sponsor_id']) && (int) $payloadSummary['sponsor_id'] !== (int) $log['sponsor_id']) {
+                                                $sponsorCell .= '<br><small class="text-warning">' . sprintf(__('Requested: %s'), htmlspecialchars((string) $payloadSummary['sponsor_id'], ENT_QUOTES, 'UTF-8')) . '</small>';
+                                        }
+
+                                        $provinceCell = htmlspecialchars((string) $log['province_id'], ENT_QUOTES, 'UTF-8');
+                                        if (isset($payloadSummary['province_id']) && (int) $payloadSummary['province_id'] !== (int) $log['province_id']) {
+                                                $provinceCell .= '<br><small class="text-warning">' . sprintf(__('Requested: %s'), htmlspecialchars((string) $payloadSummary['province_id'], ENT_QUOTES, 'UTF-8')) . '</small>';
+                                        }
+
+                                        $referrerUrl = htmlspecialchars((string) $log['referrer_url'], ENT_QUOTES, 'UTF-8');
+                                        $isMismatch = !empty($log['mismatch_flag']) || $log['status'] === Migareference_Model_Optinlog::STATUS_SYSTEM_ERROR;
+
+                                        $rows[] = [
+                                                'DT_RowClass' => $isMismatch ? 'optin-log-row--mismatch' : '',
+                                                date('d-m-Y H:i:s', strtotime($log['created_at'])),
+                                                $statusCell,
+                                                htmlspecialchars((string) $log['correlation_id'], ENT_QUOTES, 'UTF-8'),
+                                                $sponsorCell,
+                                                $provinceCell,
+                                                htmlspecialchars((string) $log['ip_address'], ENT_QUOTES, 'UTF-8'),
+                                                $referrerUrl ?: '-',
+                                                $this->_formatLogSnippet($log['validation_errors']),
+                                                $this->_formatLogSnippet($log['downstream_response']),
+                                        ];
+                                }
+
+                                $payload = [
+                                        'data' => $rows,
+                                ];
+                        } catch (\Exception $e) {
+                                $payload = [
+                                        'error' => true,
+                                        'message' => __($e->getMessage()),
+                                ];
+                        }
+                } else {
+                        $payload = [
+                                'error' => true,
+                                'message' => __('An error occurred during process. Please try again later.'),
+                        ];
+                }
+
+                $this->_sendJson($payload);
+        }
+
+        public function exportoptinlogsAction()
+        {
+                try {
+                        $request = $this->getRequest();
+                        $appId = (int) $request->getParam('app_id');
+                        if (!$appId) {
+                                throw new Exception(__('Missing Application ID.'));
+                        }
+
+                        $filters = [
+                                'status' => trim((string) $request->getParam('status')),
+                                'from' => trim((string) $request->getParam('from')),
+                                'to' => trim((string) $request->getParam('to')),
+                                'search' => trim((string) $request->getParam('search')),
+                                'mismatch_only' => (int) $request->getParam('mismatch_only'),
+                        ];
+
+                        $logs = (new Migareference_Model_Optinlog())->fetchLogs($appId, $filters);
+
+                        header('Content-Type: text/csv');
+                        header('Content-Disposition: attachment;filename="optin_logs_' . $appId . '_' . date('Ymd_His') . '.csv"');
+                        $out = fopen('php://output', 'w');
+                        fputcsv($out, [
+                                'created_at', 'status', 'correlation_id', 'sponsor_id', 'province_id', 'ip_address', 'referrer_url',
+                                'request_payload', 'validation_errors', 'downstream_response', 'stack_trace'
+                        ]);
+
+                        foreach ($logs as $log) {
+                                fputcsv($out, [
+                                        $log['created_at'],
+                                        $log['status'],
+                                        $log['correlation_id'],
+                                        $log['sponsor_id'],
+                                        $log['province_id'],
+                                        $log['ip_address'],
+                                        $log['referrer_url'],
+                                        $log['request_payload'],
+                                        $log['validation_errors'],
+                                        $log['downstream_response'],
+                                        $log['stack_trace'],
+                                ]);
+                        }
+
+                        fclose($out);
+                        exit;
+                } catch (\Exception $e) {
+                        $this->_sendJson([
+                                'error' => true,
+                                'message' => __($e->getMessage()),
+                        ]);
+                }
+        }
 	public function loadblockedipsAction() {
 		if ($data = $this->getRequest()->getQuery()) {
 			try {			                         
@@ -204,8 +345,8 @@ class Migareference_OptinsettingController extends Application_Controller_Defaul
 		}	
 		$this->_sendJson($datas);
 	}
-	public function unblockipAction() {
-		if ($uid = $this->getRequest()->getParam('uid')) {
+        public function unblockipAction() {
+                if ($uid = $this->getRequest()->getParam('uid')) {
 			try {					
 					// Delete IP
 					(new Migareference_Model_Optin_Firewall())->find(['migareference_optin_firewall_id'=> $uid])->delete();                               					
@@ -227,7 +368,30 @@ class Migareference_OptinsettingController extends Application_Controller_Defaul
 				'error' => true,
 				'message' => __('An error occurred during process. Please try again later.')
 			];
-		}
-		$this->_sendJson($payload);
-	}
+                }
+                $this->_sendJson($payload);
+        }
+
+        protected function _formatLogSnippet($value)
+        {
+                $value = trim((string) $value);
+                if ($value === '') {
+                        return '-';
+                }
+
+                if (function_exists('mb_substr')) {
+                        $short = mb_substr($value, 0, 140);
+                        $length = function_exists('mb_strlen') ? mb_strlen($value) : strlen($value);
+                        if ($length > 140) {
+                                $short .= '…';
+                        }
+                } else {
+                        $short = substr($value, 0, 140);
+                        if (strlen($value) > 140) {
+                                $short .= '…';
+                        }
+                }
+
+                return '<code class="optin-log-snippet">' . htmlspecialchars($short, ENT_QUOTES, 'UTF-8') . '</code>';
+        }
 }
