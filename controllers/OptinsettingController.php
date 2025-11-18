@@ -140,25 +140,16 @@ class Migareference_OptinsettingController extends Application_Controller_Defaul
                                                 $badgeClass = 'label-info';
                                         }
 
-                                $statusCell = '<span class="label ' . $badgeClass . '">' . htmlspecialchars($statusLabel, ENT_QUOTES, 'UTF-8') . '</span>';
+                                        $statusCell = '<span class="label ' . $badgeClass . '">' . htmlspecialchars($statusLabel, ENT_QUOTES, 'UTF-8') . '</span>';
+                                        $sponsorCell = htmlspecialchars((string) $log['sponsor_id'], ENT_QUOTES, 'UTF-8');
+                                        if (isset($payloadSummary['sponsor_id']) && (int) $payloadSummary['sponsor_id'] !== (int) $log['sponsor_id']) {
+                                                $sponsorCell .= '<br><small class="text-warning">' . sprintf(__('Requested: %s'), htmlspecialchars((string) $payloadSummary['sponsor_id'], ENT_QUOTES, 'UTF-8')) . '</small>';
+                                        }
 
-                                $requestedSponsor = isset($payloadSummary['sponsor_id']) ? (int) $payloadSummary['sponsor_id'] : 0;
-                                $resolvedSponsor = isset($log['sponsor_id']) ? (int) $log['sponsor_id'] : 0;
-                                $sponsorCell = $resolvedSponsor > 0
-                                        ? htmlspecialchars((string) $resolvedSponsor, ENT_QUOTES, 'UTF-8')
-                                        : '-';
-                                if ($resolvedSponsor > 0 && $requestedSponsor > 0 && $requestedSponsor !== $resolvedSponsor) {
-                                        $sponsorCell .= '<br><small class="text-warning">' . sprintf(__('Requested: %s'), htmlspecialchars((string) $requestedSponsor, ENT_QUOTES, 'UTF-8')) . '</small>';
-                                }
-
-                                $requestedProvince = isset($payloadSummary['province_id']) ? (int) $payloadSummary['province_id'] : 0;
-                                $resolvedProvince = isset($log['province_id']) ? (int) $log['province_id'] : 0;
-                                $provinceCell = $resolvedProvince > 0
-                                        ? htmlspecialchars((string) $resolvedProvince, ENT_QUOTES, 'UTF-8')
-                                        : '-';
-                                if ($resolvedProvince > 0 && $requestedProvince > 0 && $requestedProvince !== $resolvedProvince) {
-                                        $provinceCell .= '<br><small class="text-warning">' . sprintf(__('Requested: %s'), htmlspecialchars((string) $requestedProvince, ENT_QUOTES, 'UTF-8')) . '</small>';
-                                }
+                                        $provinceCell = htmlspecialchars((string) $log['province_id'], ENT_QUOTES, 'UTF-8');
+                                        if (isset($payloadSummary['province_id']) && (int) $payloadSummary['province_id'] !== (int) $log['province_id']) {
+                                                $provinceCell .= '<br><small class="text-warning">' . sprintf(__('Requested: %s'), htmlspecialchars((string) $payloadSummary['province_id'], ENT_QUOTES, 'UTF-8')) . '</small>';
+                                        }
 
                                         $referrerUrl = htmlspecialchars((string) $log['referrer_url'], ENT_QUOTES, 'UTF-8');
                                         $isMismatch = !empty($log['mismatch_flag']) || $log['status'] === Migareference_Model_Optinlog::STATUS_SYSTEM_ERROR;
@@ -224,15 +215,12 @@ class Migareference_OptinsettingController extends Application_Controller_Defaul
                         ]);
 
                         foreach ($logs as $log) {
-                                $resolvedSponsor = isset($log['sponsor_id']) ? (int) $log['sponsor_id'] : 0;
-                                $resolvedProvince = isset($log['province_id']) ? (int) $log['province_id'] : 0;
-
                                 fputcsv($out, [
                                         $log['created_at'],
                                         $log['status'],
                                         $log['correlation_id'],
-                                        $resolvedSponsor > 0 ? $resolvedSponsor : '',
-                                        $resolvedProvince > 0 ? $resolvedProvince : '',
+                                        $log['sponsor_id'],
+                                        $log['province_id'],
                                         $log['ip_address'],
                                         $log['referrer_url'],
                                         $log['request_payload'],
