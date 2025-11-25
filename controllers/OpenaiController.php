@@ -96,7 +96,7 @@ class Migareference_OpenaiController extends Application_Controller_Default{
     {
       if ($data = $this->getRequest()->getPost()) {
           try {
-                $errors=''; 
+                $errors='';
                 if ($data['is_matching_api_enabled']==1) {               
                     if (empty($data['max_matches'])) {
                         $errors .= __('Maximum Number of Matches can not be empty.')."<br>";                
@@ -129,11 +129,43 @@ class Migareference_OpenaiController extends Application_Controller_Default{
           $this->_sendJson($html);
       }
     }
+    public function saverelationshipaiconfigAction()
+    {
+      if ($data = $this->getRequest()->getPost()) {
+          try {
+                $errors='';
+                if (empty($data['relationship_note_prompt'])) {
+                    $errors .= __('Please enter the Relationship Note Prompt.')."<br>";
+                }
+                if (!empty($errors)) {
+                    throw new Exception($errors);
+                } else {
+                    $openai = new Migareference_Model_OpenaiConfig();
+                    $openai->setData($data)->save();
+                }
+              $html = [
+                'success'         => true,
+                'message'         => __('Successfully data saved.'),
+                'message_timeout' => 0,
+                'message_button'  => 0,
+                'message_loader'  => 0
+              ];
+          } catch (Exception $e) {
+              $html = [
+                'error'          => true,
+                'message'        => __($e->getMessage()),
+                'message_button' => 1,
+                'message_loader' => 1
+              ];
+          }
+          $this->_sendJson($html);
+      }
+    }
     public function testcallAction()
     {
-      
+
           try {
-                $app_id        = $this->getApplication()->getId();                          
+                $app_id        = $this->getApplication()->getId();
                 $openai_config = (new Migareference_Model_OpenaiConfig())->findAll(['app_id'=> $app_id])->toArray();        
                 $api_key = $openai_config[0]['openai_apikey'];
 

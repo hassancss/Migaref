@@ -5,6 +5,21 @@ class Migareference_Model_Db_Table_Phonebook extends Core_Model_Db_Table {
     protected $_name = 'migarefrence_phonebook';
     protected $_primary = 'migarefrence_phonebook_id';
 
+    public function getReferrersMissingRelationshipNote($app_id = 0, $limit = 10)
+    {
+        $app_id = (int)$app_id;
+        $limit = (int)$limit;
+
+        $query = "SELECT ph.*, jobs.job_title, prof.profession_title
+                  FROM migarefrence_phonebook AS ph
+                  LEFT JOIN migareference_jobs AS jobs ON jobs.migareference_jobs_id = ph.job_id
+                  LEFT JOIN migareference_professions AS prof ON prof.migareference_professions_id = ph.profession_id
+                  WHERE ph.app_id = $app_id AND ph.type = 1 AND (ph.note IS NULL OR TRIM(ph.note) = '')
+                  LIMIT $limit";
+
+        return $this->_db->fetchAll($query);
+    }
+
     // AI Matching
      /*
         Sample Prompt:
