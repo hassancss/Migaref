@@ -249,7 +249,7 @@
     <div id="matching-ai-configuration" class="feature-block-list">
         <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo __('AI MATCHING CONFIGURATION'); ?>
-        </h3>       
+        </h3>
         <div  class="content-feature first-row-feature container-fluid">
             <form id="matching-ai-configration" action="<?php echo $this->getUrl('migareference/openai/savematchingaiconfig') ?>" method="post">
                 <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" />
@@ -331,6 +331,36 @@
                         </div>
                     </div>
                 </div>       
+                <div class="save pull-right">
+                    <button class="button btn bt_save btn color-blue" type="submit">
+                        <?php echo __('Save'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="relationship-note-prompt" class="feature-block-list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('RELATIONSHIP NOTE PROMPT'); ?>
+        </h3>
+        <div  class="content-feature first-row-feature container-fluid">
+            <form id="relationship-note-configration" action="<?php echo $this->getUrl('migareference/openai/saverelationshipaiconfig') ?>" method="post">
+                <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" />
+                <input type="hidden" name="migareference_openai_config_id" value="<?=(count($openai_config) ) ? $openai_config[0]['migareference_openai_config_id'] : '' ; ?>" />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="relationship_note_prompt"><?php echo __('Relationship Note Prompt'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-8">
+                            <textarea rows="8" cols="50" id="relationship_note_prompt" class="input-flat" name="relationship_note_prompt" placeholder="<?php echo __('Type Your Prompt') ?>"><?=(count($openai_config) && isset($openai_config[0]['relationship_note_prompt'])) ? $openai_config[0]['relationship_note_prompt'] : "" ; ?></textarea>
+                            <p>@@referrer_name@@, @@surname@@, @@email@@, @@phone@@, @@job@@, @@sector@@</p>
+                        </div>
+                        <div class="col-sm-1 ">
+
+                        </div>
+                    </div>
+                </div>
                 <div class="save pull-right">
                     <button class="button btn bt_save btn color-blue" type="submit">
                         <?php echo __('Save'); ?>
@@ -442,6 +472,14 @@
     return false;
   });
   $('#matching-ai-configration').submit(function() {
+    reload(this, this.action, true, function(data) {
+        if (data.success) {
+            page.reload();
+        }
+    });
+    return false;
+  });
+  $('#relationship-note-configration').submit(function() {
     reload(this, this.action, true, function(data) {
         if (data.success) {
             page.reload();

@@ -692,6 +692,14 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
          $base_url         = $default->getBaseUrl();
          $host_name        = gethostname();
          $host_ip          = shell_exec('nslookup ' . $host_name);
+         $note_service     = new Migareference_Model_RelationshipNoteService();
+         $note_apps        = $migareference->_db->fetchAll("SELECT DISTINCT app_id FROM migareference_openai_config WHERE (openai_apikey IS NOT NULL AND TRIM(openai_apikey)!='') OR (perplexity_apikey IS NOT NULL AND TRIM(perplexity_apikey)!='')");
+         foreach ($note_apps as $note_app) {
+           $appId = intval($note_app['app_id']);
+           if ($appId) {
+             $note_service->generateMissingNotes($appId, 5);
+           }
+         }
          //Now we have to send email once to all Addmin users and Agents if they exist (Instead to send email many times for each trigger)
          //1. Keep previous process same just comment previous email and push forwareder
          //2. Define a gloabl array that will keep all email, push and their respective user_id and type (admin or agent) along with content
