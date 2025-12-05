@@ -11,9 +11,10 @@ class Migareference_Model_Db_Table_OpenaiConfig extends Core_Model_Db_Table {
         $config['is_api_enabled'] = 2;
         $config['matching_preffered_lan'] = 'Italian';
         $config['openai_token'] = 400;
+        $config['relationship_note_prompt'] = 'You are creating a concise Relationship Note (max 80 words) for a referrer. Use only the provided details unless the online identity is an extremely certain match. If you are not confident the online person matches, skip external research and rely on the provided data. Summarize key relationship cues, tone, and next-steps to help strengthen rapport. Provide your response as JSON: {"note": "<text>", "used_external_research": <true|false>}  Referrer: @@referrer_name@@ @@surname@@  Email: @@email@@  Phone: @@phone@@  Profession: @@job@@  Sector: @@sector@@';
         $config['user_prompt'] = 'Create a call script on a relational basis with the aim of immediately creating empathy with the referrer, with the final aim of remembering to refer potential customers to us. For this purpose, I give you some information about the Referrer we are calling, which was previously collected from the caller:
             Name: @@referrer_name@@
-            Job: @@job@@            
+            Job: @@job@@
             Sector: @@sector@@
             Relational Notes: @@relational_notes@@
             Reciprocity Notes: @@reciprocity_notes@@
