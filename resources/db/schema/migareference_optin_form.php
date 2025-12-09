@@ -15,7 +15,7 @@ $schemas['migareference_optin_form'] = [
      ],
      'button_width' => [
      'type' => 'int(11) unsigned',
-     'default' => '0'
+     'default' => '100'
     ],
      'button_label' => [
      'type' => 'varchar(100)',
@@ -27,14 +27,14 @@ $schemas['migareference_optin_form'] = [
     'button_text_color' => [
       'type' => 'varchar(20)',
       'is_null' => false,
-      'default'=>'#ffffffff',
+      'default'=>'#ffffff',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci'
     ],
     'button_background_color' => [
       'type' => 'varchar(20)',
       'is_null' => false,
-      'default'=>'#000000ff',
+      'default'=>'#000000',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci'
     ],
