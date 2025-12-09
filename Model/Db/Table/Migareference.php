@@ -2825,7 +2825,7 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
         $this->_db->update("migarefrence_app_content_two", $default_content,['app_id = ?' => $app_id]);        
 
       }
-      public function save_app_content($app_id=0)
+     public function save_app_content($app_id=0)
       {
           // Default icons and lable array
           $default_icon[0]['icon']='how_it_works.png';
@@ -2852,31 +2852,31 @@ class Migareference_Model_Db_Table_Migareference extends Core_Model_Db_Table
           $default_content['top_home_header_bg']="#e34242";
           $default_content['top_home_header_text']="#ffffff";
 
-          $default_content['enroll_url_box_label']="RECLUTA SEGNALATORE";
-          $default_content['enroll_url_box_bg_color']="#f6edd4";
-          $default_content['qlf_box_text_color']="#000000";
-          $default_content['enroll_url_cover_file']="enroll.png";
+          // $default_content['enroll_url_box_label']="RECLUTA SEGNALATORE";
+          // $default_content['enroll_url_box_bg_color']="#f6edd4";
+          // $default_content['qlf_box_text_color']="#000000";
+          // $default_content['enroll_url_cover_file']="enroll.png";
           //Qualifcation Box and Levals
-          $default_content['qlf_box_label']="SEZIONE A TE RISERVATA";
-          $default_content['qlf_box_bg_color']="#f6edd4";
-          $default_content['enroll_url_box_text_color']="#000000";
-          $default_content['qlf_cover_file']="qualification.png";
+          // $default_content['qlf_box_label']="SEZIONE A TE RISERVATA";
+          // $default_content['qlf_box_bg_color']="#f6edd4";
+          // $default_content['enroll_url_box_text_color']="#000000";
+          // $default_content['qlf_cover_file']="qualification.png";
 
-          $default_content['qlf_level_one_title']="Cose ti offriamo";
-          $default_content['qlf_level_one_subtitle']="Scopri tutto su Segnalazioni Facili";
-          $default_content['qlf_level_one_cover']="level_1_cover.png";
+          // $default_content['qlf_level_one_title']="Cose ti offriamo";
+          // $default_content['qlf_level_one_subtitle']="Scopri tutto su Segnalazioni Facili";
+          // $default_content['qlf_level_one_cover']="level_1_cover.png";
 
-          $default_content['qlf_level_one_btn_one_title']="Segnala";
-          $default_content['qlf_level_one_btn_one_subtitle']="Per qualsiasi tipo di azienda";
-          $default_content['qlf_level_one_btn_one_cover']="level_1_btn_one_cover.png";
+          // $default_content['qlf_level_one_btn_one_title']="Segnala";
+          // $default_content['qlf_level_one_btn_one_subtitle']="Per qualsiasi tipo di azienda";
+          // $default_content['qlf_level_one_btn_one_cover']="level_1_btn_one_cover.png";
 
-          $default_content['qlf_level_one_btn_two_title']="Rate Segnalazione";
-          $default_content['qlf_level_one_btn_two_subtitle']="Per qualsiasi tipo di azienda";
-          $default_content['qlf_level_one_btn_two_cover']="level_1_btn_two_cover.png";
+          // $default_content['qlf_level_one_btn_two_title']="Rate Segnalazione";
+          // $default_content['qlf_level_one_btn_two_subtitle']="Per qualsiasi tipo di azienda";
+          // $default_content['qlf_level_one_btn_two_cover']="level_1_btn_two_cover.png";
 
-          $default_content['qlf_level_two_title']="Segnala e Vinci";
-          $default_content['qlf_level_two_subtitle']="Per qualsiasi tipo di azienda";
-          $default_content['qlf_level_two_cover']="level_2_cover.png";
+          // $default_content['qlf_level_two_title']="Segnala e Vinci";
+          // $default_content['qlf_level_two_subtitle']="Per qualsiasi tipo di azienda";
+          // $default_content['qlf_level_two_cover']="level_2_cover.png";
 
           $default_content['how_it_works_label']="COME FUNZIONA?";
           $default_content['how_it_works_bg_color']="#f6edd4";
@@ -6929,6 +6929,7 @@ public function findAgentByEmail($app_id = 0, $email = '')
             "payable_limit" => 5000,
             "read_only" =>2,
             "is_unique_mobile" => 1,
+            "agent_can_see"=>1,
             "grace_days" => 90,
             "notification_type" =>1,
             "privacy" =>"<p>&ldquo;L&rsquo;Utente Segnalatore dichiara di essere stato autorizzato dal Soggetto Segnalato a trasmettere i Dati Personali di quest&rsquo;ultimo a il Titolare e manleva il Titolare da qualsiasi pretesa se del caso avanzata dal Soggetto Segnalato nei confronti del Titolare a titolo di danno. In conformit&agrave; al d. lgs. 30 giugno 2004, 196 e del Regolamento UE 679/2016 l&rsquo;Utente Segnalatore acconsente al trattamento dei propri e dei Dati Personali del Soggetto Segnalato nei limiti dell&rsquo;Informativa sul trattamento dei Dati Personali (l&rsquo;&rdquo;<strong>Informativa</strong>&rdquo;), nonch&eacute; alla comunicazione degli stessi ai soggetti indicati nell&rsquo;Informativa, che dichiara di aver ricevuto, nonch&eacute; al loro trattamento da parte dei soggetti destinatari della comunicazione.&rdquo;</p>",
@@ -6966,10 +6967,116 @@ public function findAgentByEmail($app_id = 0, $email = '')
             "is_visible_invite_prospectus" => 1,
             "is_visible_submit_report" => 2,
             "referrer_wellcome_email_title" => 'Complimenti a te @@user_name@@ sei un nostro segnalatore!',
-            "referrer_wellcome_email_body" => 'Ciao @@user_name@@,Registrandoti nella nostra APP come Segnalatore sei ora parte del nostro Club di Partners e ti aspettano importanti provvigioni per ogni segnalazione andata a buon fine.I dati di accesso allAPP sono questi:user: @@user_email@@Pass: @@user_firstpassword@@Link APP: @@app_link@@Non esitare a metterti in contatto con noi per qualsiasi dubbio o anche per un semplice aiuto. Sentiamo decine di persone ogni giorno e abbiamo una grande cerchia di influenza.Al tuo successoCustomer Service',
+            "referrer_wellcome_email_body" => '<table>
+	<tbody>
+		<tr>
+			<td>
+			<table border="0" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:4px; padding:25px; width:600px">
+				<tbody>
+					<tr>
+						<td><!-- INTRO -->
+						<p>Ciao @@user_name@@,</p>
+
+						<p>sono <strong>@@rd_name@@</strong>, Referral Director di <strong>@@app_name@@</strong>.<br />
+						&Egrave; con grande piacere che ti do il benvenuto e ti faccio i complimenti per aver scelto di collaborare con noi!</p>
+
+						<p>Hai appena fatto il primo passo per entrare nel nostro esclusivo <strong>Club di Segnalatori di Opportunit&agrave;</strong>, dove potrai:</p>
+
+						<ul>
+							<li>✅ Guadagnare provvigioni per ogni cliente che ci segnali e conclude un affare con noi.</li>
+							<li>✅ Ricevere RECIPROCIT&Agrave;, ti aiuteremo segnalandoti contatti utili per te (potenziali clienti o partners).</li>
+							<li>✅ Trovare nuove opportunit&agrave; e soluzioni semplicemente chiedendo.</li>
+						</ul>
+
+						<p>Il mio obiettivo &egrave; costruire una rete di partner basata sulla fiducia e la reciprocit&agrave;, aiutandoci a vicenda.</p>
+						<!-- SECTION: DA DOVE INIZIARE -->
+
+						<h3><strong>Da dove iniziare?</strong></h3>
+
+						<p>Segui questi due semplici passi:</p>
+
+						<p>Da oggi puoi referenziarci anche solo condividendo il tuo <strong>link di affiliazione</strong>, senza necessit&agrave; di entrare subito nella tua APP per farlo. Quando il tuo contatto compila il modulo in automatico registreremo la referenza a tuo nome, comodo vero?<br />
+						Salvatelo nella tua rubrica: <strong>@@referrer_link@@</strong></p>
+
+						<p>Ora segui questi due semplici passi:</p>
+						<!-- STEP 1 -->
+
+						<p><strong>① Nell&rsquo;APP</strong> vai nella sezione <strong>SCOPRI e conosci</strong>.</p>
+
+						<p>Utilizza il CHATBOT nell&rsquo;app per chiedere informazioni su chi siamo e come poterti referenziare.<br />
+						Fai queste domande: &ldquo;Dimmi tutto sul vostro business&rdquo; oppure &ldquo;Spiegami come potrei referenziarvi al mio amico commercialista, fammi degli esempi&rdquo;.</p>
+						<!-- STEP 2 -->
+
+						<p><strong>② Perch&egrave; non ci conosciamo?</strong></p>
+
+						<p>Prenota la tua chiamata di 20 minuti massimo con me e iniziamo a fare squadra, clicca QUI: <strong>@@rd_calendar_url@@</strong></p>
+
+						<p>Per qualsiasi dubbio o problema, puoi semplicemente rispondere a questa email.</p>
+						<!-- POTENZIALE CLIENTE -->
+
+						<p>Vuoi iniziare subito a segnalarci un potenziale cliente?<br />
+						Scrivimi qui il <strong>nome</strong>, <strong>cognome</strong> e il <strong>numero di telefono</strong> della persona che vuoi presentarci via Whatsapp QUI: <strong>@@rd_phone@@</strong> oppure usa direttamente l&rsquo;App.<br />
+						Ti terremo aggiornato passo passo sull&rsquo;andamento della segnalazione.</p>
+						<!-- SIGNATURE -->
+
+						<p>A presto,</p>
+
+						<p><strong>@@rd_name@@</strong><br />
+						<a href="mailto:@@rd_email@@" style="color:#0073aa; text-decoration:none;">@@rd_email@@</a><br />
+						Tel: @@rd_phone@@<br />
+						Referral Director<br />
+						<strong>@@app_name@@</strong></p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+',
             "invite_message" => "Ciao sono @@referrer_name@@, ecco il link dove puoi richiedere il contatto @@landing_lin@@",
             "confirm_report_privacy_label" => "Please read and accept the accept the privacy statement.",
             "authorized_call_back_label" => "I authorized be call back for commercial purpose.",
+            "referrer_optin_wellcome_email_title"=>"Complimenti a te @@user_name@@, sei ora parte del nostro CLUB
+Business esclusivo!",
+            "referrer_optin_wellcome_email_body"=>"Ciao @@user_name@@,
+sono @@rd_name@@, Referral Director di @@app_name@@.
+È con grande piacere che ti do il benvenuto e ti faccio i complimenti per aver scelto
+di collaborare con noi!
+Hai appena fatto il primo passo per entrare nel nostro esclusivo Club di Segnalatori
+di Opportunità, dove potrai:
+✅ Guadagnare provvigioni fino a ##INDICARE LE PROVVGIONI## € per ogni
+cliente che ci segnali e conclude un affare con noi.
+✅ Ricevere RECIPROCITA’, ti aiuteremo segnalandoti contatti utili per te
+(potenziali clienti o partners)
+✅ Trovare nuove opportunità e soluzioni semplicemente chiedendo
+Il mio obiettivo è costruire una rete di partner basata sulla fiducia e la reciprocità,
+aiutandoci a vicenda.
+Da dove iniziare?
+Da oggi puoi referenziarci anche solo condividendo il tuo link di affiliazione senza
+necessità di entrare subito nella tua APP per farlo. Quando il tuo contatto compila il
+modulo in automatico registreremo la referenza a tuo nome, comodo vero? Salvatelo
+nella tua rubrica: @@referrer_link@@
+Ora segui questi due semplici passi:
+1️⃣Scarica subito l’App “@@app_name@@”, vai nella sezione SCOPRI e chiedi
+informazioni al nostro ChatBot.
+👉 http://onelink.to/xxxx
+User: @@user_email@@
+Password temporanea: @@user_firstpassword@@
+2️⃣Perchè non ci conosciamo? Prenota la tua chiamata di 20 minuti massimo con me
+e inziamo a fare squadra, clicca QUI: @@rd_calendar_url@@
+Per qualsiasi dubbio o problema, puoi semplicemente rispondere a questa email.
+Vuoi iniziare subito a segnalarci un potenziale cliente?
+Scrivimi qui il nome, cognome e il numero di telefono della persona che vuoi
+presentarci via Whatsapp QUI:@@rd_phone@@ oppure usa direttamente l’App.
+Ti terremo aggiornato passo passo sull’andamento della segnalazione.
+A presto,
+@@rd_name@@,
+@@rd_email@@,
+@@rd_phone@@
+Referral Director
+@@app_name@@",
             "owner_hot_label" =>"How hot is the contact",
             "landing_pg_header_txt" => "Add Report",
             "created_at" =>date('Y-m-d H:i:s')

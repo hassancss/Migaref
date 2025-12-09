@@ -47,6 +47,10 @@ $schemas['migarefrence_report_reminder_auto'] = [
       'type' => 'int(11) unsigned',
       'default' => '0'
     ],    
+    'auto_rem_rating' => [
+      'type' => 'int(11) unsigned',
+      'default' => '1'
+    ],
     'auto_rem_engagement' => [
       'type' => 'int(11) unsigned',
       'default' => '1'

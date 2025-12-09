@@ -154,7 +154,7 @@ $schemas['migareference_pre_report_settings'] = [
      ],
     'agent_can_see' => [
       'type' => 'int(11) unsigned',
-      'default' => '2'
+      'default' => '1'
      ],
     'agent_can_manage' => [
       'type' => 'int(11) unsigned',

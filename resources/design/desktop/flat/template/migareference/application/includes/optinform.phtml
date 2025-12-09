@@ -14,15 +14,13 @@
     $agents = $migareference->get_customer_agents($app_id);
     $all_jobs = $migareference->getJobs($app_id);
     $all_professions           = $migareference->getProfessions($app_id);
-    if (count($optin_settings)) {
+    // if (count($optin_settings)) {
         $button_width = (!empty($optin_settings[0]['button_width'])) ? $optin_settings[0]['button_width']."%" : "100%" ; 
-        $button_label = (!empty($optin_settings[0]['button_label'])) ? $optin_settings[0]['button_label'] : __("INVIA IL MODULO") ; 
+        $button_label = (!empty($optin_settings[0]['button_label'])) ? $optin_settings[0]['button_label'] : __("SI! Voglio candidarmi") ; 
         $button_background_color = (!empty($optin_settings[0]['button_background_color'])) ? $optin_settings[0]['button_background_color'] : "#4CAF50" ; 
-        $button_text_color = (!empty($optin_settings[0]['button_text_color'])) ? $optin_settings[0]['button_text_color'] : "white" ; 
-        // $on_submit_button_label = (!empty($optin_settings[0]['on_submit_button_label'])) ? $optin_settings[0]['on_submit_button_label'] : $button_label ; 
-        // $on_submit_button_background_color = (!empty($optin_settings[0]['on_submit_button_background_color'])) ? $optin_settings[0]['on_submit_button_background_color'] : $button_background_color ; 
-        // $on_submit_button_text_color = (!empty($optin_settings[0]['on_submit_button_text_color'])) ? $optin_settings[0]['on_submit_button_text_color'] : $button_text_color ; 
-    }
+        $button_text_color = (!empty($optin_settings[0]['button_text_color'])) ? $optin_settings[0]['button_text_color'] : "#ffffffff" ;         
+        $confirmation_message = (!empty($optin_settings[0]['confirmation_message'])) ? $optin_settings[0]['confirmation_message'] : "Complimenti, Candidatura Ricevuta!" ;         
+    // }
     $deafult_privacy_link = $base_url."/application/privacypolicy/index/id/".$key;
     $agent_province_list=[];    
     $agentProvinces=$migareference->getGeoCountrieProvinces($app_id,0);
@@ -153,7 +151,7 @@
                 </div>
                 <div class="col-sm-6">
                     <input type="text" id="confirmation_message" name="confirmation_message"
-                        class="confirmation_message input-flat" value="<?php echo $retVal = (count($optin_settings) && !empty($optin_settings[0]['confirmation_message'])) ? $optin_settings[0]['confirmation_message'] : "" ; ?>">
+                        class="confirmation_message input-flat" value="<?php echo $retVal = (count($optin_settings) && !empty($optin_settings[0]['confirmation_message'])) ? $optin_settings[0]['confirmation_message'] : $confirmation_message ; ?>">
                 </div>
             </div>
             <div class="form-group">
@@ -907,7 +905,7 @@
                                             </div> 
                                             <div class="form-group">
                                                 <div class="col-sm-4">
-                                                    <label for="read_only"><?php echo __('Enable Welcome Email'); ?>
+                                                    <label for="read_only"><?php echo __('Enable Welcome PUSH'); ?>
                                                         *</label>
                                                 </div>
                                                 <div class="col-sm-8">

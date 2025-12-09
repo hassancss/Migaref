@@ -16,18 +16,24 @@ $schemas['migarefrence_app_content_two'] = [
   'report_type_pop_title' => [
     'type' => 'varchar(90)',
     'is_null' => true,
+    'default'=>'Scegli il tuo Prospect',
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci'
   ],
   'report_type_pop_text' => [
     'type' => 'longtext',
     'is_null' => true,
+    'default'=>'La nostra azienda cerca opportunità su due fronti. Cerchiamo
+potenziali CLIENTI in target per i nostri prodotti o servizi, oppure cerchiamo
+COLLABORATORI (agenti, partners). Seleziona il tipo di persona che ci vuoi
+presentare',
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci'
   ],
   'report_type_pop_btn_one_text' => [
     'type' => 'varchar(25)',
     'is_null' => true,
+    'default'=>'POTENZIALE CLIENT',
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci'
   ],
@@ -52,6 +58,7 @@ $schemas['migarefrence_app_content_two'] = [
   'report_type_pop_btn_two_text' => [
     'type' => 'varchar(25)',
     'is_null' => true,
+    'default'=>'POTENZIALE COLLABORATORE',
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci'
   ],

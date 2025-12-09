@@ -20,12 +20,15 @@ $schemas['migarefrence_welcome_notification'] = [
     'welcome_push_title' => [
       'type' => 'varchar(250)',
       'is_null' => true,
+      'default'=>'Complimenti a te, sei ora parte del nostro CLUB Business esclusivo!',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci'
     ],
     'welcome_push_text' => [
       'type' => 'text',
       'is_null' => true,
+      'default'=>'Hai appena fatto il primo passo per entrare nel nostro esclusivo Club di Segnalatori
+di Opportunità.',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci'
     ],

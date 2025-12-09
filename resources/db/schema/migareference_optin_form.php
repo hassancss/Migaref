@@ -20,18 +20,21 @@ $schemas['migareference_optin_form'] = [
      'button_label' => [
      'type' => 'varchar(100)',
       'is_null' => false,
+      'default'=>'SI! Voglio candidarmi',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci'
     ],
     'button_text_color' => [
       'type' => 'varchar(20)',
       'is_null' => false,
+      'default'=>'#ffffffff',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci'
     ],
     'button_background_color' => [
       'type' => 'varchar(20)',
       'is_null' => false,
+      'default'=>'#000000ff',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci'
     ],
@@ -62,6 +65,7 @@ $schemas['migareference_optin_form'] = [
     'confirmation_message' => [
       'type' => 'varchar(150)',
       'is_null' => true,
+      'default'=>'Complimenti, Candidatura Ricevuta!',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci'
     ],
