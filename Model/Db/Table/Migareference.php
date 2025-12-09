@@ -6930,6 +6930,7 @@ public function findAgentByEmail($app_id = 0, $email = '')
             "read_only" =>2,
             "is_unique_mobile" => 1,
             "agent_can_see"=>1,
+            "consent_collection" => 1,
             "grace_days" => 90,
             "notification_type" =>1,
             "privacy" =>"<p>&ldquo;L&rsquo;Utente Segnalatore dichiara di essere stato autorizzato dal Soggetto Segnalato a trasmettere i Dati Personali di quest&rsquo;ultimo a il Titolare e manleva il Titolare da qualsiasi pretesa se del caso avanzata dal Soggetto Segnalato nei confronti del Titolare a titolo di danno. In conformit&agrave; al d. lgs. 30 giugno 2004, 196 e del Regolamento UE 679/2016 l&rsquo;Utente Segnalatore acconsente al trattamento dei propri e dei Dati Personali del Soggetto Segnalato nei limiti dell&rsquo;Informativa sul trattamento dei Dati Personali (l&rsquo;&rdquo;<strong>Informativa</strong>&rdquo;), nonch&eacute; alla comunicazione degli stessi ai soggetti indicati nell&rsquo;Informativa, che dichiara di aver ricevuto, nonch&eacute; al loro trattamento da parte dei soggetti destinatari della comunicazione.&rdquo;</p>",
