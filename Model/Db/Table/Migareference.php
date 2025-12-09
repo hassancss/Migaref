@@ -7039,45 +7039,103 @@ public function findAgentByEmail($app_id = 0, $email = '')
             "invite_message" => "Ciao sono @@referrer_name@@, ecco il link dove puoi richiedere il contatto @@landing_lin@@",
             "confirm_report_privacy_label" => "Please read and accept the accept the privacy statement.",
             "authorized_call_back_label" => "I authorized be call back for commercial purpose.",
-            "referrer_optin_wellcome_email_title"=>"Complimenti a te @@user_name@@, sei ora parte del nostro CLUB
-Business esclusivo!",
-            "referrer_optin_wellcome_email_body"=>"Ciao @@user_name@@,
-sono @@rd_name@@, Referral Director di @@app_name@@.
-È con grande piacere che ti do il benvenuto e ti faccio i complimenti per aver scelto
-di collaborare con noi!
-Hai appena fatto il primo passo per entrare nel nostro esclusivo Club di Segnalatori
-di Opportunità, dove potrai:
-✅ Guadagnare provvigioni fino a ##INDICARE LE PROVVGIONI## € per ogni
-cliente che ci segnali e conclude un affare con noi.
-✅ Ricevere RECIPROCITA’, ti aiuteremo segnalandoti contatti utili per te
-(potenziali clienti o partners)
-✅ Trovare nuove opportunità e soluzioni semplicemente chiedendo
-Il mio obiettivo è costruire una rete di partner basata sulla fiducia e la reciprocità,
-aiutandoci a vicenda.
-Da dove iniziare?
-Da oggi puoi referenziarci anche solo condividendo il tuo link di affiliazione senza
-necessità di entrare subito nella tua APP per farlo. Quando il tuo contatto compila il
-modulo in automatico registreremo la referenza a tuo nome, comodo vero? Salvatelo
-nella tua rubrica: @@referrer_link@@
-Ora segui questi due semplici passi:
-1️⃣Scarica subito l’App “@@app_name@@”, vai nella sezione SCOPRI e chiedi
-informazioni al nostro ChatBot.
-👉 http://onelink.to/xxxx
-User: @@user_email@@
-Password temporanea: @@user_firstpassword@@
-2️⃣Perchè non ci conosciamo? Prenota la tua chiamata di 20 minuti massimo con me
-e inziamo a fare squadra, clicca QUI: @@rd_calendar_url@@
-Per qualsiasi dubbio o problema, puoi semplicemente rispondere a questa email.
-Vuoi iniziare subito a segnalarci un potenziale cliente?
-Scrivimi qui il nome, cognome e il numero di telefono della persona che vuoi
-presentarci via Whatsapp QUI:@@rd_phone@@ oppure usa direttamente l’App.
-Ti terremo aggiornato passo passo sull’andamento della segnalazione.
-A presto,
-@@rd_name@@,
-@@rd_email@@,
-@@rd_phone@@
-Referral Director
-@@app_name@@",
+            "referrer_optin_wellcome_email_title"=>'<body style="margin:0; padding:0; background-color:#f5f5f5;">
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0" style="font-family:Arial, Helvetica, sans-serif; color:#333;">
+  <tr>
+    <td align="center" style="padding:20px;">
+    
+      <table width="600" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff; padding:25px; border-radius:6px;">
+        <tr>
+          <td style="font-size:14px; line-height:1.6;">
+
+            <!-- GREETING -->
+            <p>Ciao <strong>@@user_name@@</strong>,</p>
+
+            <p>
+              sono <strong>@@rd_name@@</strong>, Referral Director di <strong>@@app_name@@</strong>.<br>
+              È con grande piacere che ti do il benvenuto e ti faccio i complimenti per aver scelto di collaborare con noi!
+            </p>
+
+            <!-- CLUB INTRO -->
+            <p>
+              Hai appena fatto il primo passo per entrare nel nostro esclusivo 
+              <strong>Club di Segnalatori di Opportunità</strong>, dove potrai:
+            </p>
+
+            <ul style="list-style:none; padding-left:0; margin-top:5px; margin-bottom:20px;">
+              <li style="margin-bottom:8px;">✅ Guadagnare provvigioni fino a <strong>##INDICARE LE PROVVIGIONI## €</strong> per ogni cliente che ci segnali e conclude un affare con noi.</li>
+              <li style="margin-bottom:8px;">✅ Ricevere RECIPROCITÀ, ti aiuteremo segnalandoti contatti utili per te (potenziali clienti o partners).</li>
+              <li style="margin-bottom:8px;">✅ Trovare nuove opportunità e soluzioni semplicemente chiedendo.</li>
+            </ul>
+
+            <p>
+              Il mio obiettivo è costruire una rete di partner basata sulla fiducia e la reciprocità,
+              aiutandoci a vicenda.
+            </p>
+
+            <!-- SECTION TITLE -->
+            <h3 style="font-size:16px; margin-top:30px; margin-bottom:8px;"><strong>Da dove iniziare?</strong></h3>
+
+            <!-- AFFILIATE LINK -->
+            <p>
+              Da oggi puoi referenziarci anche solo condividendo il tuo link di affiliazione senza necessità di entrare subito nella tua APP per farlo.
+              Quando il tuo contatto compila il modulo in automatico registreremo la referenza a tuo nome, comodo vero?<br><br>
+              Salvatelo nella tua rubrica: <strong>@@referrer_link@@</strong>
+            </p>
+
+            <p>Ora segui questi due semplici passi:</p>
+
+            <!-- STEP 1 -->
+            <p style="font-size:15px; margin-bottom:8px;"><strong>① Scarica subito l’App “@@app_name@@”</strong></p>
+            <p>
+              Vai nella sezione SCOPRI e chiedi informazioni al nostro ChatBot.<br>
+              👉 <a href="http://onelink.to/xxxx" style="color:#0066cc;">http://onelink.to/xxxx</a><br><br>
+
+              <strong>User:</strong> @@user_email@@<br>
+              <strong>Password temporanea:</strong> @@user_firstpassword@@
+            </p>
+
+            <!-- STEP 2 -->
+            <p style="font-size:15px; margin-top:20px; margin-bottom:8px;"><strong>② Perchè non ci conosciamo?</strong></p>
+            <p>
+              Prenota la tua chiamata di 20 minuti massimo con me e iniziamo a fare squadra,<br>
+              clicca QUI: <strong>@@rd_calendar_url@@</strong>
+            </p>
+
+            <!-- SIGNATURE SECTION -->
+            <hr style="border:none; border-top:1px solid #dddddd; margin:25px 0;">
+
+            <p style="margin-top:20px;">Per qualsiasi dubbio o problema, puoi semplicemente rispondere a questa email.</p>
+
+            <p>
+              Vuoi iniziare subito a segnalarci un potenziale cliente?<br>
+              Scrivimi qui il <strong>nome</strong>, <strong>cognome</strong> e il 
+              <strong>numero di telefono</strong> della persona che vuoi presentarci via Whatsapp:
+              <strong>@@rd_phone@@</strong><br>
+              Oppure usa direttamente l’App.<br>
+              Ti terremo aggiornato passo passo sull’andamento della segnalazione.
+            </p>
+
+            <p style="margin-top:25px;">A presto,</p>
+
+            <p style="line-height:1.4;">
+              <strong>@@rd_name@@</strong><br>
+              @@rd_email@@<br>
+              Tel: @@rd_phone@@<br>
+              Referral Director<br>
+              <strong>@@app_name@@</strong>
+            </p>
+
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>',
             "owner_hot_label" =>"How hot is the contact",
             "landing_pg_header_txt" => "Add Report",
             "created_at" =>date('Y-m-d H:i:s')
