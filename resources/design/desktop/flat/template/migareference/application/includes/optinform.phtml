@@ -15,11 +15,11 @@
     $all_jobs = $migareference->getJobs($app_id);
     $all_professions           = $migareference->getProfessions($app_id);
     // if (count($optin_settings)) {
-        $button_width = (!empty($optin_settings[0]['button_width'])) ? $optin_settings[0]['button_width']."%" : "100%" ; 
-        $button_label = (!empty($optin_settings[0]['button_label'])) ? $optin_settings[0]['button_label'] : __("SI! Voglio candidarmi") ; 
-        $button_background_color = (!empty($optin_settings[0]['button_background_color'])) ? $optin_settings[0]['button_background_color'] : "#4CAF50" ; 
-        $button_text_color = (!empty($optin_settings[0]['button_text_color'])) ? $optin_settings[0]['button_text_color'] : "#ffffffff" ;         
-        $confirmation_message = (!empty($optin_settings[0]['confirmation_message'])) ? $optin_settings[0]['confirmation_message'] : "Complimenti, Candidatura Ricevuta!" ;         
+        $button_width = (!empty($optin_settings[0]['button_width'])) ? $optin_settings[0]['button_width']."%" : "100%" ;
+        $button_label = (!empty($optin_settings[0]['button_label'])) ? $optin_settings[0]['button_label'] : __("SI! Voglio candidarmi") ;
+        $button_background_color = (!empty($optin_settings[0]['button_background_color'])) ? $optin_settings[0]['button_background_color'] : "#000000" ;
+        $button_text_color = (!empty($optin_settings[0]['button_text_color'])) ? $optin_settings[0]['button_text_color'] : "#ffffff" ;
+        $confirmation_message = (!empty($optin_settings[0]['confirmation_message'])) ? $optin_settings[0]['confirmation_message'] : "Complimenti, Candidatura Ricevuta!" ;
     // }
     $deafult_privacy_link = $base_url."/application/privacypolicy/index/id/".$key;
     $agent_province_list=[];    
