@@ -143,4 +143,29 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
             (int) $referrer_id,
         ]);
     }
+
+    /**
+     * Return eligible referrer IDs for affinity matching.
+     *
+     * @param int $appId
+     * @return array
+     */
+    public function getEligibleReferrerIds($appId)
+    {
+        $query = "SELECT DISTINCT inv.user_id AS referrer_id
+          FROM `migareference_invoice_settings` AS inv
+          JOIN `migarefrence_phonebook` AS ph
+            ON ph.invoice_id = inv.migareference_invoice_settings_id
+            AND ph.app_id = inv.app_id
+          JOIN `migareference_openai_config` AS cfg
+            ON cfg.app_id = ph.app_id
+            AND cfg.is_matching_api_enabled = 1
+          WHERE ph.app_id = ?
+            AND ph.type = 1
+            AND ph.rating > 0
+            AND ph.job_id > 0
+            AND (ph.is_call_made IS NULL OR ph.is_call_made = '')
+          ORDER BY inv.user_id ASC";
+        return $this->_db->fetchAll($query, [(int) $appId]);
+    }
 }
