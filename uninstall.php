@@ -29,7 +29,9 @@ $tables = [
   'migareference_user_earnings',
   'migareference_status_comment',
   'migareference_app_agents',
-  'migareference_translations'
+  'migareference_translations',
+  'migareference_affinity_runs',
+  'migareference_affinity_edges',
 ];
 Siberian_Feature::dropTables($tables);
 # Clean-up module
