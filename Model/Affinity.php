@@ -19,6 +19,18 @@ class Migareference_Model_Affinity extends Core_Model_Default
     }
 
     /**
+     * Create a new affinity run row for an app (alias for createAffinityRun).
+     *
+     * @param int $app_id
+     * @param array $meta
+     * @return int
+     */
+    public function createRun($app_id, $meta=[])
+    {
+        return $this->createAffinityRun($app_id, $meta);
+    }
+
+    /**
      * Fetch a single affinity run row by id.
      *
      * @param int $run_id
@@ -69,5 +81,23 @@ class Migareference_Model_Affinity extends Core_Model_Default
     public function listEdgesForReferrer($app_id,$run_id,$referrer_id,$limit=10)
     {
         return $this->getTable()->listEdgesForReferrer($app_id,$run_id,$referrer_id,$limit);
+    }
+
+    /**
+     * Fetch eligible referrer IDs for affinity matching.
+     *
+     * @param int $appId
+     * @return array
+     */
+    public function getEligibleReferrerIds(int $appId): array
+    {
+        $rows = $this->getTable()->getEligibleReferrerIds($appId);
+        $ids = [];
+        foreach ($rows as $row) {
+            if (isset($row['referrer_id'])) {
+                $ids[] = (int) $row['referrer_id'];
+            }
+        }
+        return $ids;
     }
 }
