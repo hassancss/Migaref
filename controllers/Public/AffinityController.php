@@ -452,9 +452,9 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
 
         $provider = 'openai';
         $api_key = $openai_config['openai_apikey'];
-        $api_url = 'https://api.openai.com/v1/completions';
+        $api_url = 'https://api.openai.com/v1/chat/completions';
         if ($openai_config['gpt_api'] == 'perplexity') {
-            $api_url = 'https://api.perplexity.ai/completions';
+            $api_url = 'https://api.perplexity.ai/chat/completions';
             $api_key = $openai_config['perplexity_apikey'];
             $provider = 'perplexity';
         }
@@ -463,9 +463,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         }
 
         $settings = [
-            'model' => isset($overrides['model']) && trim($overrides['model']) !== ''
-                ? trim($overrides['model'])
-                : ($openai_config['matching_ai_model'] ?: $openai_config['call_script_ai_model']),
+            'model' => 'gpt-4o-mini',
             'temperature' => isset($overrides['temperature'])
                 ? (float) $overrides['temperature']
                 : (float) $openai_config['openai_temperature'],
@@ -489,6 +487,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             $errors[] = [
                 'type' => 'scoring',
                 'raw_response' => $raw_response,
+                'model' => $settings,
                 'primary_id' => (int) $primary_id,
                 'reason' => $last_error,
                 'last_error' => $last_error,
@@ -503,6 +502,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             $errors[] = [
                 'type' => 'scoring',
                 'raw_response' => $raw_response,
+                'model' => $settings,
                 'primary_id' => (int) $primary_id,
                 'reason' => 'No scores returned.',
                 'last_error' => $last_error,
