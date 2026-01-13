@@ -6,6 +6,7 @@ class Migareference_Model_AffinityScoringService
     private $lastError = '';
     private $lastPrompt = '';
     private $requestMade = false;
+    private $lastHttpStatus = null;
 
     /**
      * Score a primary profile against a batch of compare profiles.
@@ -21,6 +22,7 @@ class Migareference_Model_AffinityScoringService
         $this->lastError = '';
         $this->lastPrompt = '';
         $this->requestMade = false;
+        $this->lastHttpStatus = null;
 
         if (!count($compareProfiles)) {
             return [];
@@ -92,6 +94,7 @@ class Migareference_Model_AffinityScoringService
 
         $response = curl_exec($curl);
         $curlError = curl_error($curl);
+        $this->lastHttpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
         if ($curlError) {
@@ -155,6 +158,11 @@ class Migareference_Model_AffinityScoringService
     public function wasRequestMade()
     {
         return $this->requestMade;
+    }
+
+    public function getLastHttpStatus()
+    {
+        return $this->lastHttpStatus;
     }
 
     private function buildPrompt($payloadJson, ?string $template = null)
