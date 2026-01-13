@@ -245,6 +245,128 @@
                 </div>
             </form>
         </div>     
+    </div>     
+    <!-- Copied from Call Script configuration block and adapted for affinity scoring settings. -->
+    <div id="affinity-ai-configuration" class="feature-block-list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('AFFINITY SCORING CONFIGURATION'); ?>
+        </h3>
+        <div  class="content-feature first-row-feature container-fluid">
+            <form id="affinity-ai-configration" action="<?php echo $this->getUrl('migareference/openai/saveaffinityaiconfig') ?>" method="post">
+                <input type="hidden" name="app_id" value="<?php echo $app_id; ?>" />
+                <input type="hidden" name="migareference_openai_config_id" value="<?=(count($openai_config) ) ? $openai_config[0]['migareference_openai_config_id'] : '' ; ?>" />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for=""><?php echo __('Enable Affinity Engine'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="affinity_enabled" class="input-flat color-blue" name="affinity_enabled">
+                                <option value="1"
+                                    <?=(count($openai_config) && $openai_config[0]['affinity_enabled']==1) ? "selected" : "" ; ?>>
+                                    <?php echo __('Yes') ?></option>
+                                <option value="0"
+                                    <?=(!count($openai_config)) ? "selected" : "" ; ?>
+                                    <?=(count($openai_config) && $openai_config[0]['affinity_enabled']==0) ? "selected" : "" ; ?>>
+                                    <?php echo __('No') ?></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for=""><?php echo __('Select Model'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="affinity_model" class="input-flat color-blue" name="affinity_model">
+                                <?php
+                                    foreach ($openai_models as $key => $value) {
+                                        echo "<option value='".$value['id']."' ".(count($openai_config) && $openai_config[0]['affinity_model']==$value['id'] ? "selected" : "" ).">".$value['id']."</option>";
+                                    }
+                                ?>
+                            </select>
+                            <small><?php echo __("Recommended gpt-4o-mini")?></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="affinity_temperature"><?php echo __('Temperature'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="float" name="affinity_temperature" id="affinity_temperature"
+                                value="<?=(count($openai_config)) ? $openai_config[0]['affinity_temperature'] : "1" ; ?>"
+                                class="input-flat" placeholder="" min='0' max='2' />
+                            <small><?php echo __("Temperature value could be between 0 to 2. Recommended value is 1"); ?></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="affinity_max_tokens"><?php echo __('Token Limit'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="float" name="affinity_max_tokens" id="affinity_max_tokens"
+                                value="<?=(count($openai_config)) ? $openai_config[0]['affinity_max_tokens'] : "600" ; ?>"
+                                class="input-flat" placeholder="" min='1' max='4096' />
+                            <small><?php echo __("Token value could be between 1 to 4096. Recommended value is between 300 to 700.")?></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="affinity_user_prompt"><?php echo __('Affinity Prompt'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-8">
+                            <textarea rows="12" cols="50" type="text" id="affinity_user_prompt" class="input-flat" name="affinity_user_prompt" placeholder="<?php echo __('Type Your Prompt') ?>"><?=(count($openai_config)) ? $openai_config[0]['affinity_user_prompt'] : "" ; ?></textarea>
+                            <p><?php echo __('Output must be JSON only in the exact shape: {"scores":[{"compare_id":123,"score":7}]}'); ?></p>
+                            <br>
+                            <button onclick="openAiTestBatch()"
+                            <?=(count($openai_config)) ? '' : 'disabled="true"' ; ?>
+                            style="background-color:#dea435 !important;color:white;" class="button btn" type="button">
+                                <?php echo __('Run Test Batch'); ?>
+                            </button>
+                            <span style="padding-left:10px;"><sub>
+                                <?php echo __('Note: Please save changes before Test Batch'); ?>
+                            </sub></span>
+                        </div>
+                        <div class="col-sm-2 ">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="affinity_system_prompt"><?php echo __('System Prompt'); ?></label>
+                        </div>
+                        <div class="col-sm-8">
+                            <textarea rows="6" cols="50" type="text" id="affinity_system_prompt" class="input-flat" name="affinity_system_prompt" placeholder="<?php echo __('Optional system instructions') ?>"><?=(count($openai_config)) ? $openai_config[0]['affinity_system_prompt'] : "" ; ?></textarea>
+                            <small><?php echo __("Optional; used as the system message when scoring."); ?></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal" id="affinity_test_container" style='display:none;'>
+                    <div class="form-group">
+                        <div class="col-sm-3 ">
+                            <label for="affinity_response"><?php echo __('Response'); ?><sup>*</sup></label>
+                        </div>
+                        <div class="col-sm-8" style="border:2px solid #f1f1f1">
+                            <pre id="affinity_prompt_response" style="white-space:pre-wrap;"></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="save pull-right">
+                    <button class="button btn bt_save btn color-blue" type="submit">
+                        <?php echo __('Save'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     <div id="matching-ai-configuration" class="feature-block-list">
         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -471,6 +593,14 @@
     });
     return false;
   });
+  $('#affinity-ai-configration').submit(function() {
+    reload(this, this.action, true, function(data) {
+        if (data.success) {
+            page.reload();
+        }
+    });
+    return false;
+  });
   $('#matching-ai-configration').submit(function() {
     reload(this, this.action, true, function(data) {
         if (data.success) {
@@ -501,6 +631,33 @@
     }).always(function() {
         console.log("complete");
         $('#test_container').show();  
+        $("#mask").hide();
+    });
+  }
+  // Affinity test batch (copied from call script test flow with a new endpoint).
+  function openAiTestBatch() {
+    $("#mask").show();
+    $.ajax({
+        url: '<?php echo $this->getUrl('migareference/openai/testaffinitybatch'); ?>',
+        type: 'POST',
+        dataType: 'json'
+    }).done(function(data) {
+        if (data.error) {
+            $('#affinity_prompt_response').text(data.message || 'Failed to run test batch.');
+            return;
+        }
+        var payload = {
+            provider: data.provider || null,
+            raw_response: data.raw_response || null,
+            parsed_scores: data.parsed_scores || null,
+            http_status: data.http_status || null,
+            last_error: data.last_error || null
+        };
+        $('#affinity_prompt_response').text(JSON.stringify(payload, null, 2));
+    }).fail(function() {
+        $('#affinity_prompt_response').text('Failed to run test batch.');
+    }).always(function() {
+        $('#affinity_test_container').show();
         $("#mask").hide();
     });
   }

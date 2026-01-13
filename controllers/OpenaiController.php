@@ -92,6 +92,54 @@ class Migareference_OpenaiController extends Application_Controller_Default{
           $this->_sendJson($html);
       }
     }
+    public function saveaffinityaiconfigAction()
+    {
+      if ($data = $this->getRequest()->getPost()) {
+          try {
+                $errors='';
+                // Copied from savecallscriptaiconfigAction and adapted for affinity scoring settings.
+                if ((int) $data['affinity_enabled'] === 1) {
+                    if (empty($data['affinity_model'])) {
+                        $errors .= __('Please select the Affinity Model.')."<br>";
+                    }
+                    if ($data['affinity_temperature'] === '' || $data['affinity_temperature'] === null) {
+                        $errors .= __('Please enter the Affinity Temperature.')."<br>";
+                    } elseif (!is_numeric($data['affinity_temperature']) || $data['affinity_temperature'] < 0 || $data['affinity_temperature'] > 2) {
+                        $errors .= __('Affinity Temperature must be between 0 and 2.')."<br>";
+                    }
+                    if ($data['affinity_max_tokens'] === '' || $data['affinity_max_tokens'] === null) {
+                        $errors .= __('Please enter the Affinity Token Limit.')."<br>";
+                    } elseif (!is_numeric($data['affinity_max_tokens']) || $data['affinity_max_tokens'] < 1 || $data['affinity_max_tokens'] > 4096) {
+                        $errors .= __('Affinity Token Limit must be between 1 and 4096.')."<br>";
+                    }
+                    if (empty($data['affinity_user_prompt'])) {
+                        $errors .= __('Please enter the Affinity Prompt.')."<br>";
+                    }
+                }
+                if (!empty($errors)) {
+                    throw new Exception($errors);
+                } else {
+                    $openai = new Migareference_Model_OpenaiConfig();
+                    $openai->setData($data)->save();
+                }
+              $html = [
+                'success'         => true,
+                'message'         => __('Successfully data saved.'),
+                'message_timeout' => 0,
+                'message_button'  => 0,
+                'message_loader'  => 0
+              ];
+          } catch (Exception $e) {
+              $html = [
+                'error'          => true,
+                'message'        => __($e->getMessage()),
+                'message_button' => 1,
+                'message_loader' => 1
+              ];
+          }
+          $this->_sendJson($html);
+      }
+    }
     public function savematchingaiconfigAction()
     {
       if ($data = $this->getRequest()->getPost()) {
@@ -273,6 +321,94 @@ class Migareference_OpenaiController extends Application_Controller_Default{
           }
           $this->_sendJson($html);    
     }
+    public function testaffinitybatchAction()
+    {
+          try {
+                // Copied from testcallAction and adapted for affinity batch scoring.
+                $app_id        = $this->getApplication()->getId();
+                $openai_config = (new Migareference_Model_OpenaiConfig())->findAll(['app_id'=> $app_id])->toArray();
+                if (!count($openai_config)) {
+                    throw new Exception(__('Missing OpenAI configuration.'));
+                }
+                $openai_config = $openai_config[0];
+
+                $api_key = $openai_config['openai_apikey'];
+                $api_url = 'https://api.openai.com/v1/chat/completions';
+                $provider = 'openai';
+                if ($openai_config['gpt_api'] == 'perplexity') {
+                    $api_url = 'https://api.perplexity.ai/chat/completions';
+                    $api_key = $openai_config['perplexity_apikey'];
+                    $provider = 'perplexity';
+                }
+                if (empty($api_key)) {
+                    throw new Exception(__('Missing OpenAI API key.'));
+                }
+
+                $affinity = new Migareference_Model_Affinity();
+                $eligible_ids = $affinity->getEligibleReferrerIds($app_id);
+                if (count($eligible_ids) < 4) {
+                    throw new Exception(__('Need at least 4 eligible referrers to run a test batch.'));
+                }
+
+                $primary_id = (int) $eligible_ids[0];
+                $compare_ids = array_slice($eligible_ids, 1, 3);
+                $profile_rows = $affinity->getReferrerProfiles($app_id, array_merge([$primary_id], $compare_ids));
+                if (!isset($profile_rows[$primary_id])) {
+                    throw new Exception(__('Primary referrer not found.'));
+                }
+
+                $scoringService = new Migareference_Model_AffinityScoringService();
+                $primaryProfile = $this->buildAffinityProfile($profile_rows[$primary_id]);
+                $compareProfiles = [];
+                foreach ($compare_ids as $compare_id) {
+                    if (!isset($profile_rows[$compare_id])) {
+                        continue;
+                    }
+                    $compareProfiles[$compare_id] = $this->buildAffinityProfile($profile_rows[$compare_id]);
+                }
+                if (!count($compareProfiles)) {
+                    throw new Exception(__('No valid compare profiles found.'));
+                }
+
+                $settings = [
+                    'model' => $openai_config['affinity_model'] ?? 'gpt-4o-mini',
+                    'temperature' => $openai_config['affinity_temperature'] ?? 1,
+                    'max_tokens' => $openai_config['affinity_max_tokens'] ?? 600,
+                    'api_key' => $api_key,
+                    'api_url' => $api_url,
+                    'system_prompt' => $openai_config['affinity_system_prompt'] ?? '',
+                    'prompt_template' => $openai_config['affinity_user_prompt'] ?? '',
+                ];
+
+                $scores = $scoringService->scoreBatch($primaryProfile, $compareProfiles, $settings);
+                $response = [
+                    'scores' => $scores,
+                    'primary_id' => $primary_id,
+                    'compare_ids' => array_values($compare_ids),
+                ];
+
+              $html = [
+                'success'         => true,
+                'message'         => __('Successfully data saved.'),
+                'message_timeout' => 0,
+                'message_button'  => 0,
+                'message_loader'  => 0,
+                'provider'        => $provider,
+                'raw_response'    => $scoringService->getLastRawResponse(),
+                'parsed_scores'   => $response,
+                'http_status'     => $scoringService->getLastHttpStatus(),
+                'last_error'      => $scoringService->getLastError(),
+              ];
+          } catch (Exception $e) {
+              $html = [
+                'error'          => true,
+                'message'        => __($e->getMessage()),
+                'message_button' => 1,
+                'message_loader' => 1,
+              ];
+          }
+          $this->_sendJson($html);
+    }
     public function callscriptlogsAction() {        
             try {       
               $logs_collection =[];
@@ -360,6 +496,35 @@ class Migareference_OpenaiController extends Application_Controller_Default{
             }
             $this->_sendJson($html);
         }
+    }
+
+    // Copied from Public/AffinityController to support affinity test batch formatting.
+    private function buildAffinityProfile(array $row)
+    {
+        $note = $row['note'] ?? '';
+        if ($note === '' && isset($row['phone_note'])) {
+            $note = $row['phone_note'];
+        }
+
+        return [
+            'name' => $this->stringValue($row['name'] ?? ''),
+            'surname' => $this->stringValue($row['surname'] ?? ''),
+            'job' => $this->stringValue($row['job_title'] ?? ''),
+            'profession' => $this->stringValue($row['profession_title'] ?? ''),
+            'province' => $this->stringValue($row['province'] ?? ''),
+            'country' => $this->stringValue($row['address_country_id'] ?? ''),
+            'notes' => $this->stringValue($note),
+            'reciprocity_notes' => $this->stringValue($row['reciprocity_notes'] ?? ''),
+            'rating' => isset($row['rating']) ? (int) $row['rating'] : 0,
+        ];
+    }
+
+    private function stringValue($value)
+    {
+        if ($value === null) {
+            return '';
+        }
+        return trim((string) $value);
     }
 }
 ?>

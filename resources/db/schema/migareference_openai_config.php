@@ -85,6 +85,33 @@ $schemas['migareference_openai_config'] = [
       'type' => 'text',
       'is_null' => false
     ],
+    'affinity_enabled' => [
+      'type' => 'tinyint(1)',
+      'default' => '0',
+      'comment' => '1 for enabled, 0 for disabled'
+    ],
+    'affinity_model' => [
+      'type' => 'varchar(50)',
+      'default' => 'gpt-4o-mini',
+      'is_null' => false
+    ],
+    'affinity_temperature' => [
+      'type' => 'float',
+      'default' => '1'
+    ],
+    'affinity_max_tokens' => [
+      'type' => 'int(11) unsigned',
+      'default' => '600',
+      'comment' => 'Max tokens for affinity scoring'
+    ],
+    'affinity_user_prompt' => [
+      'type' => 'text',
+      'is_null' => false
+    ],
+    'affinity_system_prompt' => [
+      'type' => 'text',
+      'is_null' => true
+    ],
     'created_at' => [
         'type' => 'datetime',
         'default' => 'CURRENT_TIMESTAMP'

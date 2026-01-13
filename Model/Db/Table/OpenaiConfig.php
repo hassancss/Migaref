@@ -21,6 +21,16 @@ class Migareference_Model_Db_Table_OpenaiConfig extends Core_Model_Db_Table {
             Province: @@province@@
             Date of Birth: @@birth_date@@            
             The script must be informal and comprihensive, like conversation between Referrer and Caller, you can talk about informations of the province where referrer live, if we are near the birthday we can referr on that else skip it, and other relationalship argument that you think are useful, interrupt the script without writing further with the phrase Im calling you because this month we are looking for.';        
+        // New defaults for affinity scoring configuration (added separately from call script settings).
+        $config['affinity_enabled'] = 0;
+        $config['affinity_model'] = 'gpt-4o-mini';
+        $config['affinity_temperature'] = 1;
+        $config['affinity_max_tokens'] = 600;
+        $config['affinity_user_prompt'] = 'Score affinity between the primary referrer and each compare referrer. ' .
+            'Use only the provided fields. ' .
+            'Rubric: 1-3 = weak fit, 4-6 = moderate fit, 7-8 = strong fit, 9-10 = exceptional fit. ' .
+            'Return ONLY JSON (NO markdown) in this exact shape: {"scores":[{"compare_id":123,"score":7}]}.';
+        $config['affinity_system_prompt'] = null;
 
         $this->_db->insert("migareference_openai_config", $config); 
     }
