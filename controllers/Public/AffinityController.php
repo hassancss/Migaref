@@ -462,18 +462,21 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             throw new Exception(__("Missing OpenAI API key."));
         }
 
+        // Switched to affinity settings fields (with fallback to legacy call script values).
         $settings = [
-            'model' => 'gpt-4o-mini',
+            'model' => $openai_config['affinity_model'] ?? 'gpt-4o-mini',
             'temperature' => isset($overrides['temperature'])
                 ? (float) $overrides['temperature']
-                : (float) $openai_config['openai_temperature'],
+                : (float) ($openai_config['affinity_temperature'] ?? $openai_config['openai_temperature']),
             'max_tokens' => isset($overrides['max_tokens'])
                 ? (int) $overrides['max_tokens']
-                : (int) $openai_config['openai_token'],
+                : (int) ($openai_config['affinity_max_tokens'] ?? $openai_config['openai_token']),
             'api_key' => $api_key,
             'api_url' => $api_url,
-            'system_prompt' => $openai_config['system_prompt'] ?? '',
-            'prompt_template' => $openai_config['user_prompt'] ?? '',
+            'system_prompt' => $openai_config['affinity_system_prompt']
+                ?? ($openai_config['system_prompt'] ?? ''),
+            'prompt_template' => $openai_config['affinity_user_prompt']
+                ?? ($openai_config['user_prompt'] ?? ''),
         ];
 
         $scores = $scoringService->scoreBatch($primaryProfile, $compareProfiles, $settings);
