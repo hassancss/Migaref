@@ -145,6 +145,59 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
     }
 
     /**
+     * Fetch normalized profile rows for a set of referrer user ids.
+     *
+     * @param int $appId
+     * @param array $referrerIds
+     * @return array
+     */
+    public function getReferrerProfiles($appId, array $referrerIds)
+    {
+        $referrerIds = array_values(array_filter(array_map('intval', $referrerIds)));
+        if (!count($referrerIds)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($referrerIds), '?'));
+        $query = "SELECT inv.user_id AS referrer_id,
+            ph.name,
+            ph.surname,
+            ph.note,
+            ph.reciprocity_notes,
+            ph.rating,
+            jobs.job_title,
+            prof.profession_title,
+            prov.province,
+            inv.address_country_id
+          FROM `migarefrence_phonebook` AS ph
+          JOIN `migareference_invoice_settings` AS inv
+            ON inv.migareference_invoice_settings_id = ph.invoice_id
+            AND inv.app_id = ph.app_id
+          LEFT JOIN `migareference_jobs` AS jobs
+            ON jobs.migareference_jobs_id = ph.job_id
+          LEFT JOIN `migareference_professions` AS prof
+            ON prof.migareference_professions_id = ph.profession_id
+          LEFT JOIN `migareference_geo_provinces` AS prov
+            ON prov.migareference_geo_provinces_id = inv.address_province_id
+          WHERE ph.app_id = ?
+            AND ph.type = 1
+            AND inv.user_id IN ($placeholders)
+          ORDER BY ph.migarefrence_phonebook_id DESC";
+
+        $params = array_merge([(int) $appId], $referrerIds);
+        $rows = $this->_db->fetchAll($query, $params);
+        $profiles = [];
+        foreach ($rows as $row) {
+            $referrerId = (int) $row['referrer_id'];
+            if (!isset($profiles[$referrerId])) {
+                $profiles[$referrerId] = $row;
+            }
+        }
+
+        return $profiles;
+    }
+
+    /**
      * Return eligible referrer IDs for affinity matching.
      *
      * @param int $appId

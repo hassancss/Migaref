@@ -84,6 +84,18 @@ class Migareference_Model_Affinity extends Core_Model_Default
     }
 
     /**
+     * Fetch profile rows for a set of referrer ids.
+     *
+     * @param int $appId
+     * @param array $referrerIds
+     * @return array
+     */
+    public function getReferrerProfiles($appId, array $referrerIds)
+    {
+        return $this->getTable()->getReferrerProfiles($appId, $referrerIds);
+    }
+
+    /**
      * Fetch eligible referrer IDs for affinity matching.
      *
      * @param int $appId
