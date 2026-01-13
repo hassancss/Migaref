@@ -142,6 +142,13 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
     public function cronrunnerAction() {
         $openai_requests_made = 0;
         $errors_count = 0;
+        $errors = [];
+        $last_error = '';
+        $http_status = null;
+        $provider = null;
+        $raw_provider_response_sample = null;
+        $inserted_edges_count = 0;
+        $last_insert_pair = null;
         $lock_token = null;
         $run_id = 0;
 
@@ -243,7 +250,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             }
 
             foreach ($groups as $primary_id => $compare_ids) {
-                $this->processPairGroup(
+                $result = $this->processPairGroup(
                     $app_id,
                     $run_id,
                     (int) $primary_id,
@@ -251,6 +258,27 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                     $openai_requests_made,
                     $errors_count
                 );
+                if (!empty($result['errors'])) {
+                    $errors = array_merge($errors, $result['errors']);
+                }
+                if (isset($result['last_error']) && $result['last_error'] !== '') {
+                    $last_error = $result['last_error'];
+                }
+                if (array_key_exists('http_status', $result) && $result['http_status'] !== null) {
+                    $http_status = $result['http_status'];
+                }
+                if (!empty($result['provider'])) {
+                    $provider = $result['provider'];
+                }
+                if (!empty($result['raw_response_sample'])) {
+                    $raw_provider_response_sample = $result['raw_response_sample'];
+                }
+                if (isset($result['inserted_edges_count'])) {
+                    $inserted_edges_count += (int) $result['inserted_edges_count'];
+                }
+                if (!empty($result['last_insert_pair'])) {
+                    $last_insert_pair = $result['last_insert_pair'];
+                }
             }
 
             $run = $affinity->getAffinityRun($run_id);
@@ -265,14 +293,28 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                 "cursor_j" => $run ? (int) $run['cursor_j'] : 0,
                 "total_pairs_estimate" => $run ? (int) $run['total_pairs_estimate'] : 0,
                 "openai_requests_made" => $openai_requests_made,
+                "inserted_edges_count" => $inserted_edges_count,
+                "last_insert_pair" => $last_insert_pair,
+                "errors" => array_slice($errors, 0, 10),
                 "errors_count" => $errors_count,
+                "last_error" => $last_error,
+                "http_status" => $http_status,
+                "provider" => $provider,
+                "raw_provider_response_sample" => $raw_provider_response_sample,
             ];
         } catch (Exception $e) {
             $payload = [
                 "response" => false,
                 "message" => __($e->getMessage()),
                 "openai_requests_made" => $openai_requests_made,
+                "inserted_edges_count" => $inserted_edges_count,
+                "last_insert_pair" => $last_insert_pair,
+                "errors" => array_slice($errors, 0, 10),
                 "errors_count" => $errors_count ? $errors_count : 1,
+                "last_error" => $last_error,
+                "http_status" => $http_status,
+                "provider" => $provider,
+                "raw_provider_response_sample" => $raw_provider_response_sample,
             ];
         } finally {
             if ($run_id && $lock_token) {
@@ -325,7 +367,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                 throw new Exception(__("Run not found."));
             }
 
-            $scores = $this->processPairGroup(
+            $result = $this->processPairGroup(
                 $app_id,
                 $run_id,
                 $primary_id,
@@ -340,9 +382,16 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                 "message" => __("Affinity batch processed."),
                 "run_id" => (int) $run_id,
                 "primary_id" => (int) $primary_id,
-                "scores" => $scores,
+                "scores" => $result['scores'],
                 "openai_requests_made" => $openai_requests_made,
+                "inserted_edges_count" => $result['inserted_edges_count'],
+                "last_insert_pair" => $result['last_insert_pair'],
+                "errors" => array_slice($result['errors'], 0, 10),
                 "errors_count" => $errors_count,
+                "last_error" => $result['last_error'],
+                "http_status" => $result['http_status'],
+                "provider" => $result['provider'],
+                "raw_provider_response_sample" => $result['raw_response_sample'],
             ];
         } catch (Exception $e) {
             $payload = [
@@ -367,6 +416,9 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         $affinity = new Migareference_Model_Affinity();
         $openaiConfig = new Migareference_Model_OpenaiConfig();
         $scoringService = new Migareference_Model_AffinityScoringService();
+        $errors = [];
+        $inserted_edges_count = 0;
+        $last_insert_pair = null;
 
         $profile_rows = $affinity->getReferrerProfiles($app_id, array_merge([$primary_id], $compare_ids));
         if (!isset($profile_rows[$primary_id])) {
@@ -377,7 +429,12 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         $compareProfiles = [];
         foreach ($compare_ids as $compare_id) {
             if (!isset($profile_rows[$compare_id])) {
-                $errors_count++;
+                $errors[] = [
+                    'type' => 'profile_missing',
+                    'primary_id' => (int) $primary_id,
+                    'compare_id' => (int) $compare_id,
+                    'reason' => 'Compare referrer profile not found.',
+                ];
                 continue;
             }
             $compareProfiles[$compare_id] = $this->buildAffinityProfile($profile_rows[$compare_id]);
@@ -393,11 +450,13 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         }
         $openai_config = $openai_config[0];
 
+        $provider = 'openai';
         $api_key = $openai_config['openai_apikey'];
         $api_url = 'https://api.openai.com/v1/chat/completions';
         if ($openai_config['gpt_api'] == 'perplexity') {
             $api_url = 'https://api.perplexity.ai/chat/completions';
             $api_key = $openai_config['perplexity_apikey'];
+            $provider = 'perplexity';
         }
         if (empty($api_key)) {
             throw new Exception(__("Missing OpenAI API key."));
@@ -421,15 +480,74 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
 
         $scores = $scoringService->scoreBatch($primaryProfile, $compareProfiles, $settings);
         if ($scoringService->wasRequestMade()) {
-            $openai_requests_made = 1;
+            $openai_requests_made += 1;
         }
-        if ($scoringService->getLastError()) {
-            $errors_count++;
+        $last_error = $scoringService->getLastError();
+        $raw_response = $scoringService->getLastRawResponse();
+        $http_status = $scoringService->getLastHttpStatus();
+        if ($last_error !== '') {
+            $errors[] = [
+                'type' => 'scoring',
+                'primary_id' => (int) $primary_id,
+                'reason' => $last_error,
+                'last_error' => $last_error,
+                'http_status' => $http_status,
+                'provider' => $provider,
+            ];
+        }
+        if (!count($scores)) {
+            if ($last_error === '') {
+                $last_error = 'No scores returned.';
+            }
+            $errors[] = [
+                'type' => 'scoring',
+                'primary_id' => (int) $primary_id,
+                'reason' => 'No scores returned.',
+                'last_error' => $last_error,
+                'http_status' => $http_status,
+                'provider' => $provider,
+            ];
         }
 
-        $raw_response = $scoringService->getLastRawResponse();
+        foreach ($compareProfiles as $compare_id => $profile) {
+            if (!array_key_exists($compare_id, $scores)) {
+                $errors[] = [
+                    'type' => 'score_missing',
+                    'primary_id' => (int) $primary_id,
+                    'compare_id' => (int) $compare_id,
+                    'reason' => 'Missing score for compare_id.',
+                ];
+            }
+        }
+
         foreach ($scores as $compare_id => $score) {
-            $affinity->upsertAffinityEdge($app_id, $run_id, $primary_id, $compare_id, $score, $raw_response);
+            $score = (int) $score;
+            if ($score < 1 || $score > 10) {
+                $errors[] = [
+                    'type' => 'score_invalid',
+                    'primary_id' => (int) $primary_id,
+                    'compare_id' => (int) $compare_id,
+                    'score' => $score,
+                    'reason' => 'Score must be between 1 and 10.',
+                ];
+                continue;
+            }
+            try {
+                $affinity->upsertAffinityEdge($app_id, $run_id, $primary_id, $compare_id, $score, $raw_response);
+                $inserted_edges_count++;
+                $last_insert_pair = [
+                    'a' => (int) $primary_id,
+                    'b' => (int) $compare_id,
+                ];
+            } catch (Exception $e) {
+                $errors[] = [
+                    'type' => 'insert_failed',
+                    'a' => (int) $primary_id,
+                    'b' => (int) $compare_id,
+                    'reason' => 'Failed to upsert affinity edge.',
+                    'sql_error' => $e->getMessage(),
+                ];
+            }
         }
 
         $affinity->updateAffinityRun($run_id, [
@@ -438,7 +556,19 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             'prompt_hash' => sha1($scoringService->getLastPrompt()),
         ]);
 
-        return $scores;
+        $errors_count += count($errors);
+
+        return [
+            'scores' => $scores,
+            'errors' => $errors,
+            'last_error' => $last_error,
+            'http_status' => $http_status,
+            'provider' => $provider,
+            'raw_response' => $raw_response,
+            'raw_response_sample' => $raw_response !== '' ? substr($raw_response, 0, 500) : null,
+            'inserted_edges_count' => $inserted_edges_count,
+            'last_insert_pair' => $last_insert_pair,
+        ];
     }
 
     private function parseCompareIds($value)
