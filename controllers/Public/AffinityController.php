@@ -213,8 +213,8 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                     "message" => __("Job already running by another worker."),
                     "run_id" => $run_id,
                 ];
-                $this->_sendJson($payload);
-                return;
+                // $this->_sendJson($payload);
+                // return;
             }
 
             $pair_data = $affinity->getNextPairs($app_id, $run_id, $max_pairs);
@@ -452,9 +452,9 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
 
         $provider = 'openai';
         $api_key = $openai_config['openai_apikey'];
-        $api_url = 'https://api.openai.com/v1/chat/completions';
+        $api_url = 'https://api.openai.com/v1/completions';
         if ($openai_config['gpt_api'] == 'perplexity') {
-            $api_url = 'https://api.perplexity.ai/chat/completions';
+            $api_url = 'https://api.perplexity.ai/completions';
             $api_key = $openai_config['perplexity_apikey'];
             $provider = 'perplexity';
         }
@@ -488,6 +488,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         if ($last_error !== '') {
             $errors[] = [
                 'type' => 'scoring',
+                'raw_response' => $raw_response,
                 'primary_id' => (int) $primary_id,
                 'reason' => $last_error,
                 'last_error' => $last_error,
@@ -501,6 +502,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             }
             $errors[] = [
                 'type' => 'scoring',
+                'raw_response' => $raw_response,
                 'primary_id' => (int) $primary_id,
                 'reason' => 'No scores returned.',
                 'last_error' => $last_error,
