@@ -51,6 +51,27 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
     }
 
     /**
+     * Return the latest running affinity run for an app.
+     *
+     * @param int $app_id
+     * @return array|null
+     */
+    public function getLatestRunningRun($app_id)
+    {
+        $rows = $this->_db->fetchAll(
+            "SELECT * FROM `migareference_affinity_runs`
+             WHERE `app_id` = ? AND `status` = 'running'
+             ORDER BY `id` DESC
+             LIMIT 1",
+            [(int) $app_id]
+        );
+        if (count($rows)) {
+            return $rows[0];
+        }
+        return null;
+    }
+
+    /**
      * Update selected fields for a run and bump updated_at.
      *
      * @param int $run_id

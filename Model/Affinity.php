@@ -42,6 +42,17 @@ class Migareference_Model_Affinity extends Core_Model_Default
     }
 
     /**
+     * Fetch the most recent running affinity run for an app.
+     *
+     * @param int $app_id
+     * @return array|null
+     */
+    public function getLatestRunningRun($app_id)
+    {
+        return $this->getTable()->getLatestRunningRun($app_id);
+    }
+
+    /**
      * Update fields for a specific affinity run.
      *
      * @param int $run_id

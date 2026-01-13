@@ -31,6 +31,18 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             }
             $app_id = (int) $pre_report_settings[0]['app_id'];
 
+            $existing_run = $affinity->getLatestRunningRun($app_id);
+            if ($existing_run) {
+                $payload = [
+                    "response" => true,
+                    "message" => __("Run already in progress."),
+                    "run_id" => (int) $existing_run['id'],
+                    "status" => $existing_run['status'],
+                ];
+                $this->_sendJson($payload);
+                return;
+            }
+
             $eligible_ids = $affinity->getEligibleReferrerIds($app_id);
             $total_referrers = count($eligible_ids);
             $total_pairs_estimate = ($total_referrers * ($total_referrers - 1)) / 2;
