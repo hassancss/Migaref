@@ -33,23 +33,6 @@ $schemas['migareference_affinity_edges'] = [
     ],
     'updated_at' => [
         'type' => 'datetime'
-    ],
-    'indexes' => [
-        'uniq_migareference_affinity_edges' => [
-            'columns' => [
-                'app_id',
-                'run_id',
-                'referrer_id_low',
-                'referrer_id_high'
-            ],
-            'unique' => true
-        ],
-        'idx_migareference_affinity_edges_app_run' => [
-            'columns' => [
-                'app_id',
-                'run_id'
-            ]
-        ]
     ]
 ];
 ?>

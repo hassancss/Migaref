@@ -164,7 +164,7 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
             AND ph.type = 1
             AND ph.rating > 0
             AND ph.job_id > 0
-            AND (ph.is_call_made IS NULL OR ph.is_call_made = '')
+            -- AND (ph.is_matching_call_made IS NULL OR ph.is_matching_call_made = '')
           ORDER BY inv.user_id ASC";
         return $this->_db->fetchAll($query, [(int) $appId]);
     }

@@ -38,7 +38,7 @@ class Migareference_Model_Db_Table_Phonebook extends Core_Model_Db_Table {
         *RULE 1: If Matching Script is Enabled
         *RULE 2: If Rating is >0
         *RULE 3: If Job is not empty or null
-        *RULE 4: If Call is not already made (is_call_made:pending,error,success,completed)
+        *RULE 4: If Call is not already made (is_matching_call_made:pending,error,success,completed)
     */ 
     /*
         *Params
