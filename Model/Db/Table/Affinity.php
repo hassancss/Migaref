@@ -23,6 +23,8 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
             'temperature' => null,
             'prompt_hash' => null,
             'last_error' => null,
+            'lock_token' => null,
+            'locked_at' => null,
             'created_at' => $now,
             'updated_at' => $now,
         ];
@@ -69,6 +71,56 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
             return $rows[0];
         }
         return null;
+    }
+
+    /**
+     * Attempt to acquire a lightweight run lock for cron processing.
+     *
+     * @param int $run_id
+     * @param string $lockToken
+     * @param int $ttlMinutes
+     * @return int
+     */
+    public function acquireRunLock($run_id, $lockToken, $ttlMinutes = 10)
+    {
+        $ttlMinutes = (int) $ttlMinutes;
+        if ($ttlMinutes <= 0) {
+            $ttlMinutes = 10;
+        }
+
+        $sql = "UPDATE `migareference_affinity_runs`
+          SET `lock_token` = ?, `locked_at` = NOW()
+          WHERE `id` = ?
+            AND (`locked_at` IS NULL OR `locked_at` < NOW() - INTERVAL {$ttlMinutes} MINUTE)";
+        $statement = $this->_db->query($sql, [
+            (string) $lockToken,
+            (int) $run_id,
+        ]);
+        return $statement->rowCount();
+    }
+
+    /**
+     * Release a previously acquired run lock.
+     *
+     * @param int $run_id
+     * @param string|null $lockToken
+     * @return int
+     */
+    public function releaseRunLock($run_id, $lockToken = null)
+    {
+        $where = ['id = ?' => (int) $run_id];
+        if ($lockToken !== null) {
+            $where['lock_token = ?'] = (string) $lockToken;
+        }
+
+        return $this->_db->update(
+            'migareference_affinity_runs',
+            [
+                'lock_token' => null,
+                'locked_at' => null,
+            ],
+            $where
+        );
     }
 
     /**
