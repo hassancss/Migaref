@@ -265,7 +265,10 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
             ph.rating,
             jobs.job_title,
             prof.profession_title,
-            prov.province,
+            prov.province AS province_name,
+            prov.province_code,
+            geoc.country AS country_name,
+            geoc.country_code,
             inv.address_country_id
           FROM `migarefrence_phonebook` AS ph
           JOIN `migareference_invoice_settings` AS inv
@@ -277,6 +280,8 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
             ON prof.migareference_professions_id = ph.profession_id
           LEFT JOIN `migareference_geo_provinces` AS prov
             ON prov.migareference_geo_provinces_id = inv.address_province_id
+          LEFT JOIN `migareference_geo_countries` AS geoc
+            ON geoc.migareference_geo_countries_id = inv.address_country_id
           WHERE ph.app_id = ?
             AND ph.type = 1
             AND inv.user_id IN ($placeholders)
