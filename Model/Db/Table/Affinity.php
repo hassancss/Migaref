@@ -177,7 +177,7 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
             `raw_response` = VALUES(`raw_response`),
             `updated_at` = VALUES(`updated_at`)";
         try {
-            $this->_db->query($sql, [
+            $statement = $this->_db->query($sql, [
                 (int) $app_id,
                 (int) $run_id,
                 $low,
@@ -190,7 +190,7 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
         } catch (Exception $e) {
             throw new Exception('Affinity edge upsert failed: ' . $e->getMessage(), 0, $e);
         }
-        return true;
+        return $statement->rowCount();
     }
 
     /**

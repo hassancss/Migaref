@@ -151,6 +151,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         $last_insert_pair = null;
         $lock_token = null;
         $run_id = 0;
+        $affinitySettings = null;
 
         try {
             $reportapi = new Migareference_Model_Reportapi();
@@ -170,6 +171,24 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                 throw new Exception(__("Token Mismatched"));
             }
             $app_id = (int) $pre_report_settings[0]['app_id'];
+
+            $affinitySettings = $this->loadAffinitySettings($app_id);
+            if (!$affinitySettings['enabled']) {
+                $payload = [
+                    "response" => false,
+                    "message" => __("Affinity engine is disabled in settings"),
+                    "openai_requests_made" => $openai_requests_made,
+                    "inserted_edges_count" => $inserted_edges_count,
+                    "errors_count" => $errors_count,
+                    "last_error" => $last_error,
+                    "http_status" => $http_status,
+                    "provider" => $provider,
+                    "raw_provider_response_sample" => $raw_provider_response_sample,
+                ];
+                $this->_sendJson($payload);
+                return;
+            }
+            $provider = $affinitySettings['provider'];
 
             $max_pairs = isset($data['max_pairs']) ? (int) $data['max_pairs'] : 200;
             if ($max_pairs <= 0) {
@@ -256,7 +275,9 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                     (int) $primary_id,
                     $compare_ids,
                     $openai_requests_made,
-                    $errors_count
+                    $errors_count,
+                    [],
+                    $affinitySettings
                 );
                 if (!empty($result['errors'])) {
                     $errors = array_merge($errors, $result['errors']);
@@ -329,12 +350,15 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
     public function processAction() {
         $openai_requests_made = 0;
         $errors_count = 0;
+        $last_error = '';
+        $http_status = null;
+        $provider = null;
+        $raw_provider_response_sample = null;
+        $inserted_edges_count = 0;
 
         try {
             $reportapi = new Migareference_Model_Reportapi();
             $affinity = new Migareference_Model_Affinity();
-            $openaiConfig = new Migareference_Model_OpenaiConfig();
-            $scoringService = new Migareference_Model_AffinityScoringService();
             $data = $this->getRequest()->getPost();
 
             $token = isset($data['token']) ? trim($data['token']) : '';
@@ -346,6 +370,24 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                 throw new Exception(__("Token Mismatched"));
             }
             $app_id = (int) $pre_report_settings[0]['app_id'];
+
+            $affinitySettings = $this->loadAffinitySettings($app_id, $data);
+            if (!$affinitySettings['enabled']) {
+                $payload = [
+                    "response" => false,
+                    "message" => __("Affinity engine is disabled in settings"),
+                    "openai_requests_made" => $openai_requests_made,
+                    "inserted_edges_count" => $inserted_edges_count,
+                    "errors_count" => $errors_count,
+                    "last_error" => $last_error,
+                    "http_status" => $http_status,
+                    "provider" => $provider,
+                    "raw_provider_response_sample" => $raw_provider_response_sample,
+                ];
+                $this->_sendJson($payload);
+                return;
+            }
+            $provider = $affinitySettings['provider'];
 
             $run_id = isset($data['run_id']) ? (int) $data['run_id'] : 0;
             if ($run_id <= 0) {
@@ -374,7 +416,8 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                 $compare_ids,
                 $openai_requests_made,
                 $errors_count,
-                $data
+                $data,
+                $affinitySettings
             );
 
             $payload = [
@@ -399,6 +442,11 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                 "message" => __($e->getMessage()),
                 "openai_requests_made" => $openai_requests_made,
                 "errors_count" => $errors_count ? $errors_count : 1,
+                "inserted_edges_count" => $inserted_edges_count,
+                "last_error" => $last_error,
+                "http_status" => $http_status,
+                "provider" => $provider,
+                "raw_provider_response_sample" => $raw_provider_response_sample,
             ];
         }
         $this->_sendJson($payload);
@@ -411,10 +459,10 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         array $compare_ids,
         &$openai_requests_made,
         &$errors_count,
-        array $overrides = []
+        array $overrides = [],
+        array $affinitySettings = null
     ) {
         $affinity = new Migareference_Model_Affinity();
-        $openaiConfig = new Migareference_Model_OpenaiConfig();
         $scoringService = new Migareference_Model_AffinityScoringService();
         $errors = [];
         $inserted_edges_count = 0;
@@ -444,40 +492,18 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             throw new Exception(__("No valid compare profiles found."));
         }
 
-        $openai_config = $openaiConfig->findAll(['app_id'=> $app_id])->toArray();
-        if (!count($openai_config)) {
-            throw new Exception(__("Missing OpenAI configuration."));
-        }
-        $openai_config = $openai_config[0];
-
-        $provider = 'openai';
-        $api_key = $openai_config['openai_apikey'];
-        $api_url = 'https://api.openai.com/v1/chat/completions';
-        if ($openai_config['gpt_api'] == 'perplexity') {
-            $api_url = 'https://api.perplexity.ai/chat/completions';
-            $api_key = $openai_config['perplexity_apikey'];
-            $provider = 'perplexity';
-        }
-        if (empty($api_key)) {
-            throw new Exception(__("Missing OpenAI API key."));
+        if ($affinitySettings === null) {
+            $affinitySettings = $this->loadAffinitySettings($app_id, $overrides);
         }
 
-        // Switched to affinity settings fields (with fallback to legacy call script values).
-        $settings = [
-            'model' => $openai_config['affinity_model'] ?? 'gpt-4o-mini',
-            'temperature' => isset($overrides['temperature'])
-                ? (float) $overrides['temperature']
-                : (float) ($openai_config['affinity_temperature'] ?? $openai_config['openai_temperature']),
-            'max_tokens' => isset($overrides['max_tokens'])
-                ? (int) $overrides['max_tokens']
-                : (int) ($openai_config['affinity_max_tokens'] ?? $openai_config['openai_token']),
-            'api_key' => $api_key,
-            'api_url' => $api_url,
-            'system_prompt' => $openai_config['affinity_system_prompt']
-                ?? ($openai_config['system_prompt'] ?? ''),
-            'prompt_template' => $openai_config['affinity_user_prompt']
-                ?? ($openai_config['user_prompt'] ?? ''),
-        ];
+        $provider = $affinitySettings['provider'];
+        $settings = $affinitySettings['settings'];
+        if (isset($overrides['temperature'])) {
+            $settings['temperature'] = (float) $overrides['temperature'];
+        }
+        if (isset($overrides['max_tokens'])) {
+            $settings['max_tokens'] = (int) $overrides['max_tokens'];
+        }
 
         $scores = $scoringService->scoreBatch($primaryProfile, $compareProfiles, $settings);
         if ($scoringService->wasRequestMade()) {
@@ -486,6 +512,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         $last_error = $scoringService->getLastError();
         $raw_response = $scoringService->getLastRawResponse();
         $http_status = $scoringService->getLastHttpStatus();
+        $errors_count += $scoringService->getLastErrorsCount();
         if ($last_error !== '') {
             $errors[] = [
                 'type' => 'scoring',
@@ -538,8 +565,10 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                 continue;
             }
             try {
-                $affinity->upsertAffinityEdge($app_id, $run_id, $primary_id, $compare_id, $score, $raw_response);
-                $inserted_edges_count++;
+                $upserted = (int) $affinity->upsertAffinityEdge($app_id, $run_id, $primary_id, $compare_id, $score, $raw_response);
+                if ($upserted > 0) {
+                    $inserted_edges_count++;
+                }
                 $last_insert_pair = [
                     'a' => (int) $primary_id,
                     'b' => (int) $compare_id,
@@ -553,6 +582,10 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
                     'sql_error' => $e->getMessage(),
                 ];
             }
+        }
+
+        if ($inserted_edges_count === 0 && $last_error === '') {
+            $last_error = 'No edges inserted.';
         }
 
         $affinity->updateAffinityRun($run_id, [
@@ -621,5 +654,51 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             return '';
         }
         return trim((string) $value);
+    }
+
+    private function loadAffinitySettings($app_id, array $overrides = [])
+    {
+        $openaiConfig = new Migareference_Model_OpenaiConfig();
+        $openai_config = $openaiConfig->findAll(['app_id'=> $app_id])->toArray();
+        if (!count($openai_config)) {
+            throw new Exception(__("Missing OpenAI configuration."));
+        }
+        $openai_config = $openai_config[0];
+
+        $enabled = isset($openai_config['affinity_enabled']) && (int) $openai_config['affinity_enabled'] === 1;
+        $provider = 'openai';
+        $api_key = $openai_config['openai_apikey'];
+        $api_url = 'https://api.openai.com/v1/chat/completions';
+        if (isset($openai_config['gpt_api']) && $openai_config['gpt_api'] == 'perplexity') {
+            $api_url = 'https://api.perplexity.ai/chat/completions';
+            $api_key = $openai_config['perplexity_apikey'];
+            $provider = 'perplexity';
+        }
+        if (empty($api_key)) {
+            throw new Exception(__("Missing OpenAI API key."));
+        }
+
+        $settings = [
+            'model' => $openai_config['affinity_model'] ?? 'gpt-4o-mini',
+            'temperature' => isset($openai_config['affinity_temperature']) ? (float) $openai_config['affinity_temperature'] : 0.2,
+            'max_tokens' => isset($openai_config['affinity_max_tokens']) ? (int) $openai_config['affinity_max_tokens'] : null,
+            'api_key' => $api_key,
+            'api_url' => $api_url,
+            'system_prompt' => $openai_config['affinity_system_prompt'] ?? '',
+            'prompt_template' => $openai_config['affinity_user_prompt'] ?? '',
+        ];
+
+        if (isset($overrides['temperature'])) {
+            $settings['temperature'] = (float) $overrides['temperature'];
+        }
+        if (isset($overrides['max_tokens'])) {
+            $settings['max_tokens'] = (int) $overrides['max_tokens'];
+        }
+
+        return [
+            'enabled' => $enabled,
+            'provider' => $provider,
+            'settings' => $settings,
+        ];
     }
 }
