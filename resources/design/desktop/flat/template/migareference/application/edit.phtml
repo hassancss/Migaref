@@ -15760,6 +15760,8 @@ function initAffinityMatchesTable() {
             type: 'GET',
             data: function(d) {
                 d.app_id = <?php echo (int) $app_id; ?>;
+                d.value_id = <?php echo (int) $option->getId(); ?>;
+                d.option_id = <?php echo (int) $option->getId(); ?>;
                 d.referrer_id = affinityMatchesReferrerId;
             }
         },
