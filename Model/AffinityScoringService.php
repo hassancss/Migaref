@@ -7,6 +7,7 @@ class Migareference_Model_AffinityScoringService
     private $lastPrompt = '';
     private $requestMade = false;
     private $lastHttpStatus = null;
+    private $lastErrorsCount = 0;
 
     /**
      * Score a primary profile against a batch of compare profiles.
@@ -23,6 +24,7 @@ class Migareference_Model_AffinityScoringService
         $this->lastPrompt = '';
         $this->requestMade = false;
         $this->lastHttpStatus = null;
+        $this->lastErrorsCount = 0;
 
         if (!count($compareProfiles)) {
             return [];
@@ -45,7 +47,7 @@ class Migareference_Model_AffinityScoringService
         ];
 
         $payloadJson = json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        $prompt = $this->buildPrompt($payloadJson, $settings['prompt_template'] ?? null);
+        $prompt = $this->buildPrompt($payload, $payloadJson, $settings['prompt_template'] ?? null);
         $this->lastPrompt = $prompt;
 
         $apiKey = $settings['api_key'] ?? '';
@@ -55,10 +57,30 @@ class Migareference_Model_AffinityScoringService
             return [];
         }
 
+        $model = $settings['model'] ?? 'gpt-4o-mini';
+        $endpointType = $this->getEndpointType($apiUrl);
+        if ($endpointType === null) {
+            $this->lastError = 'Unsupported API endpoint. Use /v1/chat/completions or /v1/completions.';
+            return [];
+        }
+
+        $isChatModel = $this->isChatModel($model);
+        if ($endpointType === 'chat' && !$isChatModel) {
+            $this->lastError = 'Model type mismatch: chat endpoint requires a chat model.';
+            return [];
+        }
+        if ($endpointType === 'completions' && $isChatModel) {
+            $this->lastError = 'Model type mismatch: completions endpoint requires a completions model.';
+            return [];
+        }
+
         $data = [
-            'model' => $settings['model'] ?? 'gpt-4o-mini',
+            'model' => $model,
             'temperature' => isset($settings['temperature']) ? (float) $settings['temperature'] : 0.2,
-            'messages' => [
+        ];
+
+        if ($endpointType === 'chat') {
+            $data['messages'] = [
                 [
                     'role' => 'system',
                     'content' => $settings['system_prompt'] ?? 'You are a precise scoring assistant.'
@@ -67,8 +89,12 @@ class Migareference_Model_AffinityScoringService
                     'role' => 'user',
                     'content' => $prompt
                 ],
-            ],
-        ];
+            ];
+        } else {
+            $systemPrompt = $settings['system_prompt'] ?? '';
+            $combinedPrompt = trim($systemPrompt) !== '' ? ($systemPrompt . "\n\n" . $prompt) : $prompt;
+            $data['prompt'] = $combinedPrompt;
+        }
 
         if (isset($settings['max_tokens'])) {
             $data['max_tokens'] = (int) $settings['max_tokens'];
@@ -104,34 +130,43 @@ class Migareference_Model_AffinityScoringService
 
         $decoded = json_decode($response, true);
         $content = '';
-        if (isset($decoded['choices'][0]['message']['content'])) {
+        if ($endpointType === 'chat' && isset($decoded['choices'][0]['message']['content'])) {
             $content = $decoded['choices'][0]['message']['content'];
+        }
+        if ($endpointType === 'completions' && isset($decoded['choices'][0]['text'])) {
+            $content = $decoded['choices'][0]['text'];
         }
 
         $this->lastRawResponse = $content !== '' ? $content : $response;
 
-        $parsed = json_decode($content, true);
+        $jsonPayload = $this->extractJsonPayload($content);
+        $parsed = json_decode($jsonPayload, true);
         if (json_last_error() !== JSON_ERROR_NONE || !isset($parsed['scores']) || !is_array($parsed['scores'])) {
             $this->lastError = 'Invalid JSON response.';
+            $this->lastErrorsCount += 1;
             return [];
         }
 
         $scores = [];
         foreach ($parsed['scores'] as $entry) {
             if (!is_array($entry)) {
+                $this->lastErrorsCount += 1;
                 continue;
             }
             if (!isset($entry['compare_id'], $entry['score'])) {
+                $this->lastErrorsCount += 1;
                 continue;
             }
             $compareId = filter_var($entry['compare_id'], FILTER_VALIDATE_INT);
             if ($compareId === false || !isset($allowedIds[(int) $compareId])) {
+                $this->lastErrorsCount += 1;
                 continue;
             }
             $score = filter_var($entry['score'], FILTER_VALIDATE_INT, [
                 'options' => ['min_range' => 1, 'max_range' => 10],
             ]);
             if ($score === false) {
+                $this->lastErrorsCount += 1;
                 continue;
             }
             $scores[(int) $compareId] = (int) $score;
@@ -165,24 +200,89 @@ class Migareference_Model_AffinityScoringService
         return $this->lastHttpStatus;
     }
 
-    private function buildPrompt($payloadJson, ?string $template = null)
+    public function getLastErrorsCount()
+    {
+        return $this->lastErrorsCount;
+    }
+
+    private function buildPrompt(array $payload, string $payloadJson, ?string $template = null)
     {
         $defaultPrompt = "Score affinity between the primary referrer and each compare referrer. " .
             "Use only the provided fields. " .
-            "Rubric: 1-3 = weak fit, 4-6 = moderate fit, 7-8 = strong fit, 9-10 = exceptional fit. " .
             "Respond with JSON only in this exact shape: " .
             "{\"scores\":[{\"compare_id\":123,\"score\":7}]}";
 
         $template = $template && trim($template) !== '' ? $template : $defaultPrompt;
 
-        $wrapper = "JSON ONLY. Use only provided fields. Do not invent or infer missing details.";
+        $wrapper = "Return ONLY JSON with schema: " .
+            "{\"scores\":[{\"compare_id\":<int>,\"score\":<int 1..10>}]}." .
+            " Rubric: 1 conflict, 2-5 weak/adjacent, 6-8 good strategic, 9-10 highly complementary." .
+            " NO markdown, NO code fences. Use only provided fields. Do not invent or infer missing details.";
 
-        $prompt = str_replace('{{payload}}', $payloadJson, $template);
+        $prompt = $this->applyTemplate($template, $payload, $payloadJson);
         if ($prompt === $template) {
             $prompt .= "\n\nProfiles:\n" . $payloadJson;
         }
 
         return $prompt . "\n\n" . $wrapper;
+    }
+
+    private function applyTemplate(string $template, array $payload, string $payloadJson)
+    {
+        $primaryJson = json_encode($payload['primary'] ?? [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $compareJson = json_encode($payload['compare'] ?? [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $replacements = [
+            '{{payload}}' => $payloadJson,
+            '{{payload_json}}' => $payloadJson,
+            '{{primary}}' => $primaryJson,
+            '{{primary_profile}}' => $primaryJson,
+            '{{compare}}' => $compareJson,
+            '{{compare_profiles}}' => $compareJson,
+        ];
+
+        return strtr($template, $replacements);
+    }
+
+    private function extractJsonPayload($content)
+    {
+        if (!is_string($content) || trim($content) === '') {
+            return '';
+        }
+
+        $trimmed = trim($content);
+        $trimmed = preg_replace('/^```(?:json)?\s*/i', '', $trimmed);
+        $trimmed = preg_replace('/\s*```$/', '', $trimmed);
+
+        $start = strpos($trimmed, '{');
+        $end = strrpos($trimmed, '}');
+        if ($start === false || $end === false || $end <= $start) {
+            return $trimmed;
+        }
+
+        return substr($trimmed, $start, $end - $start + 1);
+    }
+
+    private function getEndpointType($apiUrl)
+    {
+        if (strpos($apiUrl, '/v1/chat/completions') !== false) {
+            return 'chat';
+        }
+        if (strpos($apiUrl, '/v1/completions') !== false) {
+            return 'completions';
+        }
+        return null;
+    }
+
+    private function isChatModel($model)
+    {
+        $model = strtolower((string) $model);
+        $completionHints = ['instruct', 'davinci', 'curie', 'babbage', 'ada', 'text-'];
+        foreach ($completionHints as $hint) {
+            if (strpos($model, $hint) !== false) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private function normalizeProfile(array $profile)
