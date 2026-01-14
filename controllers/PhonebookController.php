@@ -104,12 +104,28 @@ class Migareference_PhonebookController extends Application_Controller_Default{
         if (!$app_id && $this->getApplication()) {
             $app_id = (int) $this->getApplication()->getId();
         }
+        $value_id = (int) $this->getRequest()->getParam('value_id');
+        if (!$value_id) {
+            $value_id = (int) $this->getRequest()->getParam('option_id');
+        }
         $referrer_id = (int) $this->getRequest()->getParam('referrer_id');
-        if (!$app_id || !$referrer_id) {
+        if (!$app_id || !$referrer_id || !$value_id) {
             throw new Exception(__('Invalid request.'));
         }
 
         $user_id = isset($_SESSION['front']['object_id']) ? (int) $_SESSION['front']['object_id'] : 0;
+        if (!$user_id && method_exists($this, 'getSession')) {
+            $session = $this->getSession();
+            if ($session && method_exists($session, 'getCustomerId')) {
+                $user_id = (int) $session->getCustomerId();
+            }
+        }
+        if (!$user_id && isset($_SESSION['backoffice']['user_id'])) {
+            $user_id = (int) $_SESSION['backoffice']['user_id'];
+        }
+        if (!$user_id && isset($_SESSION['admin']['user_id'])) {
+            $user_id = (int) $_SESSION['admin']['user_id'];
+        }
         if (!$user_id) {
             throw new Exception(__('Unauthorized.'));
         }
@@ -216,6 +232,9 @@ class Migareference_PhonebookController extends Application_Controller_Default{
             'data' => $data,
         ]);
     } catch (\Exception $e) {
+        if (method_exists($this, 'getResponse')) {
+            $this->getResponse()->setHttpResponseCode(200);
+        }
         $this->_sendJson([
             'draw' => $draw,
             'recordsTotal' => 0,

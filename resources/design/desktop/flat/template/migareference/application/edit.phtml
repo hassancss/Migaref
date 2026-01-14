@@ -15744,29 +15744,23 @@ function initAffinityMatchesTable() {
     if (!affinityMatchesReferrerId) {
         return;
     }
-    if (affinityMatchesTable) {
-        affinityMatchesTable.page.len(affinityMatchesPageSize).draw();
-        return;
+    if ($.fn.DataTable.isDataTable('#migareference_affinity_matches_table')) {
+        $('#migareference_affinity_matches_table').DataTable().destroy();
     }
-    affinityMatchesTable = $('#migareference_affinity_matches_table').DataTable({
-        processing: true,
-        serverSide: true,
-        searching: true,
-        lengthChange: false,
-        pageLength: affinityMatchesPageSize,
-        order: [[0, "desc"]],
-        ajax: {
-            url: '<?php echo $this->getUrl('migareference/phonebook/matchings'); ?>',
-            type: 'GET',
-            data: function(d) {
-                d.app_id = <?php echo (int) $app_id; ?>;
-                d.referrer_id = affinityMatchesReferrerId;
-            }
-        },
-        language: {
-            "emptyTable": "<?php echo __js("No matching referrers found"); ?>"
-        }
+    var dt_affinity_matches = $.extend(true, {}, dt_object_first_order);
+    dt_affinity_matches.processing = true;
+    dt_affinity_matches.serverSide = true;
+    dt_affinity_matches.searching = true;
+    dt_affinity_matches.lengthChange = false;
+    dt_affinity_matches.pageLength = affinityMatchesPageSize;
+    dt_affinity_matches.order = [[0, "desc"]];
+    dt_affinity_matches.ajax =
+        '<?php echo $this->getUrl('migareference/phonebook/matchings?app_id=' . $app_id . '&value_id=' . $option->getId() . '&option_id=' . $option->getId()); ?>' +
+        '&referrer_id=' + affinityMatchesReferrerId;
+    dt_affinity_matches.language = $.extend(true, {}, dt_affinity_matches.language, {
+        "emptyTable": "<?php echo __js("No matching referrers found"); ?>"
     });
+    affinityMatchesTable = $('#migareference_affinity_matches_table').DataTable(dt_affinity_matches);
 }
 
 function openAffinityMatchesModal(referrerId) {
