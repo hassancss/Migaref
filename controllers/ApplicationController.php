@@ -7543,7 +7543,8 @@ public function getmanageprizeAction() {
                   && $datediff>=$min_ref_last_contact_filter && $datediff<=$max_ref_last_contact_filter) {
                   $is_profiled = ( $value['job_id']>0 && $value['rating']>0) ?  $profiled: $not_profiled ;                  
                   $is_profiled_bol = ( $value['job_id']>0 && $value['rating']>0) ?  1: 0 ;                  
-                  $edit_action = '<button class="btn btn-info" onclick="editProspectJob('.$value['migarefrence_phonebook_id'].',1,'.$value['terms_accepted'].','.$value['user_id'].','.$is_profiled_bol.')">'."<i class='fa fa-edit'></i>".'</button>';                                    
+                  $edit_action = '<button class="btn btn-info" onclick="editProspectJob('.$value['migarefrence_phonebook_id'].',1,'.$value['terms_accepted'].','.$value['user_id'].','.$is_profiled_bol.')">'."<i class='fa fa-edit'></i>".'</button>';
+                  $view_matches = '<button class="btn btn-info view-matches-btn" data-referrer-id="'.$value['user_id'].'" title="'.__('View Matches').'">'."<i class='fa fa-users'></i>".'</button>';                                    
                   $ref_user='<select id="" class="input-flat" name="" onChange="showProspectEdit(this)" >';
                   $ref_user.='<option  value="0"></option>';
                       foreach ($connected_prospect as $key => $valuee):
@@ -7584,7 +7585,7 @@ public function getmanageprizeAction() {
               
                     
                     $report_collection_item=[
-                                      $edit_action,
+                                      $edit_action.' '.$view_matches,
                                       // $edit_action,
                                       $is_profiled.' '.$is_terms_accepted.' '.$value['firstname']." ".$value['lastname'],
                                       $value['mobile'],

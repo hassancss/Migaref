@@ -10674,6 +10674,35 @@
             </div>
         </div>
     </div>
+    <div id="affinityMatchesModal" class="modal" style="background:#00000047;display:none;">
+        <div class="modal-content" style="width: 70%;left: 15%;top: 15%;height:70%;overflow:auto;">
+            <div class="modal-header" style="padding:0;">
+                <span onClick="closeAffinityMatchesModal()" style="margin-top: -2px;color: red;text-align: center;height: 23px;width: 33px;opacity: 1;"
+                    class="close">&times;</span>
+                <h4 style="text-align:center;"><?php echo __("Top Matching Referrers") ?></h4>
+                <div style="padding:10px 20px;text-align:center;">
+                    <button id="affinity-top10-btn" class="btn color-blue" type="button"><?php echo __("Top 10") ?></button>
+                    <button id="affinity-all-btn" class="btn" type="button"><?php echo __("View All Matchings") ?></button>
+                </div>
+            </div>
+            <div class="modal-body" style="padding:20px;">
+                <table id="migareference_affinity_matches_table" class="table display responsive nowrap content-white-bkg"
+                    style="width:100%">
+                    <thead>
+                        <tr class="border-grey">
+                            <th><?php echo __('Score'); ?></th>
+                            <th><?php echo __('Referrer Name'); ?></th>
+                            <th><?php echo __('Email'); ?></th>
+                            <th><?php echo __('Phone'); ?></th>
+                            <th><?php echo __('Job / Sector'); ?></th>
+                            <th><?php echo __('Agent'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <!-- Manage Deleted Users Modal -->
     <div id="deletedusersModal" class="modal">
         <!-- Modal content -->
@@ -15696,6 +15725,89 @@ function loadreferrerphonebook() {
     var referrer_table = $('#migarefrence_referrel_phonebook').DataTable(dt_object_first_order);
 }
 loadreferrerphonebook();
+
+var affinityMatchesTable = null;
+var affinityMatchesReferrerId = 0;
+var affinityMatchesPageSize = 10;
+
+function toggleAffinityMatchButtons(isTopTen) {
+    if (isTopTen) {
+        $("#affinity-top10-btn").addClass("color-blue");
+        $("#affinity-all-btn").removeClass("color-blue");
+    } else {
+        $("#affinity-top10-btn").removeClass("color-blue");
+        $("#affinity-all-btn").addClass("color-blue");
+    }
+}
+
+function initAffinityMatchesTable() {
+    if (!affinityMatchesReferrerId) {
+        return;
+    }
+    if (affinityMatchesTable) {
+        affinityMatchesTable.page.len(affinityMatchesPageSize).draw();
+        return;
+    }
+    affinityMatchesTable = $('#migareference_affinity_matches_table').DataTable({
+        processing: true,
+        serverSide: true,
+        searching: true,
+        lengthChange: false,
+        pageLength: affinityMatchesPageSize,
+        order: [[0, "desc"]],
+        ajax: {
+            url: '<?php echo $this->getUrl('migareference/phonebook/matchings'); ?>',
+            type: 'GET',
+            data: function(d) {
+                d.app_id = <?php echo (int) $app_id; ?>;
+                d.referrer_id = affinityMatchesReferrerId;
+            }
+        },
+        language: {
+            "emptyTable": "<?php echo __js("No matching referrers found"); ?>"
+        }
+    });
+}
+
+function openAffinityMatchesModal(referrerId) {
+    affinityMatchesReferrerId = parseInt(referrerId, 10) || 0;
+    affinityMatchesPageSize = 10;
+    toggleAffinityMatchButtons(true);
+    document.getElementById("affinityMatchesModal").style.display = "block";
+    initAffinityMatchesTable();
+    if (affinityMatchesTable) {
+        affinityMatchesTable.ajax.reload();
+    }
+}
+
+function closeAffinityMatchesModal() {
+    document.getElementById("affinityMatchesModal").style.display = "none";
+}
+
+$("#migarefrence_referrel_phonebook").on("click", ".view-matches-btn", function() {
+    var referrerId = $(this).data("referrer-id");
+    openAffinityMatchesModal(referrerId);
+});
+
+$("#affinity-top10-btn").on("click", function() {
+    affinityMatchesPageSize = 10;
+    toggleAffinityMatchButtons(true);
+    if (affinityMatchesTable) {
+        affinityMatchesTable.page.len(affinityMatchesPageSize).draw();
+    } else {
+        initAffinityMatchesTable();
+    }
+});
+
+$("#affinity-all-btn").on("click", function() {
+    affinityMatchesPageSize = 50;
+    toggleAffinityMatchButtons(false);
+    if (affinityMatchesTable) {
+        affinityMatchesTable.page.len(affinityMatchesPageSize).draw();
+    } else {
+        initAffinityMatchesTable();
+    }
+});
 
 function chnageRedeemstatus(obj) {
     key = obj.value;

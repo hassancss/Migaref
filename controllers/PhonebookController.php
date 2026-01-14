@@ -96,6 +96,136 @@ class Migareference_PhonebookController extends Application_Controller_Default{
     }
     $this->_sendJson($payload);
 }
+
+  public function matchingsAction() {
+    $draw = (int) $this->getRequest()->getParam('draw', 0);
+    try {
+        $app_id = (int) $this->getRequest()->getParam('app_id');
+        if (!$app_id && $this->getApplication()) {
+            $app_id = (int) $this->getApplication()->getId();
+        }
+        $referrer_id = (int) $this->getRequest()->getParam('referrer_id');
+        if (!$app_id || !$referrer_id) {
+            throw new Exception(__('Invalid request.'));
+        }
+
+        $user_id = isset($_SESSION['front']['object_id']) ? (int) $_SESSION['front']['object_id'] : 0;
+        if (!$user_id) {
+            throw new Exception(__('Unauthorized.'));
+        }
+        $migareference = new Migareference_Model_Migareference();
+        $is_admin = $migareference->is_admin($app_id, $user_id);
+        if (!count($is_admin)) {
+            throw new Exception(__('Unauthorized.'));
+        }
+
+        $affinity = new Migareference_Model_Affinity();
+        $run_id = (int) $this->getRequest()->getParam('run_id');
+        if ($run_id) {
+            $run = $affinity->getAffinityRun($run_id);
+            if (!$run || (int) $run['app_id'] !== $app_id) {
+                throw new Exception(__('Invalid run.'));
+            }
+        } else {
+            $run = $affinity->getLatestCompletedRun($app_id);
+            if (!$run) {
+                $run = $affinity->getLatestRunningRun($app_id);
+            }
+            if ($run) {
+                $run_id = (int) $run['id'];
+            }
+        }
+
+        $start = (int) $this->getRequest()->getParam('start', 0);
+        $length = (int) $this->getRequest()->getParam('length', 10);
+        $searchValue = '';
+        $search = $this->getRequest()->getParam('search');
+        if (is_array($search) && isset($search['value'])) {
+            $searchValue = trim((string) $search['value']);
+        }
+
+        if (!$run_id) {
+            $this->_sendJson([
+                'draw' => $draw,
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => [],
+            ]);
+            return;
+        }
+
+        $results = $affinity->getAffinityMatchings(
+            $app_id,
+            $run_id,
+            $referrer_id,
+            $start,
+            $length,
+            $searchValue
+        );
+        $rows = $results['rows'];
+        $other_ids = [];
+        foreach ($rows as $row) {
+            $other_ids[] = (int) $row['other_referrer_id'];
+        }
+        $profiles = $affinity->getReferrerContactProfiles($app_id, $other_ids);
+
+        $data = [];
+        foreach ($rows as $row) {
+            $other_id = (int) $row['other_referrer_id'];
+            $profile = isset($profiles[$other_id]) ? $profiles[$other_id] : [];
+            $name = trim(($profile['name'] ?? '') . ' ' . ($profile['surname'] ?? ''));
+            if ($name === '') {
+                $name = __('N/A');
+            }
+            $email = $profile['email'] ?? __('N/A');
+            $phone = $profile['mobile'] ?? __('N/A');
+            $job = $profile['job_title'] ?? '';
+            $sector = $profile['profession_title'] ?? '';
+            $job_sector = trim($job);
+            if ($sector !== '') {
+                $job_sector .= ($job_sector !== '' ? ' / ' : '') . $sector;
+            }
+            if ($job_sector === '') {
+                $job_sector = __('N/A');
+            }
+            $agent_name = trim($profile['agent_name'] ?? '');
+            $agent_email = trim($profile['agent_email'] ?? '');
+            if ($agent_name && $agent_email) {
+                $agent = $agent_name . ' (' . $agent_email . ')';
+            } elseif ($agent_name) {
+                $agent = $agent_name;
+            } elseif ($agent_email) {
+                $agent = $agent_email;
+            } else {
+                $agent = __('N/A');
+            }
+            $data[] = [
+                (int) $row['score'],
+                $name,
+                $email,
+                $phone,
+                $job_sector,
+                $agent,
+            ];
+        }
+
+        $this->_sendJson([
+            'draw' => $draw,
+            'recordsTotal' => (int) $results['total'],
+            'recordsFiltered' => (int) $results['filtered'],
+            'data' => $data,
+        ]);
+    } catch (\Exception $e) {
+        $this->_sendJson([
+            'draw' => $draw,
+            'recordsTotal' => 0,
+            'recordsFiltered' => 0,
+            'data' => [],
+            'error' => true,
+            'message' => __($e->getMessage()),
+        ]);
+    }
+  }
   public function getphonebookitemAction(){
    $param           = $this->getRequest()->getParam('param1');
    $referrer_id     = $this->getRequest()->getParam('referrer_id');
