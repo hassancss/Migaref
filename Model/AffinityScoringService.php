@@ -287,13 +287,23 @@ class Migareference_Model_AffinityScoringService
 
     private function normalizeProfile(array $profile)
     {
+        $province = $this->stringValue($profile['province'] ?? '');
+        $country = $this->stringValue($profile['country'] ?? '');
+        // Guard against numeric IDs leaking into the model prompt.
+        if ($province !== '' && is_numeric($province)) {
+            $province = '';
+        }
+        if ($country !== '' && is_numeric($country)) {
+            $country = '';
+        }
+
         return [
             'name' => $this->stringValue($profile['name'] ?? ''),
             'surname' => $this->stringValue($profile['surname'] ?? ''),
             'job' => $this->stringValue($profile['job'] ?? ''),
             'profession' => $this->stringValue($profile['profession'] ?? ''),
-            'province' => $this->stringValue($profile['province'] ?? ''),
-            'country' => $this->stringValue($profile['country'] ?? ''),
+            'province' => $province,
+            'country' => $country,
             'notes' => $this->stringValue($profile['notes'] ?? ''),
             'reciprocity_notes' => $this->stringValue($profile['reciprocity_notes'] ?? ''),
             'rating' => isset($profile['rating']) ? (int) $profile['rating'] : 0,

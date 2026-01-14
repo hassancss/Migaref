@@ -511,8 +511,9 @@ class Migareference_OpenaiController extends Application_Controller_Default{
             'surname' => $this->stringValue($row['surname'] ?? ''),
             'job' => $this->stringValue($row['job_title'] ?? ''),
             'profession' => $this->stringValue($row['profession_title'] ?? ''),
-            'province' => $this->stringValue($row['province'] ?? ''),
-            'country' => $this->stringValue($row['address_country_id'] ?? ''),
+            // Use names (not numeric IDs) so the model sees real locations.
+            'province' => $this->stringValue($row['province_name'] ?? ''),
+            'country' => $this->stringValue($row['country_name'] ?? ''),
             'notes' => $this->stringValue($note),
             'reciprocity_notes' => $this->stringValue($row['reciprocity_notes'] ?? ''),
             'rating' => isset($row['rating']) ? (int) $row['rating'] : 0,

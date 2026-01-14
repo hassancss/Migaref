@@ -15,6 +15,8 @@
  * - All responses are JSON via $this->_sendJson().
  */
 class Migareference_Public_AffinityController extends Migareference_Controller_Default {
+    // Chunk compare requests to keep OpenAI responses from truncating/invalid JSON.
+    private const MAX_COMPARE_PER_REQUEST = 30;
     public function startAction() {
         try {
             $reportapi = new Migareference_Model_Reportapi();
@@ -474,23 +476,6 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         }
 
         $primaryProfile = $this->buildAffinityProfile($profile_rows[$primary_id]);
-        $compareProfiles = [];
-        foreach ($compare_ids as $compare_id) {
-            if (!isset($profile_rows[$compare_id])) {
-                $errors[] = [
-                    'type' => 'profile_missing',
-                    'primary_id' => (int) $primary_id,
-                    'compare_id' => (int) $compare_id,
-                    'reason' => 'Compare referrer profile not found.',
-                ];
-                continue;
-            }
-            $compareProfiles[$compare_id] = $this->buildAffinityProfile($profile_rows[$compare_id]);
-        }
-
-        if (!count($compareProfiles)) {
-            throw new Exception(__("No valid compare profiles found."));
-        }
 
         if ($affinitySettings === null) {
             $affinitySettings = $this->loadAffinitySettings($app_id, $overrides);
@@ -505,83 +490,141 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             $settings['max_tokens'] = (int) $overrides['max_tokens'];
         }
 
-        $scores = $scoringService->scoreBatch($primaryProfile, $compareProfiles, $settings);
-        if ($scoringService->wasRequestMade()) {
-            $openai_requests_made += 1;
-        }
-        $last_error = $scoringService->getLastError();
-        $raw_response = $scoringService->getLastRawResponse();
-        $http_status = $scoringService->getLastHttpStatus();
-        $errors_count += $scoringService->getLastErrorsCount();
-        if ($last_error !== '') {
-            $errors[] = [
-                'type' => 'scoring',
-                'raw_response' => $raw_response,
-                'model' => $settings,
-                'primary_id' => (int) $primary_id,
-                'reason' => $last_error,
-                'last_error' => $last_error,
-                'http_status' => $http_status,
-                'provider' => $provider,
-            ];
-        }
-        if (!count($scores)) {
-            if ($last_error === '') {
-                $last_error = 'No scores returned.';
-            }
-            $errors[] = [
-                'type' => 'scoring',
-                'raw_response' => $raw_response,
-                'model' => $settings,
-                'primary_id' => (int) $primary_id,
-                'reason' => 'No scores returned.',
-                'last_error' => $last_error,
-                'http_status' => $http_status,
-                'provider' => $provider,
-            ];
-        }
+        $scores = [];
+        $last_error = '';
+        $raw_response = '';
+        $http_status = null;
+        $last_prompt = '';
+        $has_compare_profiles = false;
 
-        foreach ($compareProfiles as $compare_id => $profile) {
-            if (!array_key_exists($compare_id, $scores)) {
+        // Chunk compare requests so large groups don't produce truncated/invalid JSON responses.
+        $compare_chunks = array_chunk($compare_ids, self::MAX_COMPARE_PER_REQUEST);
+        foreach ($compare_chunks as $chunk_ids) {
+            $compareProfiles = [];
+            foreach ($chunk_ids as $compare_id) {
+                if (!isset($profile_rows[$compare_id])) {
+                    $errors[] = [
+                        'type' => 'profile_missing',
+                        'primary_id' => (int) $primary_id,
+                        'compare_id' => (int) $compare_id,
+                        'reason' => 'Compare referrer profile not found.',
+                    ];
+                    continue;
+                }
+                $compareProfiles[$compare_id] = $this->buildAffinityProfile($profile_rows[$compare_id]);
+                $has_compare_profiles = true;
+            }
+
+            if (!count($compareProfiles)) {
+                continue;
+            }
+
+            $chunk_scores = $scoringService->scoreBatch($primaryProfile, $compareProfiles, $settings);
+            if ($scoringService->wasRequestMade()) {
+                $openai_requests_made += 1;
+            }
+            $chunk_last_error = $scoringService->getLastError();
+            $chunk_raw_response = $scoringService->getLastRawResponse();
+            $chunk_http_status = $scoringService->getLastHttpStatus();
+            $errors_count += $scoringService->getLastErrorsCount();
+            $last_prompt = $scoringService->getLastPrompt();
+
+            $raw_response = $chunk_raw_response;
+            $http_status = $chunk_http_status;
+            if ($chunk_last_error !== '') {
+                $last_error = $chunk_last_error;
+            }
+
+            $chunk_ids_count = count($chunk_ids);
+            $chunk_first_id = $chunk_ids_count ? (int) $chunk_ids[0] : null;
+            $chunk_last_id = $chunk_ids_count ? (int) $chunk_ids[$chunk_ids_count - 1] : null;
+
+            if ($chunk_last_error !== '') {
                 $errors[] = [
-                    'type' => 'score_missing',
+                    'type' => 'scoring',
+                    'raw_response' => $chunk_raw_response,
+                    'raw_response_sample' => $chunk_raw_response !== '' ? substr($chunk_raw_response, 0, 500) : null,
+                    'model' => $settings,
                     'primary_id' => (int) $primary_id,
-                    'compare_id' => (int) $compare_id,
-                    'reason' => 'Missing score for compare_id.',
+                    'compare_ids_count' => $chunk_ids_count,
+                    'compare_id_first' => $chunk_first_id,
+                    'compare_id_last' => $chunk_last_id,
+                    'reason' => $chunk_last_error,
+                    'last_error' => $chunk_last_error,
+                    'http_status' => $chunk_http_status,
+                    'provider' => $provider,
                 ];
             }
-        }
-
-        foreach ($scores as $compare_id => $score) {
-            $score = (int) $score;
-            if ($score < 1 || $score > 10) {
+            if (!count($chunk_scores)) {
+                $reason = $chunk_last_error !== '' ? $chunk_last_error : 'No scores returned.';
+                if ($last_error === '') {
+                    $last_error = $reason;
+                }
                 $errors[] = [
-                    'type' => 'score_invalid',
+                    'type' => 'scoring',
+                    'raw_response' => $chunk_raw_response,
+                    'raw_response_sample' => $chunk_raw_response !== '' ? substr($chunk_raw_response, 0, 500) : null,
+                    'model' => $settings,
                     'primary_id' => (int) $primary_id,
-                    'compare_id' => (int) $compare_id,
-                    'score' => $score,
-                    'reason' => 'Score must be between 1 and 10.',
+                    'compare_ids_count' => $chunk_ids_count,
+                    'compare_id_first' => $chunk_first_id,
+                    'compare_id_last' => $chunk_last_id,
+                    'reason' => $reason,
+                    'last_error' => $reason,
+                    'http_status' => $chunk_http_status,
+                    'provider' => $provider,
                 ];
                 continue;
             }
-            try {
-                $upserted = (int) $affinity->upsertAffinityEdge($app_id, $run_id, $primary_id, $compare_id, $score, $raw_response);
-                if ($upserted > 0) {
-                    $inserted_edges_count++;
+
+            foreach ($compareProfiles as $compare_id => $profile) {
+                if (!array_key_exists($compare_id, $chunk_scores)) {
+                    $errors[] = [
+                        'type' => 'score_missing',
+                        'primary_id' => (int) $primary_id,
+                        'compare_id' => (int) $compare_id,
+                        'reason' => 'Missing score for compare_id.',
+                    ];
                 }
-                $last_insert_pair = [
-                    'a' => (int) $primary_id,
-                    'b' => (int) $compare_id,
-                ];
-            } catch (Exception $e) {
-                $errors[] = [
-                    'type' => 'insert_failed',
-                    'a' => (int) $primary_id,
-                    'b' => (int) $compare_id,
-                    'reason' => 'Failed to upsert affinity edge.',
-                    'sql_error' => $e->getMessage(),
-                ];
             }
+
+            foreach ($chunk_scores as $compare_id => $score) {
+                $score = (int) $score;
+                if ($score < 1 || $score > 10) {
+                    $errors[] = [
+                        'type' => 'score_invalid',
+                        'primary_id' => (int) $primary_id,
+                        'compare_id' => (int) $compare_id,
+                        'score' => $score,
+                        'reason' => 'Score must be between 1 and 10.',
+                    ];
+                    continue;
+                }
+                try {
+                    $upserted = (int) $affinity->upsertAffinityEdge($app_id, $run_id, $primary_id, $compare_id, $score, $chunk_raw_response);
+                    if ($upserted > 0) {
+                        $inserted_edges_count++;
+                    }
+                    $last_insert_pair = [
+                        'a' => (int) $primary_id,
+                        'b' => (int) $compare_id,
+                    ];
+                } catch (Exception $e) {
+                    $errors[] = [
+                        'type' => 'insert_failed',
+                        'a' => (int) $primary_id,
+                        'b' => (int) $compare_id,
+                        'reason' => 'Failed to upsert affinity edge.',
+                        'sql_error' => $e->getMessage(),
+                    ];
+                }
+            }
+
+            $scores = $scores + $chunk_scores;
+        }
+
+        if (!$has_compare_profiles) {
+            throw new Exception(__("No valid compare profiles found."));
         }
 
         if ($inserted_edges_count === 0 && $last_error === '') {
@@ -591,7 +634,7 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
         $affinity->updateAffinityRun($run_id, [
             'model' => $settings['model'],
             'temperature' => $settings['temperature'],
-            'prompt_hash' => sha1($scoringService->getLastPrompt()),
+            'prompt_hash' => sha1($last_prompt),
         ]);
 
         $errors_count += count($errors);
@@ -640,8 +683,9 @@ class Migareference_Public_AffinityController extends Migareference_Controller_D
             'surname' => $this->stringValue($row['surname'] ?? ''),
             'job' => $this->stringValue($row['job_title'] ?? ''),
             'profession' => $this->stringValue($row['profession_title'] ?? ''),
-            'province' => $this->stringValue($row['province'] ?? ''),
-            'country' => $this->stringValue($row['address_country_id'] ?? ''),
+            // Use names (not numeric IDs) so the model sees real locations.
+            'province' => $this->stringValue($row['province_name'] ?? ''),
+            'country' => $this->stringValue($row['country_name'] ?? ''),
             'notes' => $this->stringValue($note),
             'reciprocity_notes' => $this->stringValue($row['reciprocity_notes'] ?? ''),
             'rating' => isset($row['rating']) ? (int) $row['rating'] : 0,
