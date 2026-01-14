@@ -74,6 +74,27 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
     }
 
     /**
+     * Return the latest completed affinity run for an app.
+     *
+     * @param int $app_id
+     * @return array|null
+     */
+    public function getLatestCompletedRun($app_id)
+    {
+        $rows = $this->_db->fetchAll(
+            "SELECT * FROM `migareference_affinity_runs`
+             WHERE `app_id` = ? AND `status` = 'completed'
+             ORDER BY `id` DESC
+             LIMIT 1",
+            [(int) $app_id]
+        );
+        if (count($rows)) {
+            return $rows[0];
+        }
+        return null;
+    }
+
+    /**
      * Attempt to acquire a lightweight run lock for cron processing.
      *
      * @param int $run_id
@@ -272,6 +293,175 @@ class Migareference_Model_Db_Table_Affinity extends Core_Model_Db_Table
         }
 
         return $profiles;
+    }
+
+    /**
+     * Fetch contact profile rows for a set of referrer user ids.
+     *
+     * @param int $appId
+     * @param array $referrerIds
+     * @return array
+     */
+    public function getReferrerContactProfiles($appId, array $referrerIds)
+    {
+        $referrerIds = array_values(array_filter(array_map('intval', $referrerIds)));
+        if (!count($referrerIds)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($referrerIds), '?'));
+        $query = "SELECT inv.user_id AS referrer_id,
+            COALESCE(NULLIF(cust.firstname, ''), ph.name) AS name,
+            COALESCE(NULLIF(cust.lastname, ''), ph.surname) AS surname,
+            cust.email,
+            cust.mobile,
+            jobs.job_title,
+            prof.profession_title,
+            GROUP_CONCAT(DISTINCT CONCAT(agent.firstname, ' ', agent.lastname) SEPARATOR ' & ') AS agent_name,
+            GROUP_CONCAT(DISTINCT agent.email SEPARATOR ' & ') AS agent_email
+          FROM `migareference_invoice_settings` AS inv
+          JOIN `migarefrence_phonebook` AS ph
+            ON ph.invoice_id = inv.migareference_invoice_settings_id
+            AND ph.app_id = inv.app_id
+            AND ph.type = 1
+          JOIN `customer` AS cust
+            ON cust.customer_id = inv.user_id
+            AND cust.app_id = inv.app_id
+          LEFT JOIN `migareference_jobs` AS jobs
+            ON jobs.migareference_jobs_id = ph.job_id
+          LEFT JOIN `migareference_professions` AS prof
+            ON prof.migareference_professions_id = ph.profession_id
+          LEFT JOIN `migareference_referrer_agents` AS refag
+            ON refag.referrer_id = inv.user_id
+            AND refag.app_id = inv.app_id
+          LEFT JOIN `customer` AS agent
+            ON agent.customer_id = refag.agent_id
+            AND agent.app_id = inv.app_id
+          WHERE inv.app_id = ?
+            AND inv.user_id IN ($placeholders)
+          GROUP BY inv.user_id";
+
+        $params = array_merge([(int) $appId], $referrerIds);
+        $rows = $this->_db->fetchAll($query, $params);
+        $profiles = [];
+        foreach ($rows as $row) {
+            $referrerId = (int) $row['referrer_id'];
+            $profiles[$referrerId] = $row;
+        }
+
+        return $profiles;
+    }
+
+    /**
+     * Fetch paginated affinity edges for a referrer with optional search.
+     *
+     * @param int $app_id
+     * @param int $run_id
+     * @param int $referrer_id
+     * @param int $start
+     * @param int $length
+     * @param string|null $search
+     * @return array
+     */
+    public function getAffinityMatchings($app_id, $run_id, $referrer_id, $start, $length, $search = null)
+    {
+        $app_id = (int) $app_id;
+        $run_id = (int) $run_id;
+        $referrer_id = (int) $referrer_id;
+        $start = (int) $start;
+        $length = (int) $length;
+        if ($start < 0) {
+            $start = 0;
+        }
+        if ($length <= 0) {
+            $length = 10;
+        }
+
+        $caseSql = "CASE WHEN edges.referrer_id_low = ? THEN edges.referrer_id_high ELSE edges.referrer_id_low END";
+        $baseWhere = "edges.app_id = ? AND edges.run_id = ? AND (edges.referrer_id_low = ? OR edges.referrer_id_high = ?)";
+        $total = (int) $this->_db->fetchOne(
+            "SELECT COUNT(*) FROM `migareference_affinity_edges` AS edges WHERE $baseWhere",
+            [$app_id, $run_id, $referrer_id, $referrer_id]
+        );
+
+        $searchSql = '';
+        $searchParams = [];
+        if (!empty($search)) {
+            $searchSql = " AND (
+                cust.firstname LIKE ? OR cust.lastname LIKE ? OR cust.email LIKE ? OR cust.mobile LIKE ?
+                OR ph.name LIKE ? OR ph.surname LIKE ? OR ph.email LIKE ? OR ph.mobile LIKE ?
+                OR jobs.job_title LIKE ? OR prof.profession_title LIKE ?
+            )";
+            $term = '%' . $search . '%';
+            $searchParams = array_fill(0, 10, $term);
+        }
+
+        $filtered = $total;
+        if ($searchSql !== '') {
+            $filtered = (int) $this->_db->fetchOne(
+                "SELECT COUNT(DISTINCT edges.id)
+                 FROM `migareference_affinity_edges` AS edges
+                 LEFT JOIN `migareference_invoice_settings` AS inv
+                   ON inv.user_id = $caseSql
+                   AND inv.app_id = edges.app_id
+                 LEFT JOIN `customer` AS cust
+                   ON cust.customer_id = inv.user_id
+                   AND cust.app_id = inv.app_id
+                 LEFT JOIN `migarefrence_phonebook` AS ph
+                   ON ph.invoice_id = inv.migareference_invoice_settings_id
+                   AND ph.app_id = inv.app_id
+                   AND ph.type = 1
+                 LEFT JOIN `migareference_jobs` AS jobs
+                   ON jobs.migareference_jobs_id = ph.job_id
+                 LEFT JOIN `migareference_professions` AS prof
+                   ON prof.migareference_professions_id = ph.profession_id
+                 WHERE $baseWhere$searchSql",
+                array_merge([
+                    $referrer_id,
+                    $app_id,
+                    $run_id,
+                    $referrer_id,
+                    $referrer_id,
+                ], $searchParams)
+            );
+        }
+
+        $query = "SELECT edges.id, edges.score,
+            $caseSql AS other_referrer_id
+          FROM `migareference_affinity_edges` AS edges
+          LEFT JOIN `migareference_invoice_settings` AS inv
+            ON inv.user_id = $caseSql
+            AND inv.app_id = edges.app_id
+          LEFT JOIN `customer` AS cust
+            ON cust.customer_id = inv.user_id
+            AND cust.app_id = inv.app_id
+          LEFT JOIN `migarefrence_phonebook` AS ph
+            ON ph.invoice_id = inv.migareference_invoice_settings_id
+            AND ph.app_id = inv.app_id
+            AND ph.type = 1
+          LEFT JOIN `migareference_jobs` AS jobs
+            ON jobs.migareference_jobs_id = ph.job_id
+          LEFT JOIN `migareference_professions` AS prof
+            ON prof.migareference_professions_id = ph.profession_id
+          WHERE $baseWhere$searchSql
+          GROUP BY edges.id
+          ORDER BY edges.score DESC, edges.id DESC
+          LIMIT $start, $length";
+        $params = array_merge([
+            $referrer_id,
+            $referrer_id,
+            $app_id,
+            $run_id,
+            $referrer_id,
+            $referrer_id,
+        ], $searchParams);
+        $rows = $this->_db->fetchAll($query, $params);
+
+        return [
+            'total' => $total,
+            'filtered' => $filtered,
+            'rows' => $rows,
+        ];
     }
 
     /**

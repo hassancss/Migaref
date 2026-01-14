@@ -53,6 +53,17 @@ class Migareference_Model_Affinity extends Core_Model_Default
     }
 
     /**
+     * Fetch the most recent completed affinity run for an app.
+     *
+     * @param int $app_id
+     * @return array|null
+     */
+    public function getLatestCompletedRun($app_id)
+    {
+        return $this->getTable()->getLatestCompletedRun($app_id);
+    }
+
+    /**
      * Acquire a run lock for cron processing.
      *
      * @param int $run_id
@@ -129,6 +140,34 @@ class Migareference_Model_Affinity extends Core_Model_Default
     public function getReferrerProfiles($appId, array $referrerIds)
     {
         return $this->getTable()->getReferrerProfiles($appId, $referrerIds);
+    }
+
+    /**
+     * Fetch contact profile rows for a set of referrer ids.
+     *
+     * @param int $appId
+     * @param array $referrerIds
+     * @return array
+     */
+    public function getReferrerContactProfiles($appId, array $referrerIds)
+    {
+        return $this->getTable()->getReferrerContactProfiles($appId, $referrerIds);
+    }
+
+    /**
+     * Fetch paginated affinity matchings for a referrer.
+     *
+     * @param int $app_id
+     * @param int $run_id
+     * @param int $referrer_id
+     * @param int $start
+     * @param int $length
+     * @param string|null $search
+     * @return array
+     */
+    public function getAffinityMatchings($app_id, $run_id, $referrer_id, $start, $length, $search = null)
+    {
+        return $this->getTable()->getAffinityMatchings($app_id, $run_id, $referrer_id, $start, $length, $search);
     }
 
     /**
